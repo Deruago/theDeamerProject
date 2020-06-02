@@ -9,6 +9,8 @@
 #include "Deamer/LanguageGen/Type.h"
 #include "Deamer/LanguageGen/Token.h"
 #include "Deamer/LanguageGen/Rule.h"
+#include "Deamer/LexerGen/LexerBuilder.h"
+#include "Deamer/ParserGen/ParserBuilder.h"
 
 /*
 This header describes the class implementation of LanguageGen. Which is used to generate Types, Nodes and Rules
@@ -20,6 +22,8 @@ class LanguageGen
     std::vector<Node*> Nodes;
     std::vector<Type*> Types;
     std::vector<Rule*> Rules;
+    LexerBuilder lexerBuilder;
+    ParserBuilder parserBuilder;
     LexerType_t Lexer;
     ParserType_t Parser;
 
@@ -29,6 +33,8 @@ class LanguageGen
         Node* CreateNode(const std::string nodeName, const std::string regex); // Used to create a Node Class
         Type* CreateType(const std::string typeName); // Used to create a Type Class
         Rule* CreateRule(Type* type, const std::vector<Token*> tokens); // Used to create a Rule Class
+        void  GenerateLexer();
+        void  GenerateParser();
         void  DeleteAllNodes();
         void  DeleteAllTypes();
         void  DeleteAllRules();

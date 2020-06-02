@@ -3,13 +3,16 @@
 #include "Deamer/LanguageGen/Node.h"
 #include "Deamer/LanguageGen/Type.h"
 #include "Deamer/LanguageGen/Rule.h"
-
-LanguageGen::LanguageGen() {}
+#include "Deamer/LexerGen/LexerBuilder.h"
+#include "Deamer/ParserGen/ParserBuilder.h"
 
 LanguageGen::LanguageGen(LexerType_t lexerType, ParserType_t parserType)
 {
     LanguageGen::SetLexer(lexerType);
     LanguageGen::SetParser(parserType);
+    
+    LanguageGen::lexerBuilder = LexerBuilder(lexerType);
+    LanguageGen::parserBuilder = ParserBuilder(parserType);
 }
 
 Node* LanguageGen::CreateNode(const std::string nodeName, const std::string regex)
@@ -116,4 +119,14 @@ void LanguageGen::SetLexer(LexerType_t lexerType)
 void LanguageGen::SetParser(ParserType_t parserType)
 {
     LanguageGen::Parser = parserType;
+}
+
+void LanguageGen::GenerateLexer()
+{
+    
+}
+
+void LanguageGen::GenerateParser()
+{
+
 }
