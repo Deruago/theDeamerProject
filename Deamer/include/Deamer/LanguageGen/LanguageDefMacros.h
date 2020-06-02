@@ -14,5 +14,6 @@ Type* type = languageGen.CreateType(#type);
 #define newRule(type, ...) \
 languageGen.CreateRule(type, {__VA_ARGS__});
 
+#define EMPTY_RULE 
 
 #endif //DEAMER_LANGUAGEGEN_LANGUAGE_DEFMACROS_H

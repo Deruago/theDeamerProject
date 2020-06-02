@@ -22,6 +22,8 @@ class Type : public Token
     public:
         Type(const std::string typeName);
         void AddRule(Rule* newRule);
+        void PrintType();
+        void PrintRules();
 };
 
 #endif //DEAMER_LANGUAGEGEN_TYPE_H

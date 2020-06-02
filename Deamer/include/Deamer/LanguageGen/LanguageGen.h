@@ -35,6 +35,7 @@ class LanguageGen
         void  PrintNodes();
         void  PrintTypes();
         void  PrintRules();
+        void  PrintLanguageConfig();
         void  SetLexer(LexerType_t lexerType);
         void  SetParser(ParserType_t parserType);
 };

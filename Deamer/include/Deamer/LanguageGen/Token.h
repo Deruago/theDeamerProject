@@ -21,6 +21,7 @@ class Token
 
     public:
         std::string TokenName;
+        void PrintToken();
 };
 
 #endif //DEAMER_LANGUAGEGEN_TOKEN_H

@@ -19,6 +19,7 @@ class Rule
     public:
         std::vector<Token*> Tokens;
         Rule(const std::vector<Token*> tokens);
+        void PrintRule();
 };
 
 #endif //DEAMER_LANGUAGEGEN_RULE_H

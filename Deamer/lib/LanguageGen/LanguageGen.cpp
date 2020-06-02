@@ -97,6 +97,17 @@ void LanguageGen::PrintRules()
     }
 }
 
+void LanguageGen::PrintLanguageConfig()
+{
+    for(int i = Types.size() - 1; i >= 0; i--)
+    {
+        Types[i]->PrintToken();
+        std::cout << '\n';
+        Types[i]->PrintRules();
+        std::cout << '\n';
+    }
+}
+
 void LanguageGen::SetLexer(LexerType_t lexerType)
 {
     LanguageGen::Lexer = lexerType;
