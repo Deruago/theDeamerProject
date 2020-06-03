@@ -3,16 +3,16 @@
 
 #include "Deamer/LanguageGen/LanguageGen.h"
 
-#define currentLangGen
+#define currentLangDef
 
 #define newNode(node, regex) \
-Node* node = currentLangGen.CreateNode(#node, regex);
+Node* node = currentLangDef.CreateNode(#node, regex);
 
 #define newType(type) \
-Type* type = languageGen.CreateType(#type);
+Type* type = currentLangDef.CreateType(#type);
 
 #define newRule(type, ...) \
-languageGen.CreateRule(type, {__VA_ARGS__});
+currentLangDef.CreateRule(type, {__VA_ARGS__});
 
 #define EMPTY_RULE 
 

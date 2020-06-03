@@ -17,9 +17,9 @@ using namespace Deamer;
 
 class Type : public Token
 {
-    std::vector<Rule*> Rules;
 
     public:
+        std::vector<Rule*> Rules;
         Type(const std::string typeName);
         void AddRule(Rule* newRule);
         void PrintType();

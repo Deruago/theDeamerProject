@@ -6,12 +6,13 @@
 
 int main()
 {
-    #ifdef currentLangGen
-    #undef currentLangGen
+    #ifdef currentLangDef
+    #undef currentLangDef
     #endif
-    #define currentLangGen languageGen
+    #define currentLangDef languageDef
 
-    LanguageGen languageGen = LanguageGen(flex, bison);
+    LanguageDefinition languageDef = LanguageDefinition();
+    LanguageGen* languageGen = new LanguageGen(flex, bison, &languageDef);
 
     newNode(SEMICOLON, "[;]");
     newNode(PLUS, "[+]");
@@ -75,6 +76,8 @@ int main()
     newType(PROG);
     newRule(PROG, STMTS);
 
-    languageGen.PrintLanguageConfig();
+    languageGen->GenerateLexer();
+    languageGen->GenerateParser();
+
     return 0;
 }
