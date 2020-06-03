@@ -23,6 +23,7 @@ class ParserBuilder
         virtual void AddNode(Node* node) = 0; // Writes the node to the file
         virtual void AddType(Type* type) = 0; // Writes the type to the file
         virtual void AddRule(Rule* rule) = 0; // Writes the rule to the file, Note: Type already includes rules so this could be unneccessary
+        virtual bool StartBuild() = 0;
         virtual bool FinishBuild() = 0;
         bool SetFileTarget(std::string fileName);
         std::string* GetOutput(); // Returns the output

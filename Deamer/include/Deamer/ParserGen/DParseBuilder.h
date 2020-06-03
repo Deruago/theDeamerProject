@@ -11,6 +11,7 @@ class DParseBuilder : public ParserBuilder
         void AddType(Type* type) override;
         void AddRule(Rule* rule) override;
         bool FinishBuild() override;
+        bool StartBuild() override;
         
 };
 

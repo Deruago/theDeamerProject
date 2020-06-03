@@ -11,6 +11,7 @@ class BisonBuilder : public ParserBuilder
         void AddType(Type* type) override;
         void AddRule(Rule* rule) override;
         bool FinishBuild() override;
+        bool StartBuild() override;
 };
 
 #endif //DEAMER_PARSERGEN_BISONBUILDER_H

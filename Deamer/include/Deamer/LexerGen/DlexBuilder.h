@@ -9,6 +9,7 @@ class DlexBuilder : public LexerBuilder
         DlexBuilder();
         void AddNode(Node* node) override;
         bool FinishBuild() override;
+        bool StartBuild() override;
 };
 
 #endif //DEAMER_LEXERGEN_DLEXBUILDER_H

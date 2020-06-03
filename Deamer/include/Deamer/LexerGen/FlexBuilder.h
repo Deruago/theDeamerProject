@@ -9,6 +9,7 @@ class FlexBuilder : public LexerBuilder
         FlexBuilder();
         void AddNode(Node* node) override;
         bool FinishBuild()  override;
+        bool StartBuild() override;
 };
 
 #endif //DEAMER_LEXERGEN_FLEXBUILDER_H
