@@ -24,3 +24,8 @@ bool BisonBuilder::FinishBuild()
 {
     return true;
 }
+
+bool BisonBuilder::StartBuild()
+{
+    return true;
+}

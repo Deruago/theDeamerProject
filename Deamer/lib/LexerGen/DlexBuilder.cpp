@@ -14,3 +14,8 @@ bool DlexBuilder::FinishBuild()
 {
     return true;
 }
+
+bool DlexBuilder::StartBuild()
+{
+    return true;
+}

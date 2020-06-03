@@ -24,3 +24,8 @@ bool DParseBuilder::FinishBuild()
 {
     return true;
 }
+
+bool DParseBuilder::StartBuild()
+{
+    return true;
+}
