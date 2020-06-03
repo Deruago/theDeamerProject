@@ -5,8 +5,3 @@ ParserBuilder::ParserBuilder()
 {
 
 }
-
-ParserBuilder::ParserBuilder(ParserType_t parserTarget)
-{
-    ParserBuilder::parserType = parserTarget;
-}
