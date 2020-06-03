@@ -5,8 +5,3 @@ LexerBuilder::LexerBuilder()
 {
 
 }
-
-LexerBuilder::LexerBuilder(LexerType_t lexerTarget)
-{
-    LexerBuilder::lexerType = lexerTarget;
-}
