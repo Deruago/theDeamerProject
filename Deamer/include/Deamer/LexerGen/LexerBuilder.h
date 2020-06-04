@@ -19,9 +19,10 @@ class LexerBuilder
         LexerBuilder(std::string fileName);
     public:
         virtual void AddNode(Node* node) = 0; // Writes the node to the file
+        virtual bool StartBuild() = 0;
         virtual bool FinishBuild() = 0;
         bool SetFileTarget(std::string fileName);
-        std::string* GetOutput(); // Returns the output
+        std::string GetOutput(); // Returns the output
         LexerType_t GetLexerTarget();
 };
 

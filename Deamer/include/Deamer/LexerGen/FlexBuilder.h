@@ -5,6 +5,10 @@
 
 class FlexBuilder : public LexerBuilder
 {
+    std::string declarationPart;
+    std::string regexDeclarationPart;
+    std::string tokenDeclarationPart;
+    std::string functionPart;
     public:
         FlexBuilder();
         void AddNode(Node* node) override;
