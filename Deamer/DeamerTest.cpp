@@ -77,6 +77,7 @@ int main()
     newRule(PROG, STMTS);
 
     languageGen->GenerateLexer();
+    
     languageGen->GenerateParser();
 
     return 0;
