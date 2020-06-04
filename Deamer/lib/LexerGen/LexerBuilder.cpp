@@ -5,3 +5,8 @@ LexerBuilder::LexerBuilder()
 {
 
 }
+
+std::string LexerBuilder::GetOutput()
+{
+    return LexerBuilder::Output;
+}
