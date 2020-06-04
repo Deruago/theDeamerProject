@@ -26,7 +26,7 @@ class ParserBuilder
         virtual bool StartBuild() = 0;
         virtual bool FinishBuild() = 0;
         bool SetFileTarget(std::string fileName);
-        std::string* GetOutput(); // Returns the output
+        std::string GetOutput(); // Returns the output
         ParserType_t GetParserTarget();
 };
 
