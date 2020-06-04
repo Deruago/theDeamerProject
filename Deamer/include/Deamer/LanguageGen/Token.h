@@ -14,12 +14,12 @@ using namespace Deamer;
 
 class Token
 {
-    bool IsNode;
 
     protected:
         Token(const std::string tokenName, const bool isNode);
 
     public:
+        bool IsNode;
         std::string TokenName;
         void PrintToken();
 };

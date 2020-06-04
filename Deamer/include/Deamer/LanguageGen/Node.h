@@ -14,9 +14,9 @@ using namespace Deamer;
 
 class Node : public Token
 {
-    std::string Regex;
     
     public:
+        std::string Regex;
         Node(const std::string nodeName, const std::string regex);
 };
 
