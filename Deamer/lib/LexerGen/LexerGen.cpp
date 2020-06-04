@@ -26,11 +26,14 @@ static LexerBuilder* GetBuilder(LexerType_t LexerType_t)
 bool LexerGen::BuildLexer()
 {
     LexerGen::LexerBuilder = GetBuilder(LexerGen::LexerTarget);
-
-    for(int i = LexerGen::langDef->Nodes.size() - 1; i >= 0; i--)
+    
+    LexerGen::LexerBuilder->StartBuild();
+    for(int i = 0; i < LexerGen::langDef->Nodes.size(); i++)
     {
         LexerGen::LexerBuilder->AddNode(LexerGen::langDef->Nodes[i]);
     }
 
-    return LexerGen::LexerBuilder->FinishBuild();
+    bool IsBuildSuccesfull = LexerGen::LexerBuilder->FinishBuild();
+    std::cout << LexerGen::LexerBuilder->GetOutput() << "\n";
+    return IsBuildSuccesfull;
 }

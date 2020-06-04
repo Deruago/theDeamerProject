@@ -1,4 +1,5 @@
 #include "Deamer/ParserGen/ParserGen.h"
+#include <iostream>
 
 ParserGen::ParserGen(ParserType_t parserType_t, LanguageDefinition* langDef)
 {
@@ -44,10 +45,14 @@ bool ParserGen::BuildParser()
 
     ParserGen::BuildNodes();
 
+    ParserGen::parserBuilder->StartBuild();
+
     for(int i = langDef->Types.size() - 1; i >= 0; i--)
     {
         ParserGen::parserBuilder->AddType(langDef->Types[i]);
         BuildRulesOfType(langDef->Types[i]);
     }
-    return ParserGen::parserBuilder->FinishBuild();
+    bool BuildSuccessfull = ParserGen::parserBuilder->FinishBuild();
+    std::cout << ParserGen::parserBuilder->GetOutput() << "\n";
+    return BuildSuccessfull;
 }
