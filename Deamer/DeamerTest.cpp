@@ -1,6 +1,7 @@
 #include "Deamer/Deamer.h"
 #include "Deamer/LanguageGen/LanguageGen.h"
 #include "Deamer/LanguageGen/LanguageDefMacros.h"
+#include "Deamer/AstGen/AstGen.h"
 #include <iostream>
 //using namespace Deamer;
 
@@ -80,5 +81,8 @@ int main()
     
     languageGen->GenerateParser();
 
+    AstGen* astGen = new AstGen();
+    astGen->CreateAstNodes(&languageDef);
+    
     return 0;
 }
