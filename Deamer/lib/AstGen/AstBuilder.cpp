@@ -193,6 +193,19 @@ void AstBuilder::AppendAstNodeHeaderFile(std::string TokenName)
     globalHeaderFile.close();
 }
 
+void AstBuilder::AppendAstTreeHeaderFile(std::string TokenName)
+{
+    std::ostringstream oss0;
+    oss0 << AstBuilder::directory << "AstNodes.h";
+    std::ofstream globalHeaderFile;
+
+    globalHeaderFile.open(oss0.str(), std::ios_base::app);
+
+    globalHeaderFile << "#include \"" << AstBuilder::directory << "AstTree_" << TokenName << ".h\"\n";
+
+    globalHeaderFile.close();
+}
+
 void AstBuilder::FinishGlobalHeaderFile()
 {
     std::ostringstream oss0;

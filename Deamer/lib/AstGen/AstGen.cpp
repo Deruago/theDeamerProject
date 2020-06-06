@@ -27,10 +27,10 @@ void AstGen::CreateAstNodes(LanguageDefinition* langDef)
 {
     AstGen::astBuilder.CreateGlobalHeaderFile();
     
-    AstGen::astBuilder.CreateAstTree(langDef->Types[0]->TokenName);
-    AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Types[0]->TokenName);
+    AstGen::astBuilder.CreateAstTree(langDef->Types[langDef->Types.size() - 1]->TokenName);
+    AstGen::astBuilder.AppendAstTreeHeaderFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
 
-    for (int i = 1; i < langDef->Types.size(); i++)
+    for (int i = langDef->Types.size() - 2; i >= 0; i--)
     {
         AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Types[i]->TokenName);
         AstGen::astBuilder.CreateAstNode(langDef->Types[i]->TokenName);

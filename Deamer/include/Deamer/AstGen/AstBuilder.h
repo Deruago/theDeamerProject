@@ -22,6 +22,7 @@ class AstBuilder
         void CreateAstTree(std::string TokenName);
         void CreateGlobalHeaderFile();
         void AppendAstNodeHeaderFile(std::string TokenName);
+        void AppendAstTreeHeaderFile(std::string TokenName);
         void FinishGlobalHeaderFile();
         void SetDirTarget(std::string dirName);
         std::string GetOutput(); // Returns the output
