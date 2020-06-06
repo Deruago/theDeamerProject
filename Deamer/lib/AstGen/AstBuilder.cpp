@@ -8,7 +8,7 @@ AstBuilder::AstBuilder()
     AstBuilder::directory = "";
 }
 
-bool AstBuilder::SetDirTarget(std::string dirName)
+void AstBuilder::SetDirTarget(std::string dirName)
 {
     AstBuilder::directory = dirName;
 }
@@ -156,7 +156,7 @@ void AstBuilder::CreateAstTree(std::string TokenName)
 
     AstBuilder::FillAstTreeSourceFile(&newAstTreeSourceFile, TokenName);
     
-    newAstNodeSourceFile.close();
+    newAstTreeSourceFile.close();
 
     std::ostringstream oss2;
     oss << TokenName << ".h";
@@ -164,7 +164,7 @@ void AstBuilder::CreateAstTree(std::string TokenName)
 
     AstBuilder::FillAstTreeHeaderFile(&newAstTreeHeaderFile, TokenName);
 
-    newAstNodeHeaderFile.close();
+    newAstTreeHeaderFile.close();
 }
 
 void AstBuilder::CreateGlobalHeaderFile()
