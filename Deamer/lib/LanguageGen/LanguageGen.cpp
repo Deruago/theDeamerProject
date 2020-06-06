@@ -8,6 +8,12 @@ LanguageGen::LanguageGen(LexerType_t lexerType, ParserType_t parserType, Languag
     LanguageGen::parserGen = new ParserGen(parserType, languageDefinition);
 }
 
+void LanguageGen::DirTarget(std::string TargetDir)
+{
+    LanguageGen::lexerGen->DirTarget(TargetDir);
+    LanguageGen::parserGen->DirTarget(TargetDir);
+
+}
 
 void LanguageGen::SetLexer(LexerType_t lexerType)
 {

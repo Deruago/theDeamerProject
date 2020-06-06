@@ -6,8 +6,3 @@ ParserBuilder::ParserBuilder()
 {
 
 }
-
-std::string ParserBuilder::GetOutput()
-{
-    return ParserBuilder::Output;
-}

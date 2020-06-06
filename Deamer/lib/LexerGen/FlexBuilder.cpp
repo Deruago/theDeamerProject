@@ -3,7 +3,7 @@
 
 FlexBuilder::FlexBuilder()
 {
-    FlexBuilder::WriteToFile = false;
+    
 }
 
 void FlexBuilder::AddNode(Node* node)

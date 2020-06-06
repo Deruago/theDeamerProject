@@ -12,6 +12,12 @@ void LexerGen::SetTarget(LexerType_t LexerType_t)
     LexerGen::LexerTarget = LexerType_t;
 }
 
+void LexerGen::DirTarget(std::string dirTarget)
+{
+    LexerGen::lexerBuilder->SetDirTarget(dirTarget);
+}
+
+
 static LexerBuilder* GetBuilder(LexerType_t LexerType_t)
 {
     switch(LexerType_t)
@@ -25,15 +31,15 @@ static LexerBuilder* GetBuilder(LexerType_t LexerType_t)
 
 bool LexerGen::BuildLexer()
 {
-    LexerGen::LexerBuilder = GetBuilder(LexerGen::LexerTarget);
+    LexerGen::lexerBuilder = GetBuilder(LexerGen::LexerTarget);
     
-    LexerGen::LexerBuilder->StartBuild();
+    LexerGen::lexerBuilder->StartBuild();
     for(int i = 0; i < LexerGen::langDef->Nodes.size(); i++)
     {
-        LexerGen::LexerBuilder->AddNode(LexerGen::langDef->Nodes[i]);
+        LexerGen::lexerBuilder->AddNode(LexerGen::langDef->Nodes[i]);
     }
 
-    bool IsBuildSuccesfull = LexerGen::LexerBuilder->FinishBuild();
-    std::cout << LexerGen::LexerBuilder->GetOutput() << "\n";
+    bool IsBuildSuccesfull = LexerGen::lexerBuilder->FinishBuild();
+    std::cout << LexerGen::lexerBuilder->GetOutput() << "\n";
     return IsBuildSuccesfull;
 }

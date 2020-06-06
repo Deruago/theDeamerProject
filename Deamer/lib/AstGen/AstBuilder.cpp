@@ -5,12 +5,7 @@
 
 AstBuilder::AstBuilder()
 {
-    AstBuilder::directory = "";
-}
-
-void AstBuilder::SetDirTarget(std::string dirName)
-{
-    AstBuilder::directory = dirName;
+    AstBuilder::Directory = "";
 }
 
 void AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName)
@@ -128,7 +123,7 @@ void AstBuilder::CreateAstNode(std::string TokenName)
     TokenName = oss0.str();
 
     std::ostringstream oss;
-    oss << AstBuilder::directory << TokenName << ".cpp";
+    oss << AstBuilder::Directory << TokenName << ".cpp";
     std::ofstream newAstNodeSourceFile(oss.str());
 
     AstBuilder::FillAstSourceFile(&newAstNodeSourceFile, TokenName);
@@ -136,7 +131,7 @@ void AstBuilder::CreateAstNode(std::string TokenName)
     newAstNodeSourceFile.close();
 
     std::ostringstream oss2;
-    oss2 << AstBuilder::directory << TokenName << ".h";
+    oss2 << AstBuilder::Directory << TokenName << ".h";
     std::ofstream newAstNodeHeaderFile(oss2.str());
 
     AstBuilder::FillAstHeaderFile(&newAstNodeHeaderFile, TokenName);
@@ -151,7 +146,7 @@ void AstBuilder::CreateAstTree(std::string TokenName)
     TokenName = oss0.str();
 
     std::ostringstream oss;
-    oss << AstBuilder::directory << TokenName << ".cpp";
+    oss << AstBuilder::Directory << TokenName << ".cpp";
     std::ofstream newAstTreeSourceFile(oss.str());
 
     AstBuilder::FillAstTreeSourceFile(&newAstTreeSourceFile, TokenName);
@@ -159,7 +154,7 @@ void AstBuilder::CreateAstTree(std::string TokenName)
     newAstTreeSourceFile.close();
 
     std::ostringstream oss2;
-    oss2 << AstBuilder::directory << TokenName << ".h";
+    oss2 << AstBuilder::Directory << TokenName << ".h";
     std::ofstream newAstTreeHeaderFile(oss2.str());
 
     AstBuilder::FillAstTreeHeaderFile(&newAstTreeHeaderFile, TokenName);
@@ -170,7 +165,7 @@ void AstBuilder::CreateAstTree(std::string TokenName)
 void AstBuilder::CreateGlobalHeaderFile()
 {
     std::ostringstream oss0;
-    oss0 << AstBuilder::directory << "AstNodes.h";
+    oss0 << AstBuilder::Directory << "AstNodes.h";
     std::ofstream newGlobalHeaderFile(oss0.str());
 
     newGlobalHeaderFile << "#ifndef ASTNODES_ASTNODES_H\n"
@@ -183,12 +178,12 @@ void AstBuilder::CreateGlobalHeaderFile()
 void AstBuilder::AppendAstNodeHeaderFile(std::string TokenName)
 {
     std::ostringstream oss0;
-    oss0 << AstBuilder::directory << "AstNodes.h";
+    oss0 << AstBuilder::Directory << "AstNodes.h";
     std::ofstream globalHeaderFile;
 
     globalHeaderFile.open(oss0.str(), std::ios_base::app);
 
-    globalHeaderFile << "#include \"" << AstBuilder::directory << "AstNode_" << TokenName << ".h\"\n";
+    globalHeaderFile << "#include \"" << AstBuilder::Directory << "AstNode_" << TokenName << ".h\"\n";
 
     globalHeaderFile.close();
 }
@@ -196,12 +191,12 @@ void AstBuilder::AppendAstNodeHeaderFile(std::string TokenName)
 void AstBuilder::AppendAstTreeHeaderFile(std::string TokenName)
 {
     std::ostringstream oss0;
-    oss0 << AstBuilder::directory << "AstNodes.h";
+    oss0 << AstBuilder::Directory << "AstNodes.h";
     std::ofstream globalHeaderFile;
 
     globalHeaderFile.open(oss0.str(), std::ios_base::app);
 
-    globalHeaderFile << "#include \"" << AstBuilder::directory << "AstTree_" << TokenName << ".h\"\n";
+    globalHeaderFile << "#include \"" << AstBuilder::Directory << "AstTree_" << TokenName << ".h\"\n";
 
     globalHeaderFile.close();
 }
@@ -209,7 +204,7 @@ void AstBuilder::AppendAstTreeHeaderFile(std::string TokenName)
 void AstBuilder::FinishGlobalHeaderFile()
 {
     std::ostringstream oss0;
-    oss0 << AstBuilder::directory << "AstNodes.h";
+    oss0 << AstBuilder::Directory << "AstNodes.h";
     std::ofstream globalHeaderFile;
 
     globalHeaderFile.open(oss0.str(), std::ios_base::app);

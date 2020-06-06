@@ -1,22 +1,17 @@
 #ifndef DEAMER_PARSERGEN_PARSERBUILDER_H
 #define DEAMER_PARSERGEN_PARSERBUILDER_H
 
-#include <string>
-#include <fstream>
-#include <vector>
+#include "Deamer/Types/Builder.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include "Deamer/LanguageGen/Node.h"
 #include "Deamer/LanguageGen/Type.h"
 #include "Deamer/LanguageGen/Rule.h"
+#include <string>
 
-class ParserBuilder
+class ParserBuilder : public Builder
 {
     protected:
         ParserType_t parserType;
-        std::string Output;
-        bool WriteToFile; // If the Builder needs to write to file
-        std::string FileName;
-        std::ofstream File;
         ParserBuilder();
         ParserBuilder(std::string fileName);
     public:
@@ -25,8 +20,6 @@ class ParserBuilder
         virtual void AddRule(Rule* rule) = 0; // Writes the rule to the file, Note: Type already includes rules so this could be unneccessary
         virtual bool StartBuild() = 0;
         virtual bool FinishBuild() = 0;
-        bool SetFileTarget(std::string fileName);
-        std::string GetOutput(); // Returns the output
         ParserType_t GetParserTarget();
 };
 

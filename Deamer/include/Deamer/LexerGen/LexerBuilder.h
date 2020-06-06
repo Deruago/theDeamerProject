@@ -1,28 +1,21 @@
 #ifndef DEAMER_LEXERGEN_LEXERBUILDER_H
 #define DEAMER_LEXERGEN_LEXERBUILDER_H
 
-#include <string>
-#include <fstream>
-#include <vector>
+#include "Deamer/Types/Builder.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include "Deamer/LanguageGen/Node.h"
+#include <string>
 
-class LexerBuilder
+class LexerBuilder : public Builder
 {
     protected:
         LexerType_t LexerType;
-        std::string Output;
-        bool WriteToFile; // If the Builder needs to write to file
-        std::string FileName;
-        std::ofstream File;
         LexerBuilder();
         LexerBuilder(std::string fileName);
     public:
         virtual void AddNode(Node* node) = 0; // Writes the node to the file
         virtual bool StartBuild() = 0;
         virtual bool FinishBuild() = 0;
-        bool SetFileTarget(std::string fileName);
-        std::string GetOutput(); // Returns the output
         LexerType_t GetLexerTarget();
 };
 

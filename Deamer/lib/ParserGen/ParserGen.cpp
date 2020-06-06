@@ -12,6 +12,11 @@ void ParserGen::SetTarget(ParserType_t parserType_t)
     ParserGen::ParserTarget = parserType_t;
 }
 
+void ParserGen::DirTarget(std::string dirTarget)
+{
+    ParserGen::parserBuilder->SetDirTarget(dirTarget);
+}
+
 static ParserBuilder* GetBuilder(ParserType_t parserType_t)
 {
     switch(parserType_t)
