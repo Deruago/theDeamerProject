@@ -13,7 +13,7 @@ class Generator
         Generator();
     public:
         virtual void DirTarget(std::string dirTarget) = 0;
-        
+        virtual bool Build();
 };
 
 #endif //DEAMER_TYPES_GENERATOR_H

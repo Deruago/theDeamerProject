@@ -32,6 +32,7 @@ class LanguageGen : public Generator
         void GenerateParser();
         void SetLexer(LexerType_t lexerType);
         void SetParser(ParserType_t parserType);
+        bool Build() override;
 };
 
 #endif //DEAMER_LANGUAGEGEN_LANGUAGEGEN_H

@@ -12,7 +12,6 @@ void LanguageGen::DirTarget(std::string TargetDir)
 {
     LanguageGen::lexerGen->DirTarget(TargetDir);
     LanguageGen::parserGen->DirTarget(TargetDir);
-
 }
 
 void LanguageGen::SetLexer(LexerType_t lexerType)
@@ -27,10 +26,23 @@ void LanguageGen::SetParser(ParserType_t parserType)
 
 void LanguageGen::GenerateLexer()
 {
-    LanguageGen::lexerGen->BuildLexer();
+    LanguageGen::lexerGen->Build();
 }
 
 void LanguageGen::GenerateParser()
 {
-    LanguageGen::parserGen->BuildParser();
+    LanguageGen::parserGen->Build();
+}
+
+bool LanguageGen::Build()
+{
+    bool buildIsSuccesfull;
+    buildIsSuccesfull = LanguageGen::lexerGen->Build();
+    if (!buildIsSuccesfull)
+    {
+        return buildIsSuccesfull;
+    }
+
+    buildIsSuccesfull = LanguageGen::parserGen->Build();
+    return buildIsSuccesfull;
 }

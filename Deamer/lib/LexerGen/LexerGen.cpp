@@ -29,7 +29,7 @@ static LexerBuilder* GetBuilder(LexerType_t LexerType_t)
     }
 }
 
-bool LexerGen::BuildLexer()
+bool LexerGen::Build()
 {
     LexerGen::lexerBuilder = GetBuilder(LexerGen::LexerTarget);
     

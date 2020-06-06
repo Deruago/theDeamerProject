@@ -44,7 +44,7 @@ void ParserGen::BuildRulesOfType(Type* type)
     }
 }
 
-bool ParserGen::BuildParser()
+bool ParserGen::Build()
 {
     ParserGen::parserBuilder = GetBuilder(ParserGen::ParserTarget);
 
