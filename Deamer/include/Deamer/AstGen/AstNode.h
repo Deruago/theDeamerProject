@@ -3,7 +3,8 @@
 
 /*
 Defines an Abstract class for AstNodes. This will be used for creating new AstNodes and making sure
-those Nodes has the neccessary details
+those Nodes has the neccessary details.
+Each AstNode has an initialized AstInformation variable.
 */
 
 #include "Deamer/AstGen/AstInformation.h"
@@ -13,15 +14,16 @@ class AstNode
 {
     protected:
         std::vector<AstNode*> AstNodes;
-        AstInformation AstInfo;
+        AstInformation* AstInfo;
 
         AstNode(std::vector<AstNode*> astNodes); // Is used to initliase a basic AST node.
-        AstNode(AstInformation astInformation); // Is used to initiliase AstEndPoints. (Only endpoints may use this constructor)
+        AstNode(AstInformation* astInformation); // Is used to initiliase AstEndPoints. (Only endpoints may use this constructor)
+    public:
+        virtual void Generate() = 0; // This generates the source code.
+        void SetAstInformation(AstInformation* astInformation); // Used to set the Ast info after it is constructed.
         void PrintNode();
         void PrintDirectChildren();
         void PrintAllChildren();
-    public:
-        virtual void Generate() = 0; // This generates the source code.
 };
 
 #endif //DEAMER_ASTGEN_ASTNODE_H
