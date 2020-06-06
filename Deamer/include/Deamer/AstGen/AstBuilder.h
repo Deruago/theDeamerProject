@@ -14,6 +14,8 @@ class AstBuilder
 
         void FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName);
         void FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName);
+        void FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string tokenName);
+        void FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string tokenName);
     public:
         AstBuilder();
         void CreateAstNode(std::string TokenName); // Creates an AST Node and writes it to file.
