@@ -103,7 +103,7 @@ void AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string
     *astHeaderFile << "#ifndef ASTNODES_" << tokenNameUpper << "_H\n"
                    << "#define ASTNODES_" << tokenNameUpper << "_H\n"
                    << "\n"
-                   << "#include \"Deamer/AstGen/AstTree.h/\"\n"
+                   << "#include \"Deamer/AstGen/AstTree.h\"\n"
                    << "#include \"Deamer/AstGen/AstNode.h\"\n"
                    << "#include \"Deamer/AstGen/AstInformation.h\"\n"
                    << "#include <vector>\n"
