@@ -69,7 +69,7 @@ void AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tok
 void AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string tokenName)
 {
     *astSourceFile << "#include \"./" << tokenName << ".h\"\n"
-             << "#include \"Deamer/AstGen/AstTree.h/\"\n"
+             << "#include \"Deamer/AstGen/AstTree.h\"\n"
              << "#include \"Deamer/AstGen/AstNode.h\"\n"
              << "#include \"Deamer/AstGen/AstInformation.h\"\n"
              << "#include <iostream>\n"
