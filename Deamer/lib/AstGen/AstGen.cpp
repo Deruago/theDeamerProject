@@ -26,22 +26,27 @@ std::string AstGen::GetAstNodeClassName(std::string TokenName)
 void AstGen::CreateAstNodes(LanguageDefinition* langDef)
 {
     AstGen::astBuilder.CreateGlobalHeaderFile();
+    AstGen::astBuilder.CreateAstNodeEnumFile();
     
     AstGen::astBuilder.CreateAstTree(langDef->Types[langDef->Types.size() - 1]->TokenName);
     AstGen::astBuilder.AppendAstTreeHeaderFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
+    AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
 
     for (int i = langDef->Types.size() - 2; i >= 0; i--)
     {
-        AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Types[i]->TokenName);
         AstGen::astBuilder.CreateAstNode(langDef->Types[i]->TokenName);
+        AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Types[i]->TokenName);
+        AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Types[i]->TokenName);
     }
 
 
     for (int i = 0; i < langDef->Nodes.size(); i++)
     {
-        AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Nodes[i]->TokenName);
         AstGen::astBuilder.CreateAstNode(langDef->Nodes[i]->TokenName);
+        AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Nodes[i]->TokenName);
+        AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Nodes[i]->TokenName);
     }
 
     AstGen::astBuilder.FinishGlobalHeaderFile();
+    AstGen::astBuilder.FinishAstNodeEnumFile();
 }

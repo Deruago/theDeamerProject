@@ -33,7 +33,7 @@ void AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, std::string tok
              << "}\n";
 }
 
-void AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName)
+void AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName)
 {
     std::string tokenNameUpper;
     for(int i = 0; i < tokenName.size(); i++)
@@ -46,6 +46,7 @@ void AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tok
                    << "\n"
                    << "#include \"Deamer/AstGen/AstNode.h\"\n"
                    << "#include \"Deamer/AstGen/AstInformation.h\"\n"
+                   << "#include \"AstEnum.h\"\n"
                    << "#include <vector>\n"
                    << "\n"
                    << "class " << tokenName << " : public AstNode\n"
@@ -53,6 +54,7 @@ void AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tok
                    << "    private:\n"
                    << "    protected:\n"
                    << "    public:\n"
+                   << "        const AstEnum_t AstType = AstEnum_t::" << *defaultTokenName << ";\n"
                    << "        " << tokenName << "(std::vector<AstNode*> astNodes);\n"
                    << "        " << tokenName << "(AstInformation* astInformation);\n"
                    << "        virtual void Generate() override;\n"
@@ -87,7 +89,7 @@ void AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string
              << "}\n";
 }
 
-void AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string tokenName)
+void AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName)
 {
     std::string tokenNameUpper;
     for(int i = 0; i < tokenName.size(); i++)
@@ -101,6 +103,7 @@ void AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string
                    << "#include \"Deamer/AstGen/AstTree.h\"\n"
                    << "#include \"Deamer/AstGen/AstNode.h\"\n"
                    << "#include \"Deamer/AstGen/AstInformation.h\"\n"
+                   << "#include \"AstEnum.h\"\n"
                    << "#include <vector>\n"
                    << "\n"
                    << "class " << tokenName << " : public AstNode, public AstTree\n"
@@ -108,6 +111,7 @@ void AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string
                    << "    private:\n"
                    << "    protected:\n"
                    << "    public:\n"
+                   << "        const AstEnum_t AstType = AstEnum_t::" << *defaultTokenName << ";\n"
                    << "        " << tokenName << "(std::vector<AstNode*> astNodes);\n"
                    << "        " << tokenName << "(AstInformation* astInformation);\n"
                    << "        virtual void Generate() override;\n"
@@ -118,6 +122,7 @@ void AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string
 
 void AstBuilder::CreateAstNode(std::string TokenName)
 {
+    std::string DefaultTokenName = TokenName;
     std::ostringstream oss0;
     oss0 << "AstNode_" << TokenName;
     TokenName = oss0.str();
@@ -134,13 +139,14 @@ void AstBuilder::CreateAstNode(std::string TokenName)
     oss2 << AstBuilder::Directory << TokenName << ".h";
     std::ofstream newAstNodeHeaderFile(oss2.str());
 
-    AstBuilder::FillAstHeaderFile(&newAstNodeHeaderFile, TokenName);
+    AstBuilder::FillAstHeaderFile(&newAstNodeHeaderFile, TokenName, &DefaultTokenName);
 
     newAstNodeHeaderFile.close();
 }
 
 void AstBuilder::CreateAstTree(std::string TokenName)
 {
+    std::string DefaultTokenName = TokenName;
     std::ostringstream oss0;
     oss0 << "AstTree_" << TokenName;
     TokenName = oss0.str();
@@ -157,7 +163,7 @@ void AstBuilder::CreateAstTree(std::string TokenName)
     oss2 << AstBuilder::Directory << TokenName << ".h";
     std::ofstream newAstTreeHeaderFile(oss2.str());
 
-    AstBuilder::FillAstTreeHeaderFile(&newAstTreeHeaderFile, TokenName);
+    AstBuilder::FillAstTreeHeaderFile(&newAstTreeHeaderFile, TokenName, &DefaultTokenName);
 
     newAstTreeHeaderFile.close();
 }
@@ -213,4 +219,47 @@ void AstBuilder::FinishGlobalHeaderFile()
                      << "#endif //ASTNODES_ASTNODES_H\n";
 
     globalHeaderFile.close();
+}
+
+void AstBuilder::CreateAstNodeEnumFile()
+{
+    std::ostringstream oss0;
+    oss0 << AstBuilder::Directory << "AstEnum.h";
+    std::ofstream newEnumFile(oss0.str());
+
+    newEnumFile << "#ifndef ASTNODES_ASTENUM_H\n"
+                << "#define ASTNODES_ASTENUM_H\n"
+                << "\n"
+                << "typedef enum AstEnum_s\n"
+                << "{\n";
+    
+    newEnumFile.close();
+}
+
+void AstBuilder::AppendAstNodeEnumFile(std::string TokenName)
+{
+    std::ostringstream oss0;
+    oss0 << AstBuilder::Directory << "AstEnum.h";
+    std::ofstream newEnumFile;
+
+    newEnumFile.open(oss0.str(), std::ios_base::app);
+
+    newEnumFile << "    " << TokenName << ",\n";
+
+    newEnumFile.close();
+}
+
+void AstBuilder::FinishAstNodeEnumFile()
+{
+    std::ostringstream oss0;
+    oss0 << AstBuilder::Directory << "AstEnum.h";
+    std::ofstream newEnumFile;
+
+    newEnumFile.open(oss0.str(), std::ios_base::app);
+
+    newEnumFile << "} AstEnum_t;\n"
+                << "\n"
+                << "#endif //ASTNODES_ASTENUM_H\n";
+
+    newEnumFile.close();
 }
