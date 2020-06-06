@@ -9,13 +9,19 @@ class AstBuilder
 {
     private:
         std::string Output;
-        bool WriteToFile; // If the Builder needs to write to file
-        std::string FileName;
-        std::ofstream File;
+        std::string directory;
+        std::ofstream* File;
+
+        void FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName);
+        void FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName);
     public:
         AstBuilder();
-        void CreatAstNode(std::string TokenName); // Creates an AST Node and writes it to file.
-        bool SetFileTarget(std::string fileName);
+        void CreateAstNode(std::string TokenName); // Creates an AST Node and writes it to file.
+        void CreateAstTree(std::string TokenName);
+        void CreateGlobalHeaderFile();
+        void AppendAstNodeHeaderFile(std::string TokenName);
+        void FinishGlobalHeaderFile();
+        bool SetDirTarget(std::string dirName);
         std::string GetOutput(); // Returns the output
 };
 
