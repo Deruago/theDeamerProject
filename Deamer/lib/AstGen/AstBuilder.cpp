@@ -10,7 +10,7 @@ AstBuilder::AstBuilder()
 
 bool AstBuilder::SetDirTarget(std::string dirName)
 {
-    AstBuilder::directory == dirName;
+    AstBuilder::directory = dirName;
 }
 
 void AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName)
