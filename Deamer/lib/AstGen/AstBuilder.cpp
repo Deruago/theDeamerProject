@@ -188,7 +188,7 @@ void AstBuilder::AppendAstNodeHeaderFile(std::string TokenName)
 
     globalHeaderFile.open(oss0.str(), std::ios_base::app);
 
-    globalHeaderFile << "#include \"" << AstBuilder::directory << "AstNode_" << TokenName << "\"\n";
+    globalHeaderFile << "#include \"" << AstBuilder::directory << "AstNode_" << TokenName << ".h\"\n";
 
     globalHeaderFile.close();
 }
