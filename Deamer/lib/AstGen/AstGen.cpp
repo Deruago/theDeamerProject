@@ -6,6 +6,16 @@ AstGen::AstGen()
 
 }
 
+AstGen::AstGen(std::string dirTarget)
+{
+    AstGen::DirTarget(dirTarget);
+}
+
+void AstGen::DirTarget(std::string dirTarget)
+{
+    AstGen::astBuilder.SetDirTarget(dirTarget);
+}
+
 std::string AstGen::GetAstNodeClassName(std::string TokenName)
 {
     std::ostringstream oss;

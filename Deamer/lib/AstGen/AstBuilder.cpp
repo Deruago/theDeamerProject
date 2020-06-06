@@ -19,7 +19,7 @@ void AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, std::string tok
              << "#include \"Deamer/AstGen/AstNode.h\"\n"
              << "#include \"Deamer/AstGen/AstInformation.h\"\n"
              << "#include <iostream>\n"
-             << "#include <fstrean>\n"
+             << "#include <fstream>\n"
              << "#include <vector>\n"
              << '\n'
              << tokenName << "::" << tokenName << "(std::vector<AstNode*> astNodes) : AstNode::AstNode(astNodes)\n"
@@ -136,7 +136,7 @@ void AstBuilder::CreateAstNode(std::string TokenName)
     newAstNodeSourceFile.close();
 
     std::ostringstream oss2;
-    oss << TokenName << ".h";
+    oss2 << AstBuilder::directory << TokenName << ".h";
     std::ofstream newAstNodeHeaderFile(oss2.str());
 
     AstBuilder::FillAstHeaderFile(&newAstNodeHeaderFile, TokenName);
@@ -159,7 +159,7 @@ void AstBuilder::CreateAstTree(std::string TokenName)
     newAstTreeSourceFile.close();
 
     std::ostringstream oss2;
-    oss << TokenName << ".h";
+    oss2 << AstBuilder::directory << TokenName << ".h";
     std::ofstream newAstTreeHeaderFile(oss2.str());
 
     AstBuilder::FillAstTreeHeaderFile(&newAstTreeHeaderFile, TokenName);
@@ -184,7 +184,9 @@ void AstBuilder::AppendAstNodeHeaderFile(std::string TokenName)
 {
     std::ostringstream oss0;
     oss0 << AstBuilder::directory << "AstNodes.h";
-    std::ofstream globalHeaderFile(oss0.str());
+    std::ofstream globalHeaderFile;
+
+    globalHeaderFile.open(oss0.str(), std::ios_base::app);
 
     globalHeaderFile << "#include \"" << AstBuilder::directory << "AstNode_" << TokenName << "\"\n";
 
@@ -195,9 +197,12 @@ void AstBuilder::FinishGlobalHeaderFile()
 {
     std::ostringstream oss0;
     oss0 << AstBuilder::directory << "AstNodes.h";
-    std::ofstream globalHeaderFile(oss0.str());
+    std::ofstream globalHeaderFile;
 
-    globalHeaderFile << "#endif //ASTNODES_ASTNODES_H\n";
+    globalHeaderFile.open(oss0.str(), std::ios_base::app);
+
+    globalHeaderFile << "\n"
+                     << "#endif //ASTNODES_ASTNODES_H\n";
 
     globalHeaderFile.close();
 }

@@ -81,8 +81,8 @@ int main()
     
     languageGen->GenerateParser();
 
-    AstGen* astGen = new AstGen();
+    AstGen* astGen = new AstGen("tests/");
     astGen->CreateAstNodes(&languageDef);
-    
+
     return 0;
 }
