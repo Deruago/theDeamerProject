@@ -15,7 +15,7 @@
 Node* node = currentLangDef.CreateNode(#node, regex);
 
 #define newNode2(node, regex, createAst) \
-Node* node = currentLangDef.CreateNode(#node, regex);
+Node* node = currentLangDef.CreateNode(#node, regex, createAst);
 
 #define newType1(type) \
 Type* type = currentLangDef.CreateType(#type);
