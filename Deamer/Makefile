@@ -4,12 +4,19 @@ LIB_FILES=$(wildcard ./lib/*/*.cpp) \
 
 TEST_FILE=DeamerTest.cpp
 
+OBJFILES=$(wildcard *.o)
+
 ARGS=-Wall
 CC=clang++
 
-all: cleanAstNodeGen
+all: cleanAstNodeGen deamer
 	$(CC) $(ARGS) $(LIB_FILES) -I $(INCLUDE_HEADER_DIR) $(TEST_FILE) -o Deamer
 	
+deamer:
+	$(CC) $(ARGS) -c $(LIB_FILES) -I $(INCLUDE_HEADER_DIR)
+	ar rcs ExportDeamer/libDeamer.a $(wildcard *.o)
+	rm -f $(wildcard *.o)
+
 compiler:
 	flex lexer.l
 	bison -d parser.y

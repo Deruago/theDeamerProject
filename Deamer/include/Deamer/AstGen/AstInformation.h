@@ -8,7 +8,7 @@ struct AstInformation
     public:
         unsigned int LineNumber;
         unsigned int CharNumber;
-        std::string  ValueName;
+        const char ValueName[2048];
 };
 
 #endif //DEAMER_ASTGEN_ASTINFORMATION_H

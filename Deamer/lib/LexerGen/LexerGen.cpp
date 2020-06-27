@@ -12,6 +12,7 @@ static LexerBuilder* GetBuilder(LexerType_t LexerType_t)
         case LexerType_t::flex:
             return new FlexBuilder();
     }
+    return nullptr;
 }
 
 LexerGen::LexerGen(LexerType_t LexerType_t, LanguageDefinition* langDef)

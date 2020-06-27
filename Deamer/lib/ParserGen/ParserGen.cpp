@@ -12,6 +12,7 @@ static ParserBuilder* GetBuilder(ParserType_t parserType_t)
         case ParserType_t::bison:
             return new BisonBuilder();
     }
+    return nullptr;
 }
 
 ParserGen::ParserGen(ParserType_t parserType_t, LanguageDefinition* langDef)
