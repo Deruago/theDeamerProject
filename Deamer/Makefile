@@ -10,8 +10,22 @@ CC=clang++
 all: cleanAstNodeGen
 	$(CC) $(ARGS) $(LIB_FILES) -I $(INCLUDE_HEADER_DIR) $(TEST_FILE) -o Deamer
 	
+compiler:
+	flex lexer.l
+	bison -d parser.y
+	g++ -c parser.tab.c -o parser.tab.o
+	g++ -c lex.yy.c -o lex.yy.o
+	g++ parser.tab.o lex.yy.o -lfl -o myparser.out
+	
 cleanAstNodeGen:
 	rm -f AstNode*
 	rm -f AstTree*
 	rm -f tests/AstNode*
 	rm -f tests/AstTree*
+	rm -f lexer.l
+	rm -f parser.y
+	rm -f parser.tab.c
+	rm -f parser.tab.o
+	rm -f lex.yy.o
+	rm -f parser.tab.h
+	rm -f lex.yy.c
