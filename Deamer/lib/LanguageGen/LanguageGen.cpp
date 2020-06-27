@@ -1,5 +1,6 @@
-#include <iostream>
 #include "Deamer/LanguageGen/LanguageGen.h"
+#include <iostream>
+#include <sstream>
 
 LanguageGen::LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition* languageDefinition)
 {
@@ -12,6 +13,10 @@ void LanguageGen::DirTarget(std::string TargetDir)
 {
     LanguageGen::lexerGen->DirTarget(TargetDir);
     LanguageGen::parserGen->DirTarget(TargetDir);
+}
+
+void LanguageGen::FileTarget(std::string fileTarget)
+{
 }
 
 void LanguageGen::SetLexer(LexerType_t lexerType)
@@ -51,6 +56,45 @@ bool LanguageGen::Write()
 {
     LanguageGen::lexerGen->Write();
     LanguageGen::parserGen->Write();
+
+    return true;
+}
+
+bool LanguageGen::Compile()
+{
+    /*Currently only supports Flex and Bison (c++ variant)*/
+    std::ostringstream ossLexer;
+    ossLexer << "flex " << LanguageGen::lexerGen->GetFileLocation();
+    std::system(ossLexer.str().c_str());
+
+    std::ostringstream ossParser;
+    ossParser << "bison -d " << LanguageGen::parserGen->GetFileLocation();
+    std::system(ossParser.str().c_str());
+
+    std::system("g++ parser.tab.c lex.yy.c -lfl -o Parser.out");
+
+    return true;
+}
+
+bool LanguageGen::Finish()
+{
+    LanguageGen::GenerateLexer();
+    LanguageGen::GenerateParser();
+
+    if(!LanguageGen::Build())
+    {
+        return false;
+    }
+
+    if(!LanguageGen::Write())
+    {
+        return false;
+    }
+
+    if(!LanguageGen::Compile())
+    {
+        return false;
+    }
 
     return true;
 }

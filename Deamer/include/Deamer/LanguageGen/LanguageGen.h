@@ -28,12 +28,15 @@ class LanguageGen : public Generator
     public:
         LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition* languageDefinition);
         void DirTarget(std::string dirTarget) override;
+        void FileTarget(std::string fileTarget) override;
         void GenerateLexer();
         void GenerateParser();
         void SetLexer(LexerType_t lexerType);
         void SetParser(ParserType_t parserType);
         bool Build() override;
         bool Write() override;
+        bool Compile();
+        bool Finish();
 };
 
 #endif //DEAMER_LANGUAGEGEN_LANGUAGEGEN_H
