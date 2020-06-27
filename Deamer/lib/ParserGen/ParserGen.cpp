@@ -32,6 +32,7 @@ void ParserGen::DirTarget(std::string dirTarget)
     ParserGen::CreateDirectoryIfNotExist(&dirTarget);
 
     ParserGen::parserBuilder->SetDirTarget(dirTarget);
+    ParserGen::Directory = dirTarget;
 }
 
 void ParserGen::FileTarget(std::string fileTarget)
@@ -72,7 +73,7 @@ bool ParserGen::Build()
         BuildRulesOfType(langDef->Types[i]);
     }
     bool BuildSuccessfull = ParserGen::parserBuilder->FinishBuild();
-    std::cout << ParserGen::parserBuilder->GetOutput() << "\n";
+    //std::cout << ParserGen::parserBuilder->GetOutput() << "\n";
     return BuildSuccessfull;
 }
 
@@ -89,4 +90,9 @@ std::string ParserGen::GetFileLocation()
     std::ostringstream oss;
     oss << ParserGen::Directory << ParserGen::Filename;
     return oss.str();
+}
+
+std::string ParserGen::GetDirectoryLocation()
+{
+    return ParserGen::Directory;
 }

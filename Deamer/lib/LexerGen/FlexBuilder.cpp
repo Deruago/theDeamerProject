@@ -33,7 +33,7 @@ bool FlexBuilder::FinishBuild()
 bool FlexBuilder::StartBuild()
 {
     std::ostringstream oss;
-    oss << "%{\n" << "#include <stdio.h>\n#include <string.h>\n#include \"./parser.tab.h\"\nvoid showError();\nextern int yylex();\n" << "%}\n" << "\n";
+    oss << "%{\n" << "#include <stdio.h>\n#include <string.h>\n#include \"../Parser/parser.tab.h\"\nvoid showError();\nextern int yylex();\n" << "%}\n" << "\n";
     FlexBuilder::declarationPart = oss.str();
     FlexBuilder::tokenDeclarationPart += "%%\n";
     return true;

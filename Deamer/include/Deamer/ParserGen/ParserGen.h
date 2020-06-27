@@ -21,6 +21,7 @@ class ParserGen : public Generator
     public:
         ParserType_t ParserTarget;
         std::string GetFileLocation();
+        std::string GetDirectoryLocation();
         ParserGen(ParserType_t parserTarget, LanguageDefinition* langDef);
         void DirTarget(std::string dirTarget) override;
         void FileTarget(std::string fileTarget) override;

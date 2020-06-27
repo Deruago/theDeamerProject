@@ -67,20 +67,27 @@ bool LanguageGen::Compile()
     ossLexer << "flex " << LanguageGen::lexerGen->GetFileLocation();
     std::system(ossLexer.str().c_str());
 
+    std::ostringstream ossLexerReplace;
+    ossLexerReplace << "mv lex.yy.c " << LanguageGen::lexerGen->GetDirectoryLocation() << "lex.yy.c";
+    std::system(ossLexerReplace.str().c_str());
+
     std::ostringstream ossParser;
     ossParser << "bison -d " << LanguageGen::parserGen->GetFileLocation();
     std::system(ossParser.str().c_str());
 
-    std::system("g++ parser.tab.c lex.yy.c -lfl -o Parser.out");
+    std::ostringstream ossCompileLexer;
+    ossCompileLexer << "g++ -c " << LanguageGen::lexerGen->GetDirectoryLocation() << "lex.yy.c" << " -lfl -o" << LanguageGen::lexerGen->GetDirectoryLocation() << "lex.yy.o";
+    std::system(ossCompileLexer.str().c_str());
 
+    std::ostringstream ossCompileParser;
+    ossCompileParser << "g++ -c "  << LanguageGen::parserGen->GetDirectoryLocation() << "parser.tab.c -lfl -o" << LanguageGen::parserGen->GetDirectoryLocation() << "parser.tab.o";
+    std::system(ossCompileParser.str().c_str());
+    
     return true;
 }
 
 bool LanguageGen::Finish()
 {
-    LanguageGen::GenerateLexer();
-    LanguageGen::GenerateParser();
-
     if(!LanguageGen::Build())
     {
         return false;

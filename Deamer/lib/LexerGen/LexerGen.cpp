@@ -32,6 +32,7 @@ void LexerGen::DirTarget(std::string dirTarget)
     LexerGen::CreateDirectoryIfNotExist(&dirTarget);
     
     LexerGen::lexerBuilder->SetDirTarget(dirTarget);
+    LexerGen::Directory = dirTarget;
 }
 
 void LexerGen::FileTarget(std::string fileTarget)
@@ -53,7 +54,7 @@ bool LexerGen::Build()
     }
 
     bool IsBuildSuccesfull = LexerGen::lexerBuilder->FinishBuild();
-    std::cout << LexerGen::lexerBuilder->GetOutput() << "\n";
+    //std::cout << LexerGen::lexerBuilder->GetOutput() << "\n";
     return IsBuildSuccesfull;
 }
 
@@ -70,4 +71,9 @@ std::string LexerGen::GetFileLocation()
     std::ostringstream oss;
     oss << LexerGen::Directory << LexerGen::Filename;
     return oss.str();
+}
+
+std::string LexerGen::GetDirectoryLocation()
+{
+    return LexerGen::Directory;
 }

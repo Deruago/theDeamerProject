@@ -19,6 +19,7 @@ class LexerGen : public Generator
     public:
         LexerType_t LexerTarget;
         std::string GetFileLocation();
+        std::string GetDirectoryLocation();
         LexerGen(LexerType_t LexerTarget, LanguageDefinition* langDef);
         void DirTarget(std::string dirTarget) override;
         void FileTarget(std::string fileTarget) override;
