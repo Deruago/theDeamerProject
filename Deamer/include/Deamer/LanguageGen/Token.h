@@ -16,10 +16,11 @@ class Token
 {
 
     protected:
-        Token(const std::string tokenName, const bool isNode);
+        Token(const std::string tokenName, const bool isNode, const bool createAst);
 
     public:
         bool IsNode;
+        bool CreateAst;
         std::string TokenName;
         void PrintToken();
 };

@@ -1,16 +1,16 @@
 #include <iostream>
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 
-Node* LanguageDefinition::CreateNode(const std::string nodeName, const std::string regex)
+Node* LanguageDefinition::CreateNode(const std::string nodeName, const std::string regex, const bool createAst)
 {
-    Node* newNode = new Node(nodeName, regex);
+    Node* newNode = new Node(nodeName, regex, createAst);
     Nodes.push_back(newNode);
     return newNode;
 }
 
-Type* LanguageDefinition::CreateType(const std::string typeName)
+Type* LanguageDefinition::CreateType(const std::string typeName, const bool createAst)
 {
-    Type* newType = new Type(typeName);
+    Type* newType = new Type(typeName, createAst);
     Types.push_back(newType);
     return newType;
 }

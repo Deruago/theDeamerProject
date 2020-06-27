@@ -46,8 +46,6 @@ int main()
     newRule(COND, MULT);
     newRule(COND, DIV);
 
-
-
     newType(EXPR);
     newRule(EXPR, NUMBER);
     newRule(EXPR, DECIMAL);

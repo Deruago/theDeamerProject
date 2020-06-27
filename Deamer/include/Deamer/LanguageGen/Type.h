@@ -20,6 +20,7 @@ class Type : public Token
 
     public:
         std::vector<Rule*> Rules;
+        Type(const std::string typeName, const bool createAst);
         Type(const std::string typeName);
         void AddRule(Rule* newRule);
         void PrintType();

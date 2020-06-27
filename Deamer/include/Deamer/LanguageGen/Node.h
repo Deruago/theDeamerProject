@@ -18,6 +18,7 @@ class Node : public Token
     public:
         std::string Regex;
         Node(const std::string nodeName, const std::string regex);
+        Node(const std::string nodeName, const std::string regex, const bool createAst);
 };
 
 #endif //DEAMER_LANGUAGEGEN_NODE_H

@@ -3,10 +3,14 @@
 #include "Deamer/LanguageGen/Token.h"
 #include "Deamer/LanguageGen/Type.h"
 
-Type::Type(const std::string typeName) : Token::Token(typeName, false)
+Type::Type(const std::string typeName, const bool createAst) : Token::Token(typeName, false, createAst)
 {
-    return;
 }
+
+Type::Type(const std::string typeName) : Type::Type(typeName, true)
+{
+}
+
 
 void Type::AddRule(Rule* newRule)
 {
