@@ -3,7 +3,7 @@
 
 #include <string>
 
-class AstInformation
+struct AstInformation
 {
     public:
         unsigned int LineNumber;
