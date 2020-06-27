@@ -14,6 +14,7 @@ int main()
 
     LanguageDefinition languageDef = LanguageDefinition();
     LanguageGen* languageGen = new LanguageGen(flex, bison, &languageDef);
+    languageGen->DirTarget("tests/");
 
     newNode(SEMICOLON, "[;]", false);
     newNode(PLUS, "[+]");
@@ -75,7 +76,7 @@ int main()
     newType(PROG);
     newRule(PROG, STMTS);
 
-    //languageGen->Finish(); // Finishes the whole build. This can also be done using the individual functions given.
+    languageGen->Finish(); // Finishes the whole build. This can also be done using the individual functions given.
 
     AstGen* astGen = new AstGen("tests/");
     astGen->CreateAstNodes(&languageDef);

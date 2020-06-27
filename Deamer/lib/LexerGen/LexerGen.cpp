@@ -3,27 +3,6 @@
 #include <iostream>
 #include <fstream>
 
-LexerGen::LexerGen(LexerType_t LexerType_t, LanguageDefinition* langDef)
-{
-    LexerGen::LexerTarget = LexerType_t;
-    LexerGen::langDef = langDef;
-}
-
-void LexerGen::SetTarget(LexerType_t LexerType_t)
-{
-    LexerGen::LexerTarget = LexerType_t;
-}
-
-void LexerGen::DirTarget(std::string dirTarget)
-{
-    LexerGen::lexerBuilder->SetDirTarget(dirTarget + "Lexer/");
-}
-
-void LexerGen::FileTarget(std::string fileTarget)
-{
-    LexerGen::lexerBuilder->SetFileTarget(fileTarget);
-}
-
 static LexerBuilder* GetBuilder(LexerType_t LexerType_t)
 {
     switch(LexerType_t)
@@ -35,9 +14,37 @@ static LexerBuilder* GetBuilder(LexerType_t LexerType_t)
     }
 }
 
+LexerGen::LexerGen(LexerType_t LexerType_t, LanguageDefinition* langDef)
+{
+    LexerGen::LexerTarget = LexerType_t;
+    LexerGen::lexerBuilder = GetBuilder(LexerGen::LexerTarget);
+    LexerGen::langDef = langDef;
+}
+
+void LexerGen::SetTarget(LexerType_t LexerType_t)
+{
+    LexerGen::LexerTarget = LexerType_t;
+}
+
+void LexerGen::DirTarget(std::string dirTarget)
+{
+    dirTarget.append("Lexer/");
+    LexerGen::CreateDirectoryIfNotExist(&dirTarget);
+    
+    LexerGen::lexerBuilder->SetDirTarget(dirTarget);
+}
+
+void LexerGen::FileTarget(std::string fileTarget)
+{
+    LexerGen::lexerBuilder->SetFileTarget(fileTarget);
+}
+
 bool LexerGen::Build()
 {
-    LexerGen::lexerBuilder = GetBuilder(LexerGen::LexerTarget);
+    if(LexerGen::lexerBuilder == nullptr)
+    {
+        LexerGen::lexerBuilder = GetBuilder(LexerGen::LexerTarget);
+    }
     
     LexerGen::lexerBuilder->StartBuild();
     for(int i = 0; i < LexerGen::langDef->Nodes.size(); i++)

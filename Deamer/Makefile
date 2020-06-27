@@ -18,10 +18,9 @@ compiler:
 	g++ parser.tab.o lex.yy.o -lfl -o myparser.out
 	
 cleanAstNodeGen:
-	rm -f AstNode*
-	rm -f AstTree*
-	rm -f tests/AstNode*
-	rm -f tests/AstTree*
+	rm -f tests/AstNodes/*
+	rm -f tests/Lexer/*
+	rm -f tests/Parser/*
 	rm -f lexer.l
 	rm -f parser.y
 	rm -f parser.tab.c

@@ -3,9 +3,21 @@
 #include <iostream>
 #include <fstream>
 
+static ParserBuilder* GetBuilder(ParserType_t parserType_t)
+{
+    switch(parserType_t)
+    {
+        case ParserType_t::dparse:
+            return new DParseBuilder();
+        case ParserType_t::bison:
+            return new BisonBuilder();
+    }
+}
+
 ParserGen::ParserGen(ParserType_t parserType_t, LanguageDefinition* langDef)
 {
     ParserGen::ParserTarget = parserType_t;
+    ParserGen::parserBuilder = GetBuilder(ParserGen::ParserTarget);
     ParserGen::langDef = langDef;
 }
 
@@ -16,23 +28,15 @@ void ParserGen::SetTarget(ParserType_t parserType_t)
 
 void ParserGen::DirTarget(std::string dirTarget)
 {
-    ParserGen::parserBuilder->SetDirTarget(dirTarget + "Parser/");
+    dirTarget.append("Parser/");
+    ParserGen::CreateDirectoryIfNotExist(&dirTarget);
+
+    ParserGen::parserBuilder->SetDirTarget(dirTarget);
 }
 
 void ParserGen::FileTarget(std::string fileTarget)
 {
     ParserGen::parserBuilder->SetFileTarget(fileTarget);
-}
-
-static ParserBuilder* GetBuilder(ParserType_t parserType_t)
-{
-    switch(parserType_t)
-    {
-        case ParserType_t::dparse:
-            return new DParseBuilder();
-        case ParserType_t::bison:
-            return new BisonBuilder();
-    }
 }
 
 void ParserGen::BuildNodes()
@@ -53,7 +57,10 @@ void ParserGen::BuildRulesOfType(Type* type)
 
 bool ParserGen::Build()
 {
-    ParserGen::parserBuilder = GetBuilder(ParserGen::ParserTarget);
+    if (ParserGen::parserBuilder == nullptr)
+    {
+        ParserGen::parserBuilder = GetBuilder(ParserGen::ParserTarget);
+    }
 
     ParserGen::BuildNodes();
 
