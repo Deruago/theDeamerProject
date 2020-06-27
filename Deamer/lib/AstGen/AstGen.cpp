@@ -34,17 +34,23 @@ void AstGen::CreateAstNodes(LanguageDefinition* langDef)
 
     for (int i = langDef->Types.size() - 2; i >= 0; i--)
     {
-        AstGen::astBuilder.CreateAstNode(langDef->Types[i]->TokenName);
-        AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Types[i]->TokenName);
-        AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Types[i]->TokenName);
+        if (langDef->Types[i]->CreateAst)
+        {
+            AstGen::astBuilder.CreateAstNode(langDef->Types[i]->TokenName);
+            AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Types[i]->TokenName);
+            AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Types[i]->TokenName);
+        }
     }
 
 
     for (int i = 0; i < langDef->Nodes.size(); i++)
     {
-        AstGen::astBuilder.CreateAstNode(langDef->Nodes[i]->TokenName);
-        AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Nodes[i]->TokenName);
-        AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Nodes[i]->TokenName);
+        if (langDef->Nodes[i]->CreateAst)
+        {
+            AstGen::astBuilder.CreateAstNode(langDef->Nodes[i]->TokenName);
+            AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Nodes[i]->TokenName);
+            AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Nodes[i]->TokenName);
+        }
     }
 
     AstGen::astBuilder.FinishGlobalHeaderFile();
