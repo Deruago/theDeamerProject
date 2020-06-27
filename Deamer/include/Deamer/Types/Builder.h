@@ -19,7 +19,7 @@ class Builder
         void SetDirTarget(std::string dirName);
         void SetFileTarget(std::string fileName);
         std::string GetOutput(); // Returns the output
-        void WriteOutputToFile();
+        bool WriteOutputToFile();
 };
 
 #endif //DEAMER_TYPES_BUILDER_H

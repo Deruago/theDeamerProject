@@ -16,7 +16,6 @@ int main()
     LanguageGen* languageGen = new LanguageGen(flex, bison, &languageDef);
 
     newNode(SEMICOLON, "[;]", false);
-    std::cout << SEMICOLON->CreateAst << "\n";
     newNode(PLUS, "[+]");
     newNode(MULT, "[*]");
     newNode(DIV, "[/]");

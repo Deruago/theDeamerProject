@@ -1,5 +1,7 @@
 #include "Deamer/ParserGen/BisonBuilder.h"
 #include <sstream>
+#include <fstream>
+#include <ostream>
 
 BisonBuilder::BisonBuilder()
 {

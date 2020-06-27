@@ -46,3 +46,11 @@ bool LanguageGen::Build()
     buildIsSuccesfull = LanguageGen::parserGen->Build();
     return buildIsSuccesfull;
 }
+
+bool LanguageGen::Write()
+{
+    LanguageGen::lexerGen->Write();
+    LanguageGen::parserGen->Write();
+
+    return true;
+}

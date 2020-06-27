@@ -1,5 +1,6 @@
 #include "Deamer/ParserGen/ParserGen.h"
 #include <iostream>
+#include <fstream>
 
 ParserGen::ParserGen(ParserType_t parserType_t, LanguageDefinition* langDef)
 {
@@ -60,4 +61,12 @@ bool ParserGen::Build()
     bool BuildSuccessfull = ParserGen::parserBuilder->FinishBuild();
     std::cout << ParserGen::parserBuilder->GetOutput() << "\n";
     return BuildSuccessfull;
+}
+
+bool ParserGen::Write()
+{
+    ParserGen::parserBuilder->SetFileTarget("Parser.cpp");
+    ParserGen::parserBuilder->WriteOutputToFile();
+
+    return true;
 }

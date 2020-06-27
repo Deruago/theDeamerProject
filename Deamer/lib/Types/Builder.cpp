@@ -23,11 +23,17 @@ std::string Builder::GetOutput()
     return Builder::Output;
 }
 
-void Builder::WriteOutputToFile()
+bool Builder::WriteOutputToFile()
 {
-    std::ostringstream oss;
-    oss << Builder::Directory << Builder::FileName;
-    std::ofstream outputFile(oss.str());
+    std::ostringstream oss0;
+    oss0 << Builder::Directory << Builder::FileName;
+    std::ofstream newParserFile;
 
-    outputFile << Builder::GetOutput();
+    newParserFile.open(oss0.str(), std::ios_base::app);
+
+    newParserFile << Builder::Output << '\n';
+    
+    newParserFile.close();
+
+    return true;
 }

@@ -1,5 +1,7 @@
-#include <sstream>
 #include "Deamer/LexerGen/FlexBuilder.h"
+#include <sstream>
+#include <fstream>
+#include <ostream>
 
 FlexBuilder::FlexBuilder()
 {

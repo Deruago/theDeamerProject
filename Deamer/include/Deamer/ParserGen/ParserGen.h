@@ -21,6 +21,7 @@ class ParserGen : public Generator
         void DirTarget(std::string dirTarget) override;
         void SetTarget(ParserType_t parserTarget);
         bool Build() override;
+        bool Write() override;
         void SetLangDef(LanguageDefinition* langDef);
 };
 

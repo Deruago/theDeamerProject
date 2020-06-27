@@ -1,5 +1,6 @@
-#include <iostream>
 #include "Deamer/LexerGen/LexerGen.h"
+#include <iostream>
+#include <fstream>
 
 LexerGen::LexerGen(LexerType_t LexerType_t, LanguageDefinition* langDef)
 {
@@ -42,4 +43,12 @@ bool LexerGen::Build()
     bool IsBuildSuccesfull = LexerGen::lexerBuilder->FinishBuild();
     std::cout << LexerGen::lexerBuilder->GetOutput() << "\n";
     return IsBuildSuccesfull;
+}
+
+bool LexerGen::Write()
+{
+    LexerGen::lexerBuilder->SetFileTarget("Lexer.cpp");
+    LexerGen::lexerBuilder->WriteOutputToFile();
+
+    return true;
 }

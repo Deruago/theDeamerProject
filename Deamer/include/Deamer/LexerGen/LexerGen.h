@@ -19,6 +19,7 @@ class LexerGen : public Generator
         void DirTarget(std::string dirTarget) override;
         void SetTarget(LexerType_t LexerTarget);
         bool Build() override;
+        bool Write() override;
         void SetLangDef(LanguageDefinition* langDef);
 };
 
