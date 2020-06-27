@@ -13,7 +13,14 @@ AstGen::AstGen(std::string dirTarget)
 
 void AstGen::DirTarget(std::string dirTarget)
 {
+    dirTarget.append("AstNodes/");
+    AstGen::CreateDirectoryIfNotExist(&dirTarget);
+
     AstGen::astBuilder.SetDirTarget(dirTarget);
+}
+
+void AstGen::FileTarget(std::string fileTarget)
+{
 }
 
 std::string AstGen::GetAstNodeClassName(std::string TokenName)

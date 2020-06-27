@@ -1,4 +1,5 @@
 #include "Deamer/ParserGen/ParserGen.h"
+#include <sstream>
 #include <iostream>
 #include <fstream>
 
@@ -15,7 +16,12 @@ void ParserGen::SetTarget(ParserType_t parserType_t)
 
 void ParserGen::DirTarget(std::string dirTarget)
 {
-    ParserGen::parserBuilder->SetDirTarget(dirTarget);
+    ParserGen::parserBuilder->SetDirTarget(dirTarget + "Parser/");
+}
+
+void ParserGen::FileTarget(std::string fileTarget)
+{
+    ParserGen::parserBuilder->SetFileTarget(fileTarget);
 }
 
 static ParserBuilder* GetBuilder(ParserType_t parserType_t)
@@ -65,8 +71,15 @@ bool ParserGen::Build()
 
 bool ParserGen::Write()
 {
-    ParserGen::parserBuilder->SetFileTarget("Parser.cpp");
+    ParserGen::parserBuilder->SetFileTarget(ParserGen::Filename);
     ParserGen::parserBuilder->WriteOutputToFile();
 
     return true;
+}
+
+std::string ParserGen::GetFileLocation()
+{
+    std::ostringstream oss;
+    oss << ParserGen::Directory << ParserGen::Filename;
+    return oss.str();
 }

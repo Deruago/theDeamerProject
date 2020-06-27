@@ -15,7 +15,7 @@ void FlexBuilder::AddNode(Node* node)
     FlexBuilder::regexDeclarationPart += oss.str();
 
     std::ostringstream oss2;
-    oss2 << "{" << node->TokenName << "}" << "   " << "{sscanf(yytext, \"%s\", yylval.name); return (" << node->TokenName << ");}\n";
+    oss2 << "{" << node->TokenName << "}" << "   " << "{sscanf(yytext, \"%s\", yylval.DeamerNode); return (" << node->TokenName << ");}\n";
     FlexBuilder::tokenDeclarationPart += oss2.str();
 }
 

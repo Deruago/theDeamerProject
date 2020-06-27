@@ -75,9 +75,7 @@ int main()
     newType(PROG);
     newRule(PROG, STMTS);
 
-    languageGen->GenerateLexer();
-    
-    languageGen->GenerateParser();
+    //languageGen->Finish(); // Finishes the whole build. This can also be done using the individual functions given.
 
     AstGen* astGen = new AstGen("tests/");
     astGen->CreateAstNodes(&languageDef);

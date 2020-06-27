@@ -7,16 +7,21 @@
 #include "Deamer/LexerGen/DlexBuilder.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
+#include <string>
 
 class LexerGen : public Generator
 {
     LexerBuilder* lexerBuilder;
-    LexerType_t LexerTarget;
     LanguageDefinition* langDef;
+    std::string Directory;
+    std::string Filename = "lexer.l";
     void SetLexerBuilder();
     public:
+        LexerType_t LexerTarget;
+        std::string GetFileLocation();
         LexerGen(LexerType_t LexerTarget, LanguageDefinition* langDef);
         void DirTarget(std::string dirTarget) override;
+        void FileTarget(std::string fileTarget) override;
         void SetTarget(LexerType_t LexerTarget);
         bool Build() override;
         bool Write() override;

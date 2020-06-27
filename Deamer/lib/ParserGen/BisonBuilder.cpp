@@ -92,8 +92,11 @@ void BisonBuilder::WriteRule(Rule* rule, std::ostringstream* oss)
 
 bool BisonBuilder::FinishBuild()
 {
+    std::ostringstream extendedFunctionPart;
+    extendedFunctionPart << "void yyerror(char *s)\n" << "{\n" << "    printf(\"Syntax error on line %s\\n\", s);\n" << "}\n";
+
     std::ostringstream oss;
-    oss << BisonBuilder::includePart << BisonBuilder::tokenDeclarationPart <<  '\n' << BisonBuilder::typeDeclarationPart << '\n' << BisonBuilder::unionDeclarationPart << BisonBuilder::ruleDeclarationPart << ";\n\n\n%%\n\n\n";
+    oss << BisonBuilder::includePart << BisonBuilder::tokenDeclarationPart <<  '\n' << BisonBuilder::typeDeclarationPart << '\n' << BisonBuilder::unionDeclarationPart << BisonBuilder::ruleDeclarationPart << ";\n\n\n%%\n\n\n" << extendedFunctionPart.str();
     BisonBuilder::Output = oss.str();
     return true;
 }
@@ -110,7 +113,7 @@ bool BisonBuilder::StartBuild()
     BisonBuilder::ruleDeclarationPart = oss2.str();
 
     std::ostringstream oss3;
-    oss3 << "%{\n" << "#include <iostream>\n" << "extern \"C\" void yyerror(char* s);\n" << "extern \"C\" int yyparse();\n" << "extern \"C\" FILE* yyin;" << "int yylex();\n" << "%}\n\n";
+    oss3 << "%{\n" << "#include <iostream>\n" << "#include <cstring>\n" << "#define YYERROR_VERBOSE\n" << "extern \"C\" void yyerror(char* s);\n" << "extern \"C\" int yyparse();\n" << "extern \"C\" FILE* yyin;\n" << "int yylex();\n" << "%}\n\n";
     BisonBuilder::includePart = oss3.str();
     return true;
 }

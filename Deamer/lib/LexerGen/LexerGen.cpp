@@ -1,4 +1,5 @@
 #include "Deamer/LexerGen/LexerGen.h"
+#include <sstream>
 #include <iostream>
 #include <fstream>
 
@@ -15,9 +16,13 @@ void LexerGen::SetTarget(LexerType_t LexerType_t)
 
 void LexerGen::DirTarget(std::string dirTarget)
 {
-    LexerGen::lexerBuilder->SetDirTarget(dirTarget);
+    LexerGen::lexerBuilder->SetDirTarget(dirTarget + "Lexer/");
 }
 
+void LexerGen::FileTarget(std::string fileTarget)
+{
+    LexerGen::lexerBuilder->SetFileTarget(fileTarget);
+}
 
 static LexerBuilder* GetBuilder(LexerType_t LexerType_t)
 {
@@ -47,8 +52,15 @@ bool LexerGen::Build()
 
 bool LexerGen::Write()
 {
-    LexerGen::lexerBuilder->SetFileTarget("Lexer.cpp");
+    LexerGen::lexerBuilder->SetFileTarget(LexerGen::Filename);
     LexerGen::lexerBuilder->WriteOutputToFile();
 
     return true;
+}
+
+std::string LexerGen::GetFileLocation()
+{
+    std::ostringstream oss;
+    oss << LexerGen::Directory << LexerGen::Filename;
+    return oss.str();
 }
