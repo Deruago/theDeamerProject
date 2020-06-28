@@ -24,6 +24,7 @@ class LanguageGen : public Generator
     LanguageDefinition* languageDefinition;
     LexerGen* lexerGen;
     ParserGen* parserGen;
+    std::string Directory;
 
     public:
         LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition* languageDefinition);

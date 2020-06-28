@@ -9,8 +9,9 @@ OBJFILES=$(wildcard *.o)
 ARGS=-Wall
 CC=clang++
 
-all: cleanAstNodeGen deamer
+all: cleanAstNodeGen
 	$(CC) $(ARGS) $(LIB_FILES) -I $(INCLUDE_HEADER_DIR) $(TEST_FILE) -o Deamer
+	./Deamer
 	
 deamer:
 	$(CC) $(ARGS) -c $(LIB_FILES) -I $(INCLUDE_HEADER_DIR)

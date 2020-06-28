@@ -113,7 +113,16 @@ bool BisonBuilder::StartBuild()
     BisonBuilder::ruleDeclarationPart = oss2.str();
 
     std::ostringstream oss3;
-    oss3 << "%{\n" << "#include <iostream>\n" << "#include <cstring>\n" << "#define YYERROR_VERBOSE\n" << "extern \"C\" void yyerror(char* s);\n" << "extern \"C\" int yyparse();\n" << "extern \"C\" FILE* yyin;\n" << "int yylex();\n" << "%}\n\n";
+    oss3 << "%{\n" 
+         << "#include <AstNodes.h>\n"
+         << "#include <iostream>\n"
+         << "#include <cstring>\n" 
+         << "#define YYERROR_VERBOSE\n" 
+         << "extern \"C\" void yyerror(char* s);\n" 
+         << "extern \"C\" int yyparse();\n" 
+         << "extern \"C\" FILE* yyin;\n" 
+         << "int yylex();\n" 
+         << "%}\n\n";
     BisonBuilder::includePart = oss3.str();
     return true;
 }

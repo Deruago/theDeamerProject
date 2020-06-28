@@ -11,6 +11,7 @@ LanguageGen::LanguageGen(LexerType_t lexerType, ParserType_t parserType, Languag
 
 void LanguageGen::DirTarget(std::string TargetDir)
 {
+    LanguageGen::Directory = TargetDir;
     LanguageGen::lexerGen->DirTarget(TargetDir);
     LanguageGen::parserGen->DirTarget(TargetDir);
 }
@@ -76,11 +77,11 @@ bool LanguageGen::Compile()
     std::system(ossParser.str().c_str());
 
     std::ostringstream ossCompileLexer;
-    ossCompileLexer << "g++ -c " << LanguageGen::lexerGen->GetDirectoryLocation() << "lex.yy.c" << " -lfl -o" << LanguageGen::lexerGen->GetDirectoryLocation() << "lex.yy.o";
+    ossCompileLexer << "g++ " << "-I " << LanguageGen::Directory << " -c " << LanguageGen::lexerGen->GetDirectoryLocation() << "lex.yy.c" << " -lfl -o" << LanguageGen::lexerGen->GetDirectoryLocation() << "lex.yy.o";
     std::system(ossCompileLexer.str().c_str());
 
     std::ostringstream ossCompileParser;
-    ossCompileParser << "g++ -c "  << LanguageGen::parserGen->GetDirectoryLocation() << "parser.tab.c -lfl -o" << LanguageGen::parserGen->GetDirectoryLocation() << "parser.tab.o";
+    ossCompileParser << "g++ " << "-I " << LanguageGen::Directory << " -c " << LanguageGen::parserGen->GetDirectoryLocation() << "parser.tab.c -lfl -o" << LanguageGen::parserGen->GetDirectoryLocation() << "parser.tab.o";
     std::system(ossCompileParser.str().c_str());
     
     return true;
