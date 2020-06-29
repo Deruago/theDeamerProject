@@ -76,14 +76,18 @@ bool LanguageGen::Compile()
     ossParser << "bison -d " << LanguageGen::parserGen->GetFileLocation();
     std::system(ossParser.str().c_str());
 
+    /*
     std::ostringstream ossCompileLexer;
-    ossCompileLexer << "g++ " << "-I " << LanguageGen::Directory << " -c " << LanguageGen::lexerGen->GetDirectoryLocation() << "lex.yy.c" << " -lfl -o" << LanguageGen::lexerGen->GetDirectoryLocation() << "lex.yy.o";
+    ossCompileLexer << "g++ " << "-I " << LanguageGen::Directory << "Deamer/include" << " -I " << LanguageGen::Directory << "AstNodes/"  << " -c " << LanguageGen::lexerGen->GetDirectoryLocation() << "lex.yy.c" << " -lfl -o" << LanguageGen::lexerGen->GetDirectoryLocation() << "lex.yy.o";
     std::system(ossCompileLexer.str().c_str());
+    //std::cout << ossCompileLexer.str();
 
     std::ostringstream ossCompileParser;
-    ossCompileParser << "g++ " << "-I " << LanguageGen::Directory << " -c " << LanguageGen::parserGen->GetDirectoryLocation() << "parser.tab.c -lfl -o" << LanguageGen::parserGen->GetDirectoryLocation() << "parser.tab.o";
+    ossCompileParser << "g++ " << "-I " << LanguageGen::Directory << "Deamer/include" << " -I " << LanguageGen::Directory << "AstNodes/" << " -c " << LanguageGen::parserGen->GetDirectoryLocation() << "parser.tab.c -lfl -o" << LanguageGen::parserGen->GetDirectoryLocation() << "parser.tab.o";
     std::system(ossCompileParser.str().c_str());
-    
+    //std::cout << ossCompileParser.str();
+    */
+   
     return true;
 }
 
