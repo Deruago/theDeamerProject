@@ -11,6 +11,8 @@ class BisonBuilder : public ParserBuilder
     std::string typeDeclarationPart;
     std::string unionDeclarationPart;
     std::string ruleDeclarationPart;
+    Type* curType;
+    Type* firstType;
     bool IsFirstType;
     unsigned int curRuleSizeOfType;
     unsigned int currentRulesBuilt;

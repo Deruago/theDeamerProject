@@ -22,7 +22,7 @@ void BisonBuilder::AddNode(Node* node)
 void BisonBuilder::AddType(Type* type)
 {
     std::ostringstream oss;
-    oss << "%type <DeamerType> " << type->TokenName << '\n';
+    oss << "%type <ASTNODE> " << type->TokenName << '\n';
     BisonBuilder::typeDeclarationPart += oss.str();
 
     std::ostringstream oss2;
@@ -30,6 +30,11 @@ void BisonBuilder::AddType(Type* type)
     {
         oss2 << ";\n\n";
     }
+    else
+    {
+        BisonBuilder::firstType = type;
+    }
+    
 
     BisonBuilder::IsFirstType = false;
 
@@ -37,6 +42,7 @@ void BisonBuilder::AddType(Type* type)
     BisonBuilder::curRuleSizeOfType = type->Rules.size();
     BisonBuilder::currentRulesBuilt = 0;
     BisonBuilder::ruleDeclarationPart += oss2.str();
+    BisonBuilder::curType = type;
 }
 
 void BisonBuilder::AddRule(Rule* rule)
@@ -63,6 +69,7 @@ void BisonBuilder::AddRule(Rule* rule)
     BisonBuilder::currentRulesBuilt += 1;
 }
 
+/*
 void BisonBuilder::WriteRuleModificationPart(Rule* rule, std::ostringstream* oss)
 {
     *oss << "{\n";
@@ -73,7 +80,65 @@ void BisonBuilder::WriteRuleModificationPart(Rule* rule, std::ostringstream* oss
             continue;
         }
 
-        *oss << "        std::cout << $" << i + 1 << ";\n";
+        *oss << "        std::cout << $" << i + 1 << ".ValueName;\n";
+    }
+    *oss << "    }";
+}
+*/
+
+void BisonBuilder::WriteRuleModificationPart(Rule* rule, std::ostringstream* oss)
+{
+    *oss << "{\n";
+    if (BisonBuilder::curType == BisonBuilder::firstType)
+    {
+        *oss << "      AstTree_" << BisonBuilder::curType->TokenName << "* ASTTREE_" << BisonBuilder::curType->TokenName << " = new AstTree_" << BisonBuilder::curType->TokenName << "({";
+    }
+    else
+    {
+        *oss << "      $$ = new AstNode_" << BisonBuilder::curType->TokenName << "({";
+    }
+
+    //This makes sure we dont create random ',' when nothing can be added.
+    int j = 0;
+    bool createdFirstParam = false;
+    while(j < rule->Tokens.size() && !createdFirstParam)
+    {
+        if (rule->Tokens[j]->CreateAst)
+        {
+            if (rule->Tokens[j]->IsNode)
+            {
+                *oss << "new AstNode_" << rule->Tokens[j]->TokenName << "($" << j + 1 << ")";
+            }
+            else
+            {
+                *oss << "$" << j + 1;
+            }
+            createdFirstParam = true;
+        }
+        j++;
+    }
+
+    for(int i = j; i < rule->Tokens.size(); i++)
+    {
+        if (!rule->Tokens[i]->CreateAst)
+        {
+            continue;
+        }
+
+        *oss << ", ";
+        if (rule->Tokens[i]->IsNode)
+        {
+            *oss << "new AstNode_" << rule->Tokens[i]->TokenName << "($" << i + 1 << ")";
+        }
+        else
+        {
+            *oss << "$" << i + 1;
+        }
+    }
+    *oss << "});\n";
+    if (BisonBuilder::curType == BisonBuilder::firstType)
+    {
+        *oss << "      ASTTREE_" << BisonBuilder::curType->TokenName << "->SetCurrentTree(ASTTREE_" << BisonBuilder::curType->TokenName << ");\n";
     }
     *oss << "    }";
 }
@@ -105,7 +170,11 @@ bool BisonBuilder::StartBuild()
 {
     BisonBuilder::IsFirstType = true;
     std::ostringstream oss;
-    oss << "%union{\n" << "    char DeamerNode[1024];\n" << "    char DeamerType[2048];\n" << "}\n\n\n";
+    oss << "%union{\n"
+        << "    AstInformation* DeamerNode;\n"
+        << "    AstInformation* DeamerType;\n"
+        << "    AstNode* ASTNODE;\n"
+        << "}\n\n\n";
     BisonBuilder::unionDeclarationPart = oss.str();
 
     std::ostringstream oss2;
@@ -115,6 +184,9 @@ bool BisonBuilder::StartBuild()
     std::ostringstream oss3;
     oss3 << "%{\n" 
          << "#include <AstNodes.h>\n"
+         << "#include <Deamer/AstGen/AstInformation.h>\n"
+         << "#include <Deamer/AstGen/AstNode.h>\n"
+         << "#include <Deamer/AstGen/AstTree.h>\n"
          << "#include <iostream>\n"
          << "#include <cstring>\n" 
          << "#define YYERROR_VERBOSE\n" 
