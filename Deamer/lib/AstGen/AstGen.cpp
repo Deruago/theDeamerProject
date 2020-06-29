@@ -35,7 +35,7 @@ void AstGen::CreateAstNodes(LanguageDefinition* langDef)
     AstGen::astBuilder.CreateGlobalHeaderFile();
     AstGen::astBuilder.CreateAstNodeEnumFile();
     
-    AstGen::astBuilder.CreateAstTree(langDef->Types[langDef->Types.size() - 1]->TokenName);
+    AstGen::astBuilder.CreateAstTree(langDef->Types[langDef->Types.size() - 1]->TokenName, langDef->Types[langDef->Types.size() - 1]->IsNode);
     AstGen::astBuilder.AppendAstTreeHeaderFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
     AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
 
@@ -43,7 +43,7 @@ void AstGen::CreateAstNodes(LanguageDefinition* langDef)
     {
         if (langDef->Types[i]->CreateAst)
         {
-            AstGen::astBuilder.CreateAstNode(langDef->Types[i]->TokenName);
+            AstGen::astBuilder.CreateAstNode(langDef->Types[i]->TokenName, langDef->Types[i]->IsNode);
             AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Types[i]->TokenName);
             AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Types[i]->TokenName);
         }
@@ -54,7 +54,7 @@ void AstGen::CreateAstNodes(LanguageDefinition* langDef)
     {
         if (langDef->Nodes[i]->CreateAst)
         {
-            AstGen::astBuilder.CreateAstNode(langDef->Nodes[i]->TokenName);
+            AstGen::astBuilder.CreateAstNode(langDef->Nodes[i]->TokenName, langDef->Nodes[i]->IsNode);
             AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Nodes[i]->TokenName);
             AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Nodes[i]->TokenName);
         }

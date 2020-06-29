@@ -1,14 +1,11 @@
 #ifndef DEAMER_ASTGEN_ASTINFORMATION_H
 #define DEAMER_ASTGEN_ASTINFORMATION_H
 
-#include <string>
-
-struct AstInformation
+typedef struct AstInformation_s
 {
-    public:
-        unsigned int LineNumber;
-        unsigned int CharNumber;
-        const char ValueName[2048];
-};
+    unsigned int LineNumber;
+    unsigned int CharNumber;
+    char ValueName[2048];
+} AstInformation;
 
 #endif //DEAMER_ASTGEN_ASTINFORMATION_H
