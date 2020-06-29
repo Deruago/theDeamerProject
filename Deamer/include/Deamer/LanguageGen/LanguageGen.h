@@ -28,6 +28,8 @@ class LanguageGen : public Generator
 
     public:
         LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition* languageDefinition);
+        bool CreateDefaultLexerAPI();
+        bool CreateDefaultParserAPI();
         void DirTarget(std::string dirTarget) override;
         void FileTarget(std::string fileTarget) override;
         void GenerateLexer();

@@ -1,5 +1,6 @@
 #include "Deamer/LanguageGen/LanguageGen.h"
 #include <iostream>
+#include <fstream>
 #include <sstream>
 
 LanguageGen::LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition* languageDefinition)
@@ -50,7 +51,88 @@ bool LanguageGen::Build()
     }
 
     buildIsSuccesfull = LanguageGen::parserGen->Build();
+    if (!buildIsSuccesfull)
+    {
+        return buildIsSuccesfull;
+    }
+
+    buildIsSuccesfull = LanguageGen::CreateDefaultLexerAPI();
+    if (!buildIsSuccesfull)
+    {
+        return buildIsSuccesfull;
+    }
+    
+    buildIsSuccesfull = LanguageGen::CreateDefaultParserAPI();
     return buildIsSuccesfull;
+}
+
+bool LanguageGen::CreateDefaultLexerAPI()
+{
+    std::ostringstream LexerAPIFile;
+    LexerAPIFile << "#ifndef LEXER_LEXERAPIFILE_H\n"
+                  << "#define LEXER_LEXERAPIFILE_H\n"
+                  << "\n"
+                  << "#include <Deamer/DefaultAPI/DeamerLexerAPI.h>\n"
+                  << "#include <Deamer/AstGen/AstInformation.h>\n"
+                  << "#include <Deamer/AstGen/AstNode.h>\n"
+                  << "#include <Deamer/AstGen/AstTree.h>\n"
+                  << "\n"
+                  << "class DeamerLexer : public DeamerLexerAPI\n"
+                  << "{\n"
+                  << "    private:\n"
+                  << "    protected:\n"
+                  << "    public:\n"
+                  << "        AstInformation* LexText(std::string inputText) override;\n"
+                  << "        AstInformation* LexFile(FILE* inputFile) override;\n"
+                  << "        AstInformation* LexFile(std::string fileLocation) override;\n"
+                  << "};\n"
+                  << "\n"
+                  << "#endif //LEXER_LEXERAPIFILE_H\n";
+    std::ostringstream oss0;
+    oss0 << LanguageGen::Directory << "Lexer/" << "DeamerLexer.h";
+    std::ofstream newLexerAPIFile;
+
+    newLexerAPIFile.open(oss0.str(), std::ios_base::app);
+
+    newLexerAPIFile << LexerAPIFile.str() << '\n';
+    
+    newLexerAPIFile.close();
+
+    return true;
+}
+
+bool LanguageGen::CreateDefaultParserAPI()
+{
+    std::ostringstream ParserAPIFile;
+    ParserAPIFile << "#ifndef PARSER_PARSERAPIFILE_H\n"
+                  << "#define PARSER_PARSERAPIFILE_H\n"
+                  << "\n"
+                  << "#include <Deamer/DefaultAPI/DeamerParserAPI.h>\n"
+                  << "#include <Deamer/AstGen/AstNode.h>\n"
+                  << "#include <Deamer/AstGen/AstTree.h>\n"
+                  << "\n"
+                  << "class DeamerParser : public DeamerParserAPI\n"
+                  << "{\n"
+                  << "    private:\n"
+                  << "    protected:\n"
+                  << "    public:\n"
+                  << "        AstNode* ParseText(std::string inputText) override;\n"
+                  << "        AstNode* ParseFile(FILE* inputFile) override;\n"
+                  << "        AstNode* ParseFile(std::string fileLocation) override;\n"
+                  << "};\n"
+                  << "\n"
+                  << "#endif //PARSER_PARSERAPIFILE_H\n";
+    std::ostringstream oss0;
+    oss0 << LanguageGen::Directory << "Parser/" << "DeamerParser.h";
+    std::ofstream newParserAPIFile;
+
+    newParserAPIFile.open(oss0.str(), std::ios_base::app);
+
+    newParserAPIFile << ParserAPIFile.str() << '\n';
+    
+    newParserAPIFile.close();
+
+    return true;
 }
 
 bool LanguageGen::Write()

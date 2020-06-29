@@ -158,7 +158,39 @@ void BisonBuilder::WriteRule(Rule* rule, std::ostringstream* oss)
 bool BisonBuilder::FinishBuild()
 {
     std::ostringstream extendedFunctionPart;
-    extendedFunctionPart << "void yyerror(char *s)\n" << "{\n" << "    printf(\"Syntax error on line %s\\n\", s);\n" << "}\n";
+    extendedFunctionPart << "void yyerror(char *s)\n" << "{\n" << "    printf(\"Syntax error on line %s\\n\", s);\n" << "}\n\n";
+    extendedFunctionPart << "AstNode* DeamerParser::ParseText(std::string inputText)\n"
+                         << "{\n"
+                         << "    FILE* tmpFile = fmemopen((void*)inputText.c_str(), inputText.size(), \"r\");\n"
+                         << "    if (tmpFile == nullptr)\n"
+                         << "    {\n"
+                         << "        return nullptr;\n"
+                         << "    }\n"
+                         << "    yyin = tmpFile;\n"
+                         << "    yyparse();\n"
+                         << "    return AstTree_" << BisonBuilder::firstType->TokenName << "::currentTree;\n"
+                         << "}\n\n";
+    extendedFunctionPart << "AstNode* DeamerParser::ParseFile(FILE* inputFile)\n"
+                         << "{\n"
+                         << "    if (inputFile == nullptr)\n"
+                         << "    {\n"
+                         << "        return nullptr;\n"
+                         << "    }\n"
+                         << "    yyin = inputFile;\n"
+                         << "    yyparse();\n"
+                         << "    return AstTree_" << BisonBuilder::firstType->TokenName << "::currentTree;\n"
+                         << "}\n\n";
+    extendedFunctionPart << "AstNode* DeamerParser::ParseFile(std::string fileLocation)\n"
+                         << "{\n"
+                         << "    FILE* inputFile = fopen(fileLocation.c_str(), \"r\");;\n"
+                         << "    if (inputFile == nullptr)\n"
+                         << "    {\n"
+                         << "        return nullptr;\n"
+                         << "    }\n"
+                         << "    yyin = inputFile;\n"
+                         << "    yyparse();\n"
+                         << "    return AstTree_" << BisonBuilder::firstType->TokenName << "::currentTree;\n"
+                         << "}\n\n";
 
     std::ostringstream oss;
     oss << BisonBuilder::includePart << BisonBuilder::tokenDeclarationPart <<  '\n' << BisonBuilder::typeDeclarationPart << '\n' << BisonBuilder::unionDeclarationPart << BisonBuilder::ruleDeclarationPart << ";\n\n\n%%\n\n\n" << extendedFunctionPart.str();
@@ -187,8 +219,10 @@ bool BisonBuilder::StartBuild()
          << "#include <Deamer/AstGen/AstInformation.h>\n"
          << "#include <Deamer/AstGen/AstNode.h>\n"
          << "#include <Deamer/AstGen/AstTree.h>\n"
+         << "#include \"./DeamerParser.h\"\n"
          << "#include <iostream>\n"
-         << "#include <cstring>\n" 
+         << "#include <cstring>\n"
+         << "#include <stdio.h>\n"
          << "#define YYERROR_VERBOSE\n" 
          << "extern \"C\" void yyerror(char* s);\n" 
          << "extern \"C\" int yyparse();\n" 
