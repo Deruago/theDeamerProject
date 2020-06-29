@@ -8,6 +8,13 @@ FlexBuilder::FlexBuilder()
     
 }
 
+std::string FlexBuilder::NewNodeFunctionalData(Node* node)
+{
+    std::ostringstream oss;
+    oss << "{yylval.DeamerNode = (AstInformation*) malloc(sizeof(AstInformation)); sscanf(yytext, \"%s\", yylval.DeamerNode->ValueName); yylval.DeamerNode->LineNumber = yylineno; return (" << node->TokenName << ");}\n";
+    return oss.str();
+}
+
 void FlexBuilder::AddNode(Node* node)
 {
     std::ostringstream oss;
@@ -15,7 +22,7 @@ void FlexBuilder::AddNode(Node* node)
     FlexBuilder::regexDeclarationPart += oss.str();
 
     std::ostringstream oss2;
-    oss2 << "{" << node->TokenName << "}" << "   " << "{sscanf(yytext, \"%s\", yylval.DeamerNode); return (" << node->TokenName << ");}\n";
+    oss2 << "{" << node->TokenName << "}" << "   " << FlexBuilder::NewNodeFunctionalData(node);
     FlexBuilder::tokenDeclarationPart += oss2.str();
 }
 
@@ -33,8 +40,12 @@ bool FlexBuilder::FinishBuild()
 bool FlexBuilder::StartBuild()
 {
     std::ostringstream oss;
-    oss << "%{\n"
+    oss << "%option yylineno\n\n"
+        << "%{\n"
+        << "#include <AstNodes.h>\n"
         << "#include <Deamer/AstGen/AstInformation.h>\n"
+        << "#include <Deamer/AstGen/AstNode.h>\n"
+        << "#include <Deamer/AstGen/AstTree.h>\n"
         << "#include <stdio.h>\n"
         << "#include <string.h>\n"
         << "#include \"../Parser/parser.tab.h\"\n"
