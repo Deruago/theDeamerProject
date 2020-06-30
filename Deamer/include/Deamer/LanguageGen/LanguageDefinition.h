@@ -6,16 +6,19 @@ This class is used to define a language. This definition can be used to generate
 or just display certain trees/diagrams about the language.
 */
 
-#include <vector>
 #include "Deamer/LanguageGen/Node.h"
 #include "Deamer/LanguageGen/Type.h"
 #include "Deamer/LanguageGen/Token.h"
 #include "Deamer/LanguageGen/Rule.h"
+#include <string>
+#include <vector>
 
 class LanguageDefinition
 {
+    protected:
+        std::string LanguageName;
     public:
-        LanguageDefinition() = default;
+        LanguageDefinition(std::string languageName);
         ~LanguageDefinition() = default;
         std::vector<Node*> Nodes;
         std::vector<Type*> Types;
@@ -30,5 +33,6 @@ class LanguageDefinition
         void  PrintNodes();
         void  PrintTypes();
         void  PrintRules();
+        std::string GetLanguageName();
 };
 #endif //DEAMER_LANGUAGEGEN_LANGUAGEDEFINION_H
