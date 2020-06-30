@@ -28,8 +28,10 @@ class LanguageGen : public Generator
 
     public:
         LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition* languageDefinition);
-        bool CreateDefaultLexerAPI();
-        bool CreateDefaultParserAPI();
+        bool CreateDefaultLexerAPI();      // Used to communicate with the lexer
+        bool CreateDefaultParserAPI();     // Used to communicate with the parser
+        bool CreateDefaultCompilerAPIHeader();   // Used to communicate with the compiler. The compiler API supports multiple interfaces/features.
+        bool CreateDefaultCompilerAPISource();   // Implements the API
         void DirTarget(std::string dirTarget) override;
         void FileTarget(std::string fileTarget) override;
         void GenerateLexer();
