@@ -1,5 +1,15 @@
-#include <iostream>
 #include "Deamer/LanguageGen/LanguageDefinition.h"
+#include <iostream>
+
+LanguageDefinition::LanguageDefinition(std::string languageName)
+{
+    LanguageDefinition::LanguageName = languageName;
+}
+
+std::string LanguageDefinition::GetLanguageName()
+{
+    return LanguageDefinition::LanguageName;
+}
 
 Node* LanguageDefinition::CreateNode(const std::string nodeName, const std::string regex, const bool createAst)
 {
