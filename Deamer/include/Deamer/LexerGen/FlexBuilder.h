@@ -2,6 +2,7 @@
 #define DEAMER_LEXERGEN_FLEXBUILDER_H
 
 #include "Deamer/LexerGen/LexerBuilder.h"
+#include "Deamer/LanguageGen/LanguageDefinition.h"
 
 class FlexBuilder : public LexerBuilder
 {
@@ -13,6 +14,7 @@ class FlexBuilder : public LexerBuilder
     std::string NewNodeFunctionalData(Node* node);
     public:
         FlexBuilder();
+        FlexBuilder(LanguageDefinition* langDef);
         void AddNode(Node* node) override;
         bool FinishBuild()  override;
         bool StartBuild() override;

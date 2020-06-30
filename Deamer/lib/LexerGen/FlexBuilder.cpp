@@ -8,10 +8,15 @@ FlexBuilder::FlexBuilder()
     
 }
 
+FlexBuilder::FlexBuilder(LanguageDefinition* langDef) : FlexBuilder::FlexBuilder()
+{
+    FlexBuilder::langDef = langDef;
+}
+
 std::string FlexBuilder::NewNodeFunctionalData(Node* node)
 {
     std::ostringstream oss;
-    oss << "{yylval.DeamerNode = (AstInformation*) malloc(sizeof(AstInformation)); sscanf(yytext, \"%s\", yylval.DeamerNode->ValueName); yylval.DeamerNode->LineNumber = yylineno; return (" << node->TokenName << ");}\n";
+    oss << "{" << FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode = (AstInformation*) malloc(sizeof(AstInformation)); sscanf(yytext, \"%s\", " << FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode->ValueName); " << FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode->LineNumber = " << FlexBuilder::langDef->GetLanguageName() << "lineno; return (" << node->TokenName << ");}\n";
     return oss.str();
 }
 
@@ -40,7 +45,8 @@ bool FlexBuilder::FinishBuild()
 bool FlexBuilder::StartBuild()
 {
     std::ostringstream oss;
-    oss << "%option yylineno\n\n"
+    oss << "%option yylineno\n"
+        << "%option noyywrap\n\n"
         << "%{\n"
         << "#include <AstNodes.h>\n"
         << "#include <Deamer/AstGen/AstInformation.h>\n"
@@ -48,9 +54,9 @@ bool FlexBuilder::StartBuild()
         << "#include <Deamer/AstGen/AstTree.h>\n"
         << "#include <stdio.h>\n"
         << "#include <string.h>\n"
-        << "#include \"../Parser/parser.tab.h\"\n"
+        << "#include \"../Parser/" << FlexBuilder::langDef->GetLanguageName() << "parser.tab.h\"\n"
         << "void showError();\n"
-        << "extern int yylex();\n"
+        << "extern int " << FlexBuilder::langDef->GetLanguageName() << "lex();\n"
         << "%}\n\n";
     FlexBuilder::declarationPart = oss.str();
     FlexBuilder::tokenDeclarationPart += "%%\n";

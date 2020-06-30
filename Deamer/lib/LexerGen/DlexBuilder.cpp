@@ -5,6 +5,11 @@ DlexBuilder::DlexBuilder()
 
 }
 
+DlexBuilder::DlexBuilder(LanguageDefinition* langDef) : DlexBuilder::DlexBuilder()
+{
+    DlexBuilder::langDef = langDef;
+}
+
 void DlexBuilder::AddNode(Node* node)
 {
 

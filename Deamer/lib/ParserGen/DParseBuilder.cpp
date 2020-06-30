@@ -5,6 +5,11 @@ DParseBuilder::DParseBuilder()
 
 }
 
+DParseBuilder::DParseBuilder(LanguageDefinition* langDef) : DParseBuilder::DParseBuilder()
+{
+    DParseBuilder::langDef = langDef;
+}
+
 void DParseBuilder::AddNode(Node* node)
 {
 

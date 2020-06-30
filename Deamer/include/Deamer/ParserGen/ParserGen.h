@@ -11,13 +11,15 @@
 
 class ParserGen : public Generator
 {
-    ParserBuilder* parserBuilder;
-    LanguageDefinition* langDef;
-    std::string Directory;
-    std::string Filename = "parser.y";
-    void SetParserBuilder();
-    void BuildNodes();
-    void BuildRulesOfType(Type* type);
+    private:
+        ParserBuilder* GetBuilder(ParserType_t parserType_t);
+        ParserBuilder* parserBuilder;
+        LanguageDefinition* langDef;
+        std::string Directory;
+        std::string Filename = "parser.y";
+        void SetParserBuilder();
+        void BuildNodes();
+        void BuildRulesOfType(Type* type);
     public:
         ParserType_t ParserTarget;
         std::string GetFileLocation();

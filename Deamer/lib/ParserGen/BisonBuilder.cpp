@@ -8,6 +8,11 @@ BisonBuilder::BisonBuilder()
 
 }
 
+BisonBuilder::BisonBuilder(LanguageDefinition* langDef) : BisonBuilder::BisonBuilder()
+{
+    BisonBuilder::langDef = langDef;
+}
+
 void BisonBuilder::AddNode(Node* node)
 {
     std::ostringstream oss;
@@ -158,37 +163,37 @@ void BisonBuilder::WriteRule(Rule* rule, std::ostringstream* oss)
 bool BisonBuilder::FinishBuild()
 {
     std::ostringstream extendedFunctionPart;
-    extendedFunctionPart << "void yyerror(char *s)\n" << "{\n" << "    printf(\"Syntax error on line %s\\n\", s);\n" << "}\n\n";
-    extendedFunctionPart << "AstNode* DeamerParser::ParseText(std::string inputText)\n"
+    extendedFunctionPart << "void " << BisonBuilder::langDef->GetLanguageName() << "error(char *s)\n" << "{\n" << "    printf(\"Syntax error on line %s\\n\", s);\n" << "}\n\n";
+    extendedFunctionPart << "AstNode* " << BisonBuilder::langDef->GetLanguageName() << "Parser::ParseText(std::string inputText)\n"
                          << "{\n"
                          << "    FILE* tmpFile = fmemopen((void*)inputText.c_str(), inputText.size(), \"r\");\n"
                          << "    if (tmpFile == nullptr)\n"
                          << "    {\n"
                          << "        return nullptr;\n"
                          << "    }\n"
-                         << "    yyin = tmpFile;\n"
-                         << "    yyparse();\n"
+                         << "    " << BisonBuilder::langDef->GetLanguageName() << "in = tmpFile;\n"
+                         << "    " << BisonBuilder::langDef->GetLanguageName() << "parse();\n"
                          << "    return AstTree_" << BisonBuilder::firstType->TokenName << "::currentTree;\n"
                          << "}\n\n";
-    extendedFunctionPart << "AstNode* DeamerParser::ParseFile(FILE* inputFile)\n"
+    extendedFunctionPart << "AstNode* " << BisonBuilder::langDef->GetLanguageName() << "Parser::ParseFile(FILE* inputFile)\n"
                          << "{\n"
                          << "    if (inputFile == nullptr)\n"
                          << "    {\n"
                          << "        return nullptr;\n"
                          << "    }\n"
-                         << "    yyin = inputFile;\n"
-                         << "    yyparse();\n"
+                         << "    " << BisonBuilder::langDef->GetLanguageName() << "in = inputFile;\n"
+                         << "    " << BisonBuilder::langDef->GetLanguageName() << "parse();\n"
                          << "    return AstTree_" << BisonBuilder::firstType->TokenName << "::currentTree;\n"
                          << "}\n\n";
-    extendedFunctionPart << "AstNode* DeamerParser::ParseFile(std::string fileLocation)\n"
+    extendedFunctionPart << "AstNode* " << BisonBuilder::langDef->GetLanguageName() << "Parser::ParseFile(std::string fileLocation)\n"
                          << "{\n"
                          << "    FILE* inputFile = fopen(fileLocation.c_str(), \"r\");;\n"
                          << "    if (inputFile == nullptr)\n"
                          << "    {\n"
                          << "        return nullptr;\n"
                          << "    }\n"
-                         << "    yyin = inputFile;\n"
-                         << "    yyparse();\n"
+                         << "    " << BisonBuilder::langDef->GetLanguageName() << "in = inputFile;\n"
+                         << "    " << BisonBuilder::langDef->GetLanguageName() << "parse();\n"
                          << "    return AstTree_" << BisonBuilder::firstType->TokenName << "::currentTree;\n"
                          << "}\n\n";
 
@@ -219,15 +224,15 @@ bool BisonBuilder::StartBuild()
          << "#include <Deamer/AstGen/AstInformation.h>\n"
          << "#include <Deamer/AstGen/AstNode.h>\n"
          << "#include <Deamer/AstGen/AstTree.h>\n"
-         << "#include \"./DeamerParser.h\"\n"
+         << "#include \"./" << BisonBuilder::langDef->GetLanguageName() << "Parser.h\"\n"
          << "#include <iostream>\n"
          << "#include <cstring>\n"
          << "#include <stdio.h>\n"
          << "#define YYERROR_VERBOSE\n" 
-         << "extern \"C\" void yyerror(char* s);\n" 
-         << "extern \"C\" int yyparse();\n" 
-         << "extern \"C\" FILE* yyin;\n" 
-         << "int yylex();\n" 
+         << "extern \"C\" void " << BisonBuilder::langDef->GetLanguageName() << "error(char* s);\n" 
+         << "extern \"C\" int " << BisonBuilder::langDef->GetLanguageName() << "parse();\n" 
+         << "extern \"C\" FILE* " << BisonBuilder::langDef->GetLanguageName() << "in;\n" 
+         << "int " << BisonBuilder::langDef->GetLanguageName() << "lex();\n" 
          << "%}\n\n";
     BisonBuilder::includePart = oss3.str();
     return true;

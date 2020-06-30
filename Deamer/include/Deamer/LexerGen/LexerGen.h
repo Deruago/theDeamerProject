@@ -11,11 +11,13 @@
 
 class LexerGen : public Generator
 {
-    LexerBuilder* lexerBuilder;
-    LanguageDefinition* langDef;
-    std::string Directory;
-    std::string Filename = "lexer.l";
-    void SetLexerBuilder();
+    private:
+        LexerBuilder* GetBuilder(LexerType_t LexerType_t);
+        LexerBuilder* lexerBuilder;
+        LanguageDefinition* langDef;
+        std::string Directory;
+        std::string Filename = "lexer.l";
+        void SetLexerBuilder();
     public:
         LexerType_t LexerTarget;
         std::string GetFileLocation();

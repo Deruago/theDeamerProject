@@ -3,23 +3,23 @@
 #include <iostream>
 #include <fstream>
 
-static LexerBuilder* GetBuilder(LexerType_t LexerType_t)
+LexerBuilder* LexerGen::GetBuilder(LexerType_t LexerType_t)
 {
     switch(LexerType_t)
     {
         case LexerType_t::dlex:
-            return new DlexBuilder();
+            return new DlexBuilder(LexerGen::langDef);
         case LexerType_t::flex:
-            return new FlexBuilder();
+            return new FlexBuilder(LexerGen::langDef);
     }
     return nullptr;
 }
 
 LexerGen::LexerGen(LexerType_t LexerType_t, LanguageDefinition* langDef)
 {
-    LexerGen::LexerTarget = LexerType_t;
-    LexerGen::lexerBuilder = GetBuilder(LexerGen::LexerTarget);
     LexerGen::langDef = langDef;
+    LexerGen::LexerTarget = LexerType_t;
+    LexerGen::lexerBuilder = LexerGen::GetBuilder(LexerGen::LexerTarget);
 }
 
 void LexerGen::SetTarget(LexerType_t LexerType_t)
@@ -61,7 +61,7 @@ bool LexerGen::Build()
 
 bool LexerGen::Write()
 {
-    LexerGen::lexerBuilder->SetFileTarget(LexerGen::Filename);
+    LexerGen::lexerBuilder->SetFileTarget(LexerGen::langDef->GetLanguageName() + LexerGen::Filename);
     LexerGen::lexerBuilder->WriteOutputToFile();
 
     return true;

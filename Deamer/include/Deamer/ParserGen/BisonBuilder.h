@@ -2,6 +2,7 @@
 #define DEAMER_PARSERGEN_BISONBUILDER_H
 
 #include "Deamer/ParserGen/ParserBuilder.h"
+#include "Deamer/LanguageGen/LanguageDefinition.h"
 #include <string>
 
 class BisonBuilder : public ParserBuilder
@@ -20,6 +21,7 @@ class BisonBuilder : public ParserBuilder
     void WriteRuleModificationPart(Rule* rule, std::ostringstream* oss);
     public:
         BisonBuilder();
+        BisonBuilder(LanguageDefinition* langDef);
         void AddNode(Node* node) override;
         void AddType(Type* type) override;
         void AddRule(Rule* rule) override;

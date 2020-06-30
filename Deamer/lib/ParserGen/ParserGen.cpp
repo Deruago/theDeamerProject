@@ -3,23 +3,23 @@
 #include <iostream>
 #include <fstream>
 
-static ParserBuilder* GetBuilder(ParserType_t parserType_t)
+ParserBuilder* ParserGen::GetBuilder(ParserType_t parserType_t)
 {
     switch(parserType_t)
     {
         case ParserType_t::dparse:
-            return new DParseBuilder();
+            return new DParseBuilder(ParserGen::langDef);
         case ParserType_t::bison:
-            return new BisonBuilder();
+            return new BisonBuilder(ParserGen::langDef);
     }
     return nullptr;
 }
 
 ParserGen::ParserGen(ParserType_t parserType_t, LanguageDefinition* langDef)
 {
-    ParserGen::ParserTarget = parserType_t;
-    ParserGen::parserBuilder = GetBuilder(ParserGen::ParserTarget);
     ParserGen::langDef = langDef;
+    ParserGen::ParserTarget = parserType_t;
+    ParserGen::parserBuilder = ParserGen::GetBuilder(ParserGen::ParserTarget);
 }
 
 void ParserGen::SetTarget(ParserType_t parserType_t)
@@ -80,7 +80,7 @@ bool ParserGen::Build()
 
 bool ParserGen::Write()
 {
-    ParserGen::parserBuilder->SetFileTarget(ParserGen::Filename);
+    ParserGen::parserBuilder->SetFileTarget(ParserGen::langDef->GetLanguageName() + ParserGen::Filename);
     ParserGen::parserBuilder->WriteOutputToFile();
 
     return true;
