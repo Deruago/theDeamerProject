@@ -196,6 +196,12 @@ bool BisonBuilder::FinishBuild()
                          << "    " << BisonBuilder::langDef->GetLanguageName() << "parse();\n"
                          << "    return AstTree_" << BisonBuilder::firstType->TokenName << "::currentTree;\n"
                          << "}\n\n";
+    extendedFunctionPart << BisonBuilder::langDef->GetLanguageName() << "Parser::" << BisonBuilder::langDef->GetLanguageName() << "Parser()\n"
+                         << "{\n"
+                         << "}\n\n";
+    extendedFunctionPart << BisonBuilder::langDef->GetLanguageName() << "Parser::~" << BisonBuilder::langDef->GetLanguageName() << "Parser()\n"
+                         << "{\n"
+                         << "}\n\n";
 
     std::ostringstream oss;
     oss << BisonBuilder::includePart << BisonBuilder::tokenDeclarationPart <<  '\n' << BisonBuilder::typeDeclarationPart << '\n' << BisonBuilder::unionDeclarationPart << BisonBuilder::ruleDeclarationPart << ";\n\n\n%%\n\n\n" << extendedFunctionPart.str();
