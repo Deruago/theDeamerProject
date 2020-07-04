@@ -3,12 +3,12 @@
 #include <fstream>
 #include <sstream>
 
-AstBuilder::AstBuilder()
+deamer::AstBuilder::AstBuilder()
 {
-    AstBuilder::Directory = "";
+    deamer::AstBuilder::Directory = "";
 }
 
-void AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode)
+void deamer::AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode)
 {
     std::string isNodeStr;
     if(isNode)
@@ -48,7 +48,7 @@ void AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, std::string tok
              << "}\n";
 }
 
-void AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName)
+void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName)
 {
     std::string tokenNameUpper;
     for(int i = 0; i < tokenName.size(); i++)
@@ -79,7 +79,7 @@ void AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tok
                    << "#endif //ASTNODES_" << tokenNameUpper << "_H\n";
 }
 
-void AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode)
+void deamer::AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode)
 {
     std::string isNodeStr;
     if(isNode)
@@ -127,7 +127,7 @@ void AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string
              << "}\n";
 }
 
-void AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName)
+void deamer::AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName)
 {
     std::string tokenNameUpper;
     for(int i = 0; i < tokenName.size(); i++)
@@ -162,7 +162,7 @@ void AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string
                    << "#endif //ASTNODES_" << tokenNameUpper << "_H\n";
 }
 
-void AstBuilder::CreateAstNode(std::string TokenName, bool isNode)
+void deamer::AstBuilder::CreateAstNode(std::string TokenName, bool isNode)
 {
     std::string DefaultTokenName = TokenName;
     std::ostringstream oss0;
@@ -170,23 +170,23 @@ void AstBuilder::CreateAstNode(std::string TokenName, bool isNode)
     TokenName = oss0.str();
 
     std::ostringstream oss;
-    oss << AstBuilder::Directory << TokenName << ".cpp";
+    oss << deamer::AstBuilder::Directory << TokenName << ".cpp";
     std::ofstream newAstNodeSourceFile(oss.str());
 
-    AstBuilder::FillAstSourceFile(&newAstNodeSourceFile, TokenName, &DefaultTokenName, isNode);
+    deamer::AstBuilder::FillAstSourceFile(&newAstNodeSourceFile, TokenName, &DefaultTokenName, isNode);
     
     newAstNodeSourceFile.close();
 
     std::ostringstream oss2;
-    oss2 << AstBuilder::Directory << TokenName << ".h";
+    oss2 << deamer::AstBuilder::Directory << TokenName << ".h";
     std::ofstream newAstNodeHeaderFile(oss2.str());
 
-    AstBuilder::FillAstHeaderFile(&newAstNodeHeaderFile, TokenName, &DefaultTokenName);
+    deamer::AstBuilder::FillAstHeaderFile(&newAstNodeHeaderFile, TokenName, &DefaultTokenName);
 
     newAstNodeHeaderFile.close();
 }
 
-void AstBuilder::CreateAstTree(std::string TokenName, bool isNode)
+void deamer::AstBuilder::CreateAstTree(std::string TokenName, bool isNode)
 {
     std::string DefaultTokenName = TokenName;
     std::ostringstream oss0;
@@ -194,26 +194,26 @@ void AstBuilder::CreateAstTree(std::string TokenName, bool isNode)
     TokenName = oss0.str();
 
     std::ostringstream oss;
-    oss << AstBuilder::Directory << TokenName << ".cpp";
+    oss << deamer::AstBuilder::Directory << TokenName << ".cpp";
     std::ofstream newAstTreeSourceFile(oss.str());
 
-    AstBuilder::FillAstTreeSourceFile(&newAstTreeSourceFile, TokenName, &DefaultTokenName, isNode);
+    deamer::AstBuilder::FillAstTreeSourceFile(&newAstTreeSourceFile, TokenName, &DefaultTokenName, isNode);
     
     newAstTreeSourceFile.close();
 
     std::ostringstream oss2;
-    oss2 << AstBuilder::Directory << TokenName << ".h";
+    oss2 << deamer::AstBuilder::Directory << TokenName << ".h";
     std::ofstream newAstTreeHeaderFile(oss2.str());
 
-    AstBuilder::FillAstTreeHeaderFile(&newAstTreeHeaderFile, TokenName, &DefaultTokenName);
+    deamer::AstBuilder::FillAstTreeHeaderFile(&newAstTreeHeaderFile, TokenName, &DefaultTokenName);
 
     newAstTreeHeaderFile.close();
 }
 
-void AstBuilder::CreateGlobalHeaderFile()
+void deamer::AstBuilder::CreateGlobalHeaderFile()
 {
     std::ostringstream oss0;
-    oss0 << AstBuilder::Directory << "AstNodes.h";
+    oss0 << deamer::AstBuilder::Directory << "AstNodes.h";
     std::ofstream newGlobalHeaderFile(oss0.str());
 
     newGlobalHeaderFile << "#ifndef ASTNODES_ASTNODES_H\n"
@@ -223,10 +223,10 @@ void AstBuilder::CreateGlobalHeaderFile()
     newGlobalHeaderFile.close();
 }
 
-void AstBuilder::AppendAstNodeHeaderFile(std::string TokenName)
+void deamer::AstBuilder::AppendAstNodeHeaderFile(std::string TokenName)
 {
     std::ostringstream oss0;
-    oss0 << AstBuilder::Directory << "AstNodes.h";
+    oss0 << deamer::AstBuilder::Directory << "AstNodes.h";
     std::ofstream globalHeaderFile;
 
     globalHeaderFile.open(oss0.str(), std::ios_base::app);
@@ -236,10 +236,10 @@ void AstBuilder::AppendAstNodeHeaderFile(std::string TokenName)
     globalHeaderFile.close();
 }
 
-void AstBuilder::AppendAstTreeHeaderFile(std::string TokenName)
+void deamer::AstBuilder::AppendAstTreeHeaderFile(std::string TokenName)
 {
     std::ostringstream oss0;
-    oss0 << AstBuilder::Directory << "AstNodes.h";
+    oss0 << deamer::AstBuilder::Directory << "AstNodes.h";
     std::ofstream globalHeaderFile;
 
     globalHeaderFile.open(oss0.str(), std::ios_base::app);
@@ -249,10 +249,10 @@ void AstBuilder::AppendAstTreeHeaderFile(std::string TokenName)
     globalHeaderFile.close();
 }
 
-void AstBuilder::FinishGlobalHeaderFile()
+void deamer::AstBuilder::FinishGlobalHeaderFile()
 {
     std::ostringstream oss0;
-    oss0 << AstBuilder::Directory << "AstNodes.h";
+    oss0 << deamer::AstBuilder::Directory << "AstNodes.h";
     std::ofstream globalHeaderFile;
 
     globalHeaderFile.open(oss0.str(), std::ios_base::app);
@@ -263,10 +263,10 @@ void AstBuilder::FinishGlobalHeaderFile()
     globalHeaderFile.close();
 }
 
-void AstBuilder::CreateAstNodeEnumFile()
+void deamer::AstBuilder::CreateAstNodeEnumFile()
 {
     std::ostringstream oss0;
-    oss0 << AstBuilder::Directory << "AstEnum.h";
+    oss0 << deamer::AstBuilder::Directory << "AstEnum.h";
     std::ofstream newEnumFile(oss0.str());
 
     newEnumFile << "#ifndef ASTNODES_ASTENUM_H\n"
@@ -278,10 +278,10 @@ void AstBuilder::CreateAstNodeEnumFile()
     newEnumFile.close();
 }
 
-void AstBuilder::AppendAstNodeEnumFile(std::string TokenName)
+void deamer::AstBuilder::AppendAstNodeEnumFile(std::string TokenName)
 {
     std::ostringstream oss0;
-    oss0 << AstBuilder::Directory << "AstEnum.h";
+    oss0 << deamer::AstBuilder::Directory << "AstEnum.h";
     std::ofstream newEnumFile;
 
     newEnumFile.open(oss0.str(), std::ios_base::app);
@@ -291,10 +291,10 @@ void AstBuilder::AppendAstNodeEnumFile(std::string TokenName)
     newEnumFile.close();
 }
 
-void AstBuilder::FinishAstNodeEnumFile()
+void deamer::AstBuilder::FinishAstNodeEnumFile()
 {
     std::ostringstream oss0;
-    oss0 << AstBuilder::Directory << "AstEnum.h";
+    oss0 << deamer::AstBuilder::Directory << "AstEnum.h";
     std::ofstream newEnumFile;
 
     newEnumFile.open(oss0.str(), std::ios_base::app);

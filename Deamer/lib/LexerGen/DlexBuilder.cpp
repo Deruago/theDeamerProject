@@ -1,26 +1,26 @@
 #include "Deamer/LexerGen/DlexBuilder.h"
 
-DlexBuilder::DlexBuilder()
+deamer::DlexBuilder::DlexBuilder()
 {
 
 }
 
-DlexBuilder::DlexBuilder(LanguageDefinition* langDef) : DlexBuilder::DlexBuilder()
+deamer::DlexBuilder::DlexBuilder(deamer::LanguageDefinition* langDef) : deamer::DlexBuilder::DlexBuilder()
 {
-    DlexBuilder::langDef = langDef;
+    deamer::DlexBuilder::langDef = langDef;
 }
 
-void DlexBuilder::AddNode(Node* node)
+void deamer::DlexBuilder::AddNode(Node* node)
 {
 
 }
 
-bool DlexBuilder::FinishBuild()
+bool deamer::DlexBuilder::FinishBuild()
 {
     return true;
 }
 
-bool DlexBuilder::StartBuild()
+bool deamer::DlexBuilder::StartBuild()
 {
     return true;
 }

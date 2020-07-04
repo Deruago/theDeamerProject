@@ -13,26 +13,30 @@ or just display certain trees/diagrams about the language.
 #include <string>
 #include <vector>
 
-class LanguageDefinition
+namespace deamer
 {
-    protected:
-        std::string LanguageName;
-    public:
-        LanguageDefinition(std::string languageName);
-        ~LanguageDefinition() = default;
-        std::vector<Node*> Nodes;
-        std::vector<Type*> Types;
-        std::vector<Rule*> Rules;
-        Node* CreateNode(const std::string nodeName, const std::string regex, const bool createAst = true); // Used to create a Node Class
-        Type* CreateType(const std::string typeName, const bool createAst = true); // Used to create a Type Class
-        Rule* CreateRule(Type* type, const std::vector<Token*> tokens); // Used to create a Rule Class
-        void  DeleteAllNodes();
-        void  DeleteAllTypes();
-        void  DeleteAllRules();
-        void  PrintLanguageConfig();
-        void  PrintNodes();
-        void  PrintTypes();
-        void  PrintRules();
-        std::string GetLanguageName();
-};
+    class LanguageDefinition
+    {
+        protected:
+            std::string LanguageName;
+        public:
+            LanguageDefinition(std::string languageName);
+            ~LanguageDefinition() = default;
+            std::vector<Node*> Nodes;
+            std::vector<Type*> Types;
+            std::vector<Rule*> Rules;
+            Node* CreateNode(const std::string nodeName, const std::string regex, const bool createAst = true); // Used to create a Node Class
+            Type* CreateType(const std::string typeName, const bool createAst = true); // Used to create a Type Class
+            Rule* CreateRule(Type* type, const std::vector<Token*> tokens); // Used to create a Rule Class
+            void  DeleteAllNodes();
+            void  DeleteAllTypes();
+            void  DeleteAllRules();
+            void  PrintLanguageConfig();
+            void  PrintNodes();
+            void  PrintTypes();
+            void  PrintRules();
+            std::string GetLanguageName();
+    };
+}
+
 #endif //DEAMER_LANGUAGEGEN_LANGUAGEDEFINION_H

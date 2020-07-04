@@ -1,6 +1,6 @@
 #include "Deamer/AstGen/AstTree.h"
 
-AstTree::AstTree()
+deamer::AstTree::AstTree()
 {
     
 }

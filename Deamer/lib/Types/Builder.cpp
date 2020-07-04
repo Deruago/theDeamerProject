@@ -3,35 +3,35 @@
 #include <fstream>
 #include <sstream>
 
-Builder::Builder()
+deamer::Builder::Builder()
 {
     
 }
 
-void Builder::SetDirTarget(std::string dirName)
+void deamer::Builder::SetDirTarget(std::string dirName)
 {
-    Builder::Directory = dirName;
+    deamer::Builder::Directory = dirName;
 }
 
-void Builder::SetFileTarget(std::string fileName)
+void deamer::Builder::SetFileTarget(std::string fileName)
 {
-    Builder::FileName = fileName;
+    deamer::Builder::FileName = fileName;
 }
 
-std::string Builder::GetOutput()
+std::string deamer::Builder::GetOutput()
 {
-    return Builder::Output;
+    return deamer::Builder::Output;
 }
 
-bool Builder::WriteOutputToFile()
+bool deamer::Builder::WriteOutputToFile()
 {
     std::ostringstream oss0;
-    oss0 << Builder::Directory << Builder::FileName;
+    oss0 << deamer::Builder::Directory << deamer::Builder::FileName;
     std::ofstream newParserFile;
 
     newParserFile.open(oss0.str(), std::ios_base::app);
 
-    newParserFile << Builder::Output << '\n';
+    newParserFile << deamer::Builder::Output << '\n';
     
     newParserFile.close();
 

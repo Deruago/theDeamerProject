@@ -13,18 +13,19 @@ This header describes the class implementation of Type. Type is a subclass of To
 #include "Deamer/LanguageGen/TokenConstants.h"
 #include "Deamer/LanguageGen/Rule.h"
 
-using namespace Deamer;
-
-class Type : public Token
+namespace deamer
 {
+    class Type : public Token
+    {
 
-    public:
-        std::vector<Rule*> Rules;
-        Type(const std::string typeName, const bool createAst);
-        Type(const std::string typeName);
-        void AddRule(Rule* newRule);
-        void PrintType();
-        void PrintRules();
-};
+        public:
+            std::vector<Rule*> Rules;
+            Type(const std::string typeName, const bool createAst);
+            Type(const std::string typeName);
+            void AddRule(Rule* newRule);
+            void PrintType();
+            void PrintRules();
+    };
+}
 
 #endif //DEAMER_LANGUAGEGEN_TYPE_H

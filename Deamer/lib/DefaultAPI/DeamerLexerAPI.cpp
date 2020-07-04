@@ -1,11 +1,11 @@
 #include "Deamer/DefaultAPI/DeamerLexerAPI.h"
 
-DeamerLexerAPI::DeamerLexerAPI()
+deamer::DeamerLexerAPI::DeamerLexerAPI()
 {
 
 }
 
-DeamerLexerAPI::~DeamerLexerAPI()
+deamer::DeamerLexerAPI::~DeamerLexerAPI()
 {
 
 }

@@ -1,11 +1,11 @@
 #include "Deamer/DefaultAPI/DeamerParserAPI.h"
 
-DeamerParserAPI::DeamerParserAPI()
+deamer::DeamerParserAPI::DeamerParserAPI()
 {
 
 }
 
-DeamerParserAPI::~DeamerParserAPI()
+deamer::DeamerParserAPI::~DeamerParserAPI()
 {
 
 }

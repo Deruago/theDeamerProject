@@ -3,27 +3,27 @@
 #include "Deamer/LanguageGen/Token.h"
 #include "Deamer/LanguageGen/Type.h"
 
-Type::Type(const std::string typeName, const bool createAst) : Token::Token(typeName, false, createAst)
+deamer::Type::Type(const std::string typeName, const bool createAst) : deamer::Token::Token(typeName, false, createAst)
 {
 }
 
-Type::Type(const std::string typeName) : Type::Type(typeName, true)
+deamer::Type::Type(const std::string typeName) : deamer::Type::Type(typeName, true)
 {
 }
 
 
-void Type::AddRule(Rule* newRule)
+void deamer::Type::AddRule(deamer::Rule* newRule)
 {
-    Type::Rules.push_back(newRule);
+    deamer::Type::Rules.push_back(newRule);
 }
 
-void Type::PrintType()
+void deamer::Type::PrintType()
 {
-    Type::PrintToken();
-    Type::PrintRules();
+    deamer::Type::PrintToken();
+    deamer::Type::PrintRules();
 }
 
-void Type::PrintRules()
+void deamer::Type::PrintRules()
 {
     for(auto i = 0; i < Rules.size(); i++)
     {

@@ -3,16 +3,19 @@
 
 #include "Deamer/CompilerGen/CompiledObject.h"
 
-class DeamerCompileAPI
+namespace deamer
 {
-    private:
-    protected:
-    public:
-        DeamerCompileAPI();
-        ~DeamerCompileAPI();
-        virtual CompiledObject* CompileText(std::string inputText) = 0;
-        virtual CompiledObject* CompileFile(FILE* inputFile) = 0;
-        virtual CompiledObject* CompileFile(std::string fileLocation) = 0;
-};
+    class DeamerCompilerAPI
+    {
+        private:
+        protected:
+        public:
+            DeamerCompilerAPI();
+            ~DeamerCompilerAPI();
+            virtual CompiledObject* CompileText(std::string inputText) = 0;
+            virtual CompiledObject* CompileFile(FILE* inputFile) = 0;
+            virtual CompiledObject* CompileFile(std::string fileLocation) = 0;
+    };
+}
 
 #endif //DEAMER_DEFAULTAPI_DEAMERCOMPILEAPI_H

@@ -1,11 +1,11 @@
 #include "Deamer/DefaultAPI/DeamerCompilerAPI.h"
 
-DeamerCompileAPI::DeamerCompileAPI()
+deamer::DeamerCompilerAPI::DeamerCompilerAPI()
 {
 
 }
 
-DeamerCompileAPI::~DeamerCompileAPI()
+deamer::DeamerCompilerAPI::~DeamerCompilerAPI()
 {
 
 }

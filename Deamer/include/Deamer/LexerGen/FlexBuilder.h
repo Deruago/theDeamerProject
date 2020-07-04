@@ -4,20 +4,23 @@
 #include "Deamer/LexerGen/LexerBuilder.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 
-class FlexBuilder : public LexerBuilder
+namespace deamer
 {
-    private:
-    std::string declarationPart;
-    std::string regexDeclarationPart;
-    std::string tokenDeclarationPart;
-    std::string functionPart;
-    std::string NewNodeFunctionalData(Node* node);
-    public:
-        FlexBuilder();
-        FlexBuilder(LanguageDefinition* langDef);
-        void AddNode(Node* node) override;
-        bool FinishBuild()  override;
-        bool StartBuild() override;
-};
+    class FlexBuilder : public LexerBuilder
+    {
+        private:
+        std::string declarationPart;
+        std::string regexDeclarationPart;
+        std::string tokenDeclarationPart;
+        std::string functionPart;
+        std::string NewNodeFunctionalData(Node* node);
+        public:
+            FlexBuilder();
+            FlexBuilder(LanguageDefinition* langDef);
+            void AddNode(Node* node) override;
+            bool FinishBuild()  override;
+            bool StartBuild() override;
+    };
+}
 
 #endif //DEAMER_LEXERGEN_FLEXBUILDER_H

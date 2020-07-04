@@ -5,14 +5,17 @@
 #include "Deamer/AstGen/AstTree.h"
 #include <string>
 
-class DeamerParserAPI
+namespace deamer
 {
-    public:
-        DeamerParserAPI();
-        ~DeamerParserAPI();
-        virtual AstNode* ParseText(std::string inputText) = 0;
-        virtual AstNode* ParseFile(FILE* inputFile) = 0;
-        virtual AstNode* ParseFile(std::string fileLocation) = 0;
-};
+    class DeamerParserAPI
+    {
+        public:
+            DeamerParserAPI();
+            ~DeamerParserAPI();
+            virtual AstNode* ParseText(std::string inputText) = 0;
+            virtual AstNode* ParseFile(FILE* inputFile) = 0;
+            virtual AstNode* ParseFile(std::string fileLocation) = 0;
+    };
+}
 
 #endif //DEAMER_DEFAULTAPI_DEAMERPARSERAPI_H

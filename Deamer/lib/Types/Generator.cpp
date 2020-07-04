@@ -3,22 +3,22 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-Generator::Generator()
+deamer::Generator::Generator()
 {
     
 }
 
-bool Generator::Build()
+bool deamer::Generator::Build()
 {
     return false;
 }
 
-bool Generator::Write()
+bool deamer::Generator::Write()
 {
     return false;
 }
 
-bool Generator::DoesDirectoryExist(std::string* Directory)
+bool deamer::Generator::DoesDirectoryExist(std::string* Directory)
 {
     struct stat info;
 
@@ -36,17 +36,17 @@ bool Generator::DoesDirectoryExist(std::string* Directory)
     }
 }
 
-bool Generator::CreateDirectory(std::string* Directory)
+bool deamer::Generator::CreateDirectory(std::string* Directory)
 {
     int status;
     status = mkdir(Directory->c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     return status;
 }
 
-void Generator::CreateDirectoryIfNotExist(std::string* Directory)
+void deamer::Generator::CreateDirectoryIfNotExist(std::string* Directory)
 {
-    if(!Generator::DoesDirectoryExist(Directory))
+    if(!deamer::Generator::DoesDirectoryExist(Directory))
     {
-        Generator::CreateDirectory(Directory);
+        deamer::Generator::CreateDirectory(Directory);
     }
 }

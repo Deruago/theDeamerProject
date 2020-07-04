@@ -1,26 +1,26 @@
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 #include <iostream>
 
-LanguageDefinition::LanguageDefinition(std::string languageName)
+deamer::LanguageDefinition::LanguageDefinition(std::string languageName)
 {
-    LanguageDefinition::LanguageName = languageName;
+    deamer::LanguageDefinition::LanguageName = languageName;
 }
 
-std::string LanguageDefinition::GetLanguageName()
+std::string deamer::LanguageDefinition::GetLanguageName()
 {
-    return LanguageDefinition::LanguageName;
+    return deamer::LanguageDefinition::LanguageName;
 }
 
-Node* LanguageDefinition::CreateNode(const std::string nodeName, const std::string regex, const bool createAst)
+deamer::Node* deamer::LanguageDefinition::CreateNode(const std::string nodeName, const std::string regex, const bool createAst)
 {
-    Node* newNode = new Node(nodeName, regex, createAst);
+    deamer::Node* newNode = new Node(nodeName, regex, createAst);
     Nodes.push_back(newNode);
     return newNode;
 }
 
-Type* LanguageDefinition::CreateType(const std::string typeName, const bool createAst)
+deamer::Type* deamer::LanguageDefinition::CreateType(const std::string typeName, const bool createAst)
 {
-    Type* newType = new Type(typeName, createAst);
+    deamer::Type* newType = new Type(typeName, createAst);
     Types.push_back(newType);
     return newType;
 }
@@ -28,15 +28,15 @@ Type* LanguageDefinition::CreateType(const std::string typeName, const bool crea
 /**
  * The first rule added is the "Start rule" this rule will first be called. All following rules should be linked with this rule.
 */
-Rule* LanguageDefinition::CreateRule(Type* type, const std::vector<Token*> tokens)
+deamer::Rule* deamer::LanguageDefinition::CreateRule(Type* type, const std::vector<Token*> tokens)
 {
-    Rule* newRule = new Rule(tokens);
+    deamer::Rule* newRule = new Rule(tokens);
     type->AddRule(newRule);
     Rules.push_back(newRule);
     return newRule;
 }
 
-void LanguageDefinition::DeleteAllNodes()
+void deamer::LanguageDefinition::DeleteAllNodes()
 {
     for(auto itr = Nodes.end(); itr != Nodes.begin(); itr--)
     {
@@ -46,7 +46,7 @@ void LanguageDefinition::DeleteAllNodes()
     }
 }
 
-void LanguageDefinition::DeleteAllTypes()
+void deamer::LanguageDefinition::DeleteAllTypes()
 {
     for(auto itr = Types.end(); itr != Types.begin(); itr--)
     {
@@ -56,7 +56,7 @@ void LanguageDefinition::DeleteAllTypes()
     }
 }
 
-void LanguageDefinition::DeleteAllRules()
+void deamer::LanguageDefinition::DeleteAllRules()
 {
     for(auto itr = Rules.end(); itr != Rules.begin(); itr--)
     {
@@ -66,7 +66,7 @@ void LanguageDefinition::DeleteAllRules()
     }
 }
 
-void LanguageDefinition::PrintNodes()
+void deamer::LanguageDefinition::PrintNodes()
 {
     for (int i = 0; i < Nodes.size(); i++)
     {
@@ -75,7 +75,7 @@ void LanguageDefinition::PrintNodes()
     std::cout << '\n';
 }
 
-void LanguageDefinition::PrintTypes()
+void deamer::LanguageDefinition::PrintTypes()
 {
     for (int i = 0; i < Types.size(); i++)
     {
@@ -84,7 +84,7 @@ void LanguageDefinition::PrintTypes()
     std::cout << '\n';
 }
 
-void LanguageDefinition::PrintRules()
+void deamer::LanguageDefinition::PrintRules()
 {
     for (int i = 0; i < Rules.size(); i++)
     {
@@ -96,7 +96,7 @@ void LanguageDefinition::PrintRules()
     }
 }
 
-void LanguageDefinition::PrintLanguageConfig()
+void deamer::LanguageDefinition::PrintLanguageConfig()
 {
     for(int i = Types.size() - 1; i >= 0; i--)
     {

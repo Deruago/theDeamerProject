@@ -1,36 +1,36 @@
 #include "Deamer/ParserGen/DParseBuilder.h"
 
-DParseBuilder::DParseBuilder()
+deamer::DParseBuilder::DParseBuilder()
 {
 
 }
 
-DParseBuilder::DParseBuilder(LanguageDefinition* langDef) : DParseBuilder::DParseBuilder()
+deamer::DParseBuilder::DParseBuilder(LanguageDefinition* langDef) : deamer::DParseBuilder::DParseBuilder()
 {
-    DParseBuilder::langDef = langDef;
+    deamer::DParseBuilder::langDef = langDef;
 }
 
-void DParseBuilder::AddNode(Node* node)
-{
-
-}
-
-void DParseBuilder::AddType(Type* type)
+void deamer::DParseBuilder::AddNode(Node* node)
 {
 
 }
 
-void DParseBuilder::AddRule(Rule* rule)
+void deamer::DParseBuilder::AddType(Type* type)
 {
 
 }
 
-bool DParseBuilder::FinishBuild()
+void deamer::DParseBuilder::AddRule(Rule* rule)
+{
+
+}
+
+bool deamer::DParseBuilder::FinishBuild()
 {
     return true;
 }
 
-bool DParseBuilder::StartBuild()
+bool deamer::DParseBuilder::StartBuild()
 {
     return true;
 }

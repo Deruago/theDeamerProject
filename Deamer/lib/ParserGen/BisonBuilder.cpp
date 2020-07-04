@@ -3,59 +3,59 @@
 #include <fstream>
 #include <ostream>
 
-BisonBuilder::BisonBuilder()
+deamer::BisonBuilder::BisonBuilder()
 {
 
 }
 
-BisonBuilder::BisonBuilder(LanguageDefinition* langDef) : BisonBuilder::BisonBuilder()
+deamer::BisonBuilder::BisonBuilder(deamer::LanguageDefinition* langDef) : deamer::BisonBuilder::BisonBuilder()
 {
-    BisonBuilder::langDef = langDef;
+    deamer::BisonBuilder::langDef = langDef;
 }
 
-void BisonBuilder::AddNode(Node* node)
+void deamer::BisonBuilder::AddNode(deamer::Node* node)
 {
     std::ostringstream oss;
     oss << "%token " << node->TokenName << '\n';
-    BisonBuilder::tokenDeclarationPart += oss.str();
+    deamer::BisonBuilder::tokenDeclarationPart += oss.str();
 
     std::ostringstream oss2;
     oss2 << "%type <DeamerNode> " << node->TokenName << '\n';
-    BisonBuilder::typeDeclarationPart += oss2.str();
+    deamer::BisonBuilder::typeDeclarationPart += oss2.str();
 }
 
-void BisonBuilder::AddType(Type* type)
+void deamer::BisonBuilder::AddType(deamer::Type* type)
 {
     std::ostringstream oss;
     oss << "%type <ASTNODE> " << type->TokenName << '\n';
-    BisonBuilder::typeDeclarationPart += oss.str();
+    deamer::BisonBuilder::typeDeclarationPart += oss.str();
 
     std::ostringstream oss2;
-    if (!BisonBuilder::IsFirstType)
+    if (!deamer::BisonBuilder::IsFirstType)
     {
         oss2 << ";\n\n";
     }
     else
     {
-        BisonBuilder::firstType = type;
+        deamer::BisonBuilder::firstType = type;
     }
     
 
-    BisonBuilder::IsFirstType = false;
+    deamer::BisonBuilder::IsFirstType = false;
 
     oss2 << type->TokenName << ":\n";
-    BisonBuilder::curRuleSizeOfType = type->Rules.size();
-    BisonBuilder::currentRulesBuilt = 0;
-    BisonBuilder::ruleDeclarationPart += oss2.str();
-    BisonBuilder::curType = type;
+    deamer::BisonBuilder::curRuleSizeOfType = type->Rules.size();
+    deamer::BisonBuilder::currentRulesBuilt = 0;
+    deamer::BisonBuilder::ruleDeclarationPart += oss2.str();
+    deamer::BisonBuilder::curType = type;
 }
 
-void BisonBuilder::AddRule(Rule* rule)
+void deamer::BisonBuilder::AddRule(deamer::Rule* rule)
 {
     std::ostringstream oss;
     oss << "    "; 
     
-    if (BisonBuilder::currentRulesBuilt >= 1)
+    if (deamer::BisonBuilder::currentRulesBuilt >= 1)
     {
         oss << "| ";
     }
@@ -65,17 +65,17 @@ void BisonBuilder::AddRule(Rule* rule)
     }
     
 
-    BisonBuilder::WriteRule(rule, &oss);
-    BisonBuilder::WriteRuleModificationPart(rule, &oss);
+    deamer::BisonBuilder::WriteRule(rule, &oss);
+    deamer::BisonBuilder::WriteRuleModificationPart(rule, &oss);
     
     oss << '\n';
-    BisonBuilder::ruleDeclarationPart += oss.str();
+    deamer::BisonBuilder::ruleDeclarationPart += oss.str();
 
-    BisonBuilder::currentRulesBuilt += 1;
+    deamer::BisonBuilder::currentRulesBuilt += 1;
 }
 
 /*
-void BisonBuilder::WriteRuleModificationPart(Rule* rule, std::ostringstream* oss)
+void deamer::BisonBuilder::WriteRuleModificationPart(Rule* rule, std::ostringstream* oss)
 {
     *oss << "{\n";
     for(int i = 0; i < rule->Tokens.size(); i++)
@@ -91,16 +91,16 @@ void BisonBuilder::WriteRuleModificationPart(Rule* rule, std::ostringstream* oss
 }
 */
 
-void BisonBuilder::WriteRuleModificationPart(Rule* rule, std::ostringstream* oss)
+void deamer::BisonBuilder::WriteRuleModificationPart(deamer::Rule* rule, std::ostringstream* oss)
 {
     *oss << "{\n";
-    if (BisonBuilder::curType == BisonBuilder::firstType)
+    if (deamer::BisonBuilder::curType == deamer::BisonBuilder::firstType)
     {
-        *oss << "      AstTree_" << BisonBuilder::curType->TokenName << "* ASTTREE_" << BisonBuilder::curType->TokenName << " = new AstTree_" << BisonBuilder::curType->TokenName << "({";
+        *oss << "      AstTree_" << deamer::BisonBuilder::curType->TokenName << "* ASTTREE_" << deamer::BisonBuilder::curType->TokenName << " = new AstTree_" << deamer::BisonBuilder::curType->TokenName << "({";
     }
     else
     {
-        *oss << "      $$ = new AstNode_" << BisonBuilder::curType->TokenName << "({";
+        *oss << "      $$ = new AstNode_" << deamer::BisonBuilder::curType->TokenName << "({";
     }
 
     //This makes sure we dont create random ',' when nothing can be added.
@@ -141,14 +141,14 @@ void BisonBuilder::WriteRuleModificationPart(Rule* rule, std::ostringstream* oss
         }
     }
     *oss << "});\n";
-    if (BisonBuilder::curType == BisonBuilder::firstType)
+    if (deamer::BisonBuilder::curType == deamer::BisonBuilder::firstType)
     {
-        *oss << "      ASTTREE_" << BisonBuilder::curType->TokenName << "->SetCurrentTree(ASTTREE_" << BisonBuilder::curType->TokenName << ");\n";
+        *oss << "      ASTTREE_" << deamer::BisonBuilder::curType->TokenName << "->SetCurrentTree(ASTTREE_" << deamer::BisonBuilder::curType->TokenName << ");\n";
     }
     *oss << "    }";
 }
 
-void BisonBuilder::WriteRule(Rule* rule, std::ostringstream* oss)
+void deamer::BisonBuilder::WriteRule(deamer::Rule* rule, std::ostringstream* oss)
 {
     for(int i = 0; i < rule->Tokens.size(); i++)
     {
@@ -160,69 +160,69 @@ void BisonBuilder::WriteRule(Rule* rule, std::ostringstream* oss)
     }
 }
 
-bool BisonBuilder::FinishBuild()
+bool deamer::BisonBuilder::FinishBuild()
 {
     std::ostringstream extendedFunctionPart;
-    extendedFunctionPart << "void " << BisonBuilder::langDef->GetLanguageName() << "error(char *s)\n" << "{\n" << "    printf(\"Syntax error on line %s\\n\", s);\n" << "}\n\n";
-    extendedFunctionPart << "AstNode* " << BisonBuilder::langDef->GetLanguageName() << "Parser::ParseText(std::string inputText)\n"
+    extendedFunctionPart << "void " << deamer::BisonBuilder::langDef->GetLanguageName() << "error(char *s)\n" << "{\n" << "    printf(\"Syntax error on line %s\\n\", s);\n" << "}\n\n";
+    extendedFunctionPart << "AstNode* " << deamer::BisonBuilder::langDef->GetLanguageName() << "Parser::ParseText(std::string inputText)\n"
                          << "{\n"
                          << "    FILE* tmpFile = fmemopen((void*)inputText.c_str(), inputText.size(), \"r\");\n"
                          << "    if (tmpFile == nullptr)\n"
                          << "    {\n"
                          << "        return nullptr;\n"
                          << "    }\n"
-                         << "    " << BisonBuilder::langDef->GetLanguageName() << "in = tmpFile;\n"
-                         << "    " << BisonBuilder::langDef->GetLanguageName() << "parse();\n"
-                         << "    return AstTree_" << BisonBuilder::firstType->TokenName << "::currentTree;\n"
+                         << "    " << deamer::BisonBuilder::langDef->GetLanguageName() << "in = tmpFile;\n"
+                         << "    " << deamer::BisonBuilder::langDef->GetLanguageName() << "parse();\n"
+                         << "    return AstTree_" << deamer::BisonBuilder::firstType->TokenName << "::currentTree;\n"
                          << "}\n\n";
-    extendedFunctionPart << "AstNode* " << BisonBuilder::langDef->GetLanguageName() << "Parser::ParseFile(FILE* inputFile)\n"
+    extendedFunctionPart << "AstNode* " << deamer::BisonBuilder::langDef->GetLanguageName() << "Parser::ParseFile(FILE* inputFile)\n"
                          << "{\n"
                          << "    if (inputFile == nullptr)\n"
                          << "    {\n"
                          << "        return nullptr;\n"
                          << "    }\n"
-                         << "    " << BisonBuilder::langDef->GetLanguageName() << "in = inputFile;\n"
-                         << "    " << BisonBuilder::langDef->GetLanguageName() << "parse();\n"
-                         << "    return AstTree_" << BisonBuilder::firstType->TokenName << "::currentTree;\n"
+                         << "    " << deamer::BisonBuilder::langDef->GetLanguageName() << "in = inputFile;\n"
+                         << "    " << deamer::BisonBuilder::langDef->GetLanguageName() << "parse();\n"
+                         << "    return AstTree_" << deamer::BisonBuilder::firstType->TokenName << "::currentTree;\n"
                          << "}\n\n";
-    extendedFunctionPart << "AstNode* " << BisonBuilder::langDef->GetLanguageName() << "Parser::ParseFile(std::string fileLocation)\n"
+    extendedFunctionPart << "AstNode* " << deamer::BisonBuilder::langDef->GetLanguageName() << "Parser::ParseFile(std::string fileLocation)\n"
                          << "{\n"
                          << "    FILE* inputFile = fopen(fileLocation.c_str(), \"r\");;\n"
                          << "    if (inputFile == nullptr)\n"
                          << "    {\n"
                          << "        return nullptr;\n"
                          << "    }\n"
-                         << "    " << BisonBuilder::langDef->GetLanguageName() << "in = inputFile;\n"
-                         << "    " << BisonBuilder::langDef->GetLanguageName() << "parse();\n"
-                         << "    return AstTree_" << BisonBuilder::firstType->TokenName << "::currentTree;\n"
+                         << "    " << deamer::BisonBuilder::langDef->GetLanguageName() << "in = inputFile;\n"
+                         << "    " << deamer::BisonBuilder::langDef->GetLanguageName() << "parse();\n"
+                         << "    return AstTree_" << deamer::BisonBuilder::firstType->TokenName << "::currentTree;\n"
                          << "}\n\n";
-    extendedFunctionPart << BisonBuilder::langDef->GetLanguageName() << "Parser::" << BisonBuilder::langDef->GetLanguageName() << "Parser()\n"
+    extendedFunctionPart << deamer::BisonBuilder::langDef->GetLanguageName() << "Parser::" << deamer::BisonBuilder::langDef->GetLanguageName() << "Parser()\n"
                          << "{\n"
                          << "}\n\n";
-    extendedFunctionPart << BisonBuilder::langDef->GetLanguageName() << "Parser::~" << BisonBuilder::langDef->GetLanguageName() << "Parser()\n"
+    extendedFunctionPart << deamer::BisonBuilder::langDef->GetLanguageName() << "Parser::~" << deamer::BisonBuilder::langDef->GetLanguageName() << "Parser()\n"
                          << "{\n"
                          << "}\n\n";
 
     std::ostringstream oss;
-    oss << BisonBuilder::includePart << BisonBuilder::tokenDeclarationPart <<  '\n' << BisonBuilder::typeDeclarationPart << '\n' << BisonBuilder::unionDeclarationPart << BisonBuilder::ruleDeclarationPart << ";\n\n\n%%\n\n\n" << extendedFunctionPart.str();
-    BisonBuilder::Output = oss.str();
+    oss << deamer::BisonBuilder::includePart << deamer::BisonBuilder::tokenDeclarationPart <<  '\n' << deamer::BisonBuilder::typeDeclarationPart << '\n' << deamer::BisonBuilder::unionDeclarationPart << deamer::BisonBuilder::ruleDeclarationPart << ";\n\n\n%%\n\n\n" << extendedFunctionPart.str();
+    deamer::BisonBuilder::Output = oss.str();
     return true;
 }
 
-bool BisonBuilder::StartBuild()
+bool deamer::BisonBuilder::StartBuild()
 {
-    BisonBuilder::IsFirstType = true;
+    deamer::BisonBuilder::IsFirstType = true;
     std::ostringstream oss;
     oss << "%union{\n"
         << "    AstInformation* DeamerNode;\n"
         << "    AstInformation* DeamerType;\n"
         << "    AstNode* ASTNODE;\n"
         << "}\n\n\n";
-    BisonBuilder::unionDeclarationPart = oss.str();
+    deamer::BisonBuilder::unionDeclarationPart = oss.str();
 
     std::ostringstream oss2;
     oss2 << "\n%%\n\n\n";
-    BisonBuilder::ruleDeclarationPart = oss2.str();
+    deamer::BisonBuilder::ruleDeclarationPart = oss2.str();
 
     std::ostringstream oss3;
     oss3 << "%{\n" 
@@ -230,16 +230,16 @@ bool BisonBuilder::StartBuild()
          << "#include <Deamer/AstGen/AstInformation.h>\n"
          << "#include <Deamer/AstGen/AstNode.h>\n"
          << "#include <Deamer/AstGen/AstTree.h>\n"
-         << "#include \"./" << BisonBuilder::langDef->GetLanguageName() << "Parser.h\"\n"
+         << "#include \"./" << deamer::BisonBuilder::langDef->GetLanguageName() << "Parser.h\"\n"
          << "#include <iostream>\n"
          << "#include <cstring>\n"
          << "#include <stdio.h>\n"
          << "#define YYERROR_VERBOSE\n" 
-         << "extern \"C\" void " << BisonBuilder::langDef->GetLanguageName() << "error(char* s);\n" 
-         << "extern \"C\" int " << BisonBuilder::langDef->GetLanguageName() << "parse();\n" 
-         << "extern \"C\" FILE* " << BisonBuilder::langDef->GetLanguageName() << "in;\n" 
-         << "int " << BisonBuilder::langDef->GetLanguageName() << "lex();\n" 
+         << "extern \"C\" void " << deamer::BisonBuilder::langDef->GetLanguageName() << "error(char* s);\n" 
+         << "extern \"C\" int " << deamer::BisonBuilder::langDef->GetLanguageName() << "parse();\n" 
+         << "extern \"C\" FILE* " << deamer::BisonBuilder::langDef->GetLanguageName() << "in;\n" 
+         << "int " << deamer::BisonBuilder::langDef->GetLanguageName() << "lex();\n" 
          << "%}\n\n";
-    BisonBuilder::includePart = oss3.str();
+    deamer::BisonBuilder::includePart = oss3.str();
     return true;
 }

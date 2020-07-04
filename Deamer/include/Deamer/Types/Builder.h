@@ -8,18 +8,21 @@ Defines abstract class Builder.
 #include <string>
 #include <iostream>
 
-class Builder
+namespace deamer
 {
-    protected:
-        std::string Output;
-        std::string Directory;
-        std::string FileName;
-        Builder();
-    public:
-        void SetDirTarget(std::string dirName);
-        void SetFileTarget(std::string fileName);
-        std::string GetOutput(); // Returns the output
-        bool WriteOutputToFile();
-};
+    class Builder
+    {
+        protected:
+            std::string Output;
+            std::string Directory;
+            std::string FileName;
+            Builder();
+        public:
+            void SetDirTarget(std::string dirName);
+            void SetFileTarget(std::string fileName);
+            std::string GetOutput(); // Returns the output
+            bool WriteOutputToFile();
+    };
+}
 
 #endif //DEAMER_TYPES_BUILDER_H

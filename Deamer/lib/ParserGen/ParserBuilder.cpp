@@ -2,7 +2,7 @@
 #include "Deamer/ParserGen/ParserBuilder.h"
 #include <string>
 
-ParserBuilder::ParserBuilder()
+deamer::ParserBuilder::ParserBuilder()
 {
 
 }

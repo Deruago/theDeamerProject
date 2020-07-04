@@ -11,15 +11,16 @@ This header describes the class implementation of Rule. Which is the base class 
 #include "Deamer/LanguageGen/Token.h"
 #include "Deamer/LanguageGen/TokenConstants.h"
 
-using namespace Deamer;
-
-class Rule
+namespace deamer
 {
+    class Rule
+    {
 
-    public:
-        std::vector<Token*> Tokens;
-        Rule(const std::vector<Token*> tokens);
-        void PrintRule();
-};
+        public:
+            std::vector<Token*> Tokens;
+            Rule(const std::vector<Token*> tokens);
+            void PrintRule();
+    };
+}
 
 #endif //DEAMER_LANGUAGEGEN_RULE_H

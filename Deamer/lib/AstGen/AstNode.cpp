@@ -2,65 +2,65 @@
 #include <sstream>
 #include <iostream>
 
-AstNode::AstNode(std::vector<AstNode*> astNodes, bool isNode, std::string astNodeName)
+deamer::AstNode::AstNode(std::vector<deamer::AstNode*> AstNodes, bool isNode, std::string AstNodeName)
 {
-    AstNode::AstNodes = astNodes;
-    AstNode::AstNodeName = astNodeName;
-    AstNode::IsNode = isNode;
+    deamer::AstNode::AstNodes = AstNodes;
+    deamer::AstNode::AstNodeName = AstNodeName;
+    deamer::AstNode::IsNode = isNode;
 }
 
-AstNode::AstNode(AstInformation* astInformation, bool isNode, std::string astNodeName)
+deamer::AstNode::AstNode(AstInformation* astInformation, bool isNode, std::string AstNodeName)
 {
-    AstNode::AstInfo = astInformation;
-    AstNode::IsNode = isNode;
-    AstNode::AstNodeName = astNodeName;
+    deamer::AstNode::AstInfo = astInformation;
+    deamer::AstNode::IsNode = isNode;
+    deamer::AstNode::AstNodeName = AstNodeName;
 }
 
-void AstNode::PrintDirectChildren(int indent)
+void deamer::AstNode::PrintDirectChildren(int indent)
 {
-    AstNode::PrintNode(indent++);
-    if (AstNode::AstNodes.size() > 0)
+    deamer::AstNode::PrintNode(indent++);
+    if (deamer::AstNode::AstNodes.size() > 0)
     {
-        for(int i = 0; i < AstNode::AstNodes.size(); i++)
+        for(int i = 0; i < deamer::AstNode::AstNodes.size(); i++)
         {
-            if (GetAstId() == AstNode::AstNodes[i]->GetAstId())
+            if (GetAstId() == deamer::AstNode::AstNodes[i]->GetAstId())
             {
-                AstNode::AstNodes[i]->PrintDirectChildren(indent - 1);
+                deamer::AstNode::AstNodes[i]->PrintDirectChildren(indent - 1);
             }
             else
             {
-                AstNode::AstNodes[i]->PrintDirectChildren(indent);
+                deamer::AstNode::AstNodes[i]->PrintDirectChildren(indent);
             }
         }
     }
 }
 
-void AstNode::PrintAllChildren()
+void deamer::AstNode::PrintAllChildren()
 {
-    AstNode::PrintNode(0);
-    if (AstNode::AstNodes.size() > 0)
+    deamer::AstNode::PrintNode(0);
+    if (deamer::AstNode::AstNodes.size() > 0)
     {
-        for(int i = 0; i < AstNode::AstNodes.size(); i++)
+        for(int i = 0; i < deamer::AstNode::AstNodes.size(); i++)
         {
-            AstNode::AstNodes[i]->PrintDirectChildren(1);
+            deamer::AstNode::AstNodes[i]->PrintDirectChildren(1);
         }
     }
 }
 
-void AstNode::PrintNode(int indent)
+void deamer::AstNode::PrintNode(int indent)
 {
-    std::cout << AstNode::CreateIndent(indent);
-    if (AstNode::IsNode)
+    std::cout << deamer::AstNode::CreateIndent(indent);
+    if (deamer::AstNode::IsNode)
     {
-        std::cout << AstNode::AstInfo->LineNumber << ' ' << AstNode::AstInfo->CharNumber << ' ' << AstNode::AstInfo->ValueName << '\n';
+        std::cout << deamer::AstNode::AstInfo->LineNumber << ' ' << deamer::AstNode::AstInfo->CharNumber << ' ' << deamer::AstNode::AstInfo->ValueName << '\n';
     }
     else
     {
-        std::cout << AstNode::AstNodeName << '\n';
+        std::cout << deamer::AstNode::AstNodeName << '\n';
     }
 }
 
-std::string AstNode::CreateIndent(int indent)
+std::string deamer::AstNode::CreateIndent(int indent)
 {
     std::ostringstream oss;
     for(int i = 0; i < indent; i++)

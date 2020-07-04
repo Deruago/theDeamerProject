@@ -6,10 +6,13 @@ This header file is to declare the constants used by the Token class and relatea
 The constants are in enums.
 */
 
-typedef enum Token_Constants_s
+namespace deamer
 {
-    MAX_ALLOWED_TOKENS_IN_RULE = 64,
-    MAX_ALLOWED_RULES_FOR_TYPE = 64
-} Token_Constants;
+    typedef enum Token_Constants_s
+    {
+        MAX_ALLOWED_TOKENS_IN_RULE = 64,
+        MAX_ALLOWED_RULES_FOR_TYPE = 64
+    } Token_Constants;
+}
 
 #endif //DEAMER_LANGUAGEGEN_TOKENCONSTANTS_H

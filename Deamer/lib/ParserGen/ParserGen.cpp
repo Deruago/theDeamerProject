@@ -3,97 +3,97 @@
 #include <iostream>
 #include <fstream>
 
-ParserBuilder* ParserGen::GetBuilder(ParserType_t parserType_t)
+deamer::ParserBuilder* deamer::ParserGen::GetBuilder(deamer::ParserType_t parserType_t)
 {
     switch(parserType_t)
     {
         case ParserType_t::dparse:
-            return new DParseBuilder(ParserGen::langDef);
+            return new DParseBuilder(deamer::ParserGen::langDef);
         case ParserType_t::bison:
-            return new BisonBuilder(ParserGen::langDef);
+            return new BisonBuilder(deamer::ParserGen::langDef);
     }
     return nullptr;
 }
 
-ParserGen::ParserGen(ParserType_t parserType_t, LanguageDefinition* langDef)
+deamer::ParserGen::ParserGen(deamer::ParserType_t parserType_t, deamer::LanguageDefinition* langDef)
 {
-    ParserGen::langDef = langDef;
-    ParserGen::ParserTarget = parserType_t;
-    ParserGen::parserBuilder = ParserGen::GetBuilder(ParserGen::ParserTarget);
+    deamer::ParserGen::langDef = langDef;
+    deamer::ParserGen::ParserTarget = parserType_t;
+    deamer::ParserGen::parserBuilder = deamer::ParserGen::GetBuilder(deamer::ParserGen::ParserTarget);
 }
 
-void ParserGen::SetTarget(ParserType_t parserType_t)
+void deamer::ParserGen::SetTarget(deamer::ParserType_t parserType_t)
 {
-    ParserGen::ParserTarget = parserType_t;
+    deamer::ParserGen::ParserTarget = parserType_t;
 }
 
-void ParserGen::DirTarget(std::string dirTarget)
+void deamer::ParserGen::DirTarget(std::string dirTarget)
 {
     dirTarget.append("Parser/");
-    ParserGen::CreateDirectoryIfNotExist(&dirTarget);
+    deamer::ParserGen::CreateDirectoryIfNotExist(&dirTarget);
 
-    ParserGen::parserBuilder->SetDirTarget(dirTarget);
-    ParserGen::Directory = dirTarget;
+    deamer::ParserGen::parserBuilder->SetDirTarget(dirTarget);
+    deamer::ParserGen::Directory = dirTarget;
 }
 
-void ParserGen::FileTarget(std::string fileTarget)
+void deamer::ParserGen::FileTarget(std::string fileTarget)
 {
-    ParserGen::parserBuilder->SetFileTarget(fileTarget);
+    deamer::ParserGen::parserBuilder->SetFileTarget(fileTarget);
 }
 
-void ParserGen::BuildNodes()
+void deamer::ParserGen::BuildNodes()
 {
     for(int i = langDef->Nodes.size() - 1; i >= 0; i--)
     {
-        ParserGen::parserBuilder->AddNode(langDef->Nodes[i]);
+        deamer::ParserGen::parserBuilder->AddNode(langDef->Nodes[i]);
     }
 }
 
-void ParserGen::BuildRulesOfType(Type* type)
+void deamer::ParserGen::BuildRulesOfType(Type* type)
 {
     for(int i = type->Rules.size() - 1; i >= 0; i--)
     {
-        ParserGen::parserBuilder->AddRule(type->Rules[i]);
+        deamer::ParserGen::parserBuilder->AddRule(type->Rules[i]);
     }
 }
 
-bool ParserGen::Build()
+bool deamer::ParserGen::Build()
 {
-    if (ParserGen::parserBuilder == nullptr)
+    if (deamer::ParserGen::parserBuilder == nullptr)
     {
-        ParserGen::parserBuilder = GetBuilder(ParserGen::ParserTarget);
+        deamer::ParserGen::parserBuilder = GetBuilder(deamer::ParserGen::ParserTarget);
     }
 
-    ParserGen::BuildNodes();
+    deamer::ParserGen::BuildNodes();
 
-    ParserGen::parserBuilder->StartBuild();
+    deamer::ParserGen::parserBuilder->StartBuild();
 
     for(int i = langDef->Types.size() - 1; i >= 0; i--)
     {
-        ParserGen::parserBuilder->AddType(langDef->Types[i]);
+        deamer::ParserGen::parserBuilder->AddType(langDef->Types[i]);
         BuildRulesOfType(langDef->Types[i]);
     }
-    bool BuildSuccessfull = ParserGen::parserBuilder->FinishBuild();
-    //std::cout << ParserGen::parserBuilder->GetOutput() << "\n";
+    bool BuildSuccessfull = deamer::ParserGen::parserBuilder->FinishBuild();
+    //std::cout << deamer::ParserGen::parserBuilder->GetOutput() << "\n";
     return BuildSuccessfull;
 }
 
-bool ParserGen::Write()
+bool deamer::ParserGen::Write()
 {
-    ParserGen::parserBuilder->SetFileTarget(ParserGen::langDef->GetLanguageName() + ParserGen::Filename);
-    ParserGen::parserBuilder->WriteOutputToFile();
+    deamer::ParserGen::parserBuilder->SetFileTarget(deamer::ParserGen::langDef->GetLanguageName() + deamer::ParserGen::Filename);
+    deamer::ParserGen::parserBuilder->WriteOutputToFile();
 
     return true;
 }
 
-std::string ParserGen::GetFileLocation()
+std::string deamer::ParserGen::GetFileLocation()
 {
     std::ostringstream oss;
-    oss << ParserGen::Directory << ParserGen::Filename;
+    oss << deamer::ParserGen::Directory << deamer::ParserGen::Filename;
     return oss.str();
 }
 
-std::string ParserGen::GetDirectoryLocation()
+std::string deamer::ParserGen::GetDirectoryLocation()
 {
-    return ParserGen::Directory;
+    return deamer::ParserGen::Directory;
 }

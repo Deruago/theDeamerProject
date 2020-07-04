@@ -9,26 +9,29 @@
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 #include <string>
 
-class LexerGen : public Generator
+namespace deamer
 {
-    private:
-        LexerBuilder* GetBuilder(LexerType_t LexerType_t);
-        LexerBuilder* lexerBuilder;
-        LanguageDefinition* langDef;
-        std::string Directory;
-        std::string Filename = "lexer.l";
-        void SetLexerBuilder();
-    public:
-        LexerType_t LexerTarget;
-        std::string GetFileLocation();
-        std::string GetDirectoryLocation();
-        LexerGen(LexerType_t LexerTarget, LanguageDefinition* langDef);
-        void DirTarget(std::string dirTarget) override;
-        void FileTarget(std::string fileTarget) override;
-        void SetTarget(LexerType_t LexerTarget);
-        bool Build() override;
-        bool Write() override;
-        void SetLangDef(LanguageDefinition* langDef);
-};
+    class LexerGen : public Generator
+    {
+        private:
+            LexerBuilder* GetBuilder(LexerType_t LexerType_t);
+            LexerBuilder* lexerBuilder;
+            LanguageDefinition* langDef;
+            std::string Directory;
+            std::string Filename = "lexer.l";
+            void SetLexerBuilder();
+        public:
+            LexerType_t LexerTarget;
+            std::string GetFileLocation();
+            std::string GetDirectoryLocation();
+            LexerGen(LexerType_t LexerTarget, LanguageDefinition* langDef);
+            void DirTarget(std::string dirTarget) override;
+            void FileTarget(std::string fileTarget) override;
+            void SetTarget(LexerType_t LexerTarget);
+            bool Build() override;
+            bool Write() override;
+            void SetLangDef(LanguageDefinition* langDef);
+    };
+}
 
 #endif //DEAMER_LEXERGEN_LEXERGEN_G

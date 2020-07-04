@@ -5,10 +5,13 @@
 Describes an AstTree. This is the top element of an AST.
 */
 
-class AstTree
+namespace deamer
 {
-    protected:
-        AstTree();
-};
+    class AstTree
+    {
+        protected:
+            AstTree();
+    };
+}
 
 #endif //DEAMER_ASTGEN_ASTTREE_H
