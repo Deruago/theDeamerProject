@@ -32,6 +32,8 @@ std::string deamer::AstGen::GetAstNodeClassName(std::string TokenName)
 
 void deamer::AstGen::CreateAstNodes(LanguageDefinition* langDef)
 {
+    deamer::AstGen::astBuilder.SetLanguageName(langDef->GetLanguageName());
+    
     deamer::AstGen::astBuilder.CreateGlobalHeaderFile();
     deamer::AstGen::astBuilder.CreateAstNodeEnumFile();
     

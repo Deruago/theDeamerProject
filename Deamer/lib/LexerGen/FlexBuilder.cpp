@@ -16,7 +16,7 @@ deamer::FlexBuilder::FlexBuilder(deamer::LanguageDefinition* langDef) : deamer::
 std::string deamer::FlexBuilder::NewNodeFunctionalData(Node* node)
 {
     std::ostringstream oss;
-    oss << "{" << deamer::FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode = (AstInformation*) malloc(sizeof(AstInformation)); sscanf(yytext, \"%s\", " << deamer::FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode->ValueName); " << deamer::FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode->LineNumber = " << deamer::FlexBuilder::langDef->GetLanguageName() << "lineno; return (" << node->TokenName << ");}\n";
+    oss << "{" << deamer::FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode = (deamer::AstInformation*) malloc(sizeof(deamer::AstInformation)); sscanf(yytext, \"%s\", " << deamer::FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode->ValueName); " << deamer::FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode->LineNumber = " << deamer::FlexBuilder::langDef->GetLanguageName() << "lineno; return (" << node->TokenName << ");}\n";
     return oss.str();
 }
 

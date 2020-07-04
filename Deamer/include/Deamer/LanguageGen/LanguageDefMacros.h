@@ -12,16 +12,16 @@
 #define newType(...) GET_MACRO_TYPE(__VA_ARGS__, newType2, newType1) (__VA_ARGS__)
 
 #define newNode1(node, regex) \
-Node* node = currentLangDef.CreateNode(#node, regex);
+deamer::Node* node = currentLangDef.CreateNode(#node, regex);
 
 #define newNode2(node, regex, createAst) \
-Node* node = currentLangDef.CreateNode(#node, regex, createAst);
+deamer::Node* node = currentLangDef.CreateNode(#node, regex, createAst);
 
 #define newType1(type) \
-Type* type = currentLangDef.CreateType(#type);
+deamer::Type* type = currentLangDef.CreateType(#type);
 
 #define newType2(type, createAst) \
-Type* type = currentLangDef.CreateType(#type, createAst);
+deamer::Type* type = currentLangDef.CreateType(#type, createAst);
 
 #define newRule(type, ...) \
 currentLangDef.CreateRule(type, {__VA_ARGS__});

@@ -29,7 +29,7 @@ namespace deamer
         public:
             virtual void Generate() = 0; // This generates the source code.
             virtual int GetAstId() = 0;
-            void SetAstInformation(AstInformation* astInformation); // Used to set the Ast info after it is constructed.
+            void SetAstInformation(deamer::AstInformation* astInformation); // Used to set the Ast info after it is constructed.
             void PrintNode(int indent);
             void PrintDirectChildren(int indent);
             void PrintAllChildren();

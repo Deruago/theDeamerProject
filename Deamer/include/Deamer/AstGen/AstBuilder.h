@@ -11,6 +11,7 @@ namespace deamer
     class AstBuilder : public Builder
     {
         private:
+            std::string languageName;
             void FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode);
             void FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName);
             void FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode);
@@ -28,6 +29,8 @@ namespace deamer
             void AppendAstNodeHeaderFile(std::string TokenName);
             void AppendAstTreeHeaderFile(std::string TokenName);
             void FinishGlobalHeaderFile();
+
+            void SetLanguageName(std::string languageName);
     };
 }
 

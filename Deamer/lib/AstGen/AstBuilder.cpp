@@ -27,22 +27,22 @@ void deamer::AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, std::st
              << "#include <fstream>\n"
              << "#include <vector>\n"
              << '\n'
-             << "int " << tokenName << "::" << "GetAstId" << "()\n"
+             << "int " << deamer::AstBuilder::languageName << "::" << tokenName << "::" << "GetAstId" << "()\n"
              << "{\n"
-             << "    " << "return (unsigned int)" << tokenName << "::AstType" << ";\n"
+             << "    " << "return (unsigned int)" << deamer::AstBuilder::languageName << "::" << tokenName << "::AstType" << ";\n"
              << "}\n"
              << "\n"
-             << tokenName << "::" << tokenName << "(std::vector<AstNode*> astNodes) : AstNode::AstNode(astNodes, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
-             << "{\n"
-             << "\n"
-             << "}\n"
-             << "\n"
-             << tokenName << "::" << tokenName << "(AstInformation* astInformation) : AstNode::AstNode(astInformation, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
+             << deamer::AstBuilder::languageName << "::" << tokenName << "::" << tokenName << "(std::vector<deamer::AstNode*> astNodes) : deamer::AstNode::AstNode(astNodes, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
              << "{\n"
              << "\n"
              << "}\n"
              << "\n"
-             << "void " << tokenName << "::Generate()"
+             << deamer::AstBuilder::languageName << "::" << tokenName << "::" << tokenName << "(deamer::AstInformation* astInformation) : deamer::AstNode::AstNode(astInformation, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
+             << "{\n"
+             << "\n"
+             << "}\n"
+             << "\n"
+             << "void " << deamer::AstBuilder::languageName << "::" << tokenName << "::Generate()"
              << "{\n"
              << "\n"
              << "}\n";
@@ -64,17 +64,20 @@ void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::st
                    << "#include \"AstEnum.h\"\n"
                    << "#include <vector>\n"
                    << "\n"
-                   << "class " << tokenName << " : public AstNode\n"
+                   << "namespace " << deamer::AstBuilder::languageName << "\n"
                    << "{\n"
-                   << "    private:\n"
-                   << "    protected:\n"
-                   << "    public:\n"
-                   << "        const AstEnum_t AstType = AstEnum_t::" << *defaultTokenName << ";\n"
-                   << "        " << tokenName << "(std::vector<AstNode*> astNodes);\n"
-                   << "        " << tokenName << "(AstInformation* astInformation);\n"
-                   << "        void Generate() override;\n"
-                   << "        int GetAstId() override;\n"
-                   << "};\n"
+                   << "    class " << tokenName << " : public deamer::AstNode\n"
+                   << "    {\n"
+                   << "        private:\n"
+                   << "        protected:\n"
+                   << "        public:\n"
+                   << "            const " << deamer::AstBuilder::languageName << "::AstEnum_t AstType = " << deamer::AstBuilder::languageName << "::AstEnum_t::" << *defaultTokenName << ";\n"
+                   << "            " << tokenName << "(std::vector<deamer::AstNode*> astNodes);\n"
+                   << "            " << tokenName << "(deamer::AstInformation* astInformation);\n"
+                   << "            void Generate() override;\n"
+                   << "            int GetAstId() override;\n"
+                   << "    };\n"
+                   << "}\n"
                    << "\n"
                    << "#endif //ASTNODES_" << tokenNameUpper << "_H\n";
 }
@@ -99,29 +102,29 @@ void deamer::AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, std
              << "#include <fstream>\n"
              << "#include <vector>\n"
              << '\n'
-             << "AstTree_" << *defaultTokenName << "* " << tokenName << "::currentTree;\n"
+             << deamer::AstBuilder::languageName << "::" << "AstTree_" << *defaultTokenName << "* " << deamer::AstBuilder::languageName << "::" << tokenName << "::currentTree;\n"
              << '\n'
-             << "int " << tokenName << "::" << "GetAstId" << "()\n"
+             << "int " << deamer::AstBuilder::languageName << "::" << tokenName << "::" << "GetAstId" << "()\n"
              << "{\n"
-             << "    " << "return (unsigned int)" << tokenName << "::AstType" << ";\n"
+             << "    " << "return (unsigned int)" << deamer::AstBuilder::languageName << "::" << tokenName << "::AstType" << ";\n"
              << "}\n"
              << "\n"
-             << tokenName << "::" << tokenName << "(std::vector<AstNode*> astNodes) : AstNode::AstNode(astNodes, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
-             << "{\n"
-             << "\n"
-             << "}\n"
-             << "\n"
-             << tokenName << "::" << tokenName << "(AstInformation* astInformation) : AstNode::AstNode(astInformation, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
+             << deamer::AstBuilder::languageName << "::" << tokenName << "::" << tokenName << "(std::vector<deamer::AstNode*> astNodes) : deamer::AstNode::AstNode(astNodes, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
              << "{\n"
              << "\n"
              << "}\n"
              << "\n"
-             << "void " << tokenName << "::SetCurrentTree(" << tokenName << "* astTreePtr)\n"
+             << deamer::AstBuilder::languageName << "::" << tokenName << "::" << tokenName << "(deamer::AstInformation* astInformation) : deamer::AstNode::AstNode(astInformation, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
              << "{\n"
-             << "    " << tokenName << "::currentTree = astTreePtr;\n"
+             << "\n"
              << "}\n"
              << "\n"
-             << "void " << tokenName << "::Generate()\n"
+             << "void " << deamer::AstBuilder::languageName << "::" << tokenName << "::SetCurrentTree(" << tokenName << "* astTreePtr)\n"
+             << "{\n"
+             << "    " << deamer::AstBuilder::languageName << "::" << tokenName << "::currentTree = astTreePtr;\n"
+             << "}\n"
+             << "\n"
+             << "void " << deamer::AstBuilder::languageName << "::" << tokenName << "::Generate()\n"
              << "{\n"
              << "\n"
              << "}\n";
@@ -145,19 +148,22 @@ void deamer::AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std
                    << "#include <string>\n"
                    << "#include <vector>\n"
                    << "\n"
-                   << "class " << tokenName << " : public AstNode, public AstTree\n"
+                   << "namespace " << deamer::AstBuilder::languageName << "\n"
                    << "{\n"
-                   << "    private:\n"
-                   << "    protected:\n"
-                   << "    public:\n"
-                   << "        static " << tokenName << "* currentTree;\n"
-                   << "        const AstEnum_t AstType = AstEnum_t::" << *defaultTokenName << ";\n"
-                   << "        " << tokenName << "(std::vector<AstNode*> astNodes);\n"
-                   << "        " << tokenName << "(AstInformation* astInformation);\n"
-                   << "        void Generate() override;\n"
-                   << "        int GetAstId() override;\n"
-                   << "        void SetCurrentTree(" << tokenName << "* astTreePtr);\n"
-                   << "};\n"
+                   << "    class " << tokenName << " : public deamer::AstNode, public deamer::AstTree\n"
+                   << "    {\n"
+                   << "        private:\n"
+                   << "        protected:\n"
+                   << "        public:\n"
+                   << "            static " << tokenName << "* currentTree;\n"
+                   << "            const " << deamer::AstBuilder::languageName << "::" << "AstEnum_t AstType = " << deamer::AstBuilder::languageName << "::" << "AstEnum_t::" << *defaultTokenName << ";\n"
+                   << "            " << tokenName << "(std::vector<deamer::AstNode*> astNodes);\n"
+                   << "            " << tokenName << "(deamer::AstInformation* astInformation);\n"
+                   << "            void Generate() override;\n"
+                   << "            int GetAstId() override;\n"
+                   << "            void SetCurrentTree(" << tokenName << "* astTreePtr);\n"
+                   << "    };\n"
+                   << "}\n"
                    << "\n"
                    << "#endif //ASTNODES_" << tokenNameUpper << "_H\n";
 }
@@ -272,8 +278,10 @@ void deamer::AstBuilder::CreateAstNodeEnumFile()
     newEnumFile << "#ifndef ASTNODES_ASTENUM_H\n"
                 << "#define ASTNODES_ASTENUM_H\n"
                 << "\n"
-                << "typedef enum AstEnum_s\n"
-                << "{\n";
+                << "namespace " << deamer::AstBuilder::languageName << "\n"
+                << "{\n"
+                << "    typedef enum AstEnum_s\n"
+                << "    {\n";
     
     newEnumFile.close();
 }
@@ -286,7 +294,7 @@ void deamer::AstBuilder::AppendAstNodeEnumFile(std::string TokenName)
 
     newEnumFile.open(oss0.str(), std::ios_base::app);
 
-    newEnumFile << "    " << TokenName << ",\n";
+    newEnumFile << "        " << TokenName << ",\n";
 
     newEnumFile.close();
 }
@@ -299,9 +307,15 @@ void deamer::AstBuilder::FinishAstNodeEnumFile()
 
     newEnumFile.open(oss0.str(), std::ios_base::app);
 
-    newEnumFile << "} AstEnum_t;\n"
+    newEnumFile << "    } AstEnum_t;\n"
+                << "}\n"
                 << "\n"
                 << "#endif //ASTNODES_ASTENUM_H\n";
 
     newEnumFile.close();
+}
+
+void deamer::AstBuilder::SetLanguageName(std::string languageName)
+{
+    deamer::AstBuilder::languageName = languageName;
 }
