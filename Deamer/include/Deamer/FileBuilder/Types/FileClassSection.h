@@ -8,7 +8,16 @@
 
 #ifndef DEAMER_FILEBUILDER_TYPES_FILECLASSSECTION_H
 #define DEAMER_FILEBUILDER_TYPES_FILECLASSSECTION_H
+#include "Deamer/FileBuilder/FileSection.h"
 
-
+namespace deamer
+{
+	class FileClassSection : public FileSection
+	{
+	private:
+	protected:
+	public:
+	};
+}
 
 #endif //DEAMER_FILEBUILDER_TYPES_FILECLASSSECTION_H
