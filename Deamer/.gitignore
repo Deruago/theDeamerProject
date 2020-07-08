@@ -1,5 +1,7 @@
 /tests
 *.o
 *.a
-.vs/
+.vs/*
+*.vs/*
 CppProperties.json
+DeamerProject/
