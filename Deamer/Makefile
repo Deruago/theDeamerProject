@@ -1,5 +1,7 @@
 INCLUDE_HEADER_DIR=./include
-LIB_FILES=$(wildcard ./lib/*/*.cpp) \
+LIB_FILES=$(wildcard ./lib/*/*/*/*.cpp) \
+		  $(wildcard ./lib/*/*/*.cpp) \
+		  $(wildcard ./lib/*/*.cpp) \
 		  $(wildcard ./lib/*.cpp)
 
 TEST_FILE=DeamerTest.cpp
@@ -36,3 +38,6 @@ cleanAstNodeGen:
 	rm -f lex.yy.o
 	rm -f parser.tab.h
 	rm -f lex.yy.c
+
+FileBuilder:
+	$(CC) $(ARGS) $(LIB_FILES) FileBuildertest.cpp -I $(INCLUDE_HEADER_DIR) -o FileBuildertest.out
