@@ -8,7 +8,7 @@ TEST_FILE=DeamerTest.cpp
 
 OBJFILES=$(wildcard *.o)
 
-ARGS=-Wall
+ARGS=-Wall 
 CC=clang++
 
 all: cleanAstNodeGen deamer
