@@ -8,6 +8,20 @@ TEST_FILE=DeamerTest.cpp
 
 OBJFILES=$(wildcard *.o)
 
+FILEBUILDER_HEADERFILES=$(wildcard include/Deamer/FileBuilder/*.h) \
+$(wildcard include/Deamer/FileBuilder/*/*.h) \
+$(wildcard include/Deamer/FileBuilder/*/*/*.h) \
+
+STRINGBUILDER_HEADERFILES=$(wildcard include/Deamer/StringBuilder/*.h) \
+$(wildcard include/Deamer/StringBuilder/*/*.h) \
+$(wildcard include/Deamer/StringBuilder/*/*/*.h) \
+
+DEAMER_HEADERFILES=$(wildcard include/Deamer/*.h) \
+$(wildcard include/Deamer/*/*.h) \
+$(wildcard include/Deamer/*/*/*.h) \
+$(wildcard include/Deamer/*/*/*/*.h) \
+$(wildcard include/Deamer/*/*/*/*/*.h) \
+
 ARGS=-Wall 
 CC=clang++
 
@@ -41,3 +55,8 @@ cleanAstNodeGen:
 
 FileBuilder:
 	$(CC) $(ARGS) $(LIB_FILES) FileBuildertest.cpp -I $(INCLUDE_HEADER_DIR) -o FileBuildertest.out
+	
+DeamerHeaderFilesCompilation:
+	$(CC) $(ARGS) $(DEAMER_HEADERFILES)
+	$(CC) $(ARGS) $(STRINGBUILDER_HEADERFILES)
+	$(CC) $(ARGS) $(FILEBUILDER_HEADERFILES)
