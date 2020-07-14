@@ -5,3 +5,6 @@
 *.vs/*
 CppProperties.json
 DeamerProject/
+DeamerProject/*
+*.log
+*.out
