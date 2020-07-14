@@ -13,21 +13,38 @@
 #include "Deamer/FileBuilder/Types/FileNamespaceSection.h"
 #include "Deamer/FileBuilder/Types/FileFunctionSection.h"
 #include "Deamer/FileBuilder/Types/FileHeaderGuardSection.h"
+#include "Deamer/FileBuilder/Types/FileFunctionPrototypeSection.h"
+#include <vector>
 
 namespace deamer
 {
+	class FileHeaderGuardSection;
+	class Directory;
+	class File;
+	class FileClassSection;
+	class FileFunctionSection;
+	class FileFunctionPrototypeSection;
+	class FileNamespaceSection;
+	
 	class FileHeaderSection : public FileSection
 	{
 		private:
 			deamer::FileHeaderGuardSection* AddHeaderGuard(Directory* directory, File* file);
+			std::vector<FileClassSection*> classes;
+			std::vector<FileFunctionSection*> functions;
 		protected:
 			FileHeaderGuardSection* headerGuard;
 		public:
 			FileHeaderSection(Directory* dir, File* file);
 			~FileHeaderSection() = default;
 			FileNamespaceSection* AddNamespace(std::string namespaceName);
-			FileClassSection* AddClass(std::string className, std::vector<std::string> superClasses, std::string scope);
-			FileFunctionSection* AddFunction(std::string functionName, std::vector<std::string> functionArgs, std::string returnType, std::string scope);
+			void AddNamespace(FileNamespaceSection* namespaceSection);
+			FileClassSection* AddClass(std::string className, std::vector<FileClassSection*> superClasses, FileNamespaceSection* scope);
+			void AddClass(FileClassSection* classSection);
+			FileFunctionSection* AddFunction(std::string functionName, std::vector<FileVariable*> functionArgs, FileVariableType* returnType, FileVariableType*
+			                                 scope);
+			FileFunctionSection* AddFunction(FileFunctionPrototypeSection* functionPrototype);
+			void AddFunction(FileFunctionSection* functionSection);
 			std::string GetOutput() override;
 	};
 }
