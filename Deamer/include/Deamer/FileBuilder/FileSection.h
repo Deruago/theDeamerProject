@@ -6,6 +6,14 @@
  * -July 2020 Thimo Böhmer
  */
 
+/*
+ * FileSection is used to define "Sections".
+ * Sections are important. They are used to create files.
+ * Now sections are general and only apply for c++. Later there will be options to have language specific sections.
+ * But the idea of sections is to make specific logic for specific cases.
+ * e.g a class section needs to define functions, and a functionsection needs to define a function.
+ */
+
 #ifndef DEAMER_FILEBUILDER_FILESECTION_H
 #define DEAMER_FILEBUILDER_FILESECTION_H
 #include "Deamer/FileBuilder/FileBuilder.h"
@@ -28,11 +36,12 @@ namespace deamer
 			std::string FileLocationRelative;
 			std::string FileLocationAbsolute;
 			std::vector<FileSection*> FileSections;
+			void AddSection(FileSection* newSection); // Used to add sections to a class.
 		public:
 			FileSection(Directory* directory, File* file);
+			FileSection();
 			~FileSection() = default;
 			virtual std::string GetOutput();
-			virtual void AddSection(FileSection* newSection);
 			Directory* GetDirectory() const;
 			File* GetFile() const;
 			
