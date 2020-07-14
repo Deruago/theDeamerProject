@@ -8,9 +8,48 @@
 
 #include "Deamer/StringBuilder/StringBuilder.h"
 
+#include <string>
+#include <iostream>
+#include <sstream>
+
+void deamer::StringBuilder::Add()
+{
+	Output.emplace_back("");
+}
+
 void deamer::StringBuilder::Add(std::string newLine)
 {
 	Output.push_back(newLine);
+}
+
+void deamer::StringBuilder::Add(std::string newLine, unsigned indent, unsigned depth)
+{
+	Output.push_back(indentLine(newLine, indent, depth));
+}
+
+std::string deamer::StringBuilder::indentLine(std::string line, unsigned indent, unsigned depth)
+{
+	return createIdentation(indent, depth) + line;
+}
+
+std::string deamer::StringBuilder::createIdentation(unsigned indentSize, unsigned indentDepth)
+{
+	std::string indentation;
+	for(int i = 0; i < indentDepth; i++)
+	{
+		indentation += createIndent(indentSize);
+	}
+	return indentation;
+}
+
+std::string deamer::StringBuilder::createIndent(unsigned indent_size)
+{
+	std::string indent;
+	for(int i = 0; i < indent_size; i++)
+	{
+		indent += " ";
+	}
+	return indent;
 }
 
 void deamer::StringBuilder::AddUpper(std::string newLine)
@@ -37,6 +76,7 @@ std::string deamer::StringBuilder::makeLineUpperCase(const std::string line)
 	}
 	return newLine;
 }
+
 
 void deamer::StringBuilder::AddLower(std::string newLine)
 {
@@ -161,4 +201,18 @@ std::string deamer::StringBuilder::GetOutputIgnoreNewLine()
 		builtOutput += line;
 	}
 	return  builtOutput;
+}
+
+std::string deamer::StringBuilder::IndentEachLineInString(std::string& stringVariant, unsigned indent, unsigned depth)
+{
+	std::string indentedVariantOfString;
+	std::stringstream ss(stringVariant);
+	std::string tmpString;
+
+	while (std::getline(ss, tmpString, '\n'))
+	{
+		const std::string newLine = createIdentation(indent, depth) + tmpString + '\n';
+		indentedVariantOfString += newLine;
+	}
+	return indentedVariantOfString;
 }
