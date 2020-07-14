@@ -12,6 +12,7 @@ namespace deamer
 			FileHeaderSection* headerSection;
 		public:
 			HFileBuilder(Directory* directory, File* file);
+			HFileBuilder(std::vector<std::string> directories, std::string fileName, std::string extension);
 			void CreateHeaderGuardSection(const Directory* directory, const File* file) const;
 			~HFileBuilder() = default;
 			std::string GetOutput() const override;

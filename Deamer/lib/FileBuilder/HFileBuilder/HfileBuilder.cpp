@@ -5,6 +5,11 @@ deamer::HFileBuilder::HFileBuilder(Directory* directory, File* file) : FileBuild
 	headerSection = new FileHeaderSection(directory, file);
 }
 
+deamer::HFileBuilder::HFileBuilder(std::vector<std::string> directories, std::string fileName, std::string extension) : FileBuilder(new Directory(directories), new File(fileName, extension))
+{
+	headerSection = new FileHeaderSection(_Directory, _File);
+}
+
 std::string deamer::HFileBuilder::GetOutput() const
 {
 	return headerSection->GetOutput();
