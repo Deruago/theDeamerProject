@@ -1,10 +1,13 @@
 #ifndef DEAMER_FILEBUILDER_HFILEBUILDER_H
 #define DEAMER_FILEBUILDER_HFILEBUILDER_H
 #include "Deamer/FileBuilder/FileBuilder.h"
-#include "Deamer/FileBuilder/Types/FileHeaderSection.h"
+#include <vector>
+#include <string>
 
 namespace deamer
 {
+	class FileHeaderSection;
+	
 	class HFileBuilder : FileBuilder
 	{
 		private:

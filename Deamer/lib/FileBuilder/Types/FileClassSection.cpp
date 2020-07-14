@@ -1,6 +1,4 @@
 #include "Deamer/FileBuilder/Types/FileClassSection.h"
-#include "Deamer/FileBuilder/FileVariable.h"
-#include "Deamer/FileBuilder/FileVariableType.h"
 #include "Deamer/FileBuilder/Types/FileNamespaceSection.h"
 #include "Deamer/FileBuilder/Types/FileFunctionSection.h"
 #include "Deamer/StringBuilder/StringBuilder.h"

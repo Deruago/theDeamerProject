@@ -7,6 +7,9 @@
  */
 
 #include "Deamer/FileBuilder/FileSection.h"
+#include "Deamer/FileBuilder/Directory.h"
+#include "Deamer/FileBuilder/File.h"
+#include <string>
 
 deamer::FileSection::FileSection(Directory* directory, File* file)
 {

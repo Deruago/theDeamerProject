@@ -1,6 +1,7 @@
 #ifndef DEAMER_FILEBUILDER_CPPFILEBUILDER_H
 #define DEAMER_FILEBUILDER_CPPFILEBUILDER_H
-#include "FileBuilder.h"
+#include "Deamer/FileBuilder/FileBuilder.h"
+#include <string>
 
 namespace deamer
 {

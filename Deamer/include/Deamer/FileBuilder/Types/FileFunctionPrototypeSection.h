@@ -9,8 +9,6 @@
 #ifndef DEAMER_FILEBUILDER_TYPES_FILEFUNCTIONPROTOTYPESECTION_H
 #define DEAMER_FILEBUILDER_TYPES_FILEFUNCTIONPROTOTYPESECTION_H
 #include "Deamer/FileBuilder/FileSection.h"
-#include "Deamer/FileBuilder/FileVariable.h"
-#include "Deamer/FileBuilder/FileVariableType.h"
 
 namespace deamer
 {

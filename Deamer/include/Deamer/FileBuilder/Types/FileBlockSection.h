@@ -9,7 +9,6 @@
 #ifndef DEAMER_FILEBUILDER_TYPES_FILEBLOCKSECTION_H
 #define DEAMER_FILEBUILDER_TYPES_FILEBLOCKSECTION_H
 #include "Deamer/FileBuilder/FileSection.h"
-#include "Deamer/FileBuilder/Types/FileInstructionSection.h"
 
 namespace deamer
 {

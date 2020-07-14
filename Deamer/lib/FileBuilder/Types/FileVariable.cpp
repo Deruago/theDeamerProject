@@ -1,5 +1,7 @@
 #include "Deamer/FileBuilder/FileVariable.h"
+#include "Deamer/FileBuilder/FileVariableType.h"
 #include "Deamer/StringBuilder/StringBuilder.h"
+#include <string>
 
 deamer::FileVariable::FileVariable(FileVariableType* varType, std::string varName, bool isMember = false)
 {

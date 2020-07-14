@@ -1,4 +1,6 @@
 #include "Deamer/FileBuilder/Types/FileNamespaceSection.h"
+#include "Deamer/StringBuilder/StringBuilder.h"
+#include <string>
 
 deamer::FileNamespaceSection::FileNamespaceSection(std::string namespaceName)
 {

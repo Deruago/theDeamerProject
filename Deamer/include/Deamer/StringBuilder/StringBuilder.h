@@ -8,8 +8,8 @@
 
 #ifndef DEAMER_STRINGBUILDER_STRINGBUILDER_H
 #define DEAMER_STRINGBUILDER_STRINGBUILDER_H
-#include <string>
 #include <vector>
+#include <string>
 
 namespace deamer
 {

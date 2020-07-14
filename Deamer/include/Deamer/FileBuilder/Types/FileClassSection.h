@@ -22,10 +22,7 @@
 
 namespace deamer
 {
-	class FileSection;
 	class FileNamespaceSection;
-	class FileVariable;
-	class FileVariableType;
 	class FileFunctionSection;
 	class StringBuilder;
 

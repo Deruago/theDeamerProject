@@ -8,14 +8,13 @@
 
 #ifndef DEAMER_FILEBUILDER_FILEBUILDER_H
 #define DEAMER_FILEBUILDER_FILEBUILDER_H
-#include "Deamer/FileBuilder/FileSection.h"
-#include "Deamer/FileBuilder/File.h"
-#include "Deamer/FileBuilder/Directory.h"
 #include <string>
 
 namespace deamer
 {
 	class FileSection;
+	class File;
+	class Directory;
 	
 	class FileBuilder
 	{

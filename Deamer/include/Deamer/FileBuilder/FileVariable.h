@@ -14,8 +14,6 @@
 
 #ifndef DEAMER_FILEBUILDER_FILEVARIABLE_H
 #define DEAMER_FILEBUILDER_FILEVARIABLE_H
-#include "Deamer/FileBuilder/FileVariableType.h"
-#include "Deamer/StringBuilder/StringBuilder.h"
 #include <string>
 
 namespace deamer

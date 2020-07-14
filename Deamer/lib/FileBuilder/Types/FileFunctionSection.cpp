@@ -7,6 +7,11 @@
  */
 
 #include "Deamer/FileBuilder/Types/FileFunctionSection.h"
+#include "Deamer/FileBuilder/Types/FileFunctionPrototypeSection.h"
+#include "Deamer/FileBuilder/FileVariableType.h"
+#include "Deamer/FileBuilder/FileVariable.h"
+#include <vector>
+#include <string>
 
 deamer::FileFunctionSection::FileFunctionSection(FileFunctionPrototypeSection* functionPrototype)
 {

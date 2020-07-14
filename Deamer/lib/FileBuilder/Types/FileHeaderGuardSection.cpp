@@ -1,6 +1,8 @@
 #include "Deamer/FileBuilder/Types/FileHeaderGuardSection.h"
+#include "Deamer/FileBuilder/Directory.h"
+#include "Deamer/FileBuilder/File.h"
 #include "Deamer/StringBuilder/StringBuilder.h"
-#include <iostream>
+#include <string>
 
 deamer::FileHeaderGuardSection::FileHeaderGuardSection(Directory* directory, File* file) : FileSection(directory, file)
 {

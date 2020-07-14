@@ -18,8 +18,6 @@
 
 namespace deamer
 {
-	class FileVariableType;
-
 	class FileVariableType
 	{
 		private:

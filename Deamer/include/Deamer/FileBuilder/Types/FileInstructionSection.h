@@ -15,7 +15,7 @@
 #ifndef DEAMER_FILEBUILDER_TYPES_FILEINSTRUCTIONSECTION_H
 #define DEAMER_FILEBUILDER_TYPES_FILEINSTRUCTIONSECTION_H
 #include "Deamer/FileBuilder/FileSection.h"
-#include "Deamer/FileBuilder/FileVariable.h"
+#include <string>
 
 namespace deamer
 {

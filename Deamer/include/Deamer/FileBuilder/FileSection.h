@@ -16,15 +16,13 @@
 
 #ifndef DEAMER_FILEBUILDER_FILESECTION_H
 #define DEAMER_FILEBUILDER_FILESECTION_H
-#include "Deamer/FileBuilder/FileBuilder.h"
-#include "Deamer/FileBuilder/Directory.h"
-#include "Deamer/FileBuilder/File.h"
 #include <vector>
 #include <string>
 
 namespace deamer
 {
-	class FileBuilder;
+	class Directory;
+	class File;
 	
 	class FileSection
 	{

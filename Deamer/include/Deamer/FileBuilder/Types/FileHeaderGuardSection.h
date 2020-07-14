@@ -9,12 +9,14 @@
 #ifndef DEAMER_FILEBUILDER_TYPES_FILEHEADERGUARDSECTION_H
 #define DEAMER_FILEBUILDER_TYPES_FILEHEADERGUARDSECTION_H
 #include "Deamer/FileBuilder/FileSection.h"
-#include "Deamer/FileBuilder/File.h"
-#include "Deamer/FileBuilder/Directory.h"
-#include "Deamer/StringBuilder/StringBuilder.h"
+#include <string>
 
 namespace deamer
 {
+	class Directory;
+	class File;
+	class StringBuilder;
+	
 	class FileHeaderGuardSection : public FileSection
 	{
 		private:

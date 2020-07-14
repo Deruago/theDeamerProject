@@ -10,7 +10,7 @@
 #define DEAMER_FILEBUILDER_TYPES_FILENAMESPACESECTION_H
 #include "Deamer/FileBuilder/FileSection.h"
 #include "Deamer/FileBuilder/FileVariableType.h"
-#include "Deamer/StringBuilder/StringBuilder.h"
+#include <string>
 
 namespace deamer
 {

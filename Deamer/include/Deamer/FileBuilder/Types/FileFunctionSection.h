@@ -9,11 +9,14 @@
 #ifndef DEAMER_FILEBUILDER_TYPES_FILEFUNCTIONSECTION_H
 #define DEAMER_FILEBUILDER_TYPES_FILEFUNCTIONSECTION_H
 #include "Deamer/FileBuilder/FileSection.h"
-#include "Deamer/FileBuilder/Types/FileFunctionPrototypeSection.h"
-#include "Deamer/FileBuilder/Types/FileBlockSection.h"
 
 namespace deamer
 {
+	class FileFunctionPrototypeSection;
+	class FileVariable;
+	class FileVariableType;
+	class FileBlockSection;
+	
 	class FileFunctionSection : public FileSection
 	{
 		private:

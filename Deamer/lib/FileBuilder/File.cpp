@@ -7,6 +7,7 @@
  */
 
 #include "Deamer/FileBuilder/File.h"
+#include <string>
 
 deamer::File::File(std::string fileName, std::string fileExtension)
 {

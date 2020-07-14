@@ -8,6 +8,12 @@
 
 #include "Deamer/FileBuilder/Types/FileHeaderSection.h"
 #include "Deamer/FileBuilder/Types/FileHeaderGuardSection.h"
+#include "Deamer/FileBuilder/Types/FileClassSection.h"
+#include "Deamer/FileBuilder/Types/FileNamespaceSection.h"
+#include "Deamer/FileBuilder/Types/FileFunctionPrototypeSection.h"
+#include "Deamer/FileBuilder/Types/FileFunctionSection.h"
+#include <vector>
+#include <string>
 
 deamer::FileHeaderSection::FileHeaderSection(Directory* dir, File* file) : FileSection(dir, file)
 {

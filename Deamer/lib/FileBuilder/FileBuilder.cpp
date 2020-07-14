@@ -7,6 +7,9 @@
  */
 
 #include "Deamer/FileBuilder/FileBuilder.h"
+#include "Deamer/FileBuilder/FileSection.h"
+#include "Deamer/FileBuilder/Directory.h"
+#include "Deamer/FileBuilder/File.h"
 #include <string>
 #include <fstream>
 #include <functional>

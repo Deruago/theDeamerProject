@@ -7,7 +7,11 @@
  */
 
 #include "Deamer/FileBuilder/Types/FileFunctionPrototypeSection.h"
+#include "Deamer/FileBuilder/FileVariableType.h"
+#include "Deamer/FileBuilder/FileVariable.h"
 #include "Deamer/StringBuilder/StringBuilder.h"
+#include <vector>
+#include <string>
 
 deamer::FileFunctionPrototypeSection::FileFunctionPrototypeSection(std::string functionName,
 	std::vector<FileVariable*> functionArgs, FileVariableType* returnType, FileVariableType* scope) : FileFunctionPrototypeSection(functionName, functionArgs, returnType, scope, true)

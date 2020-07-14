@@ -8,7 +8,7 @@
 
 #ifndef DEAMER_FILEBUILDER_TYPES_FILEINCLUDESECTION_H
 #define DEAMER_FILEBUILDER_TYPES_FILEINCLUDESECTION_H
-#include "FileSection.h"
+#include "Deamer/FileBuilder/FileSection.h"
 
 namespace deamer
 {

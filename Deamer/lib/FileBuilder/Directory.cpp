@@ -7,6 +7,8 @@
  */
 
 #include "Deamer/FileBuilder/Directory.h"
+#include <vector>
+#include <string>
 
 deamer::Directory::Directory(std::vector<std::string> directories)
 {
