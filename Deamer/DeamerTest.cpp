@@ -32,7 +32,7 @@ int main()
     newNode(INT, "[i][n][t]");
     newNode(DOUBLE, "[d][o][u][b][l][e]");
     newNode(FLOAT, "[f][l][o][a][t]");
-    newNode(VARNAME, "[a-zA-Z]+[a-zA-Z_0-9]*")
+    newNode(VARNAME, "[a-zA-Z]+[a-zA-Z_0-9]*");
 
     newType(DATATYPE);
     newRule(DATATYPE, STRING);
