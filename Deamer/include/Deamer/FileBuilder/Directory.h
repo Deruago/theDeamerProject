@@ -23,7 +23,7 @@ namespace deamer
 			std::vector<std::string> Directories;
 		public:
 			Directory(std::vector<std::string> directories);
-			Directory(std::vector<Directory*> directories);
+			//Directory(std::vector<Directory*> directories);
 			~Directory() = default;
 			std::string GetDirectoryName();
 			std::vector<std::string> GetDirectoryFullPath() const;

@@ -13,9 +13,9 @@ deamer::Directory::Directory(std::vector<std::string> directories)
 	Directories = directories;
 }
 
-deamer::Directory::Directory(std::vector<Directory*> directories)
-{
-}
+//deamer::Directory::Directory(std::vector<Directory*> directories)
+//{
+//}
 
 std::string deamer::Directory::GetDirectoryName()
 {
