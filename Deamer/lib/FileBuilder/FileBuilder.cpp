@@ -51,7 +51,7 @@ std::string deamer::FileBuilder::GetFileLocationRelative() const
 
 void deamer::FileBuilder::OpenFile(std::fstream* file) const
 {
-	file->open(FileBuilder::GetFileLocationRelative(), std::ios_base::app);
+	file->open(GetFileLocationRelative(), std::ios_base::app);
 }
 
 
@@ -65,7 +65,7 @@ std::fstream deamer::FileBuilder::CreateFile() const
 
 void deamer::FileBuilder::WriteToFile() const
 {
-	std::fstream newFile = FileBuilder::CreateFile();
+	std::fstream newFile = CreateFile();
 	OpenFile(&newFile);
 	newFile << FileBuilder::GetOutput();
 	newFile.close();

@@ -16,6 +16,14 @@ deamer::FileSection::FileSection(Directory* directory, File* file)
 	FileLocationRelative = "CURRENTLY DEPRECATED";
 }
 
+deamer::FileSection::FileSection()
+{
+	_File = nullptr;
+	_Directory = nullptr;
+	FileLocationAbsolute = "CURRENTLY DEPRECATED";
+	FileLocationRelative = "CURRENTLY DEPRECATED";
+}
+
 std::string deamer::FileSection::GetOutput()
 {
 	Output = "";
