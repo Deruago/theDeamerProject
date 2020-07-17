@@ -20,6 +20,7 @@ namespace deamer
 			~HFileBuilder() = default;
 			std::string GetOutput() const override;
 			FileHeaderSection* GetHeaderSection() const;
+			void AddInclude(std::string _path) const;
 	};
 }
 

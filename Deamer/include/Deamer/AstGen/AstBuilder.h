@@ -15,29 +15,35 @@
 #include <fstream>
 #include <vector>
 
+#include "Deamer/FileBuilder/Types/FileClassSection.h"
+
 namespace deamer
 {
     class AstBuilder : public Builder
     {
         private:
             std::string languageName;
-            void FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode);
-            void FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName);
-            void FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode);
-            void FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName);
+            FileClassSection* _AstNode;
+            FileClassSection* type_int;
+            FileClassSection* type_void;
+            void FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode) const;
+            deamer::FileClassSection* GetAstNodeFileBuilderClass() const;
+            void FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName) const;
+            void FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode) const;
+            void FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName) const;
         public:
             AstBuilder();
             void CreateAstNode(std::string TokenName, bool isNode); // Creates an AST Node and writes it to file.
-            void CreateAstTree(std::string TokenName, bool isNode);
+            void CreateAstTree(std::string TokenName, bool isNode) const;
             
-            void CreateAstNodeEnumFile();
-            void AppendAstNodeEnumFile(std::string TokenName);
-            void FinishAstNodeEnumFile();
+            void CreateAstNodeEnumFile() const;
+            void AppendAstNodeEnumFile(std::string TokenName) const;
+            void FinishAstNodeEnumFile() const;
 
-            void CreateGlobalHeaderFile();
-            void AppendAstNodeHeaderFile(std::string TokenName);
-            void AppendAstTreeHeaderFile(std::string TokenName);
-            void FinishGlobalHeaderFile();
+            void CreateGlobalHeaderFile() const;
+            void AppendAstNodeHeaderFile(std::string TokenName) const;
+            void AppendAstTreeHeaderFile(std::string TokenName) const;
+            void FinishGlobalHeaderFile() const;
 
             void SetLanguageName(std::string languageName);
     };

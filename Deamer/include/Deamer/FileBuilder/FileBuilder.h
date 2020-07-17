@@ -34,7 +34,7 @@ namespace deamer
 			std::string FormatRelativeDirectoryLocation();
 		public:
 			FileBuilder(Directory* directory, File* file);
-			~FileBuilder();
+			virtual ~FileBuilder();
 			virtual std::string GetOutput() const;
 			deamer::File* GetFile() const;
 			deamer::Directory* GetDirectory() const;

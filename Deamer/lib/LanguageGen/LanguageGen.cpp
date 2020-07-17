@@ -8,7 +8,6 @@
  */
 
 #include "Deamer/LanguageGen/LanguageGen.h"
-#include <iostream>
 #include <fstream>
 #include <sstream>
 
@@ -30,22 +29,22 @@ void deamer::LanguageGen::FileTarget(std::string fileTarget)
 {
 }
 
-void deamer::LanguageGen::SetLexer(LexerType_t lexerType)
+void deamer::LanguageGen::SetLexer(LexerType_t lexerType) const
 {
     deamer::LanguageGen::lexerGen->SetTarget(lexerType);
 }
 
-void deamer::LanguageGen::SetParser(ParserType_t parserType)
+void deamer::LanguageGen::SetParser(ParserType_t parserType) const
 {
     deamer::LanguageGen::parserGen->SetTarget(parserType);
 }
 
-void deamer::LanguageGen::GenerateLexer()
+void deamer::LanguageGen::GenerateLexer() const
 {
     deamer::LanguageGen::lexerGen->Build();
 }
 
-void deamer::LanguageGen::GenerateParser()
+void deamer::LanguageGen::GenerateParser() const
 {
     deamer::LanguageGen::parserGen->Build();
 }
@@ -87,7 +86,7 @@ bool deamer::LanguageGen::Build()
     return buildIsSuccesfull;
 }
 
-bool deamer::LanguageGen::CreateDefaultLexerAPI()
+bool deamer::LanguageGen::CreateDefaultLexerAPI() const
 {
     std::ostringstream LexerAPIFile;
     LexerAPIFile << "#ifndef LEXER_" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_LEXERAPIFILE_H\n"
@@ -125,7 +124,7 @@ bool deamer::LanguageGen::CreateDefaultLexerAPI()
     return true;
 }
 
-bool deamer::LanguageGen::CreateDefaultParserAPI()
+bool deamer::LanguageGen::CreateDefaultParserAPI() const
 {
     std::ostringstream ParserAPIFile;
     ParserAPIFile << "#ifndef PARSER_" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_PARSERAPIFILE_H\n"
@@ -165,7 +164,7 @@ bool deamer::LanguageGen::CreateDefaultParserAPI()
     return true;
 }
 
-bool deamer::LanguageGen::CreateDefaultCompilerAPIHeader()
+bool deamer::LanguageGen::CreateDefaultCompilerAPIHeader() const
 {
     std::ostringstream CompilerAPIHeaderFile;
     CompilerAPIHeaderFile << "#ifndef " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_COMPILERAPIFILE_H\n"
@@ -211,7 +210,7 @@ bool deamer::LanguageGen::CreateDefaultCompilerAPIHeader()
     return true;
 }
 
-bool deamer::LanguageGen::CreateDefaultCompilerAPISource()
+bool deamer::LanguageGen::CreateDefaultCompilerAPISource() const
 {
     std::ostringstream CompilerAPISourceFile;
     CompilerAPISourceFile 
@@ -259,7 +258,7 @@ bool deamer::LanguageGen::Write()
     return true;
 }
 
-bool deamer::LanguageGen::Compile()
+bool deamer::LanguageGen::Compile() const
 {
     /*Currently only supports Flex and Bison (c++ variant)*/
     std::ostringstream ossLexer;

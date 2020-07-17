@@ -22,21 +22,28 @@ namespace deamer
 			FileVariable* Function;
 			std::vector<FileVariable*> FunctionArguments;
 			FileVariableType* ReturnType;
+			bool _is_virtual;
+			bool _override;
 
-			void AddReturnType(StringBuilder* stringBuilder);
-			void AddFunctionName(StringBuilder* stringBuilder);
+			void AddReturnType(StringBuilder* stringBuilder) const;
+			void AddFunctionName(StringBuilder* stringBuilder) const;
 			void AddFunctionArgument(StringBuilder* stringBuilder, FileVariable* argument);
 			void AddFunctionArguments(StringBuilder* stringBuilder);
 			void AddFunctionArgumentsToStringBuilder(StringBuilder* stringBuilder);
-			std::string GetFunctionName() const; // Returns only the function name
 			std::string GetFullFunctionName() const; // Returns the full path to the variable.
 		protected:
 		public:
 			FileFunctionPrototypeSection(std::string functionName, std::vector<FileVariable*> functionArgs, FileVariableType* returnType, FileVariableType* scope);
 			FileFunctionPrototypeSection(std::string functionName, std::vector<FileVariable*> functionArgs, FileVariableType* returnType, FileVariableType* scope, bool isMember);
-			~FileFunctionPrototypeSection() = default;
+			FileFunctionPrototypeSection(std::string functionName, std::vector<FileVariable*> functionArgs, FileVariableType* returnType, FileVariableType* scope, bool isMember, bool isVirtual);
+			FileFunctionPrototypeSection(std::string functionName, std::vector<FileVariable*> functionArgs, FileVariableType* returnType, FileVariableType* scope, bool isMember, bool isVirtual, bool _override);
+			bool IsVirtual() const;
+			~FileFunctionPrototypeSection();
 			std::string GetOutput() override;
 			std::string GetOutputWithoutFullDeclaration();
+			std::string GetFunctionName() const; // Returns only the function name
+			std::vector<FileVariable*> GetFunctionArgs() const;
+			FileVariableType* GetReturnType() const;
 	};
 }
 

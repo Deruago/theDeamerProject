@@ -33,7 +33,7 @@ namespace deamer
 		protected:
 		public:
 			FileVariable(FileVariableType* varType, std::string varName, bool isMember);
-			~FileVariable() = default;
+			virtual ~FileVariable() = default;
 			std::string GetOutput() const; // Returns full path. Thus including namespaces and classes. e.g int a, namespace_a::class_b c
 			std::string GetVariableName() const; // Returns only the variable name
 	};

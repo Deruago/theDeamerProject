@@ -56,11 +56,18 @@ namespace deamer
 			void AddProtectedSectionToStringBuilder(StringBuilder* string_builder) const;
 			void AddPublicSectionToStringBuilder(StringBuilder* string_builder) const;
 			void AddClassEndDeclaration(StringBuilder* string_builder) const;
+		
+			std::vector<FileFunctionSection*> GetVirtualMemberFunctionsFromVector(const std::vector<FileFunctionSection*>& vector);
+			std::vector<deamer::FileFunctionSection*> CopyFunctionsAsOverridenFunctions(
+				const std::vector<FileFunctionSection*>& vector);
+			void AddFunctionsToVector(const std::vector<FileFunctionSection*>& vector, std::vector<FileFunctionSection*>& file_function_sections);
+			void AddVirtualMemberFunctionsFromBaseClasses();
 		protected:
 		public:
+			FileClassSection(std::string className); // If the class is a basic class. e.g int, string, char
 			FileClassSection(std::string className, FileNamespaceSection* scope); // If the class is a base class.
 			FileClassSection(std::string className, std::vector<FileClassSection*> superClasses, FileNamespaceSection* scope); // If the class is a sub class
-			~FileClassSection() = default;
+			~FileClassSection();
 			std::string GetOutputDeclarationWithoutNamespace() const;
 			std::string GetOutputDeclaration() const;
 			std::string GetOutputImplementation() const;
@@ -97,6 +104,13 @@ namespace deamer
 			void AddPrivateMember(std::string functionName, std::vector<FileVariable*> args, FileVariableType* returnType);
 			void AddProtectedMember(std::string functionName, std::vector<FileVariable*> args, FileVariableType* returnType);
 			void AddPublicMember(std::string functionName, std::vector<FileVariable*> args, FileVariableType* returnType);
+			void AddPublicMember(std::string functionName, std::vector<FileVariable*> args, FileVariableType* returnType, bool isVirtual);
+			FileFunctionSection* GetCorrespondingVirtualFunction(const char* str);
+			void AddPublicMember(const std::string& cs, const std::vector<FileVariable*>& args, FileVariableType* file_variable, bool is_virtual, bool _override);
+			std::vector<FileFunctionSection*> GetPrivateVirtualMemberFunctions();
+			std::vector<FileFunctionSection*> GetProtectedVirtualMemberFunctions();
+			std::vector<FileFunctionSection*> GetPublicVirtualMemberFunctions();
+			std::vector<deamer::FileFunctionSection*> GetVirtualMemberFunctions();
 	};
 }
 

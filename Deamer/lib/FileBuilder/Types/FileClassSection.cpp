@@ -2,8 +2,14 @@
 #include "Deamer/FileBuilder/Types/FileNamespaceSection.h"
 #include "Deamer/FileBuilder/Types/FileFunctionSection.h"
 #include "Deamer/StringBuilder/StringBuilder.h"
+#include "Deamer/FileBuilder/Types/FileFunctionPrototypeSection.h"
 #include <vector>
 #include <string>
+
+deamer::FileClassSection::FileClassSection(std::string className) : FileVariable(this, className, true)
+{
+	_namespace = nullptr;
+}
 
 deamer::FileClassSection::FileClassSection(std::string className, FileNamespaceSection* scope) : FileVariable(this, className, true)
 {
@@ -14,6 +20,17 @@ deamer::FileClassSection::FileClassSection(std::string className, std::vector<Fi
                                            FileNamespaceSection* scope) : FileClassSection(className, scope)
 {
 	_superClasses = superClasses;
+	AddVirtualMemberFunctionsFromBaseClasses();
+}
+
+deamer::FileClassSection::~FileClassSection()
+{
+	delete_members(privateMembers);
+	delete_members(protectedMembers);
+	delete_members(publicMembers);
+	delete_members(privateMemberFunctions);
+	delete_members(protectedMemberFunctions);
+	delete_members(publicMemberFunctions);
 }
 
 std::string deamer::FileClassSection::GetOutputDeclarationWithoutNamespace() const
@@ -98,7 +115,7 @@ void deamer::FileClassSection::AddSuperClassInheritanceToStringBuilder(StringBui
 	{
 		string_builder->Add("public ");
 		string_builder->Add(_superClasses[i]->GetClassName());
-		if (i < _superClasses.size())
+		if (i < _superClasses.size() - 1)
 		{
 			string_builder->Add(", ");
 		}
@@ -124,6 +141,7 @@ void deamer::FileClassSection::AddClassEndDeclaration(StringBuilder* string_buil
 {
 	string_builder->Add("};");
 }
+
 
 void deamer::FileClassSection::AddClass(StringBuilder* stringBuilder) const
 {
@@ -170,7 +188,7 @@ void deamer::FileClassSection::AddPrivateMemberFunctionsToStringBuilder(StringBu
 {
 	for (FileFunctionSection* memberFunctions : privateMemberFunctions)
 	{
-		stringBuilder->Add(memberFunctions->GetFunctionPrototypeOutput(false), 4, 1);
+		stringBuilder->Add(memberFunctions->GetFunctionPrototypeOutput(false, true), 4, 1);
 	}
 }
 
@@ -197,14 +215,14 @@ void deamer::FileClassSection::AddProtectedMemberFunctionsToStringBuilder(String
 {
 	for (FileFunctionSection* memberFunctions :protectedMemberFunctions)
 	{
-		stringBuilder->Add(memberFunctions->GetFunctionPrototypeOutput(false), 4, 1);
+		stringBuilder->Add(memberFunctions->GetFunctionPrototypeOutput(false, true), 4, 1);
 	}
 }
 
 std::string deamer::FileClassSection::GetProtectedSection() const
 {
 	StringBuilder stringBuilder;
-	CreateClassSectionStringBuilder("Protected", &stringBuilder);
+	CreateClassSectionStringBuilder("protected", &stringBuilder);
 	AddProtectedMembersToStringBuilder(&stringBuilder);
 
 	if (!protectedMembers.empty()) stringBuilder.Add();
@@ -226,7 +244,7 @@ void deamer::FileClassSection::AddPublicMemberFunctionsToStringBuilder(StringBui
 {
 	for (FileFunctionSection* memberFunctions : publicMemberFunctions)
 	{
-		stringBuilder->Add(memberFunctions->GetFunctionPrototypeOutput(false), 4, 1);
+		stringBuilder->Add(memberFunctions->GetFunctionPrototypeOutput(false, true), 4, 1);
 	}
 }
 
@@ -234,7 +252,7 @@ void deamer::FileClassSection::AddPublicMemberFunctionsToStringBuilder(StringBui
 std::string deamer::FileClassSection::GetPublicSection() const
 {
 	StringBuilder stringBuilder;
-	CreateClassSectionStringBuilder("Public", &stringBuilder);
+	CreateClassSectionStringBuilder("public", &stringBuilder);
 	AddPublicMembersToStringBuilder(&stringBuilder);
 
 	if (!publicMembers.empty()) stringBuilder.Add();
@@ -320,4 +338,113 @@ void deamer::FileClassSection::AddPublicMember(std::string functionName, std::ve
 	FileVariableType* returnType)
 {
 	publicMemberFunctions.push_back(new FileFunctionSection(functionName, args, returnType, this));
+}
+
+void deamer::FileClassSection::AddPublicMember(std::string functionName, std::vector<FileVariable*> args,
+	FileVariableType* returnType, bool isVirtual)
+{
+	publicMemberFunctions.push_back(new FileFunctionSection(new FileFunctionPrototypeSection(functionName, args, returnType, this, false, isVirtual)));
+}
+
+deamer::FileFunctionSection* deamer::FileClassSection::GetCorrespondingVirtualFunction(const char* str)
+{
+	for(FileClassSection* _superClass : _superClasses)
+	{
+		FileFunctionSection* tmpFunction = _superClass->GetCorrespondingVirtualFunction(str);
+		if(tmpFunction != nullptr)
+		{
+			return tmpFunction;
+		}
+	}
+
+	for(FileFunctionSection* function : publicMemberFunctions)
+	{
+		if (function->GetFunctionName() == str)
+		{
+			return function;
+		}
+	}
+
+	for (FileFunctionSection* function : publicMemberFunctions)
+	{
+		if (function->GetFunctionName() == str)
+		{
+			return function;
+		}
+	}
+
+	for (FileFunctionSection* function : publicMemberFunctions)
+	{
+		if (function->GetFunctionName() == str)
+		{
+			return function;
+		}
+	}
+	return nullptr;
+}
+
+void deamer::FileClassSection::AddPublicMember(const std::string& cs, const std::vector<FileVariable*>& args,
+	FileVariableType* file_variable, bool is_virtual, bool _override)
+{
+	publicMemberFunctions.push_back(new FileFunctionSection(new FileFunctionPrototypeSection(cs, args, file_variable, this, false, is_virtual, _override)));
+}
+
+void deamer::FileClassSection::AddVirtualMemberFunctionsFromBaseClasses()
+{
+	for(FileClassSection* base_class : _superClasses)
+	{
+		AddFunctionsToVector(CopyFunctionsAsOverridenFunctions(base_class->GetPrivateVirtualMemberFunctions()), this->privateMemberFunctions);
+		AddFunctionsToVector(CopyFunctionsAsOverridenFunctions(base_class->GetProtectedVirtualMemberFunctions()), this->protectedMemberFunctions);
+		AddFunctionsToVector(CopyFunctionsAsOverridenFunctions(base_class->GetPublicVirtualMemberFunctions()), this->publicMemberFunctions);
+	}
+}
+
+
+std::vector<deamer::FileFunctionSection*> deamer::FileClassSection::GetPrivateVirtualMemberFunctions()
+{
+	return GetVirtualMemberFunctionsFromVector(privateMemberFunctions);
+}
+
+std::vector<deamer::FileFunctionSection*> deamer::FileClassSection::GetProtectedVirtualMemberFunctions()
+{
+	return GetVirtualMemberFunctionsFromVector(protectedMemberFunctions);
+}
+
+std::vector<deamer::FileFunctionSection*> deamer::FileClassSection::GetPublicVirtualMemberFunctions()
+{
+	return GetVirtualMemberFunctionsFromVector(publicMemberFunctions);
+}
+
+std::vector<deamer::FileFunctionSection*> deamer::FileClassSection::GetVirtualMemberFunctionsFromVector(
+	const std::vector<FileFunctionSection*>& vector)
+{
+	std::vector<FileFunctionSection*> tmpVector;
+	for(FileFunctionSection* function : vector)
+	{
+		if(function->IsVirtual())
+		{
+			tmpVector.push_back(function);
+		}
+	}
+	return tmpVector;
+}
+
+std::vector<deamer::FileFunctionSection*> deamer::FileClassSection::CopyFunctionsAsOverridenFunctions(const std::vector<FileFunctionSection*>& vector)
+{
+	std::vector<FileFunctionSection*> newFunctions;
+	newFunctions.reserve(vector.size());
+	for(FileFunctionSection* old_function : vector)
+	{
+		newFunctions.push_back(new FileFunctionSection(new FileFunctionPrototypeSection(old_function->GetFunctionName(), old_function->GetFunctionArgs(), old_function->GetReturnType(), this, false, false, true)));
+	}
+	return newFunctions;
+}
+
+void deamer::FileClassSection::AddFunctionsToVector(const std::vector<FileFunctionSection*>& vector,
+	std::vector<FileFunctionSection*>& file_function_sections)
+{
+	for(FileFunctionSection* function : vector)
+	{
+		file_function_sections.push_back(function);
+	}
 }

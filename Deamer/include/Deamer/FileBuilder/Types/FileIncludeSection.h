@@ -9,12 +9,17 @@
 #ifndef DEAMER_FILEBUILDER_TYPES_FILEINCLUDESECTION_H
 #define DEAMER_FILEBUILDER_TYPES_FILEINCLUDESECTION_H
 #include "Deamer/FileBuilder/FileSection.h"
+#include <string>
 
 namespace deamer
 {
 	class FileIncludeSection : public FileSection
 	{
-		
+		private:
+			std::string output;
+		public:
+			FileIncludeSection(std::string include, bool isSystem);
+			std::string GetOutput() override;
 	};
 }
 

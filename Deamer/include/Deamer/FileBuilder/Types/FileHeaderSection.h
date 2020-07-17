@@ -23,18 +23,20 @@ namespace deamer
 	class FileNamespaceSection;
 	class FileVariable;
 	class FileVariableType;
+	class FileIncludeSection;
 	
 	class FileHeaderSection : public FileSection
 	{
 		private:
 			FileHeaderGuardSection* AddHeaderGuard(Directory* directory, File* file);
+			std::vector<FileIncludeSection*> includes;
 			std::vector<FileClassSection*> classes;
 			std::vector<FileFunctionSection*> functions;
 		protected:
 			FileHeaderGuardSection* headerGuard;
 		public:
 			FileHeaderSection(Directory* dir, File* file);
-			~FileHeaderSection() = default;
+			~FileHeaderSection();
 			FileNamespaceSection* AddNamespace(std::string namespaceName);
 			void AddNamespace(FileNamespaceSection* namespaceSection);
 			FileClassSection* AddClass(std::string className, std::vector<FileClassSection*> superClasses, FileNamespaceSection* scope);
@@ -44,6 +46,7 @@ namespace deamer
 			FileFunctionSection* AddFunction(FileFunctionPrototypeSection* functionPrototype);
 			void AddFunction(FileFunctionSection* functionSection);
 			std::string GetOutput() override;
+			void AddInclude(const std::string& cs, bool isSystem);
 	};
 }
 

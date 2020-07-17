@@ -38,12 +38,23 @@ namespace deamer
 		public:
 			FileSection(Directory* directory, File* file);
 			FileSection();
-			~FileSection() = default;
+			virtual ~FileSection() = default;
 			virtual std::string GetOutput();
 			Directory* GetDirectory() const;
 			File* GetFile() const;
-			
+			template<typename T, typename A>
+			void delete_members(std::vector<T, A> _list);
 	};
+
+	template<typename T, typename A>
+	void deamer::FileSection::delete_members(std::vector<T, A> _list)
+	{
+		for (T member : _list)
+		{
+			delete member;
+		}
+	}
+
 }
 
 #endif //DEAMER_FILEBUILDER_FILESECTION_H

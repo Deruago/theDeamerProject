@@ -1,4 +1,9 @@
 #include "Deamer/FileBuilder/HFileBuilder/HFileBuilder.h"
+#include "Deamer/FileBuilder/Types/FileHeaderSection.h"
+#include "Deamer/FileBuilder/Directory.h"
+#include "Deamer/FileBuilder/File.h"
+#include <vector>
+#include <string>
 
 deamer::HFileBuilder::HFileBuilder(Directory* directory, File* file) : FileBuilder(directory, file)
 {
@@ -18,4 +23,9 @@ std::string deamer::HFileBuilder::GetOutput() const
 deamer::FileHeaderSection* deamer::HFileBuilder::GetHeaderSection() const
 {
 	return headerSection;
+}
+
+void deamer::HFileBuilder::AddInclude(std::string _path) const
+{
+	headerSection->AddInclude(_path, false);
 }

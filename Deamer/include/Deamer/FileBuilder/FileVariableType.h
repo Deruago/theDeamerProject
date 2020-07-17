@@ -26,7 +26,7 @@ namespace deamer
 		public:
 			FileVariableType(FileVariableType* variableTypeSection);
 			FileVariableType();
-			~FileVariableType() = default;
+			virtual ~FileVariableType() = default;
 			FileVariableType* GetFileVariableType() const;
 			virtual std::string GetOutputType() const = 0; //Outputs Variabletype. e.g deamer::filebuilder::class_a
 	};

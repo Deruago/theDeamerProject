@@ -1,6 +1,13 @@
 #include "Deamer/FileBuilder/File.h"
 #include "Deamer/FileBuilder/Directory.h"
 #include "Deamer/FileBuilder/HFileBuilder/HFileBuilder.h"
+#include "Deamer/FileBuilder/FileVariable.h"
+#include "Deamer/FileBuilder/FileVariableType.h"
+#include "Deamer/FileBuilder/Types/FileNamespaceSection.h"
+#include "Deamer/FileBuilder/Types/FileClassSection.h"
+#include "Deamer/FileBuilder/Types/FileFunctionPrototypeSection.h"
+#include "Deamer/FileBuilder/Types/FileFunctionSection.h"
+#include "Deamer/FileBuilder/Types/FileHeaderSection.h"
 #include <iostream>
 #include <vector>
 #include <string>

@@ -19,15 +19,24 @@ deamer::FileFunctionSection::FileFunctionSection(FileFunctionPrototypeSection* f
 }
 
 deamer::FileFunctionSection::FileFunctionSection(std::string functionName, std::vector<FileVariable*> functionArgs,
-	FileVariableType* returnType, FileVariableType* scope)
+	FileVariableType* returnType, FileVariableType* scope) : FileFunctionSection(functionName, functionArgs, returnType, scope, false, false)
 {
-	functionPrototype = new FileFunctionPrototypeSection(functionName, functionArgs, returnType, scope);
 }
 
 deamer::FileFunctionSection::FileFunctionSection(std::string functionName, std::vector<FileVariable*> functionArgs,
-	FileVariableType* returnType, FileVariableType* scope, bool isMember)
+	FileVariableType* returnType, FileVariableType* scope, bool isMember) : FileFunctionSection(functionName, functionArgs, returnType, scope, isMember, false)
 {
-	functionPrototype = new FileFunctionPrototypeSection(functionName, functionArgs, returnType, scope, isMember);
+}
+
+deamer::FileFunctionSection::FileFunctionSection(const std::string& functionName, const std::vector<FileVariable*>& args,
+	FileVariableType* returnType, FileVariableType* scope, bool isMember, bool is_virtual)
+{
+	functionPrototype = new FileFunctionPrototypeSection(functionName, args, returnType, scope, isMember, is_virtual);
+}
+
+deamer::FileFunctionSection::~FileFunctionSection()
+{
+	delete functionPrototype;
 }
 
 std::string deamer::FileFunctionSection::GetOutput()
@@ -35,14 +44,39 @@ std::string deamer::FileFunctionSection::GetOutput()
 	return "";
 }
 
-std::string deamer::FileFunctionSection::GetFunctionPrototypeOutput(bool fullPath) const
+bool deamer::FileFunctionSection::IsVirtual() const
 {
+	return functionPrototype->IsVirtual();
+}
+
+std::string deamer::FileFunctionSection::GetFunctionPrototypeOutput(bool fullPath, bool instruction) const
+{
+	std::string tmpString;
 	if (fullPath)
 	{
-		return functionPrototype->GetOutput();
+		tmpString = functionPrototype->GetOutput();
 	}
 	else
 	{
-		return functionPrototype->GetOutputWithoutFullDeclaration();
+		tmpString = functionPrototype->GetOutputWithoutFullDeclaration();
 	}
+
+	if (instruction)
+		tmpString += ";";
+	return tmpString;
+}
+
+std::string deamer::FileFunctionSection::GetFunctionName() const
+{
+	return functionPrototype->GetFunctionName();
+}
+
+std::vector<deamer::FileVariable*> deamer::FileFunctionSection::GetFunctionArgs() const
+{
+	return functionPrototype->GetFunctionArgs();
+}
+
+deamer::FileVariableType* deamer::FileFunctionSection::GetReturnType() const
+{
+	return functionPrototype->GetReturnType();
 }

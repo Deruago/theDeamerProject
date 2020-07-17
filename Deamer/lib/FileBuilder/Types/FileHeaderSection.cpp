@@ -12,12 +12,22 @@
 #include "Deamer/FileBuilder/Types/FileNamespaceSection.h"
 #include "Deamer/FileBuilder/Types/FileFunctionPrototypeSection.h"
 #include "Deamer/FileBuilder/Types/FileFunctionSection.h"
+#include "Deamer/StringBuilder/StringBuilder.h"
 #include <vector>
 #include <string>
+
+#include "Deamer/FileBuilder/Types/FileIncludeSection.h"
 
 deamer::FileHeaderSection::FileHeaderSection(Directory* dir, File* file) : FileSection(dir, file)
 {
 	headerGuard = AddHeaderGuard(GetDirectory(), GetFile());
+}
+
+deamer::FileHeaderSection::~FileHeaderSection()
+{
+	delete_members(includes);
+	delete_members(classes);
+	delete_members(functions);
 }
 
 
@@ -30,7 +40,13 @@ std::string deamer::FileHeaderSection::GetOutput()
 {
 	StringBuilder headerFile;
 	headerFile.Add(headerGuard->GetHeaderGuardBegin());
-
+	for(FileIncludeSection* include : includes)
+	{
+		headerFile.Add(include->GetOutput());
+	}
+	if(!includes.empty())
+		headerFile.Add();
+	
 	for(FileSection* file_section : FileSections)
 	{
 		headerFile.Add(file_section->GetOutput());
@@ -40,9 +56,14 @@ std::string deamer::FileHeaderSection::GetOutput()
 	return headerFile.GetOutput();
 }
 
+void deamer::FileHeaderSection::AddInclude(const std::string& cs, bool isSystem)
+{
+	includes.push_back(new FileIncludeSection(cs, isSystem));
+}
+
 deamer::FileNamespaceSection* deamer::FileHeaderSection::AddNamespace(std::string namespaceName)
 {
-	auto newNamespace = new FileNamespaceSection(namespaceName);
+	const auto newNamespace = new FileNamespaceSection(namespaceName);
 	AddSection(newNamespace);
 	return newNamespace;
 }
@@ -50,7 +71,7 @@ deamer::FileNamespaceSection* deamer::FileHeaderSection::AddNamespace(std::strin
 deamer::FileClassSection* deamer::FileHeaderSection::AddClass(std::string className,
 	std::vector<FileClassSection*> superClasses, FileNamespaceSection* scope)
 {
-	auto newClass = new FileClassSection(className, superClasses, scope);
+	const auto newClass = new FileClassSection(className, superClasses, scope);
 	AddSection(newClass);
 	return newClass;
 }

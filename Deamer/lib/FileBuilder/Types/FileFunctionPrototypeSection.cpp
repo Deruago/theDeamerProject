@@ -19,28 +19,60 @@ deamer::FileFunctionPrototypeSection::FileFunctionPrototypeSection(std::string f
 }
 
 deamer::FileFunctionPrototypeSection::FileFunctionPrototypeSection(std::string functionName,
-	std::vector<FileVariable*> functionArgs, FileVariableType* returnType, FileVariableType* scope, bool isMember)
+	std::vector<FileVariable*> functionArgs, FileVariableType* returnType, FileVariableType* scope, bool isMember) : FileFunctionPrototypeSection(functionName, functionArgs, returnType,  scope, isMember, false)
+{
+}
+
+deamer::FileFunctionPrototypeSection::FileFunctionPrototypeSection(std::string functionName,
+	std::vector<FileVariable*> functionArgs, FileVariableType* returnType, FileVariableType* scope, bool isMember,
+	bool isVirtual) : FileFunctionPrototypeSection(functionName, functionArgs, returnType, scope, isMember, isVirtual, false)
+{
+}
+
+deamer::FileFunctionPrototypeSection::FileFunctionPrototypeSection(std::string functionName,
+	std::vector<FileVariable*> functionArgs, FileVariableType* returnType, FileVariableType* scope, bool isMember,
+	bool isVirtual, bool _override)
 {
 	FunctionArguments = functionArgs;
 	ReturnType = returnType;
 	Function = new FileVariable(scope, functionName, isMember);
+	_is_virtual = isVirtual;
+	FileFunctionPrototypeSection::_override = _override;
+}
+
+bool deamer::FileFunctionPrototypeSection::IsVirtual() const
+{
+	return _is_virtual;
+}
+
+deamer::FileFunctionPrototypeSection::~FileFunctionPrototypeSection()
+{
+	delete_members(FunctionArguments);
 }
 
 std::string deamer::FileFunctionPrototypeSection::GetOutput()
 {
 	StringBuilder stringBuilder;
+	if (_is_virtual)
+		stringBuilder.Add("virtual ");
 	AddReturnType(&stringBuilder);
 	AddFunctionName(&stringBuilder);
 	AddFunctionArgumentsToStringBuilder(&stringBuilder);
+	if (_override)
+		stringBuilder.Add(" override");
 	return stringBuilder.GetOutputIgnoreNewLine();
 }
 
 std::string deamer::FileFunctionPrototypeSection::GetOutputWithoutFullDeclaration()
 {
 	StringBuilder stringBuilder;
+	if (_is_virtual)
+		stringBuilder.Add("virtual ");
 	AddReturnType(&stringBuilder);
 	stringBuilder.Add(GetFunctionName());
 	AddFunctionArgumentsToStringBuilder(&stringBuilder);
+	if (_override)
+		stringBuilder.Add(" override");
 	return stringBuilder.GetOutputIgnoreNewLine();
 }
 
@@ -49,18 +81,28 @@ std::string deamer::FileFunctionPrototypeSection::GetFunctionName() const
 	return Function->GetVariableName();
 }
 
+std::vector<deamer::FileVariable*> deamer::FileFunctionPrototypeSection::GetFunctionArgs() const
+{
+	return FunctionArguments;
+}
+
+deamer::FileVariableType* deamer::FileFunctionPrototypeSection::GetReturnType() const
+{
+	return ReturnType;
+}
+
 std::string deamer::FileFunctionPrototypeSection::GetFullFunctionName() const
 {
 	return Function->GetOutput();
 }
 
-void deamer::FileFunctionPrototypeSection::AddReturnType(StringBuilder* stringBuilder)
+void deamer::FileFunctionPrototypeSection::AddReturnType(StringBuilder* stringBuilder) const
 {
 	stringBuilder->Add(ReturnType->GetOutputType());
 	stringBuilder->Add(" ");
 }
 
-void deamer::FileFunctionPrototypeSection::AddFunctionName(StringBuilder* stringBuilder)
+void deamer::FileFunctionPrototypeSection::AddFunctionName(StringBuilder* stringBuilder) const
 {
 	stringBuilder->Add(GetFullFunctionName());
 }

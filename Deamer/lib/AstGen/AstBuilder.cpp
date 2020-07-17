@@ -8,6 +8,8 @@
  */
 
 #include "Deamer/AstGen/AstBuilder.h"
+#include "Deamer/FileBuilder/HFileBuilder/HFClassBuilder.h"
+#include "Deamer/FileBuilder/Types/FileNamespaceSection.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -15,9 +17,14 @@
 deamer::AstBuilder::AstBuilder()
 {
     deamer::AstBuilder::Directory = "";
+    _AstNode = new FileClassSection("AstNode");
+    type_void = new FileClassSection("void");
+    type_int = new FileClassSection("int");
+    _AstNode->AddPublicMember("Generate", {}, type_void, true);
+    _AstNode->AddPublicMember("GetAstId", {}, type_int, true);
 }
 
-void deamer::AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode)
+void deamer::AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode) const
 {
     std::string isNodeStr;
     if(isNode)
@@ -57,14 +64,25 @@ void deamer::AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, std::st
              << "}\n";
 }
 
-void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName)
+deamer::FileClassSection* deamer::AstBuilder::GetAstNodeFileBuilderClass() const
 {
-    std::string tokenNameUpper;
-    for(int i = 0; i < tokenName.size(); i++)
-    {
-        tokenNameUpper += ::toupper(tokenName[i]);
-    }
+    return _AstNode;
+}
 
+void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName) const
+{
+    /*const auto namespace_language = new FileNamespaceSection(languageName);
+    const auto hcb = new HFClassBuilder({ "ASTNODES" }, tokenName, namespace_language, { GetAstNodeFileBuilderClass() });
+    hcb->AddInclude("Deamer/AstGen/AstNode");
+    hcb->AddInclude("Deamer/AstGen/AstInformation");
+    hcb->AddInclude("AstEnum");
+    hcb->AddInclude("vector", true);
+
+    *astHeaderFile << hcb->GetDefinition();
+    delete hcb;
+    delete namespace_language;
+	*/
+//*
     *astHeaderFile << "#ifndef ASTNODES_" << tokenNameUpper << "_H\n"
                    << "#define ASTNODES_" << tokenNameUpper << "_H\n"
                    << "\n"
@@ -89,9 +107,10 @@ void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::st
                    << "}\n"
                    << "\n"
                    << "#endif //ASTNODES_" << tokenNameUpper << "_H\n";
+                  //*/
 }
 
-void deamer::AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode)
+void deamer::AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode) const
 {
     std::string isNodeStr;
     if(isNode)
@@ -139,7 +158,7 @@ void deamer::AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, std
              << "}\n";
 }
 
-void deamer::AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName)
+void deamer::AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName) const
 {
     std::string tokenNameUpper;
     for(int i = 0; i < tokenName.size(); i++)
@@ -201,7 +220,7 @@ void deamer::AstBuilder::CreateAstNode(std::string TokenName, bool isNode)
     newAstNodeHeaderFile.close();
 }
 
-void deamer::AstBuilder::CreateAstTree(std::string TokenName, bool isNode)
+void deamer::AstBuilder::CreateAstTree(std::string TokenName, bool isNode) const
 {
     std::string DefaultTokenName = TokenName;
     std::ostringstream oss0;
@@ -225,7 +244,7 @@ void deamer::AstBuilder::CreateAstTree(std::string TokenName, bool isNode)
     newAstTreeHeaderFile.close();
 }
 
-void deamer::AstBuilder::CreateGlobalHeaderFile()
+void deamer::AstBuilder::CreateGlobalHeaderFile() const
 {
     std::ostringstream oss0;
     oss0 << deamer::AstBuilder::Directory << "AstNodes.h";
@@ -238,7 +257,7 @@ void deamer::AstBuilder::CreateGlobalHeaderFile()
     newGlobalHeaderFile.close();
 }
 
-void deamer::AstBuilder::AppendAstNodeHeaderFile(std::string TokenName)
+void deamer::AstBuilder::AppendAstNodeHeaderFile(std::string TokenName) const
 {
     std::ostringstream oss0;
     oss0 << deamer::AstBuilder::Directory << "AstNodes.h";
@@ -251,7 +270,7 @@ void deamer::AstBuilder::AppendAstNodeHeaderFile(std::string TokenName)
     globalHeaderFile.close();
 }
 
-void deamer::AstBuilder::AppendAstTreeHeaderFile(std::string TokenName)
+void deamer::AstBuilder::AppendAstTreeHeaderFile(std::string TokenName) const
 {
     std::ostringstream oss0;
     oss0 << deamer::AstBuilder::Directory << "AstNodes.h";
@@ -264,7 +283,7 @@ void deamer::AstBuilder::AppendAstTreeHeaderFile(std::string TokenName)
     globalHeaderFile.close();
 }
 
-void deamer::AstBuilder::FinishGlobalHeaderFile()
+void deamer::AstBuilder::FinishGlobalHeaderFile() const
 {
     std::ostringstream oss0;
     oss0 << deamer::AstBuilder::Directory << "AstNodes.h";
@@ -278,7 +297,7 @@ void deamer::AstBuilder::FinishGlobalHeaderFile()
     globalHeaderFile.close();
 }
 
-void deamer::AstBuilder::CreateAstNodeEnumFile()
+void deamer::AstBuilder::CreateAstNodeEnumFile() const
 {
     std::ostringstream oss0;
     oss0 << deamer::AstBuilder::Directory << "AstEnum.h";
@@ -295,7 +314,7 @@ void deamer::AstBuilder::CreateAstNodeEnumFile()
     newEnumFile.close();
 }
 
-void deamer::AstBuilder::AppendAstNodeEnumFile(std::string TokenName)
+void deamer::AstBuilder::AppendAstNodeEnumFile(std::string TokenName) const
 {
     std::ostringstream oss0;
     oss0 << deamer::AstBuilder::Directory << "AstEnum.h";
@@ -308,7 +327,7 @@ void deamer::AstBuilder::AppendAstNodeEnumFile(std::string TokenName)
     newEnumFile.close();
 }
 
-void deamer::AstBuilder::FinishAstNodeEnumFile()
+void deamer::AstBuilder::FinishAstNodeEnumFile() const
 {
     std::ostringstream oss0;
     oss0 << deamer::AstBuilder::Directory << "AstEnum.h";

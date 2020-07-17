@@ -20,6 +20,10 @@
 #define newNode(...) GET_MACRO_NODE(__VA_ARGS__, newNode2, newNode1) (__VA_ARGS__)
 #define newType(...) GET_MACRO_TYPE(__VA_ARGS__, newType2, newType1) (__VA_ARGS__)
 
+#define NODE(...) newNode(__VA_ARGS__)
+#define TYPE(...) newType(__VA_ARGS__)
+#define RULE(type, ...) newRule(type, __VA_ARGS__)
+
 #define newNode1(node, regex) \
 deamer::Node* node = currentLangDef.CreateNode(#node, regex);
 
@@ -34,6 +38,7 @@ deamer::Type* type = currentLangDef.CreateType(#type, createAst);
 
 #define newRule(type, ...) \
 currentLangDef.CreateRule(type, {__VA_ARGS__});
+
 
 #define EMPTY_RULE 
 
