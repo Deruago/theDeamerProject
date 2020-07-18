@@ -9,17 +9,19 @@
 
 #include "Deamer/LexerGen/LexerFactory.h"
 #include "Deamer/LexerGen/LexerBuilder.h"
-#include "Deamer/LexerGen/FlexBuilder.h"
-#include "Deamer/LexerGen/DlexBuilder.h"
+#include "Deamer/LexerGen/FlexBuilder/FlexBuilder.h"
+#include "Deamer/LexerGen/FlexBuilder/FlexBuilderVectorBased.h"
+#include "Deamer/LexerGen/DLexBuilder/DLexBuilder.h"
+#include "Deamer/LexerGen/DLexBuilder/DLexBuilderVectorBased.h"
 
 deamer::LexerBuilder* deamer::LexerFactory::MakeLexerUseVectorBasedDS(LexerType_t lexerType_t, LanguageDefinition* langDef) const
 {
     switch(lexerType_t)
     {
         case LexerType_s::dlex:
-            return new DlexBuilder(langDef);
+            return new DlexBuilderVectorBased(langDef);
         case LexerType_s::flex:
-            return new FlexBuilder(langDef);
+            return new FlexBuilderVectorBased(langDef);
     }
     return nullptr;
 }
