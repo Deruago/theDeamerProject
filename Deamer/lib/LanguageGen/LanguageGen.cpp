@@ -1,10 +1,10 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bï¿½hmer 2020
  *
  * Modified:
- * -June 2020 Thimo Böhmer
- * -July 2020 Thimo Böhmer
+ * -June 2020 Thimo Bï¿½hmer
+ * -July 2020 Thimo Bï¿½hmer
  */
 
 #include "Deamer/LanguageGen/LanguageGen.h"
@@ -227,15 +227,15 @@ bool deamer::LanguageGen::CreateDefaultCompilerAPISource() const
                   << "}\n\n"
                   << "deamer::CompiledObject* " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "::" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler::CompileText(std::string inputText)\n"
                   << "{\n"
-                  << "\n"
+                  << "    return nullptr;\n"
                   << "}\n\n"
                   << "deamer::CompiledObject* " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "::" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler::CompileFile(FILE* inputFile)\n"
                   << "{\n"
-                  << "\n"
+                  << "    return nullptr;\n"
                   << "}\n\n"
                   << "deamer::CompiledObject* " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "::" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler::CompileFile(std::string fileLocation)\n"
                   << "{\n"
-                  << "\n"
+                  << "    return nullptr;\n"
                   << "}\n\n";
     std::ostringstream oss0;
     oss0 << deamer::LanguageGen::Directory << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler.cpp";
