@@ -12,13 +12,13 @@
 
 namespace deamer
 {
-    typedef enum LexerType_s
+    typedef enum class LexerType_s
     {
         dlex, //Deamer lexer. Currently unsupported
         flex
     } LexerType_t;
 
-    typedef enum ParserType_s
+    typedef enum class ParserType_s
     {
         dparse, //Deamer parser. Currently unsupported
         bison
