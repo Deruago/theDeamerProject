@@ -3,7 +3,7 @@
 #include "Deamer/LanguageGen/LanguageDefMacros.h"
 #include "Deamer/AstGen/AstGen.h"
 #include <iostream>
-//using namespace Deamer;
+using namespace deamer;
 
 int main()
 {
@@ -12,8 +12,8 @@ int main()
     #endif
     #define currentLangDef languageDef
 
-    LanguageDefinition languageDef = LanguageDefinition();
-    LanguageGen* languageGen = new LanguageGen(flex, bison, &languageDef);
+    LanguageDefinition languageDef = LanguageDefinition("DCPP_J");
+    LanguageGen* languageGen = new LanguageGen(LexerType_t::flex, ParserType_t::bison, &languageDef);
     languageGen->DirTarget("tests/");
 
     newNode(SEMICOLON, "[;]", false);
