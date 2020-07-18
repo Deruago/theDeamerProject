@@ -24,6 +24,11 @@ void deamer::DlexBuilder::AddNode(Node* node)
 
 }
 
+void deamer::DlexBuilder::AddIgnoreNode(Node* node)
+{
+
+}
+
 bool deamer::DlexBuilder::FinishBuild()
 {
     return true;

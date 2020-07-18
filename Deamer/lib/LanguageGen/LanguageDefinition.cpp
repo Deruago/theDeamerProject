@@ -27,6 +27,14 @@ deamer::Node* deamer::LanguageDefinition::CreateNode(const std::string nodeName,
     return newNode;
 }
 
+deamer::Node* deamer::LanguageDefinition::IgnoreNode(const std::string nodeName, const std::string regex)
+{
+    deamer::Node* newNode = new Node(nodeName, regex);
+    IgnoreNodes.push_back(newNode);
+    return newNode;
+}
+
+
 deamer::Type* deamer::LanguageDefinition::CreateType(const std::string typeName, const bool createAst)
 {
     deamer::Type* newType = new Type(typeName, createAst);

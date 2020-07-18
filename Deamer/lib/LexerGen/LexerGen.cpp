@@ -62,6 +62,11 @@ bool deamer::LexerGen::Build()
     {
         deamer::LexerGen::lexerBuilder->AddNode(deamer::LexerGen::langDef->Nodes[i]);
     }
+    
+    for(int i = 0; i < deamer::LexerGen::langDef->IgnoreNodes.size(); i++)
+    {
+        deamer::LexerGen::lexerBuilder->AddIgnoreNode(deamer::LexerGen::langDef->IgnoreNodes[i]);
+    }
 
     bool IsBuildSuccesfull = deamer::LexerGen::lexerBuilder->FinishBuild();
     //std::cout << deamer::LexerGen::lexerBuilder->GetOutput() << "\n";

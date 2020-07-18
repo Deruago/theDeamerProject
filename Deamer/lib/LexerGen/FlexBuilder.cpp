@@ -40,6 +40,17 @@ void deamer::FlexBuilder::AddNode(Node* node)
     deamer::FlexBuilder::tokenDeclarationPart += oss2.str();
 }
 
+void deamer::FlexBuilder::AddIgnoreNode(Node* node)
+{
+    std::ostringstream oss;
+    oss << node->TokenName << "   " << "(" << node->Regex << ")\n";
+    deamer::FlexBuilder::regexDeclarationPart += oss.str();
+    
+    std::ostringstream oss2;
+    oss2 << "{" << node->TokenName << "}\n";
+    deamer::FlexBuilder::tokenDeclarationPart += oss2.str();
+}
+
 bool deamer::FlexBuilder::FinishBuild()
 {
     deamer::FlexBuilder::tokenDeclarationPart += "\n%%\n";

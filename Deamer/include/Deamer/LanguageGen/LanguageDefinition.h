@@ -32,9 +32,11 @@ namespace deamer
             LanguageDefinition(std::string languageName);
             ~LanguageDefinition() = default;
             std::vector<Node*> Nodes;
+            std::vector<Node*> IgnoreNodes;
             std::vector<Type*> Types;
             std::vector<Rule*> Rules;
             Node* CreateNode(const std::string nodeName, const std::string regex, const bool createAst = true); // Used to create a Node Class
+            Node* IgnoreNode(const std::string nodeName, const std::string regex);
             Type* CreateType(const std::string typeName, const bool createAst = true); // Used to create a Type Class
             Rule* CreateRule(Type* type, const std::vector<Token*> tokens); // Used to create a Rule Class
             void  DeleteAllNodes();

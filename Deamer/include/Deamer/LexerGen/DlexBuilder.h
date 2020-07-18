@@ -21,6 +21,7 @@ namespace deamer
             DlexBuilder();
             DlexBuilder(LanguageDefinition* langDef);
             void AddNode(Node* node) override;
+            void AddIgnoreNode(Node* node) override;
             bool FinishBuild() override;
             bool StartBuild() override;
     };

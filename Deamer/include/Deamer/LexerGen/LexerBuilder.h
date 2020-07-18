@@ -27,6 +27,7 @@ namespace deamer
         public:
             LanguageDefinition* langDef;
             virtual void AddNode(Node* node) = 0; // Writes the node to the file
+            virtual void AddIgnoreNode(Node* node) = 0;
             virtual bool StartBuild() = 0;
             virtual bool FinishBuild() = 0;
             LexerType_t GetLexerTarget();

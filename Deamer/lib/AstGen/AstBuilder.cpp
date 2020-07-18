@@ -83,6 +83,11 @@ void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, std::st
     delete namespace_language;
 	*/
 //*
+    std::string tokenNameUpper;
+    for(int i = 0; i < tokenName.size(); i++)
+    {
+        tokenNameUpper += ::toupper(tokenName[i]);
+    }
     *astHeaderFile << "#ifndef ASTNODES_" << tokenNameUpper << "_H\n"
                    << "#define ASTNODES_" << tokenNameUpper << "_H\n"
                    << "\n"

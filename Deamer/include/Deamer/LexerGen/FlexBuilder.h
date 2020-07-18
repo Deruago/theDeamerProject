@@ -27,6 +27,7 @@ namespace deamer
             FlexBuilder();
             FlexBuilder(LanguageDefinition* langDef);
             void AddNode(Node* node) override;
+            void AddIgnoreNode(Node* node) override;
             bool FinishBuild()  override;
             bool StartBuild() override;
     };

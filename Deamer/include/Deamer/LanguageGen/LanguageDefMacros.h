@@ -24,6 +24,9 @@
 #define TYPE(...) newType(__VA_ARGS__)
 #define RULE(type, ...) newRule(type, __VA_ARGS__)
 
+#define IGNORENODE(node, regex) \
+deamer::Node* node = currentLangDef.IgnoreNode(#node, regex);
+
 #define newNode1(node, regex) \
 deamer::Node* node = currentLangDef.CreateNode(#node, regex);
 
