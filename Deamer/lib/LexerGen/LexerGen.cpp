@@ -10,69 +10,67 @@
 #include "Deamer/LexerGen/LexerGen.h"
 #include "Deamer/LexerGen/LexerFactory.h"
 #include <sstream>
-#include <iostream>
-#include <fstream>
 
-deamer::LexerGen::LexerGen(LexerType_t LexerType_t, LanguageDefinition* langDef)
+deamer::LexerGen::LexerGen(const LexerType_t LexerType_t, LanguageDefinition* langDef)
 {
-    deamer::LexerGen::langDef = langDef;
-    deamer::LexerGen::LexerTarget = LexerType_t;
-    deamer::LexerGen::lexerBuilder = LexerFactory().MakeLexerUseVectorBasedDS(LexerType_t, langDef);
+    LexerGen::langDef = langDef;
+    LexerTarget = LexerType_t;
+    lexerBuilder = LexerFactory().MakeLexerUseVectorBasedDS(LexerType_t, langDef);
 }
 
 void deamer::LexerGen::SetTarget(LexerType_t LexerType_t)
 {
-    deamer::LexerGen::LexerTarget = LexerType_t;
+    LexerTarget = LexerType_t;
 }
 
 void deamer::LexerGen::DirTarget(std::string dirTarget)
 {
     dirTarget.append("Lexer/");
-    deamer::LexerGen::CreateDirectoryIfNotExist(&dirTarget);
+    CreateDirectoryIfNotExist(&dirTarget);
     
-    deamer::LexerGen::lexerBuilder->SetDirTarget(dirTarget);
-    deamer::LexerGen::Directory = dirTarget;
+    lexerBuilder->SetDirTarget(dirTarget);
+    Directory = dirTarget;
 }
 
 void deamer::LexerGen::FileTarget(std::string fileTarget)
 {
-    deamer::LexerGen::lexerBuilder->SetFileTarget(fileTarget);
+    lexerBuilder->SetFileTarget(fileTarget);
 }
 
 bool deamer::LexerGen::Build()
 {
-    deamer::LexerGen::lexerBuilder->StartBuild();
-    for(int i = 0; i < deamer::LexerGen::langDef->Nodes.size(); i++)
+    lexerBuilder->StartBuild();
+    for (auto& Node : langDef->Nodes)
     {
-        deamer::LexerGen::lexerBuilder->AddNode(deamer::LexerGen::langDef->Nodes[i]);
+        lexerBuilder->AddNode(Node);
     }
     
-    for(int i = 0; i < deamer::LexerGen::langDef->IgnoreNodes.size(); i++)
+    for (auto& IgnoreNode : langDef->IgnoreNodes)
     {
-        deamer::LexerGen::lexerBuilder->AddIgnoreNode(deamer::LexerGen::langDef->IgnoreNodes[i]);
+        lexerBuilder->AddIgnoreNode(IgnoreNode);
     }
 
-    bool IsBuildSuccesfull = deamer::LexerGen::lexerBuilder->FinishBuild();
+    bool IsBuildSuccesfull = lexerBuilder->FinishBuild();
     //std::cout << deamer::LexerGen::lexerBuilder->GetOutput() << "\n";
     return IsBuildSuccesfull;
 }
 
 bool deamer::LexerGen::Write()
 {
-    deamer::LexerGen::lexerBuilder->SetFileTarget(deamer::LexerGen::langDef->GetLanguageName() + deamer::LexerGen::Filename);
-    deamer::LexerGen::lexerBuilder->WriteOutputToFile();
+    lexerBuilder->SetFileTarget(langDef->GetLanguageName() + Filename);
+    lexerBuilder->WriteOutputToFile();
 
     return true;
 }
 
-std::string deamer::LexerGen::GetFileLocation()
+std::string deamer::LexerGen::GetFileLocation() const
 {
     std::ostringstream oss;
-    oss << deamer::LexerGen::Directory << deamer::LexerGen::Filename;
+    oss << Directory << Filename;
     return oss.str();
 }
 
-std::string deamer::LexerGen::GetDirectoryLocation()
+std::string deamer::LexerGen::GetDirectoryLocation() const
 {
-    return deamer::LexerGen::Directory;
+    return Directory;
 }

@@ -12,8 +12,6 @@
 
 #include "Deamer/Types/Generator.h"
 #include "Deamer/LexerGen/LexerBuilder.h"
-#include "Deamer/LexerGen/FlexBuilder.h"
-#include "Deamer/LexerGen/DlexBuilder.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 #include <string>
@@ -27,11 +25,10 @@ namespace deamer
             LanguageDefinition* langDef;
             std::string Directory;
             std::string Filename = "lexer.l";
-            void SetLexerBuilder();
         public:
             LexerType_t LexerTarget;
-            std::string GetFileLocation();
-            std::string GetDirectoryLocation();
+            std::string GetFileLocation() const;
+            std::string GetDirectoryLocation() const;
             LexerGen(LexerType_t LexerTarget, LanguageDefinition* langDef);
             void DirTarget(std::string dirTarget) override;
             void FileTarget(std::string fileTarget) override;

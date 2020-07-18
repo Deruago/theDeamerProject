@@ -17,15 +17,15 @@ deamer::FlexBuilder::FlexBuilder()
     
 }
 
-deamer::FlexBuilder::FlexBuilder(deamer::LanguageDefinition* langDef) : deamer::FlexBuilder::FlexBuilder()
+deamer::FlexBuilder::FlexBuilder(LanguageDefinition* langDef) : FlexBuilder()
 {
-    deamer::FlexBuilder::langDef = langDef;
+    FlexBuilder::langDef = langDef;
 }
 
-std::string deamer::FlexBuilder::NewNodeFunctionalData(Node* node)
+std::string deamer::FlexBuilder::NewNodeFunctionalData(Node* node) const
 {
     std::ostringstream oss;
-    oss << "{" << deamer::FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode = (deamer::AstInformation*) malloc(sizeof(deamer::AstInformation)); sscanf(yytext, \"%s\", " << deamer::FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode->ValueName); " << deamer::FlexBuilder::langDef->GetLanguageName() << "lval.DeamerNode->LineNumber = " << deamer::FlexBuilder::langDef->GetLanguageName() << "lineno; return (" << node->TokenName << ");}\n";
+    oss << "{" << langDef->GetLanguageName() << "lval.DeamerNode = (deamer::AstInformation*) malloc(sizeof(deamer::AstInformation)); sscanf(yytext, \"%s\", " << langDef->GetLanguageName() << "lval.DeamerNode->ValueName); " << langDef->GetLanguageName() << "lval.DeamerNode->LineNumber = " << langDef->GetLanguageName() << "lineno; return (" << node->TokenName << ");}\n";
     return oss.str();
 }
 
@@ -33,31 +33,31 @@ void deamer::FlexBuilder::AddNode(Node* node)
 {
     std::ostringstream oss;
     oss << node->TokenName << "   " << "(" << node->Regex << ")\n";
-    deamer::FlexBuilder::regexDeclarationPart += oss.str();
+    regexDeclarationPart += oss.str();
 
     std::ostringstream oss2;
-    oss2 << "{" << node->TokenName << "}" << "   " << deamer::FlexBuilder::NewNodeFunctionalData(node);
-    deamer::FlexBuilder::tokenDeclarationPart += oss2.str();
+    oss2 << "{" << node->TokenName << "}" << "   " << NewNodeFunctionalData(node);
+    tokenDeclarationPart += oss2.str();
 }
 
 void deamer::FlexBuilder::AddIgnoreNode(Node* node)
 {
     std::ostringstream oss;
     oss << node->TokenName << "   " << "(" << node->Regex << ")\n";
-    deamer::FlexBuilder::regexDeclarationPart += oss.str();
+    regexDeclarationPart += oss.str();
     
     std::ostringstream oss2;
     oss2 << "{" << node->TokenName << "}\n";
-    deamer::FlexBuilder::tokenDeclarationPart += oss2.str();
+    tokenDeclarationPart += oss2.str();
 }
 
 bool deamer::FlexBuilder::FinishBuild()
 {
-    deamer::FlexBuilder::tokenDeclarationPart += "\n%%\n";
+    tokenDeclarationPart += "\n%%\n";
 
     std::ostringstream oss;
-    oss << deamer::FlexBuilder::declarationPart << deamer::FlexBuilder::regexDeclarationPart << deamer::FlexBuilder::tokenDeclarationPart << deamer::FlexBuilder::functionPart;
-    deamer::FlexBuilder::Output = oss.str();
+    oss << declarationPart << regexDeclarationPart << tokenDeclarationPart << functionPart;
+    Output = oss.str();
 
     return true;
 }
@@ -74,11 +74,11 @@ bool deamer::FlexBuilder::StartBuild()
         << "#include <Deamer/AstGen/AstTree.h>\n"
         << "#include <stdio.h>\n"
         << "#include <string.h>\n"
-        << "#include \"../Parser/" << deamer::FlexBuilder::langDef->GetLanguageName() << "parser.tab.h\"\n"
+        << "#include \"../Parser/" << langDef->GetLanguageName() << "parser.tab.h\"\n"
         << "void showError();\n"
-        << "extern int " << deamer::FlexBuilder::langDef->GetLanguageName() << "lex();\n"
+        << "extern int " << langDef->GetLanguageName() << "lex();\n"
         << "%}\n\n";
-    deamer::FlexBuilder::declarationPart = oss.str();
-    deamer::FlexBuilder::tokenDeclarationPart += "%%\n";
+    declarationPart = oss.str();
+    tokenDeclarationPart += "%%\n";
     return true;
 }

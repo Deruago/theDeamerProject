@@ -12,26 +12,26 @@
 #include "Deamer/ParserGen/BisonBuilder.h"
 #include "Deamer/ParserGen/DParseBuilder.h"
 
-deamer::ParserBuilder* deamer::ParserFactory::MakeParserUseVectorBasedDS(deamer::ParserType_t ParserType_t, LanguageDefinition* langDef) const
+deamer::ParserBuilder* deamer::ParserFactory::MakeParserUseVectorBasedDS(ParserType_t ParserType_t, LanguageDefinition* langDef) const
 {
     switch(ParserType_t)
     {
-        case deamer::ParserType_t::dparse:
-            return new deamer::DParseBuilder(langDef);
-        case deamer::ParserType_t::bison:
-            return new deamer::BisonBuilder(langDef);
+        case ParserType_t::dparse:
+            return new DParseBuilder(langDef);
+        case ParserType_t::bison:
+            return new BisonBuilder(langDef);
     }
     return nullptr;
 }
 
-deamer::ParserBuilder* deamer::ParserFactory::MakeParserUseRecursiveBasedDS(deamer::ParserType_t ParserType_t, LanguageDefinition* langDef) const
+deamer::ParserBuilder* deamer::ParserFactory::MakeParserUseRecursiveBasedDS(ParserType_t ParserType_t, LanguageDefinition* langDef) const
 {
     switch(ParserType_t)
     {
-        case deamer::ParserType_t::dparse:
-            return new deamer::DParseBuilder(langDef);
-        case deamer::ParserType_t::bison:
-            return new deamer::BisonBuilder(langDef);
+        case ParserType_t::dparse:
+            return new DParseBuilder(langDef);
+        case ParserType_t::bison:
+            return new BisonBuilder(langDef);
     }
     return nullptr;
 }

@@ -14,9 +14,9 @@ deamer::DlexBuilder::DlexBuilder()
 
 }
 
-deamer::DlexBuilder::DlexBuilder(deamer::LanguageDefinition* langDef) : deamer::DlexBuilder::DlexBuilder()
+deamer::DlexBuilder::DlexBuilder(LanguageDefinition* langDef) : DlexBuilder()
 {
-    deamer::DlexBuilder::langDef = langDef;
+    DlexBuilder::langDef = langDef;
 }
 
 void deamer::DlexBuilder::AddNode(Node* node)

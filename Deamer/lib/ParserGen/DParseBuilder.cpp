@@ -14,9 +14,9 @@ deamer::DParseBuilder::DParseBuilder()
 
 }
 
-deamer::DParseBuilder::DParseBuilder(LanguageDefinition* langDef) : deamer::DParseBuilder::DParseBuilder()
+deamer::DParseBuilder::DParseBuilder(LanguageDefinition* langDef) : DParseBuilder()
 {
-    deamer::DParseBuilder::langDef = langDef;
+    DParseBuilder::langDef = langDef;
 }
 
 void deamer::DParseBuilder::AddNode(Node* node)

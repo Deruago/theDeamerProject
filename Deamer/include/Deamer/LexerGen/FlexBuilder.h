@@ -22,7 +22,7 @@ namespace deamer
         std::string regexDeclarationPart;
         std::string tokenDeclarationPart;
         std::string functionPart;
-        std::string NewNodeFunctionalData(Node* node);
+        std::string NewNodeFunctionalData(Node* node) const;
         public:
             FlexBuilder();
             FlexBuilder(LanguageDefinition* langDef);

@@ -12,8 +12,6 @@
 
 #include "Deamer/Types/Generator.h"
 #include "Deamer/ParserGen/ParserBuilder.h"
-#include "Deamer/ParserGen/DParseBuilder.h"
-#include "Deamer/ParserGen/BisonBuilder.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 #include <string>
@@ -23,18 +21,17 @@ namespace deamer
     class ParserGen : public Generator
     {
         private:
-            ParserBuilder* GetBuilder(ParserType_t parserType_t);
             ParserBuilder* parserBuilder;
             LanguageDefinition* langDef;
             std::string Directory;
             std::string Filename = "parser.y";
             void SetParserBuilder();
-            void BuildNodes();
-            void BuildRulesOfType(Type* type);
+            void BuildNodes() const;
+            void BuildRulesOfType(Type* type) const;
         public:
             ParserType_t ParserTarget;
-            std::string GetFileLocation();
-            std::string GetDirectoryLocation();
+            std::string GetFileLocation() const;
+            std::string GetDirectoryLocation() const;
             ParserGen(ParserType_t parserTarget, LanguageDefinition* langDef);
             void DirTarget(std::string dirTarget) override;
             void FileTarget(std::string fileTarget) override;

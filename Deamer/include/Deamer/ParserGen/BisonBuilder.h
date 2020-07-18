@@ -29,7 +29,7 @@ namespace deamer
         unsigned int curRuleSizeOfType;
         unsigned int currentRulesBuilt;
         void WriteRule(Rule* rule, std::ostringstream* oss);
-        void WriteRuleModificationPart(Rule* rule, std::ostringstream* oss);
+        void WriteRuleModificationPart(Rule* rule, std::ostringstream* oss) const;
         public:
             BisonBuilder();
             BisonBuilder(LanguageDefinition* langDef);

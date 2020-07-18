@@ -12,26 +12,26 @@
 #include "Deamer/LexerGen/FlexBuilder.h"
 #include "Deamer/LexerGen/DlexBuilder.h"
 
-deamer::LexerBuilder* deamer::LexerFactory::MakeLexerUseVectorBasedDS(deamer::LexerType_t lexerType_t, LanguageDefinition* langDef) const
+deamer::LexerBuilder* deamer::LexerFactory::MakeLexerUseVectorBasedDS(LexerType_t lexerType_t, LanguageDefinition* langDef) const
 {
     switch(lexerType_t)
     {
-        case deamer::LexerType_t::dlex:
-            return new deamer::DlexBuilder(langDef);
-        case deamer::LexerType_t::flex:
-            return new deamer::FlexBuilder(langDef);
+        case LexerType_s::dlex:
+            return new DlexBuilder(langDef);
+        case LexerType_s::flex:
+            return new FlexBuilder(langDef);
     }
     return nullptr;
 }
 
-deamer::LexerBuilder* deamer::LexerFactory::MakeLexerUseRecursiveBasedDS(deamer::LexerType_t lexerType_t, LanguageDefinition* langDef) const
+deamer::LexerBuilder* deamer::LexerFactory::MakeLexerUseRecursiveBasedDS(LexerType_t lexerType_t, LanguageDefinition* langDef) const
 {
     switch(lexerType_t)
     {
-        case deamer::LexerType_t::dlex:
-            return new deamer::DlexBuilder(langDef);
-        case deamer::LexerType_t::flex:
-            return new deamer::FlexBuilder(langDef);
+        case LexerType_s::dlex:
+            return new DlexBuilder(langDef);
+        case LexerType_s::flex:
+            return new FlexBuilder(langDef);
     }
     return nullptr;
 }

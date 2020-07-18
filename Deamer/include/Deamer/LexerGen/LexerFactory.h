@@ -25,12 +25,12 @@ namespace deamer
             //STMTS:
             //    STMT STMTS
             // STMTS is a vector of new STMT.
-            LexerBuilder* MakeLexerUseVectorBasedDS(deamer::LexerType_t lexerType_t, LanguageDefinition* langDef) const;
+            LexerBuilder* MakeLexerUseVectorBasedDS(LexerType_t lexerType_t, LanguageDefinition* langDef) const;
             //e.g:
             //STMTS:
             //    STMT STMTS
             // New STMTS recursively define new STMTS.
-            LexerBuilder* MakeLexerUseRecursiveBasedDS(deamer::LexerType_t lexerType_t, LanguageDefinition* langDef) const;
+            LexerBuilder* MakeLexerUseRecursiveBasedDS(LexerType_t lexerType_t, LanguageDefinition* langDef) const;
     };
 }
 
