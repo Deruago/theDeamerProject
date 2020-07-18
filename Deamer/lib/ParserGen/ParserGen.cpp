@@ -1,34 +1,23 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bï¿½hmer 2020
  *
  * Modified:
- * -June 2020 Thimo Böhmer
- * -July 2020 Thimo Böhmer
+ * -June 2020 Thimo Bï¿½hmer
+ * -July 2020 Thimo Bï¿½hmer
  */
 
 #include "Deamer/ParserGen/ParserGen.h"
+#include "Deamer/ParserGen/ParserFactory.h"
 #include <sstream>
 #include <iostream>
 #include <fstream>
-
-deamer::ParserBuilder* deamer::ParserGen::GetBuilder(deamer::ParserType_t parserType_t)
-{
-    switch(parserType_t)
-    {
-        case ParserType_t::dparse:
-            return new DParseBuilder(deamer::ParserGen::langDef);
-        case ParserType_t::bison:
-            return new BisonBuilder(deamer::ParserGen::langDef);
-    }
-    return nullptr;
-}
 
 deamer::ParserGen::ParserGen(deamer::ParserType_t parserType_t, deamer::LanguageDefinition* langDef)
 {
     deamer::ParserGen::langDef = langDef;
     deamer::ParserGen::ParserTarget = parserType_t;
-    deamer::ParserGen::parserBuilder = deamer::ParserGen::GetBuilder(deamer::ParserGen::ParserTarget);
+    deamer::ParserGen::parserBuilder = ParserFactory().MakeParserUseVectorBasedDS(parserType_t, langDef);
 }
 
 void deamer::ParserGen::SetTarget(deamer::ParserType_t parserType_t)
@@ -68,11 +57,6 @@ void deamer::ParserGen::BuildRulesOfType(Type* type)
 
 bool deamer::ParserGen::Build()
 {
-    if (deamer::ParserGen::parserBuilder == nullptr)
-    {
-        deamer::ParserGen::parserBuilder = GetBuilder(deamer::ParserGen::ParserTarget);
-    }
-
     deamer::ParserGen::BuildNodes();
 
     deamer::ParserGen::parserBuilder->StartBuild();

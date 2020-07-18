@@ -1,34 +1,23 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bohmer 2020
  *
  * Modified:
- * -June 2020 Thimo Böhmer
- * -July 2020 Thimo Böhmer
+ * -June 2020 Thimo Bohmer
+ * -July 2020 Thimo Bohmer
  */
 
 #include "Deamer/LexerGen/LexerGen.h"
+#include "Deamer/LexerGen/LexerFactory.h"
 #include <sstream>
 #include <iostream>
 #include <fstream>
-
-deamer::LexerBuilder* deamer::LexerGen::GetBuilder(deamer::LexerType_t LexerType_t)
-{
-    switch(LexerType_t)
-    {
-        case LexerType_t::dlex:
-            return new DlexBuilder(deamer::LexerGen::langDef);
-        case LexerType_t::flex:
-            return new FlexBuilder(deamer::LexerGen::langDef);
-    }
-    return nullptr;
-}
 
 deamer::LexerGen::LexerGen(LexerType_t LexerType_t, LanguageDefinition* langDef)
 {
     deamer::LexerGen::langDef = langDef;
     deamer::LexerGen::LexerTarget = LexerType_t;
-    deamer::LexerGen::lexerBuilder = deamer::LexerGen::GetBuilder(deamer::LexerGen::LexerTarget);
+    deamer::LexerGen::lexerBuilder = LexerFactory().MakeLexerUseVectorBasedDS(LexerType_t, langDef);
 }
 
 void deamer::LexerGen::SetTarget(LexerType_t LexerType_t)
@@ -52,11 +41,6 @@ void deamer::LexerGen::FileTarget(std::string fileTarget)
 
 bool deamer::LexerGen::Build()
 {
-    if(deamer::LexerGen::lexerBuilder == nullptr)
-    {
-        deamer::LexerGen::lexerBuilder = GetBuilder(deamer::LexerGen::LexerTarget);
-    }
-    
     deamer::LexerGen::lexerBuilder->StartBuild();
     for(int i = 0; i < deamer::LexerGen::langDef->Nodes.size(); i++)
     {

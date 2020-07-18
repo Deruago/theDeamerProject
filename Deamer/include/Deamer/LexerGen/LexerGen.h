@@ -1,10 +1,10 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bï¿½hmer 2020
  *
  * Modified:
- * -June 2020 Thimo Böhmer
- * -July 2020 Thimo Böhmer
+ * -June 2020 Thimo Bï¿½hmer
+ * -July 2020 Thimo Bï¿½hmer
  */
 
 #ifndef DEAMER_LEXERGEN_LEXERGEN_G
@@ -23,7 +23,6 @@ namespace deamer
     class LexerGen : public Generator
     {
         private:
-            LexerBuilder* GetBuilder(LexerType_t LexerType_t);
             LexerBuilder* lexerBuilder;
             LanguageDefinition* langDef;
             std::string Directory;
