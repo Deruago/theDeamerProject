@@ -95,23 +95,6 @@ void deamer::BisonBuilder::AddCorrectNotationForNewRule(std::ostringstream& oss)
 	}
 }
 
-/*
-void deamer::BisonBuilder::WriteRuleModificationPart(Rule* rule, std::ostringstream* oss)
-{
-	*oss << "{\n";
-	for(int i = 0; i < rule->Tokens.size(); i++)
-	{
-		if (!rule->Tokens[i]->IsNode)
-		{
-			continue;
-		}
-
-		*oss << "        std::cout << $" << i + 1 << ".ValueName;\n";
-	}
-	*oss << "    }";
-}
-*/
-
 void deamer::BisonBuilder::WriteRuleModificationPart(Rule* rule, std::ostringstream* oss) const
 {
 	const std::string LanguageName = langDef->GetLanguageName();
