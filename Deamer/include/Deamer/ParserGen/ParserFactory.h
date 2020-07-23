@@ -1,10 +1,10 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo B�hmer 2020
+ * Copyright Thimo Bohmer 2020
  *
  * Modified:
- * -June 2020 Thimo B�hmer
- * -July 2020 Thimo B�hmer
+ * -June 2020 Thimo Bohmer
+ * -July 2020 Thimo Bohmer
  */
 
 #ifndef DEAMER_PARSERGEN_PARSERFACTORY_H
@@ -24,13 +24,8 @@ namespace deamer
             //e.g:
             //STMTS:
             //    STMT STMTS
-            // STMTS is a vector of new STMT.
-            ParserBuilder* MakeParserUseVectorBasedDS(deamer::ParserType_t ParserType_t, LanguageDefinition* langDef) const;
-            //e.g:
-            //STMTS:
-            //    STMT STMTS
             // New STMTS recursively define new STMTS.
-            ParserBuilder* MakeParserUseRecursiveBasedDS(deamer::ParserType_t ParserType_t, LanguageDefinition* langDef) const;
+            ParserBuilder* MakeParser(deamer::ParserType_t ParserType_t, LanguageDefinition* langDef) const;
     };
 }
 
