@@ -7,29 +7,26 @@
  * -July 2020 Thimo Böhmer
  */
 
-#include <iostream>
-#include <string>
 #include "Deamer/LanguageGen/Token.h"
 #include "Deamer/LanguageGen/Type.h"
+#include <iostream>
+#include <string>
 
-deamer::Type::Type(const std::string typeName, const bool createAst) : deamer::Token::Token(typeName, false, createAst)
+deamer::Type::Type(const std::string& typeName, const bool createAst, const bool groupedType) : Token(typeName, false, createAst)
 {
+    GroupedType = groupedType;
 }
 
-deamer::Type::Type(const std::string typeName) : deamer::Type::Type(typeName, true)
-{
-}
 
-
-void deamer::Type::AddRule(deamer::Rule* newRule)
+void deamer::Type::AddRule(Rule* newRule)
 {
-    deamer::Type::Rules.push_back(newRule);
+    Rules.push_back(newRule);
 }
 
 void deamer::Type::PrintType()
 {
-    deamer::Type::PrintToken();
-    deamer::Type::PrintRules();
+    PrintToken();
+    PrintRules();
 }
 
 void deamer::Type::PrintRules()
