@@ -16,8 +16,7 @@ This header describes the class implementation of Token. Which is the Base class
 */
 
 #include <string>
-#include "Deamer/Deamer.h"
-#include "Deamer/LanguageGen/TokenConstants.h"
+#include <vector>
 
 namespace deamer
 {
@@ -25,13 +24,15 @@ namespace deamer
     {
 
         protected:
-            Token(const std::string tokenName, const bool isNode, const bool createAst);
+            Token(const std::string& tokenName, const bool isNode, const bool createAst);
 
         public:
+            std::vector<Token*> BaseTokens;
             bool IsNode;
             bool CreateAst;
             std::string TokenName;
             void PrintToken();
+            void AddBaseToken(Token* token);
     };
 }
 
