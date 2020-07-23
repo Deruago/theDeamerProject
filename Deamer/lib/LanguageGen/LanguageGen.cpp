@@ -11,18 +11,18 @@
 #include <fstream>
 #include <sstream>
 
-deamer::LanguageGen::LanguageGen(LexerType_t lexerType, ParserType_t parserType, deamer::LanguageDefinition* languageDefinition)
+deamer::LanguageGen::LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition* languageDefinition)
 {
-    deamer::LanguageGen::languageDefinition = languageDefinition;
-    deamer::LanguageGen::lexerGen = new LexerGen(lexerType, languageDefinition);
-    deamer::LanguageGen::parserGen = new ParserGen(parserType, languageDefinition);
+    LanguageGen::languageDefinition = languageDefinition;
+    lexerGen = new LexerGen(lexerType, languageDefinition);
+    parserGen = new ParserGen(parserType, languageDefinition);
 }
 
 void deamer::LanguageGen::DirTarget(std::string TargetDir)
 {
-    deamer::LanguageGen::Directory = TargetDir;
-    deamer::LanguageGen::lexerGen->DirTarget(TargetDir);
-    deamer::LanguageGen::parserGen->DirTarget(TargetDir);
+    Directory = TargetDir;
+    lexerGen->DirTarget(TargetDir);
+    parserGen->DirTarget(TargetDir);
 }
 
 void deamer::LanguageGen::FileTarget(std::string fileTarget)
@@ -31,75 +31,75 @@ void deamer::LanguageGen::FileTarget(std::string fileTarget)
 
 void deamer::LanguageGen::SetLexer(LexerType_t lexerType) const
 {
-    deamer::LanguageGen::lexerGen->SetTarget(lexerType);
+    lexerGen->SetTarget(lexerType);
 }
 
 void deamer::LanguageGen::SetParser(ParserType_t parserType) const
 {
-    deamer::LanguageGen::parserGen->SetTarget(parserType);
+    parserGen->SetTarget(parserType);
 }
 
 void deamer::LanguageGen::GenerateLexer() const
 {
-    deamer::LanguageGen::lexerGen->Build();
+    lexerGen->Build();
 }
 
 void deamer::LanguageGen::GenerateParser() const
 {
-    deamer::LanguageGen::parserGen->Build();
+    parserGen->Build();
 }
 
 bool deamer::LanguageGen::Build()
 {
     bool buildIsSuccesfull;
-    buildIsSuccesfull = deamer::LanguageGen::lexerGen->Build();
+    buildIsSuccesfull = lexerGen->Build();
     if (!buildIsSuccesfull)
     {
         return buildIsSuccesfull;
     }
 
-    buildIsSuccesfull = deamer::LanguageGen::parserGen->Build();
+    buildIsSuccesfull = parserGen->Build();
     if (!buildIsSuccesfull)
     {
         return buildIsSuccesfull;
     }
 
-    buildIsSuccesfull = deamer::LanguageGen::CreateDefaultLexerAPI();
+    buildIsSuccesfull = CreateDefaultLexerAPI();
     if (!buildIsSuccesfull)
     {
         return buildIsSuccesfull;
     }
     
-    buildIsSuccesfull = deamer::LanguageGen::CreateDefaultParserAPI();
+    buildIsSuccesfull = CreateDefaultParserAPI();
     if (!buildIsSuccesfull)
     {
         return buildIsSuccesfull;
     }
 
-    buildIsSuccesfull = deamer::LanguageGen::CreateDefaultCompilerAPIHeader();
+    buildIsSuccesfull = CreateDefaultCompilerAPIHeader();
     if (!buildIsSuccesfull)
     {
         return buildIsSuccesfull;
     }
     
-    buildIsSuccesfull = deamer::LanguageGen::CreateDefaultCompilerAPISource();
+    buildIsSuccesfull = CreateDefaultCompilerAPISource();
     return buildIsSuccesfull;
 }
 
 bool deamer::LanguageGen::CreateDefaultLexerAPI() const
 {
     std::ostringstream LexerAPIFile;
-    LexerAPIFile << "#ifndef LEXER_" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_LEXERAPIFILE_H\n"
-                  << "#define LEXER_" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_LEXERAPIFILE_H\n"
+    LexerAPIFile << "#ifndef LEXER_" << languageDefinition->GetLanguageName() << "_LEXERAPIFILE_H\n"
+                  << "#define LEXER_" << languageDefinition->GetLanguageName() << "_LEXERAPIFILE_H\n"
                   << "\n"
                   << "#include <Deamer/DefaultAPI/DeamerLexerAPI.h>\n"
                   << "#include <Deamer/AstGen/AstInformation.h>\n"
                   << "#include <Deamer/AstGen/AstNode.h>\n"
                   << "#include <Deamer/AstGen/AstTree.h>\n"
                   << "\n"
-                  << "namespace " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "\n"
+                  << "namespace " << languageDefinition->GetLanguageName() << "\n"
                   << "{\n"
-                  << "    class " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Lexer : public deamer::DeamerLexerAPI\n"
+                  << "    class " << languageDefinition->GetLanguageName() << "Lexer : public deamer::DeamerLexerAPI\n"
                   << "    {\n"
                   << "        private:\n"
                   << "        protected:\n"
@@ -110,9 +110,9 @@ bool deamer::LanguageGen::CreateDefaultLexerAPI() const
                   << "    };\n"
                   << "}\n"
                   << "\n"
-                  << "#endif //LEXER_" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_LEXERAPIFILE_H\n";
+                  << "#endif //LEXER_" << languageDefinition->GetLanguageName() << "_LEXERAPIFILE_H\n";
     std::ostringstream oss0;
-    oss0 << deamer::LanguageGen::Directory << "Lexer/" << "" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Lexer.h";
+    oss0 << Directory << "Lexer/" << "" << languageDefinition->GetLanguageName() << "Lexer.h";
     std::ofstream newLexerAPIFile;
 
     newLexerAPIFile.open(oss0.str(), std::ios_base::app);
@@ -127,22 +127,22 @@ bool deamer::LanguageGen::CreateDefaultLexerAPI() const
 bool deamer::LanguageGen::CreateDefaultParserAPI() const
 {
     std::ostringstream ParserAPIFile;
-    ParserAPIFile << "#ifndef PARSER_" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_PARSERAPIFILE_H\n"
-                  << "#define PARSER_" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_PARSERAPIFILE_H\n"
+    ParserAPIFile << "#ifndef PARSER_" << languageDefinition->GetLanguageName() << "_PARSERAPIFILE_H\n"
+                  << "#define PARSER_" << languageDefinition->GetLanguageName() << "_PARSERAPIFILE_H\n"
                   << "\n"
                   << "#include <Deamer/DefaultAPI/DeamerParserAPI.h>\n"
                   << "#include <Deamer/AstGen/AstNode.h>\n"
                   << "#include <Deamer/AstGen/AstTree.h>\n"
                   << "\n"
-                  << "namespace " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "\n"
+                  << "namespace " << languageDefinition->GetLanguageName() << "\n"
                   << "{\n"
-                  << "    class " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Parser : public deamer::DeamerParserAPI\n"
+                  << "    class " << languageDefinition->GetLanguageName() << "Parser : public deamer::DeamerParserAPI\n"
                   << "    {\n"
                   << "        private:\n"
                   << "        protected:\n"
                   << "        public:\n"
-                  << "            " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Parser();\n"
-                  << "            ~" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Parser();\n"
+                  << "            " << languageDefinition->GetLanguageName() << "Parser();\n"
+                  << "            ~" << languageDefinition->GetLanguageName() << "Parser();\n"
                   << "\n"
                   << "            deamer::AstNode* ParseText(std::string inputText) override;\n"
                   << "            deamer::AstNode* ParseFile(FILE* inputFile) override;\n"
@@ -150,9 +150,9 @@ bool deamer::LanguageGen::CreateDefaultParserAPI() const
                   << "    };\n"
                   << "}\n"
                   << "\n"
-                  << "#endif //PARSER_" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_PARSERAPIFILE_H\n";
+                  << "#endif //PARSER_" << languageDefinition->GetLanguageName() << "_PARSERAPIFILE_H\n";
     std::ostringstream oss0;
-    oss0 << deamer::LanguageGen::Directory << "Parser/" << "" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Parser.h";
+    oss0 << Directory << "Parser/" << "" << languageDefinition->GetLanguageName() << "Parser.h";
     std::ofstream newParserAPIFile;
 
     newParserAPIFile.open(oss0.str(), std::ios_base::app);
@@ -167,17 +167,17 @@ bool deamer::LanguageGen::CreateDefaultParserAPI() const
 bool deamer::LanguageGen::CreateDefaultCompilerAPIHeader() const
 {
     std::ostringstream CompilerAPIHeaderFile;
-    CompilerAPIHeaderFile << "#ifndef " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_COMPILERAPIFILE_H\n"
-                  << "#define " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_COMPILERAPIFILE_H\n"
+    CompilerAPIHeaderFile << "#ifndef " << languageDefinition->GetLanguageName() << "_COMPILERAPIFILE_H\n"
+                  << "#define " << languageDefinition->GetLanguageName() << "_COMPILERAPIFILE_H\n"
                   << "\n"
                   << "#include <Deamer/DefaultAPI/DeamerCompilerAPI.h>\n"
                   << "#include <Deamer/CompilerGen/CompiledObject.h>\n"
                   << "#include <Deamer/AstGen/AstNode.h>\n"
                   << "#include <Deamer/AstGen/AstTree.h>\n"
                   << "\n"
-                  << "namespace " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "\n"
+                  << "namespace " << languageDefinition->GetLanguageName() << "\n"
                   << "{\n"
-                  << "    class " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler : public deamer::DeamerCompilerAPI\n"
+                  << "    class " << languageDefinition->GetLanguageName() << "Compiler : public deamer::DeamerCompilerAPI\n"
                   << "    {\n"
                   << "        private:\n"
                   << "        protected:\n"
@@ -185,10 +185,10 @@ bool deamer::LanguageGen::CreateDefaultCompilerAPIHeader() const
                   << "            const bool SupportsCompilation = true; // If this can compile data. Set this to false if it cant\n"
                   << "            const bool SupportsDebugging = false; // Set this to true if it supports Debugging note that it needs to inherit the specified interface\n"
                   << "\n"
-                  << "            const std::string Language = \"" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "\";\n"
+                  << "            const std::string Language = \"" << languageDefinition->GetLanguageName() << "\";\n"
                   << "\n"
-                  << "            " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler();\n"
-                  << "            ~" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler();\n"
+                  << "            " << languageDefinition->GetLanguageName() << "Compiler();\n"
+                  << "            ~" << languageDefinition->GetLanguageName() << "Compiler();\n"
                   << "\n"
                   << "            deamer::CompiledObject* CompileText(std::string inputText) override;\n"
                   << "            deamer::CompiledObject* CompileFile(FILE* inputFile) override;\n"
@@ -196,9 +196,9 @@ bool deamer::LanguageGen::CreateDefaultCompilerAPIHeader() const
                   << "    };\n"
                   << "}\n"
                   << "\n"
-                  << "#endif //" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "_COMPILERAPIFILE_H\n";
+                  << "#endif //" << languageDefinition->GetLanguageName() << "_COMPILERAPIFILE_H\n";
     std::ostringstream oss0;
-    oss0 << deamer::LanguageGen::Directory << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler.h";
+    oss0 << Directory << languageDefinition->GetLanguageName() << "Compiler.h";
     std::ofstream newCompilerAPIHeaderFile;
 
     newCompilerAPIHeaderFile.open(oss0.str(), std::ios_base::app);
@@ -214,31 +214,31 @@ bool deamer::LanguageGen::CreateDefaultCompilerAPISource() const
 {
     std::ostringstream CompilerAPISourceFile;
     CompilerAPISourceFile 
-                  << "#include <" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler.h>\n"
-                  << "#include <" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Parser.h>\n"
+                  << "#include <" << languageDefinition->GetLanguageName() << "Compiler.h>\n"
+                  << "#include <" << languageDefinition->GetLanguageName() << "Parser.h>\n"
                   << "\n"
-                  << deamer::LanguageGen::languageDefinition->GetLanguageName() << "::" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler::" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler()\n"
+                  << languageDefinition->GetLanguageName() << "::" << languageDefinition->GetLanguageName() << "Compiler::" << languageDefinition->GetLanguageName() << "Compiler()\n"
                   << "{\n"
                   << "\n"
                   << "}\n\n"
-                  << deamer::LanguageGen::languageDefinition->GetLanguageName() << "::" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler::~" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler()\n"
+                  << languageDefinition->GetLanguageName() << "::" << languageDefinition->GetLanguageName() << "Compiler::~" << languageDefinition->GetLanguageName() << "Compiler()\n"
                   << "{\n"
                   << "\n"
                   << "}\n\n"
-                  << "deamer::CompiledObject* " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "::" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler::CompileText(std::string inputText)\n"
+                  << "deamer::CompiledObject* " << languageDefinition->GetLanguageName() << "::" << languageDefinition->GetLanguageName() << "Compiler::CompileText(std::string inputText)\n"
                   << "{\n"
                   << "    return nullptr;\n"
                   << "}\n\n"
-                  << "deamer::CompiledObject* " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "::" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler::CompileFile(FILE* inputFile)\n"
+                  << "deamer::CompiledObject* " << languageDefinition->GetLanguageName() << "::" << languageDefinition->GetLanguageName() << "Compiler::CompileFile(FILE* inputFile)\n"
                   << "{\n"
                   << "    return nullptr;\n"
                   << "}\n\n"
-                  << "deamer::CompiledObject* " << deamer::LanguageGen::languageDefinition->GetLanguageName() << "::" << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler::CompileFile(std::string fileLocation)\n"
+                  << "deamer::CompiledObject* " << languageDefinition->GetLanguageName() << "::" << languageDefinition->GetLanguageName() << "Compiler::CompileFile(std::string fileLocation)\n"
                   << "{\n"
                   << "    return nullptr;\n"
                   << "}\n\n";
     std::ostringstream oss0;
-    oss0 << deamer::LanguageGen::Directory << deamer::LanguageGen::languageDefinition->GetLanguageName() << "Compiler.cpp";
+    oss0 << Directory << languageDefinition->GetLanguageName() << "Compiler.cpp";
     std::ofstream newCompilerAPISourceFile;
 
     newCompilerAPISourceFile.open(oss0.str(), std::ios_base::app);
@@ -252,8 +252,8 @@ bool deamer::LanguageGen::CreateDefaultCompilerAPISource() const
 
 bool deamer::LanguageGen::Write()
 {
-    deamer::LanguageGen::lexerGen->Write();
-    deamer::LanguageGen::parserGen->Write();
+    lexerGen->Write();
+    parserGen->Write();
 
     return true;
 }
@@ -262,27 +262,27 @@ bool deamer::LanguageGen::Compile() const
 {
     /*Currently only supports Flex and Bison (c++ variant)*/
     std::ostringstream ossLexer;
-    ossLexer << "flex -P" << deamer::LanguageGen::languageDefinition->GetLanguageName() << " " << deamer::LanguageGen::lexerGen->GetDirectoryLocation() << deamer::LanguageGen::languageDefinition->GetLanguageName() << "lexer.l";
+    ossLexer << "flex -P" << languageDefinition->GetLanguageName() << " " << lexerGen->GetDirectoryLocation() << languageDefinition->GetLanguageName() << "lexer.l";
     std::cout << ossLexer.str() << "\n";
     std::system(ossLexer.str().c_str());
 
     std::ostringstream ossLexerReplace;
-    ossLexerReplace << "mv lex." << deamer::LanguageGen::languageDefinition->GetLanguageName() << ".c " << deamer::LanguageGen::lexerGen->GetDirectoryLocation() << "lex." << deamer::LanguageGen::languageDefinition->GetLanguageName() << ".c";
+    ossLexerReplace << "mv lex." << languageDefinition->GetLanguageName() << ".c " << lexerGen->GetDirectoryLocation() << "lex." << languageDefinition->GetLanguageName() << ".c";
     std::cout << ossLexerReplace.str() << "\n";
     std::system(ossLexerReplace.str().c_str());
 
     std::ostringstream ossLexerReplace2;
-    ossLexerReplace2 << "mv ./" << deamer::LanguageGen::lexerGen->GetDirectoryLocation() << "lex." << deamer::LanguageGen::languageDefinition->GetLanguageName() << ".c ./" << deamer::LanguageGen::lexerGen->GetDirectoryLocation() << "lex." << deamer::LanguageGen::languageDefinition->GetLanguageName() << ".cpp";
+    ossLexerReplace2 << "mv ./" << lexerGen->GetDirectoryLocation() << "lex." << languageDefinition->GetLanguageName() << ".c ./" << lexerGen->GetDirectoryLocation() << "lex." << languageDefinition->GetLanguageName() << ".cpp";
     std::cout << ossLexerReplace2.str() << "\n";
     std::system(ossLexerReplace2.str().c_str());
 
     std::ostringstream ossParser;
-    ossParser << "bison -d -p" << deamer::LanguageGen::languageDefinition->GetLanguageName() << " " << deamer::LanguageGen::parserGen->GetDirectoryLocation() << deamer::LanguageGen::languageDefinition->GetLanguageName() << "parser.y";
+    ossParser << "bison -d -p" << languageDefinition->GetLanguageName() << " " << parserGen->GetDirectoryLocation() << languageDefinition->GetLanguageName() << "parser.y";
     std::cout << ossParser.str() << "\n";
     std::system(ossParser.str().c_str());
 
     std::ostringstream ossParserReplace;
-    ossParserReplace << "mv ./" << deamer::LanguageGen::parserGen->GetDirectoryLocation() << deamer::LanguageGen::languageDefinition->GetLanguageName() << "parser.tab.c " << deamer::LanguageGen::parserGen->GetDirectoryLocation() << deamer::LanguageGen::languageDefinition->GetLanguageName() << "parser.tab.cpp";
+    ossParserReplace << "mv ./" << parserGen->GetDirectoryLocation() << languageDefinition->GetLanguageName() << "parser.tab.c " << parserGen->GetDirectoryLocation() << languageDefinition->GetLanguageName() << "parser.tab.cpp";
     std::cout << ossParserReplace.str() << "\n";
     std::system(ossParserReplace.str().c_str());
 
@@ -303,17 +303,17 @@ bool deamer::LanguageGen::Compile() const
 
 bool deamer::LanguageGen::Finish()
 {
-    if(!deamer::LanguageGen::Build())
+    if(!LanguageGen::Build())
     {
         return false;
     }
 
-    if(!deamer::LanguageGen::Write())
+    if(!LanguageGen::Write())
     {
         return false;
     }
 
-    if(!deamer::LanguageGen::Compile())
+    if(!Compile())
     {
         return false;
     }

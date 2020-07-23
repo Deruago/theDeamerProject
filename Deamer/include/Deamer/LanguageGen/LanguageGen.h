@@ -10,18 +10,12 @@
 #ifndef DEAMER_LANGUAGEGEN_LANGUAGEGEN_H
 #define DEAMER_LANGUAGEGEN_LANGUAGEGEN_H
 
-#include "Deamer/Deamer.h"
 #include "Deamer/Types/Generator.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
-#include "Deamer/LanguageGen/Node.h"
-#include "Deamer/LanguageGen/Type.h"
-#include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/Rule.h"
 #include "Deamer/LexerGen/LexerGen.h"
 #include "Deamer/ParserGen/ParserGen.h"
 #include <string>
-#include <vector>
 
 /*
 This header describes the class implementation of LanguageGen. Which is used to generate Types, Nodes and Rules
