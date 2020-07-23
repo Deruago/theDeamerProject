@@ -14,21 +14,20 @@
 This header describes the class implementation of Rule. Which is the base class for Rules.
 */
 
-#include <string>
-#include <vector>
-#include "Deamer/Deamer.h"
 #include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/TokenConstants.h"
+#include "Deamer/ParserGen/BisonBuilder/BisonBuilder.h"
+#include <vector>
 
 namespace deamer
 {
     class Rule
     {
-
         public:
             std::vector<Token*> Tokens;
-            Rule(const std::vector<Token*> tokens);
+            RuleType_t RuleType = RuleType_t::standard;
+            Rule(const std::vector<Token*>& tokens);
             void PrintRule();
+            bool IsEmpty() const;
     };
 }
 

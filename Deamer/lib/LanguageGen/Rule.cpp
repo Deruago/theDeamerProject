@@ -12,16 +12,21 @@
 #include "Deamer/LanguageGen/Token.h"
 #include "Deamer/LanguageGen/Rule.h"
 
-deamer::Rule::Rule(const std::vector<deamer::Token*> tokens)
+deamer::Rule::Rule(const std::vector<Token*>& tokens)
 {
-    Rule::Tokens = tokens;
+    Tokens = tokens;
 }
 
 void deamer::Rule::PrintRule()
 {
-    for(auto i = 0; i < Tokens.size(); i++)
+    for (auto& Token : Tokens)
     {
-        Tokens[i]->PrintToken();
+	    Token->PrintToken();
     }
     std::cout << "\n";
+}
+
+bool deamer::Rule::IsEmpty() const
+{
+    return Tokens.empty();
 }
