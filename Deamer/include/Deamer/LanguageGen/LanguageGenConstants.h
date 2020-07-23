@@ -23,6 +23,17 @@ namespace deamer
         dparse, //Deamer parser. Currently unsupported
         bison
     } ParserType_t;
+
+	// This enum should be used to declare what type the rule is.
+	// By changing the type parsers may implement different logic.
+	// It is recommended to let analysers or dedicated functions handle this.
+	typedef enum class RuleType_s
+    {
+    	empty,
+    	standard,
+    	grouped,
+    	vectorised
+    } RuleType_t;
 }
 
 #endif //DEAMER_LANGUAGEGEN_LANGUAGEGEN_CONSTANTS_H
