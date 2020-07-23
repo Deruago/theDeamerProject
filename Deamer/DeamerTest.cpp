@@ -14,7 +14,7 @@ int main()
 
     LanguageDefinition languageDef = LanguageDefinition("DCPP_J");
     LanguageGen* languageGen = new LanguageGen(LexerType_t::flex, ParserType_t::bison, &languageDef);
-    languageGen->DirTarget("tests/");
+    languageGen->DirTarget("");
 
     newNode(SEMICOLON, "[;]", false);
     newNode(PLUS, "[+]");
@@ -78,7 +78,7 @@ int main()
 
     languageGen->Finish(); // Finishes the whole build. This can also be done using the individual functions given.
 
-    AstGen* astGen = new AstGen("tests/");
+    AstGen* astGen = new AstGen("");
     astGen->CreateAstNodes(&languageDef);
 
     return 0;
