@@ -15,9 +15,8 @@ This header describes the class implementation of Node. Which is a subclass of t
 It represents an object that is the end point of rules or types.
 */
 
-#include <string>
-#include "Deamer/Deamer.h"
 #include "Deamer/LanguageGen/Token.h"
+#include <string>
 
 namespace deamer
 {
@@ -26,8 +25,8 @@ namespace deamer
         
         public:
             std::string Regex;
-            Node(const std::string nodeName, const std::string regex);
-            Node(const std::string nodeName, const std::string regex, const bool createAst);
+            Node(const std::string& nodeName, const std::string& regex);
+            Node(const std::string& nodeName, const std::string& regex, const bool createAst);
     };
 }
 
