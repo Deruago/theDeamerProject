@@ -15,7 +15,7 @@ deamer::ParserGen::ParserGen(ParserType_t parserType_t, LanguageDefinition* lang
 {
     ParserGen::langDef = langDef;
     ParserTarget = parserType_t;
-    parserBuilder = ParserFactory().MakeParserUseVectorBasedDS(parserType_t, langDef);
+    parserBuilder = ParserFactory().MakeParser(parserType_t, langDef);
 }
 
 void deamer::ParserGen::SetTarget(ParserType_t parserType_t)

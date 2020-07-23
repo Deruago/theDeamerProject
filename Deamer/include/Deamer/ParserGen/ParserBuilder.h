@@ -12,14 +12,15 @@
 
 #include "Deamer/Types/Builder.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
-#include "Deamer/LanguageGen/LanguageDefinition.h"
-#include "Deamer/LanguageGen/Node.h"
-#include "Deamer/LanguageGen/Type.h"
-#include "Deamer/LanguageGen/Rule.h"
 #include <string>
 
 namespace deamer
 {
+    class Node;
+    class Type;
+    class Rule;
+    class LanguageDefinition;
+	
     class ParserBuilder : public Builder
     {
         protected:
