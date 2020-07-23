@@ -28,13 +28,13 @@
 deamer::Node* node = currentLangDef.IgnoreNode(#node, regex);
 
 #define newNode1(node, regex) \
-deamer::Node* node = currentLangDef.CreateNode(#node, regex);
+deamer::Node* node = currentLangDef.CreateNode(#node, regex, true);
 
 #define newNode2(node, regex, createAst) \
 deamer::Node* node = currentLangDef.CreateNode(#node, regex, createAst);
 
 #define newType1(type) \
-deamer::Type* type = currentLangDef.CreateType(#type);
+deamer::Type* type = currentLangDef.CreateType(#type, true);
 
 #define newType2(type, createAst) \
 deamer::Type* type = currentLangDef.CreateType(#type, createAst);
