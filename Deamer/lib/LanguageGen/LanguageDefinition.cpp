@@ -9,35 +9,43 @@
 
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 #include <iostream>
+#include <utility>
 
 deamer::LanguageDefinition::LanguageDefinition(std::string languageName)
 {
-    deamer::LanguageDefinition::LanguageName = languageName;
+    LanguageName = std::move(languageName);
 }
 
 std::string deamer::LanguageDefinition::GetLanguageName()
 {
-    return deamer::LanguageDefinition::LanguageName;
+    return LanguageName;
 }
 
-deamer::Node* deamer::LanguageDefinition::CreateNode(const std::string nodeName, const std::string regex, const bool createAst)
+deamer::Node* deamer::LanguageDefinition::CreateNode(const std::string& nodeName, const std::string& regex, const bool createAst)
 {
-    deamer::Node* newNode = new Node(nodeName, regex, createAst);
+    Node* newNode = new Node(nodeName, regex, createAst);
     Nodes.push_back(newNode);
     return newNode;
 }
 
-deamer::Node* deamer::LanguageDefinition::IgnoreNode(const std::string nodeName, const std::string regex)
+deamer::Node* deamer::LanguageDefinition::IgnoreNode(const std::string& nodeName, const std::string& regex)
 {
-    deamer::Node* newNode = new Node(nodeName, regex);
+    Node* newNode = new Node(nodeName, regex, false);
     IgnoreNodes.push_back(newNode);
     return newNode;
 }
 
 
-deamer::Type* deamer::LanguageDefinition::CreateType(const std::string typeName, const bool createAst)
+deamer::Type* deamer::LanguageDefinition::CreateType(const std::string& typeName, const bool createAst)
 {
-    deamer::Type* newType = new Type(typeName, createAst);
+    Type* newType = new Type(typeName, createAst, false);
+    Types.push_back(newType);
+    return newType;
+}
+
+deamer::Type* deamer::LanguageDefinition::CreateGroupedType(const std::string& typeName, const bool createAst)
+{
+    Type* newType = new Type(typeName, createAst, true);
     Types.push_back(newType);
     return newType;
 }
@@ -45,12 +53,27 @@ deamer::Type* deamer::LanguageDefinition::CreateType(const std::string typeName,
 /**
  * The first rule added is the "Start rule" this rule will first be called. All following rules should be linked with this rule.
 */
-deamer::Rule* deamer::LanguageDefinition::CreateRule(Type* type, const std::vector<Token*> tokens)
+deamer::Rule* deamer::LanguageDefinition::CreateRule(Type* type, const std::vector<Token*>& tokens)
 {
-    deamer::Rule* newRule = new Rule(tokens);
+    Rule* newRule = new Rule(tokens);
     type->AddRule(newRule);
     Rules.push_back(newRule);
     return newRule;
+}
+
+deamer::Type* deamer::LanguageDefinition::GroupTokens(const std::string& typeName, const std::vector<Token*>& tokens)
+{
+    Type* newGroupedType = nullptr;
+	if(!tokens.empty())
+	{
+        newGroupedType = CreateGroupedType(typeName);
+		for(auto& token : tokens)
+		{
+            CreateRule(newGroupedType, { token });
+            token->AddBaseToken(newGroupedType);
+		}
+	}
+    return newGroupedType;
 }
 
 void deamer::LanguageDefinition::DeleteAllNodes()

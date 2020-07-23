@@ -35,10 +35,12 @@ namespace deamer
             std::vector<Node*> IgnoreNodes;
             std::vector<Type*> Types;
             std::vector<Rule*> Rules;
-            Node* CreateNode(const std::string nodeName, const std::string regex, const bool createAst = true); // Used to create a Node Class
-            Node* IgnoreNode(const std::string nodeName, const std::string regex);
-            Type* CreateType(const std::string typeName, const bool createAst = true); // Used to create a Type Class
-            Rule* CreateRule(Type* type, const std::vector<Token*> tokens); // Used to create a Rule Class
+            Node* CreateNode(const std::string& nodeName, const std::string& regex, const bool createAst = true); // Used to create a Node Class
+            Node* IgnoreNode(const std::string& nodeName, const std::string& regex);
+            Type* CreateType(const std::string& typeName, const bool createAst = true); // Used to create a Type Class
+            Type* CreateGroupedType(const std::string& typeName, const bool createAst = true); // Used to create a Type Class
+            Rule* CreateRule(Type* type, const std::vector<Token*>& tokens); // Used to create a Rule Class
+            Type* GroupTokens(const std::string& typeName, const std::vector<Token*>& tokens); // Used to manually subtype a group of tokens under a single type
             void  DeleteAllNodes();
             void  DeleteAllTypes();
             void  DeleteAllRules();
