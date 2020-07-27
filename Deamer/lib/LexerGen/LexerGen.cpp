@@ -15,7 +15,7 @@ deamer::LexerGen::LexerGen(const LexerType_t LexerType_t, LanguageDefinition* la
 {
     LexerGen::langDef = langDef;
     LexerTarget = LexerType_t;
-    lexerBuilder = LexerFactory().MakeLexerUseVectorBasedDS(LexerType_t, langDef);
+    lexerBuilder = LexerFactory().MakeLexerUseRecursiveBasedDS(LexerType_t, langDef);
 }
 
 void deamer::LexerGen::SetTarget(LexerType_t LexerType_t)
