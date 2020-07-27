@@ -32,6 +32,8 @@ namespace deamer
 		void AddRule(Rule* newRule);
 		void PrintType();
 		void PrintRules();
+		void AddTokenToVectorIfNotAlreadyInVector(std::vector<Token*>& tokens, Token* token);
+		std::vector<Token*> GetVectorOfUniqueTokensDefiningThisType();
 	};
 }
 

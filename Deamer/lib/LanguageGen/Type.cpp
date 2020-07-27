@@ -36,3 +36,20 @@ void deamer::Type::PrintRules()
         Rules[i]->PrintRule();
     }
 }
+
+std::vector<deamer::Token*> deamer::Type::GetVectorOfUniqueTokensDefiningThisType()
+{
+    std::vector<Token*> token_vector;
+    for (Rule* rule : Rules)
+        for (Token* token : rule->Tokens)
+            AddTokenToVectorIfNotAlreadyInVector(token_vector, token);
+    return token_vector;
+}
+
+void deamer::Type::AddTokenToVectorIfNotAlreadyInVector(std::vector<Token*>& tokens, Token* token)
+{
+    for (Token* token_in_vector : tokens)
+        if (token_in_vector == token)
+            return;
+    tokens.push_back(token);
+}
