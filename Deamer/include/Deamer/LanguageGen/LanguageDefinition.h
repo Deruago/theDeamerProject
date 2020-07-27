@@ -26,29 +26,39 @@ namespace deamer
 {
     class LanguageDefinition
     {
-        protected:
-            std::string LanguageName;
-        public:
-            LanguageDefinition(std::string languageName);
-            ~LanguageDefinition() = default;
-            std::vector<Node*> Nodes;
-            std::vector<Node*> IgnoreNodes;
-            std::vector<Type*> Types;
-            std::vector<Rule*> Rules;
-            Node* CreateNode(const std::string& nodeName, const std::string& regex, const bool createAst = true); // Used to create a Node Class
-            Node* IgnoreNode(const std::string& nodeName, const std::string& regex);
-            Type* CreateType(const std::string& typeName, const bool createAst = true); // Used to create a Type Class
-            Type* CreateGroupedType(const std::string& typeName, const bool createAst = true); // Used to create a Type Class
-            Rule* CreateRule(Type* type, const std::vector<Token*>& tokens); // Used to create a Rule Class
-            Type* GroupTokens(const std::string& typeName, const std::vector<Token*>& tokens); // Used to manually subtype a group of tokens under a single type
-            void  DeleteAllNodes();
-            void  DeleteAllTypes();
-            void  DeleteAllRules();
-            void  PrintLanguageConfig();
-            void  PrintNodes();
-            void  PrintTypes();
-            void  PrintRules();
-            std::string GetLanguageName();
+    private:
+        void IncreaseReferenceCounterOfTokensUsedInRule(std::vector<Token*> tokens);
+    protected:
+        std::string LanguageName;
+    public:
+        LanguageDefinition(std::string languageName);
+        ~LanguageDefinition() = default;
+
+    	std::vector<Node*> Nodes;
+        std::vector<Node*> IgnoreNodes;
+        std::vector<Type*> Types;
+        std::vector<Rule*> Rules;
+
+    	Node* CreateNode(const std::string& nodeName, const std::string& regex, const bool createAst = true); // Used to create a Node Class
+        Node* IgnoreNode(const std::string& nodeName, const std::string& regex);
+        Type* CreateType(const std::string& typeName, const bool createAst = true); // Used to create a Type Class
+        Type* CreateGroupedType(const std::string& typeName, const bool createAst = true); // Used to create a Type Class
+        Rule* CreateRule(Type* type, std::vector<Token*> tokens); // Used to create a Rule Class
+        deamer::Rule* CreateRuleWithOneToken(Type* type, Token* token);
+        Type* GroupTokens(const std::string& typeName, std::vector<Token*>& tokens); // Used to manually subtype a group of tokens under a single type
+
+    	void RemoveType(Type* type);
+        void RemoveRule(Rule* rule);
+        void RemoveNode(Node* node);
+    
+    	void  DeleteAllNodes();
+        void  DeleteAllTypes();
+        void  DeleteAllRules();
+        void  PrintLanguageConfig();
+        void  PrintNodes();
+        void  PrintTypes();
+        void  PrintRules();
+        std::string GetLanguageName();
     };
 }
 
