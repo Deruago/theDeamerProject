@@ -21,7 +21,7 @@ std::string deamer::BisonStandardRuleFormatter::MakeExecutedCodeForProductionRul
 
 std::string deamer::BisonStandardRuleFormatter::FormatTypeRulePart(Rule* rule) const
 {
-	return "{\n" + MakeRuleExecutionPart(rule) + MakeOutputCodeWhenNodeIsStartType() + "    }";
+	return MakeRuleExecutionPart(rule) + MakeOutputCodeWhenNodeIsStartType();
 }
 
 std::string deamer::BisonStandardRuleFormatter::MakeRuleExecutionPart(Rule* rule) const
