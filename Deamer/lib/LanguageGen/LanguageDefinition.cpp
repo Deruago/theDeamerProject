@@ -56,9 +56,7 @@ deamer::Type* deamer::LanguageDefinition::CreateGroupedType(const std::string& t
 void deamer::LanguageDefinition::IncreaseReferenceCounterOfTokensUsedInRule(std::vector<Token*> tokens)
 {
 	for(Token* token : tokens)
-	{
         token->AddReferenceToTokenThatUsesThisToken();
-	}
 }
 
 /**
