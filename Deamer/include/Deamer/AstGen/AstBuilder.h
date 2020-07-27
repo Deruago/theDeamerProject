@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "Deamer/FileBuilder/Types/FileClassSection.h"
+#include "Deamer/LanguageGen/Token.h"
 
 namespace deamer
 {
@@ -26,15 +27,22 @@ namespace deamer
             FileClassSection* _AstNode;
             FileClassSection* type_int;
             FileClassSection* type_void;
-            void FillAstSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode) const;
+            void FillAstSourceFile(std::ofstream* astSourceFile, Token* token, std::string* defaultTokenName, bool isNode) const;
             deamer::FileClassSection* GetAstNodeFileBuilderClass() const;
-            void FillAstHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName) const;
-            void FillAstTreeSourceFile(std::ofstream* astSourceFile, std::string tokenName, std::string* defaultTokenName, bool isNode) const;
-            void FillAstTreeHeaderFile(std::ofstream* astHeaderFile, std::string tokenName, std::string* defaultTokenName) const;
+            std::string MakeSubclassesOfToken(Token* token) const;
+            void FillAstHeaderFile(std::ofstream* astHeaderFile, Token* token, std::string* defaultTokenName) const;
+            std::string MakeRuleConstructorsForAstNode(Token* token) const;
+            std::string MakeRuleConstructorsForAstTree(Token* token) const;
+            void FillAstTreeSourceFile(std::ofstream* astSourceFile, Token* token, std::string* defaultTokenName, bool isNode) const;
+            std::string MakeSubclassesForAstTree(Token* token) const;
+            std::string MakeAstNodeConstructorPrototypes(Token* token) const;
+            std::string MakeCtorFields(Token* token) const;
+            std::string MakeAstTreeConstructorPrototypes(Token* token) const;
+            void FillAstTreeHeaderFile(std::ofstream* astHeaderFile, Token* token, std::string* defaultTokenName) const;
         public:
             AstBuilder();
-            void CreateAstNode(std::string TokenName, bool isNode); // Creates an AST Node and writes it to file.
-            void CreateAstTree(std::string TokenName, bool isNode) const;
+            void CreateAstNode(Token* token, bool isNode); // Creates an AST Node and writes it to file.
+            void CreateAstTree(Token* token, bool isNode) const;
             
             void CreateAstNodeEnumFile() const;
             void AppendAstNodeEnumFile(std::string TokenName) const;
