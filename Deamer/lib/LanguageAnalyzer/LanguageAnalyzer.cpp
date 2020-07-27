@@ -98,5 +98,6 @@ void deamer::LanguageAnalyzer::GroupAllRulesOfType(Type* type) const
 	for(Rule* rule : type->Rules)
 	{
 		rule->RuleType = RuleType_t::grouped;
+		rule->Tokens[0]->BaseTokens.push_back(type); // Sets the base type of this subtyped token
 	}
 }
