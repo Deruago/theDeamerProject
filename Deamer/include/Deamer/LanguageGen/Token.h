@@ -20,19 +20,24 @@ This header describes the class implementation of Token. Which is the Base class
 
 namespace deamer
 {
-    class Token
+	class Type;
+
+	class Token
     {
 
         protected:
             Token(const std::string& tokenName, const bool isNode, const bool createAst);
 
         public:
+            unsigned TotalAmountOfTypesThatUsesThisToken;
             std::vector<Token*> BaseTokens;
             bool IsNode;
             bool CreateAst;
             std::string TokenName;
             void PrintToken();
             void AddBaseToken(Token* token);
+            void AddReferenceToTokenThatUsesThisToken();
+            void RemoveReferenceThatUsedThisToken();
     };
 }
 
