@@ -1,5 +1,6 @@
 #include "Deamer/Deamer.h"
 #include "Deamer/LanguageGen/LanguageGen.h"
+#include "Deamer/LanguageAnalyzer/LanguageAnalyzer.h"
 #include "Deamer/LanguageGen/LanguageDefMacros.h"
 #include "Deamer/AstGen/AstGen.h"
 #include <iostream>
@@ -75,6 +76,10 @@ int main()
     
     newType(PROG);
     newRule(PROG, STMTS);
+
+	const LanguageAnalyzer lang_analyzer;
+	lang_analyzer.ApplyEmptyTypeToAllEmptyRules(languageDef);
+	lang_analyzer.ApplyGroupedTypeToAllGroupableRules(languageDef);
 
     languageGen->Finish(); // Finishes the whole build. This can also be done using the individual functions given.
 
