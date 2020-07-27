@@ -30,7 +30,7 @@ std::string deamer::BisonRuleFormatter::MakeRule(Rule* rule) const
 std::string deamer::BisonRuleFormatter::FormatRule(Rule* rule) const
 {
 	std::string newProductionRuleText = MakeIndentation() + MakeProductionRuleNotation() +
-		MakeRuleProductionDefinition(rule) + MakeExecutedCodeForProductionRule(rule) + EndProductionRule();
+		MakeRuleProductionDefinition(rule) + MakeBeginExecutedCodePartForProductionRule() + MakeExecutedCodeForProductionRule(rule) + MakeEndExecutedCodePartForProductionRule() + EndProductionRule();
 	return newProductionRuleText;
 }
 
@@ -59,6 +59,16 @@ std::string deamer::BisonRuleFormatter::MakeProductionRuleNotation() const
 		return "| ";
 	else
 		return "  ";
+}
+
+std::string deamer::BisonRuleFormatter::MakeBeginExecutedCodePartForProductionRule() const
+{
+	return "{\n";
+}
+
+std::string deamer::BisonRuleFormatter::MakeEndExecutedCodePartForProductionRule() const
+{
+	return "    }";
 }
 
 const char deamer::BisonRuleFormatter::EndProductionRule() const
@@ -100,7 +110,7 @@ std::string deamer::BisonRuleFormatter::MakeArgument(const std::string& Language
 
 std::string deamer::BisonRuleFormatter::AddFirstArgument(const std::string& LanguageName, Rule* rule, int& j) const
 {
-	std::string tmpString = "";
+	std::string tmpString;
 	j = 0;
 	bool createdFirstParam = false;
 	while (j < rule->Tokens.size() && !createdFirstParam)
@@ -166,6 +176,11 @@ std::string deamer::BisonRuleFormatter::MakeAstTree(const std::string& LanguageN
 std::string deamer::BisonRuleFormatter::MakeAstNode(const std::string& LanguageName) const
 {
 	return + "      $$ = new " + LanguageName + "::" + "AstNode_" + CurrentType.TokenName;
+}
+
+std::string deamer::BisonRuleFormatter::MakeAstNode(const std::string& LanguageName, const std::string& TokenName) const
+{
+	return +"      $$ = new " + LanguageName + "::" + "AstNode_" + TokenName;
 }
 
 std::string deamer::BisonRuleFormatter::MakeOutputCodeWhenNodeIsStartType() const

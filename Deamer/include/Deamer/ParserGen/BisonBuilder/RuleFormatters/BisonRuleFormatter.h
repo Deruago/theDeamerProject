@@ -23,6 +23,9 @@ namespace deamer
 	private:
 		std::string MakeRuleProductionDefinition(Rule* rule) const;
 		virtual std::string MakeExecutedCodeForProductionRule(Rule* rule) const = 0;
+
+		std::string MakeBeginExecutedCodePartForProductionRule() const;
+		std::string MakeEndExecutedCodePartForProductionRule() const;
 	protected:
 		std::string LanguageName = "";
 		unsigned CurrentLineNumber;
@@ -41,6 +44,7 @@ namespace deamer
 		std::string AddArgumentsToAstType(const std::string& LanguageName, Rule* rule) const;
 		std::string MakeAstTree(const std::string& LanguageName) const;
 		std::string MakeAstNode(const std::string& LanguageName) const;
+		std::string MakeAstNode(const std::string& LanguageName, const std::string& TokenName) const;
 		std::string MakeOutputCodeForAstTree() const;
 		std::string MakeOutputCodeWhenNodeIsStartType() const;
 		std::string MakeProductionRuleNotation() const;
