@@ -24,6 +24,7 @@ namespace deamer
     {
         
         public:
+            bool IgnoreNode;
             std::string Regex;
             Node(const std::string& nodeName, const std::string& regex);
             Node(const std::string& nodeName, const std::string& regex, const bool createAst);
