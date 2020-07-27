@@ -12,28 +12,28 @@
 
 namespace deamer
 {
-    typedef enum class LexerType_s
+    enum class LexerType_t
     {
         dlex, //Deamer lexer. Currently unsupported
         flex
-    } LexerType_t;
+    };
 
-    typedef enum class ParserType_s
+    enum class ParserType_t
     {
         dparse, //Deamer parser. Currently unsupported
         bison
-    } ParserType_t;
+    };
 
 	// This enum should be used to declare what type the rule is.
 	// By changing the type parsers may implement different logic.
 	// It is recommended to let analysers or dedicated functions handle this.
-	typedef enum class RuleType_s
+	enum class RuleType_t
     {
     	empty,
     	standard,
     	grouped,
     	vectorised
-    } RuleType_t;
+    };
 }
 
 #endif //DEAMER_LANGUAGEGEN_LANGUAGEGEN_CONSTANTS_H
