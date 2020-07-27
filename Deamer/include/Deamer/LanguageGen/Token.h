@@ -31,6 +31,7 @@ namespace deamer
         public:
             unsigned TotalAmountOfTypesThatUsesThisToken;
             std::vector<Token*> BaseTokens;
+            std::vector<Token*> BaseGroupTokens;
             bool IsNode;
             bool CreateAst;
             bool IsVector;
@@ -39,6 +40,8 @@ namespace deamer
             void AddBaseToken(Token* token);
             void AddReferenceToTokenThatUsesThisToken();
             void RemoveReferenceThatUsedThisToken();
+            void SetBaseGroupTokensIsVector(const bool cond);
+		
             std::string MakeFunctionArgument();
             std::string MakeTypeCallAsClassField();
             std::string MakeTypeAsCtorInputVariable();

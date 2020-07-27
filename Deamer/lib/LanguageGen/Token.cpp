@@ -7,9 +7,9 @@
  * -July 2020 Thimo Böhmer
  */
 
-#include <iostream>
-#include <string>
 #include "Deamer/LanguageGen/Token.h"
+#include <string>
+#include <iostream>
 
 deamer::Token::Token(const std::string& tokenName, const bool isNode, const bool createAst)
 {
@@ -36,6 +36,15 @@ void deamer::Token::AddReferenceToTokenThatUsesThisToken()
 void deamer::Token::RemoveReferenceThatUsedThisToken()
 {
     --TotalAmountOfTypesThatUsesThisToken;
+}
+
+void deamer::Token::SetBaseGroupTokensIsVector(const bool cond)
+{
+    for (Token* token : BaseGroupTokens)
+    {
+        token->SetBaseGroupTokensIsVector(cond);
+        token->IsVector = cond;
+    }
 }
 
 std::string deamer::Token::MakeFunctionArgument()
