@@ -10,7 +10,11 @@
 
 std::string deamer::BisonGroupedRuleFormatter::MakeExecutedCodeForProductionRule(Rule* rule) const
 {
-	return "";
+	Token* currentToken = rule->Tokens[0];
+	if (currentToken->IsNode)
+		return MakeAstNode(LanguageName, currentToken->TokenName) + "($1);";
+	else
+		return "      $$ = $1";
 }
 
 deamer::BisonGroupedRuleFormatter::BisonGroupedRuleFormatter(std::string& languageName, unsigned currentLineNumber,
