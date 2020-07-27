@@ -18,9 +18,9 @@ deamer::LexerBuilder* deamer::LexerFactory::MakeLexerUseVectorBasedDS(LexerType_
 {
     switch(lexerType_t)
     {
-        case LexerType_s::dlex:
+        case LexerType_t::dlex:
             return new DlexBuilderVectorBased(langDef);
-        case LexerType_s::flex:
+        case LexerType_t::flex:
             return new FlexBuilderVectorBased(langDef);
     }
     return nullptr;
@@ -30,9 +30,9 @@ deamer::LexerBuilder* deamer::LexerFactory::MakeLexerUseRecursiveBasedDS(LexerTy
 {
     switch(lexerType_t)
     {
-        case LexerType_s::dlex:
+        case LexerType_t::dlex:
             return new DlexBuilder(langDef);
-        case LexerType_s::flex:
+        case LexerType_t::flex:
             return new FlexBuilder(langDef);
     }
     return nullptr;
