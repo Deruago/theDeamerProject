@@ -79,6 +79,7 @@ int main()
 
 	const LanguageAnalyzer lang_analyzer;
 	lang_analyzer.ApplyEmptyTypeToAllEmptyRules(languageDef);
+	lang_analyzer.ApplyVectorisedTypeToAllRecursiveContinuedRules(languageDef);
 	lang_analyzer.ApplyGroupedTypeToAllGroupableRules(languageDef);
 
     languageGen->Finish(); // Finishes the whole build. This can also be done using the individual functions given.
