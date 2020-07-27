@@ -33,11 +33,17 @@ namespace deamer
             std::vector<Token*> BaseTokens;
             bool IsNode;
             bool CreateAst;
+            bool IsVector;
             std::string TokenName;
             void PrintToken();
             void AddBaseToken(Token* token);
             void AddReferenceToTokenThatUsesThisToken();
             void RemoveReferenceThatUsedThisToken();
+            std::string MakeFunctionArgument();
+            std::string MakeTypeCallAsClassField();
+            std::string MakeTypeAsCtorInputVariable();
+            std::string MakeConstructorTypeAssignment();
+            std::string MakeTypeAsClassField();
     };
 }
 

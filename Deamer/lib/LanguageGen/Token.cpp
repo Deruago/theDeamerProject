@@ -37,3 +37,40 @@ void deamer::Token::RemoveReferenceThatUsedThisToken()
 {
     --TotalAmountOfTypesThatUsesThisToken;
 }
+
+std::string deamer::Token::MakeFunctionArgument()
+{
+    if (IsVector)
+        return "std::vector<AstNode_" + TokenName + ">* " + TokenName + "_vector";
+    else
+        return "AstNode_" + TokenName + "* " + TokenName;
+}
+
+std::string deamer::Token::MakeTypeCallAsClassField()
+{
+    if (IsVector)
+        return "_" + TokenName + "_vector";
+    else
+        return "_" + TokenName;
+}
+
+std::string deamer::Token::MakeTypeAsCtorInputVariable()
+{
+    if (IsVector)
+        return TokenName + "_vector";
+    else
+        return TokenName;
+}
+
+std::string deamer::Token::MakeConstructorTypeAssignment()
+{
+    return MakeTypeCallAsClassField() + " = " + MakeTypeAsCtorInputVariable();
+}
+
+std::string deamer::Token::MakeTypeAsClassField()
+{
+    if (IsVector)
+        return "std::vector<AstNode_" + TokenName + "*> " + MakeTypeCallAsClassField();
+    else
+        return "AstNode_" + TokenName + "* " + MakeTypeCallAsClassField();
+}
