@@ -141,6 +141,7 @@ std::string deamer::AstBuilder::MakeRuleConstructorsForAstNode(Token* token) con
             if (rule->RuleType != RuleType_t::empty)
             {
                 ctors += languageName + "::AstNode_" + token->TokenName + "::AstNode_" + rule->MakeConstructorPrototype(token);
+                ctors += "\n";
 				ctors += rule->MakeConstructor(token) + "\n";
             }
         }
@@ -157,8 +158,11 @@ std::string deamer::AstBuilder::MakeRuleConstructorsForAstTree(Token* token) con
 	    for (Rule* rule : tmpType->Rules)
 	    {
 	        if (rule->RuleType != RuleType_t::empty)
+	        {
 				ctors += languageName + "::AstTree_" + token->TokenName + "::AstTree_" + rule->MakeConstructorPrototype(token);
-			    ctors += rule->MakeConstructor(token) + "\n";
+				ctors += "\n";
+			    ctors += rule->MakeConstructor(token) + "\n";    
+	        }
 	    }
 	}
     return ctors;
