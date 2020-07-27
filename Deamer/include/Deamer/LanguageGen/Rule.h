@@ -28,6 +28,10 @@ namespace deamer
             Rule(const std::vector<Token*>& tokens);
             void PrintRule();
             bool IsEmpty() const;
+            std::string MakeConstructorArguments();
+            std::string MakeConstructorPrototype(Token* token_subject);
+            std::string MakeConstructors();
+            std::string MakeConstructor(Token* token);
     };
 }
 
