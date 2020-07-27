@@ -23,6 +23,7 @@ namespace deamer
 		void RecursivelyRemoveTypeFromLanguageDefinitionIncludingAllRules(Type* type, LanguageDefinition& language_definition) const;
 
 		bool RuleContinuesRecursively(Type* outputTokenOfRule, Rule* rule) const;
+		bool IsARuleInTypeAVector(Type* type) const;
 		
 		bool RuleIsGroupable(Rule* rule) const;
 		bool AllRulesOfTypeAreGroupable(Type* type) const;

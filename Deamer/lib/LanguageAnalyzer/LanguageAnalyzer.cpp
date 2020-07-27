@@ -20,7 +20,7 @@ void deamer::LanguageAnalyzer::ApplyAllOptimisations(LanguageDefinition& languag
 
 void deamer::LanguageAnalyzer::RemovedUnusedProductionRules(LanguageDefinition& language_definition) const
 {
-	for(Type* type : language_definition.Types)
+	for (Type* type : language_definition.Types)
 	{
 		if (!IsTypeUsedByOtherTypes(type))
 			RecursivelyRemoveTypeFromLanguageDefinitionIncludingAllRules(type, language_definition);
@@ -41,7 +41,7 @@ void deamer::LanguageAnalyzer::ApplyEmptyTypeToAllEmptyRules(LanguageDefinition&
 {
 	for (Rule* rule : language_definition.Rules)
 	{
-		if(rule->IsEmpty())
+		if (rule->IsEmpty())
 			rule->RuleType = RuleType_t::empty;
 	}
 }
@@ -49,12 +49,16 @@ void deamer::LanguageAnalyzer::ApplyEmptyTypeToAllEmptyRules(LanguageDefinition&
 void deamer::LanguageAnalyzer::ApplyVectorisedTypeToAllRecursiveContinuedRules(
 	LanguageDefinition& language_definition) const
 {
-	for(Type* type : language_definition.Types)
+	for (Type* type : language_definition.Types)
 	{
-		for(Rule* rule : type->Rules)
+		for (Rule* rule : type->Rules)
 		{
-			if(RuleContinuesRecursively(type, rule))
+			if (RuleContinuesRecursively(type, rule))
+			{
 				rule->RuleType = RuleType_t::vectorised;
+				type->IsVector = true;
+				type->SetBaseGroupTokensIsVector(true);
+			}
 		}
 	}
 }
@@ -62,24 +66,39 @@ void deamer::LanguageAnalyzer::ApplyVectorisedTypeToAllRecursiveContinuedRules(
 
 bool deamer::LanguageAnalyzer::RuleContinuesRecursively(Type* outputTokenOfRule, Rule* rule) const
 {
-	if (rule->Tokens[0] == outputTokenOfRule || rule->Tokens[rule->Tokens.size()] == outputTokenOfRule)
-		return true;
+	if (rule->Tokens.size() == 0)
+		return false;
+	return rule->Tokens[0] == outputTokenOfRule || rule->Tokens[rule->Tokens.size() - 1] == outputTokenOfRule;
+}
+
+bool deamer::LanguageAnalyzer::IsARuleInTypeAVector(Type* type) const
+{
+	for (Rule* rule : type->Rules)
+		if (rule->Tokens[0]->IsVector)
+			return true;
 	return false;
 }
 
 void deamer::LanguageAnalyzer::ApplyGroupedTypeToAllGroupableRules(LanguageDefinition& language_definition) const
 {
-	for(Type* type : language_definition.Types)
+	for (Type* type : language_definition.Types)
 	{
 		if (AllRulesOfTypeAreGroupable(type))
+		{
 			GroupAllRulesOfType(type);
+			if (IsARuleInTypeAVector(type))
+			{
+				type->IsVector = true;
+				type->SetBaseGroupTokensIsVector(true);
+			}
+		}
 	}
 }
 
 
 bool deamer::LanguageAnalyzer::AllRulesOfTypeAreGroupable(Type* type) const
 {
-	for(Rule* rule : type->Rules)
+	for (Rule* rule : type->Rules)
 	{
 		if (!RuleIsGroupable(rule))
 			return false;
@@ -95,9 +114,10 @@ bool deamer::LanguageAnalyzer::RuleIsGroupable(Rule* rule) const
 void deamer::LanguageAnalyzer::GroupAllRulesOfType(Type* type) const
 {
 	type->GroupedType = true;
-	for(Rule* rule : type->Rules)
+	for (Rule* rule : type->Rules)
 	{
 		rule->RuleType = RuleType_t::grouped;
 		rule->Tokens[0]->BaseTokens.push_back(type); // Sets the base type of this subtyped token
+		rule->Tokens[0]->BaseGroupTokens.push_back(type); // Sets the grouped type of this subtyped token
 	}
 }
