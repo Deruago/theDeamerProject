@@ -17,15 +17,15 @@ deamer::AstGen::AstGen()
 
 deamer::AstGen::AstGen(std::string dirTarget)
 {
-    deamer::AstGen::DirTarget(dirTarget);
+    AstGen::DirTarget(dirTarget);
 }
 
 void deamer::AstGen::DirTarget(std::string dirTarget)
 {
     dirTarget.append("AstNodes/");
-    deamer::AstGen::CreateDirectoryIfNotExist(&dirTarget);
+    CreateDirectoryIfNotExist(&dirTarget);
 
-    deamer::AstGen::astBuilder.SetDirTarget(dirTarget);
+    astBuilder.SetDirTarget(dirTarget);
 }
 
 void deamer::AstGen::FileTarget(std::string fileTarget)
@@ -41,22 +41,22 @@ std::string deamer::AstGen::GetAstNodeClassName(std::string TokenName)
 
 void deamer::AstGen::CreateAstNodes(LanguageDefinition* langDef)
 {
-    deamer::AstGen::astBuilder.SetLanguageName(langDef->GetLanguageName());
+    astBuilder.SetLanguageName(langDef->GetLanguageName());
     
-    deamer::AstGen::astBuilder.CreateGlobalHeaderFile();
-    deamer::AstGen::astBuilder.CreateAstNodeEnumFile();
+    astBuilder.CreateGlobalHeaderFile();
+    astBuilder.CreateAstNodeEnumFile();
     
-    deamer::AstGen::astBuilder.CreateAstTree(langDef->Types[langDef->Types.size() - 1]->TokenName, langDef->Types[langDef->Types.size() - 1]->IsNode);
-    deamer::AstGen::astBuilder.AppendAstTreeHeaderFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
-    deamer::AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
+    astBuilder.CreateAstTree(langDef->Types[langDef->Types.size() - 1], langDef->Types[langDef->Types.size() - 1]->IsNode);
+    astBuilder.AppendAstTreeHeaderFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
+    astBuilder.AppendAstNodeEnumFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
 
     for (int i = langDef->Types.size() - 2; i >= 0; i--)
     {
         if (langDef->Types[i]->CreateAst)
         {
-            deamer::AstGen::astBuilder.CreateAstNode(langDef->Types[i]->TokenName, langDef->Types[i]->IsNode);
-            deamer::AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Types[i]->TokenName);
-            deamer::AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Types[i]->TokenName);
+            astBuilder.CreateAstNode(langDef->Types[i], langDef->Types[i]->IsNode);
+            astBuilder.AppendAstNodeHeaderFile(langDef->Types[i]->TokenName);
+            astBuilder.AppendAstNodeEnumFile(langDef->Types[i]->TokenName);
         }
     }
 
@@ -65,12 +65,12 @@ void deamer::AstGen::CreateAstNodes(LanguageDefinition* langDef)
     {
         if (langDef->Nodes[i]->CreateAst)
         {
-            deamer::AstGen::astBuilder.CreateAstNode(langDef->Nodes[i]->TokenName, langDef->Nodes[i]->IsNode);
-            deamer::AstGen::astBuilder.AppendAstNodeHeaderFile(langDef->Nodes[i]->TokenName);
-            deamer::AstGen::astBuilder.AppendAstNodeEnumFile(langDef->Nodes[i]->TokenName);
+            astBuilder.CreateAstNode(langDef->Nodes[i], langDef->Nodes[i]->IsNode);
+            astBuilder.AppendAstNodeHeaderFile(langDef->Nodes[i]->TokenName);
+            astBuilder.AppendAstNodeEnumFile(langDef->Nodes[i]->TokenName);
         }
     }
 
-    deamer::AstGen::astBuilder.FinishGlobalHeaderFile();
-    deamer::AstGen::astBuilder.FinishAstNodeEnumFile();
+    astBuilder.FinishGlobalHeaderFile();
+    astBuilder.FinishAstNodeEnumFile();
 }
