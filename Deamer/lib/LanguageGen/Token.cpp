@@ -27,3 +27,13 @@ void deamer::Token::AddBaseToken(Token* token)
 {
     BaseTokens.push_back(token);
 }
+
+void deamer::Token::AddReferenceToTokenThatUsesThisToken()
+{
+    TotalAmountOfTypesThatUsesThisToken++;
+}
+
+void deamer::Token::RemoveReferenceThatUsedThisToken()
+{
+    --TotalAmountOfTypesThatUsesThisToken;
+}
