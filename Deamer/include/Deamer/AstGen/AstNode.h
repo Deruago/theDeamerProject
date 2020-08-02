@@ -29,16 +29,16 @@ namespace deamer
             std::string CreateIndent(int indent);
         protected:
             std::vector<AstNode*> AstNodes;
-            AstInformation* AstInfo;
+            AstInformation* AstInfo = nullptr;
             std::string AstNodeName;
             bool IsNode;
 
+            AstNode(bool isNode, std::string astNodeName);
             AstNode(std::vector<AstNode*> astNodes, bool isNode, std::string astNodeName); // Is used to initliase a basic AST node.
             AstNode(AstInformation* astInformation, bool isNode, std::string astNodeName); // Is used to initiliase AstEndPoints. (Only endpoints may use this constructor)
         public:
             virtual void Generate() = 0; // This generates the source code.
             virtual int GetAstId() = 0;
-            void SetAstInformation(deamer::AstInformation* astInformation); // Used to set the Ast info after it is constructed.
             void PrintNode(int indent);
             void PrintDirectChildren(int indent);
             void PrintAllChildren();
