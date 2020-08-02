@@ -22,9 +22,11 @@ namespace deamer
 		RuleFactory() = default;
 		~RuleFactory() = default;
 
+		deamer::Rule* MakeRule() const;
 		Rule* MakeRule(Token* token) const;
 		Rule* MakeRule(const std::vector<Token*>& tokens) const;
 		Rule* MakeGroupedRule(Token* token) const;
+		deamer::Rule* MakeEmptyRule() const;
 	};
 }
 
