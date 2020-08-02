@@ -12,87 +12,10 @@
 #include <algorithm>
 #include <utility>
 
-deamer::LanguageDefinition::LanguageDefinition(std::string languageName)
-{
-    LanguageName = std::move(languageName);
-}
-
-std::string deamer::LanguageDefinition::GetLanguageName()
-{
-    return LanguageName;
-}
-
-deamer::Node* deamer::LanguageDefinition::CreateNode(const std::string& nodeName, const std::string& regex, const bool createAst)
-{
-    Node* newNode = new Node(nodeName, regex, createAst);
-    newNode->IgnoreNode = false;
-    Nodes.push_back(newNode);
-    return newNode;
-}
-
-deamer::Node* deamer::LanguageDefinition::IgnoreNode(const std::string& nodeName, const std::string& regex)
-{
-    Node* newNode = new Node(nodeName, regex, false);
-    newNode->IgnoreNode = true;
-    IgnoreNodes.push_back(newNode);
-    return newNode;
-}
-
-
-deamer::Type* deamer::LanguageDefinition::CreateType(const std::string& typeName, const bool createAst)
-{
-    Type* newType = new Type(typeName, createAst, false);
-    Types.push_back(newType);
-    return newType;
-}
-
-deamer::Type* deamer::LanguageDefinition::CreateGroupedType(const std::string& typeName, const bool createAst)
-{
-    Type* newType = new Type(typeName, createAst, true);
-    Types.push_back(newType);
-    return newType;
-}
-
 void deamer::LanguageDefinition::IncreaseReferenceCounterOfTokensUsedInRule(std::vector<Token*> tokens)
 {
 	for(Token* token : tokens)
         token->AddReferenceToTokenThatUsesThisToken();
-}
-
-/**
- * The first rule added is the "Start rule" this rule will first be called. All following rules should be linked with this rule.
-*/
-deamer::Rule* deamer::LanguageDefinition::CreateRule(Type* type, std::vector<Token*> tokens)
-{
-    Rule* newRule = new Rule(tokens);
-    type->AddRule(newRule);
-    Rules.push_back(newRule);
-    IncreaseReferenceCounterOfTokensUsedInRule(tokens);
-    return newRule;
-}
-
-deamer::Rule* deamer::LanguageDefinition::CreateRuleWithOneToken(Type* type, Token* token)
-{
-    Rule* newRule = new Rule({ token });
-    type->AddRule(newRule);
-    Rules.push_back(newRule);
-    IncreaseReferenceCounterOfTokensUsedInRule({ token });
-    return newRule;
-}
-
-deamer::Type* deamer::LanguageDefinition::GroupTokens(const std::string& typeName, std::vector<Token*>& tokens)
-{
-    Type* newGroupedType = nullptr;
-	if(!tokens.empty())
-	{
-        newGroupedType = CreateGroupedType(typeName);
-		for(auto& token : tokens)
-		{
-            CreateRuleWithOneToken(newGroupedType, token)->RuleType = RuleType_t::grouped;
-            token->AddBaseToken(newGroupedType);
-		}
-	}
-    return newGroupedType;
 }
 
 void deamer::LanguageDefinition::RemoveType(Type* type)
@@ -113,7 +36,7 @@ void deamer::LanguageDefinition::RemoveRule(Rule* rule)
 	for(Token* token : rule->Tokens)
 	{
         token->RemoveReferenceThatUsedThisToken();
-        if (token->IsNode)
+        if (token->TokenPermission.has_flag(TokenPermission_t::node))
             RemoveNode(static_cast<Node*>(token));
         else
             RemoveType(static_cast<Type*>(token));
@@ -125,7 +48,7 @@ void deamer::LanguageDefinition::RemoveNode(Node* node)
 {
 	if (node->TotalAmountOfTypesThatUsesThisToken == 0)
 	{
-		if (!node->IgnoreNode)
+		if (!node->TokenPermission.has_flag(TokenPermission_t::ignore))
 			Nodes.erase(std::remove(Nodes.begin(), Nodes.end(), node), Nodes.end());
 		else
 			IgnoreNodes.erase(std::remove(IgnoreNodes.begin(), IgnoreNodes.end(), node), IgnoreNodes.end());
@@ -190,6 +113,11 @@ void deamer::LanguageDefinition::PrintRules()
         }
         std::cout << '\n';
     }
+}
+
+bool deamer::LanguageDefinition::TypeIsStartType(Type* type)
+{
+    return type->TokenType.has_flag(TokenType_t::start);
 }
 
 void deamer::LanguageDefinition::PrintLanguageConfig()
