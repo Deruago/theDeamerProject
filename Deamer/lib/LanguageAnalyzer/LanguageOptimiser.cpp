@@ -4,6 +4,7 @@
  *
  * Modified:
  * -July 2020 Thimo Böhmer
+ * -August 2020 Thimo Bohmer
  */
 
 #include "Deamer/LanguageAnalyzer/LanguageOptimiser.h"
