@@ -16,9 +16,11 @@ namespace deamer
 	class BisonVectorisedRuleFormatter : public BisonRuleFormatter
 	{
 	private:
-		std::string MakeExecutedCodeForProductionRule(Rule* rule) const override;
+		void AddRuleToVectorType(std::string& vectorised_rule) const;
+		std::string MakeExecutedCodeForProductionRule() const override;
+		std::string MakeAstTypeFromTypeVector(Type* type) const;
 	public:
-		BisonVectorisedRuleFormatter(std::string& languageName, unsigned currentLineNumber, bool isFirstType, Type& currentType);
+		BisonVectorisedRuleFormatter(std::string& languageName, unsigned currentLineNumber, bool isFirstType, Type* currentType, Rule* currentRule);
 	};
 }
 
