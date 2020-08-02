@@ -24,10 +24,11 @@ namespace deamer
     {
         
         public:
-            bool IgnoreNode;
             std::string Regex;
-            Node(const std::string& nodeName, const std::string& regex);
-            Node(const std::string& nodeName, const std::string& regex, const bool createAst);
+            //Node(const std::string& nodeName, const std::string& regex);
+            //Node(const std::string& nodeName, const std::string& regex, const bool createAst);
+            Node(const std::string& typeName, const std::string& regex, const BitwiseEnum<TokenType_t> tokenType,
+                const BitwiseEnum<TokenPermission_t> tokenPermission);
     };
 }
 

@@ -11,7 +11,13 @@
 #include "Deamer/LanguageGen/Token.h"
 #include "Deamer/LanguageGen/Node.h"
 
-deamer::Node::Node(const std::string& nodeName, const std::string& regex, const bool createAst) : Token(nodeName, true, createAst)
+//deamer::Node::Node(const std::string& nodeName, const std::string& regex, const bool createAst) : Token(nodeName, true, createAst)
+//{
+//    Regex = regex;
+//}
+
+deamer::Node::Node(const std::string& typeName, const std::string& regex, const BitwiseEnum<TokenType_t> tokenType,
+	const BitwiseEnum<TokenPermission_t> tokenPermission) : Token(typeName, tokenType, tokenPermission)
 {
-    Regex = regex;
+	Regex = regex;
 }
