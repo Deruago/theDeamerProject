@@ -28,7 +28,7 @@ namespace deamer
 	class LanguageDefinitionBuilder
 	{
 	private:
-		LanguageDefinition language_definition;
+		LanguageDefinition language_definition = LanguageDefinition();
 		
 		TypeContinuation_t type_continuation = TypeContinuation_t::recursive;
 		
@@ -43,6 +43,7 @@ namespace deamer
 		Type* AddType(const std::string& tokenName, BitwiseEnum<TokenType_t> tokenType, BitwiseEnum<TokenPermission_t> tokenPermission);
 		Type* AddStartType(const std::string& tokenName);
 		Type* AddGroupedType(const std::string& tokenName);
+		void AddTokensToGroupedType(Type* grouped_token, std::vector<Token*> tokens);
 
 		void AddNode(Node* node);
 		Node* AddNode(const std::string& tokenName, const std::string& regex);
@@ -53,6 +54,7 @@ namespace deamer
 		void AddRuleToType(Type* type, Rule* rule_definition);
 
 		void SetTypeContinuation(TypeContinuation_t typeContinuation);
+		void SetLanguageName(const std::string& language_name);
 
 		LanguageDefinition GetLanguageDefinition() const;
 	};
