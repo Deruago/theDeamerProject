@@ -7,15 +7,19 @@
  */
 
 #include "Deamer/ParserGen/BisonBuilder/BisonParserFormatter.h"
+#include "Deamer/LanguageGen/LanguageDefinition.h"
 #include <string>
 #include <sstream>
 
+
 deamer::BisonParserFormatter::BisonParserFormatter(const std::string& lang_name, const std::string& firstType,
-                                                     const std::string& token_declaration_part,
-                                                     const std::string& type_declaration_part,
-                                                     const std::string& rule_declaration_part)
+                                                   const std::string& token_declaration_part,
+                                                   const std::string& type_declaration_part,
+                                                   const std::string& rule_declaration_part,
+                                                   const LanguageDefinition& language_definition)
 {
 	language_name_ = lang_name;
+	language_definition_ = language_definition;
 	first_type_name_ = firstType;
 	include_part_ = MakeInclude();
 	union_declaration_part_ = MakeUnion();
@@ -110,8 +114,45 @@ std::string deamer::BisonParserFormatter::MakeUnion() const
 		<< "    deamer::AstInformation* DeamerNode;\n"
 		<< "    deamer::AstInformation* DeamerType;\n"
 		<< "    deamer::AstNode* ASTNODE;\n"
+		<< MakeUnionAstNodes()
 		<< "}\n\n\n";
 	return oss.str();
+}
+
+std::string deamer::BisonParserFormatter::MakeUnionAstNodes() const
+{
+	std::string union_ast_nodes;
+	for(Type* type : language_definition_.Types)
+	{
+		if (type->TokenPermission.has_flag(TokenPermission_t::ignore))
+			continue;
+		union_ast_nodes += "    ";
+		if (type->TokenType.has_flag(TokenType_t::vector))
+			if (type->TokenType.has_flag(TokenType_t::start))
+				union_ast_nodes += language_name_ + "::AstTree_" + type->TokenName + "* " + language_name_ + "_" + type->TokenName;
+			else
+				union_ast_nodes += "std::vector<" + language_name_ + "::AstNode_" + type->TokenName + "*>* " + language_name_ + "_" + type->TokenName;
+		else
+			if (type->TokenType.has_flag(TokenType_t::start))
+				union_ast_nodes += language_name_ + "::AstTree_" + type->TokenName + "* " + language_name_ + "_" + type->TokenName;
+			else
+				union_ast_nodes += language_name_ + "::AstNode_" + type->TokenName + "* " + language_name_ + "_" + type->TokenName;
+		union_ast_nodes += ";\n";
+	}
+	
+	for(Node* node : language_definition_.Nodes)
+	{
+		if (node->TokenPermission.has_flag(TokenPermission_t::ignore))
+			continue;
+		union_ast_nodes += "    ";
+		if (node->TokenType.has_flag(TokenType_t::vector))
+			union_ast_nodes += "std::vector<" + language_name_ + "::AstNode_" + node->TokenName + "*>* " + language_name_ + "_" + node->TokenName;
+		else
+			union_ast_nodes += language_name_ + "::AstNode_" + node->TokenName + "* " + language_name_ + "_" + node->TokenName;
+		union_ast_nodes += ";\n";
+	}
+
+	return union_ast_nodes;
 }
 
 std::string deamer::BisonParserFormatter::MakeInclude() const
@@ -123,6 +164,7 @@ std::string deamer::BisonParserFormatter::MakeInclude() const
 		<< "#include <Deamer/AstGen/AstNode.h>\n"
 		<< "#include <Deamer/AstGen/AstTree.h>\n"
 		<< "#include \"./" << language_name_ << "Parser.h\"\n"
+		<< "#include <vector>\n"
 		<< "#include <iostream>\n"
 		<< "#include <cstring>\n"
 		<< "#include <stdio.h>\n"
