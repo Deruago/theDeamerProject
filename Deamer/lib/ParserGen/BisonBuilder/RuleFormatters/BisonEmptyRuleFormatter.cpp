@@ -9,11 +9,14 @@
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonEmptyRuleFormatter.h"
 
 deamer::BisonEmptyRuleFormatter::BisonEmptyRuleFormatter(std::string& languageName, unsigned currentLineNumber,
-                                                         bool isFirstType, Type& currentType) : BisonRuleFormatter(languageName, currentLineNumber, isFirstType, currentType)
+                                                         bool isFirstType, Type* currentType, Rule* currentRule) : BisonRuleFormatter(languageName, currentLineNumber, isFirstType, currentType, currentRule)
 {
 }
 
-std::string deamer::BisonEmptyRuleFormatter::MakeExecutedCodeForProductionRule(Rule* rule) const
+std::string deamer::BisonEmptyRuleFormatter::MakeExecutedCodeForProductionRule() const
 {
-	return "";
+	if (CurrentType->TokenType.has_flag(TokenType_t::vector))
+		return "          $$ = new std::vector<" + TypeToClassName(CurrentType) + "*>();\n";
+	else
+		return "";
 }
