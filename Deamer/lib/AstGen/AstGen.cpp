@@ -41,20 +41,20 @@ std::string deamer::AstGen::GetAstNodeClassName(std::string TokenName)
 
 void deamer::AstGen::CreateAstNodes(LanguageDefinition* langDef)
 {
-    astBuilder.SetLanguageName(langDef->GetLanguageName());
+    astBuilder.SetLanguageName(langDef->LanguageName);
     
     astBuilder.CreateGlobalHeaderFile();
     astBuilder.CreateAstNodeEnumFile();
     
-    astBuilder.CreateAstTree(langDef->Types[langDef->Types.size() - 1], langDef->Types[langDef->Types.size() - 1]->IsNode);
+    astBuilder.CreateAstTree(langDef->Types[langDef->Types.size() - 1], langDef->Types[langDef->Types.size() - 1]->TokenPermission.has_flag(TokenPermission_t::node));
     astBuilder.AppendAstTreeHeaderFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
     astBuilder.AppendAstNodeEnumFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
 
     for (int i = langDef->Types.size() - 2; i >= 0; i--)
     {
-        if (langDef->Types[i]->CreateAst)
+        if (langDef->Types[i]->TokenPermission.has_flag(TokenPermission_t::ast))
         {
-            astBuilder.CreateAstNode(langDef->Types[i], langDef->Types[i]->IsNode);
+            astBuilder.CreateAstNode(langDef->Types[i], langDef->Types[i]->TokenPermission.has_flag(TokenPermission_t::node));
             astBuilder.AppendAstNodeHeaderFile(langDef->Types[i]->TokenName);
             astBuilder.AppendAstNodeEnumFile(langDef->Types[i]->TokenName);
         }
@@ -63,9 +63,9 @@ void deamer::AstGen::CreateAstNodes(LanguageDefinition* langDef)
 
     for (int i = 0; i < langDef->Nodes.size(); i++)
     {
-        if (langDef->Nodes[i]->CreateAst)
+        if (langDef->Nodes[i]->TokenPermission.has_flag(TokenPermission_t::ast))
         {
-            astBuilder.CreateAstNode(langDef->Nodes[i], langDef->Nodes[i]->IsNode);
+            astBuilder.CreateAstNode(langDef->Nodes[i], langDef->Nodes[i]->TokenPermission.has_flag(TokenPermission_t::node));
             astBuilder.AppendAstNodeHeaderFile(langDef->Nodes[i]->TokenName);
             astBuilder.AppendAstNodeEnumFile(langDef->Nodes[i]->TokenName);
         }
