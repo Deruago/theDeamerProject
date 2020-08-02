@@ -8,14 +8,23 @@
  */
 
 #include "Deamer/LanguageGen/Token.h"
+#include "Deamer/LanguageGen/Type.h"
 #include <string>
 #include <iostream>
 
-deamer::Token::Token(const std::string& tokenName, const bool isNode, const bool createAst)
+//deamer::Token::Token(const std::string& tokenName, const bool isNode, const bool createAst)
+//{
+//    TokenName = tokenName;
+//    IsNode = isNode;
+//    CreateAst = createAst;
+//}
+
+deamer::Token::Token(const std::string& tokenName, const BitwiseEnum<TokenType_t> tokenType,
+	const BitwiseEnum<TokenPermission_t> tokenPermission)
 {
     TokenName = tokenName;
-    IsNode = isNode;
-    CreateAst = createAst;
+    TokenType = tokenType;
+    TokenPermission = tokenPermission;
 }
 
 void deamer::Token::PrintToken()
@@ -40,24 +49,27 @@ void deamer::Token::RemoveReferenceThatUsedThisToken()
 
 void deamer::Token::SetBaseGroupTokensIsVector(const bool cond)
 {
-    for (Token* token : BaseGroupTokens)
+    for (Type* type : BaseGroupTokens)
     {
-        token->SetBaseGroupTokensIsVector(cond);
-        token->IsVector = cond;
+        if (type->TokenType != TokenType_t::start)
+        {
+            type->SetBaseGroupTokensIsVector(cond);
+            type->TokenType.set_flag(TokenType_t::vector, cond);
+        }
     }
 }
 
 std::string deamer::Token::MakeFunctionArgument()
 {
-    if (IsVector)
-        return "std::vector<AstNode_" + TokenName + ">* " + TokenName + "_vector";
+    if (TokenType.has_flag(TokenType_t::vector))
+        return "std::vector<AstNode_" + TokenName + "*>* " + TokenName + "_vector";
     else
         return "AstNode_" + TokenName + "* " + TokenName;
 }
 
 std::string deamer::Token::MakeTypeCallAsClassField()
 {
-    if (IsVector)
+    if (TokenType.has_flag(TokenType_t::vector))
         return "_" + TokenName + "_vector";
     else
         return "_" + TokenName;
@@ -65,7 +77,7 @@ std::string deamer::Token::MakeTypeCallAsClassField()
 
 std::string deamer::Token::MakeTypeAsCtorInputVariable()
 {
-    if (IsVector)
+    if (TokenType.has_flag(TokenType_t::vector))
         return TokenName + "_vector";
     else
         return TokenName;
@@ -78,8 +90,8 @@ std::string deamer::Token::MakeConstructorTypeAssignment()
 
 std::string deamer::Token::MakeTypeAsClassField()
 {
-    if (IsVector)
-        return "std::vector<AstNode_" + TokenName + "*> " + MakeTypeCallAsClassField();
+    if (TokenType.has_flag(TokenType_t::vector))
+        return "std::vector<AstNode_" + TokenName + "*>* " + MakeTypeCallAsClassField();
     else
         return "AstNode_" + TokenName + "* " + MakeTypeCallAsClassField();
 }
