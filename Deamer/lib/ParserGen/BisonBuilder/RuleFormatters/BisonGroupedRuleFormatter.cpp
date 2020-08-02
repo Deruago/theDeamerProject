@@ -8,16 +8,16 @@
 
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonGroupedRuleFormatter.h"
 
-std::string deamer::BisonGroupedRuleFormatter::MakeExecutedCodeForProductionRule(Rule* rule) const
+std::string deamer::BisonGroupedRuleFormatter::MakeExecutedCodeForProductionRule() const
 {
-	Token* currentToken = rule->Tokens[0];
-	if (currentToken->IsNode)
-		return MakeAstNode(LanguageName, currentToken->TokenName) + "($1);\n";
+	Token* currentToken = CurrentRule->Tokens[0];
+	if (currentToken->TokenPermission.has_flag(TokenPermission_t::node))
+		return MakeAstNode(LanguageName, currentToken->TokenName) + "($1)" + MakeEndAddToMainTypeLine() + ";\n";
 	else
 		return "      $$ = $1\n";
 }
 
 deamer::BisonGroupedRuleFormatter::BisonGroupedRuleFormatter(std::string& languageName, unsigned currentLineNumber,
-                                                             bool isFirstType, Type& currentType) : BisonRuleFormatter(languageName, currentLineNumber, isFirstType, currentType)
+                                                             bool isFirstType, Type* currentType, Rule* currentRule) : BisonRuleFormatter(languageName, currentLineNumber, isFirstType, currentType, currentRule)
 {
 }
