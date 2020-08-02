@@ -57,7 +57,7 @@ bool deamer::LexerGen::Build()
 
 bool deamer::LexerGen::Write()
 {
-    lexerBuilder->SetFileTarget(langDef->GetLanguageName() + Filename);
+    lexerBuilder->SetFileTarget(langDef->LanguageName + Filename);
     lexerBuilder->WriteOutputToFile();
 
     return true;

@@ -71,7 +71,7 @@ bool deamer::ParserGen::Build()
 
 bool deamer::ParserGen::Write()
 {
-    parserBuilder->SetFileTarget(langDef->GetLanguageName() + Filename);
+    parserBuilder->SetFileTarget(langDef->LanguageName + Filename);
     parserBuilder->WriteOutputToFile();
 
     return true;
