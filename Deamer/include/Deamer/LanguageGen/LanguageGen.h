@@ -25,13 +25,13 @@ namespace deamer
     {
     class LanguageGen : public Generator
     {
-        LanguageDefinition* languageDefinition;
+        LanguageDefinition languageDefinition = LanguageDefinition();
         LexerGen* lexerGen;
         ParserGen* parserGen;
         std::string Directory;
 
         public:
-            LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition* languageDefinition);
+            LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition& languageDefinition);
             bool CreateDefaultLexerAPI() const;      // Used to communicate with the lexer
             bool CreateDefaultParserAPI() const;     // Used to communicate with the parser
             bool CreateDefaultCompilerAPIHeader() const;   // Used to communicate with the compiler. The compiler API supports multiple interfaces/features.
