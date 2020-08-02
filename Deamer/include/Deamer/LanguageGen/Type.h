@@ -25,10 +25,10 @@ namespace deamer
 	class Type : public Token
 	{
 	public:
-		bool GroupedType;
 		std::vector<Rule*> Rules;
 
-		Type(const std::string& typeName, const bool createAst, const bool groupedType);
+		//Type(const std::string& typeName, const bool createAst, const TokenType_t tokenType);
+		Type(const std::string& typeName, const BitwiseEnum<TokenType_t> tokenType, const BitwiseEnum<TokenPermission_t> tokenPermission);
 		void AddRule(Rule* newRule);
 		void PrintType();
 		void PrintRules();

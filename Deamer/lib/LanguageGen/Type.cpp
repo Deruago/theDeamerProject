@@ -9,14 +9,20 @@
 
 #include "Deamer/LanguageGen/Token.h"
 #include "Deamer/LanguageGen/Type.h"
+#include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include <iostream>
 #include <string>
 
-deamer::Type::Type(const std::string& typeName, const bool createAst, const bool groupedType) : Token(typeName, false, createAst)
-{
-    GroupedType = groupedType;
-}
+//deamer::Type::Type(const std::string& typeName, const bool createAst, const TokenType_t tokenType) : Token(typeName, false, createAst)
+//{
+//    TokenType = tokenType;
+//}
 
+
+deamer::Type::Type(const std::string& typeName, const BitwiseEnum<TokenType_t> tokenType,
+	const BitwiseEnum<TokenPermission_t> tokenPermission) : Token(typeName, tokenType, tokenPermission)
+{
+}
 
 void deamer::Type::AddRule(Rule* newRule)
 {
@@ -42,7 +48,8 @@ std::vector<deamer::Token*> deamer::Type::GetVectorOfUniqueTokensDefiningThisTyp
     std::vector<Token*> token_vector;
     for (Rule* rule : Rules)
         for (Token* token : rule->Tokens)
-            AddTokenToVectorIfNotAlreadyInVector(token_vector, token);
+            if (!token->TokenPermission.has_flag(TokenPermission_t::ignore))
+				AddTokenToVectorIfNotAlreadyInVector(token_vector, token);
     return token_vector;
 }
 
