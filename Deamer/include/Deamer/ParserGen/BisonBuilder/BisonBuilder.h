@@ -27,7 +27,7 @@ namespace deamer
 		std::string tokenDeclarationPart;
 		std::string typeDeclarationPart;
 		Type* firstType;
-		bool IsFirstType;
+		bool IsTypeFirstType(Type* type) const;
 	public:
 		BisonBuilder(LanguageDefinition* langDef);
 		~BisonBuilder() = default;

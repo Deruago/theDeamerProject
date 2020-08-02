@@ -22,9 +22,8 @@
 deamer::BisonBuilder::BisonBuilder(LanguageDefinition* langDef)
 {
 	BisonBuilder::langDef = langDef;
-	firstType = nullptr;
-	IsFirstType = true;
-	ruleFormatter = BisonRuleSectionFormatter(langDef->GetLanguageName());
+	firstType = langDef->StartType;
+	ruleFormatter = BisonRuleSectionFormatter(langDef->LanguageName);
 }
 
 void deamer::BisonBuilder::AddNode(Node* node)
@@ -38,18 +37,19 @@ void deamer::BisonBuilder::AddNode(Node* node)
 	typeDeclarationPart += oss2.str();
 }
 
+bool deamer::BisonBuilder::IsTypeFirstType(Type* type) const
+{
+	return type->TokenType.has_flag(TokenType_t::start);
+}
+
 void deamer::BisonBuilder::AddType(Type* type)
 {
 	std::ostringstream oss;
-	oss << "%type <ASTNODE> " << type->TokenName << '\n';
+	oss << "%type <" + langDef->LanguageName + "_" + type->TokenName + "> " << type->TokenName << '\n';
 	typeDeclarationPart += oss.str();
 
-	if(IsFirstType)
-	{
-		IsFirstType = false;
-		firstType = type;
+	if(IsTypeFirstType(type))
 		ruleFormatter.AddFirstType(type);
-	}
 	else
 		ruleFormatter.AddType(type);
 }
@@ -82,7 +82,7 @@ std::string deamer::BisonBuilder::FormatGroupedRule(Rule* rule)
 
 void deamer::BisonBuilder::WriteGroupedRuleModificationPart(Rule* rule, std::ostringstream* oss) const
 {
-	const std::string LanguageName = langDef->GetLanguageName();
+	const std::string LanguageName = langDef->LanguageName;
 	FormatTypeGroupedRulePart(rule, oss, LanguageName);
 }
 
@@ -116,9 +116,9 @@ bool deamer::BisonBuilder::FinishBuild()
 {
 	const auto ruleDeclarationPart = ruleFormatter.GetFormattedRuleSection();
 	std::ostringstream ParserFunctions;
-	const BisonParserFormatter ParserFormatter(langDef->GetLanguageName(), firstType->TokenName,
+	const BisonParserFormatter ParserFormatter(langDef->LanguageName, firstType->TokenName,
 	                                            tokenDeclarationPart, typeDeclarationPart,
-	                                            ruleDeclarationPart);
+	                                            ruleDeclarationPart, *langDef);
 	Output = ParserFormatter.MakeParserFile(ParserFunctions);
 	
 	return true;
