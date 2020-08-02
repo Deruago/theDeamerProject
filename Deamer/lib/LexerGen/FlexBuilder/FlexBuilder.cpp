@@ -24,7 +24,7 @@ deamer::FlexBuilder::FlexBuilder(LanguageDefinition* langDef) : FlexBuilder()
 std::string deamer::FlexBuilder::NewNodeFunctionalData(Node* node) const
 {
     std::ostringstream oss;
-    oss << "{" << langDef->GetLanguageName() << "lval.DeamerNode = (deamer::AstInformation*) malloc(sizeof(deamer::AstInformation)); sscanf(yytext, \"%s\", " << langDef->GetLanguageName() << "lval.DeamerNode->ValueName); " << langDef->GetLanguageName() << "lval.DeamerNode->LineNumber = " << langDef->GetLanguageName() << "lineno; return (" << node->TokenName << ");}\n";
+    oss << "{" << langDef->LanguageName << "lval.DeamerNode = (deamer::AstInformation*) malloc(sizeof(deamer::AstInformation)); sscanf(yytext, \"%s\", " << langDef->LanguageName << "lval.DeamerNode->ValueName); " << langDef->LanguageName << "lval.DeamerNode->LineNumber = " << langDef->LanguageName << "lineno; return (" << node->TokenName << ");}\n";
     return oss.str();
 }
 
@@ -73,9 +73,9 @@ bool deamer::FlexBuilder::StartBuild()
         << "#include <Deamer/AstGen/AstTree.h>\n"
         << "#include <stdio.h>\n"
         << "#include <string.h>\n"
-        << "#include \"../Parser/" << langDef->GetLanguageName() << "parser.tab.h\"\n"
+        << "#include \"../Parser/" << langDef->LanguageName << "parser.tab.h\"\n"
         << "void showError();\n"
-        << "extern int " << langDef->GetLanguageName() << "lex();\n"
+        << "extern int " << langDef->LanguageName << "lex();\n"
         << "%}\n\n";
     declarationPart = oss.str();
     tokenDeclarationPart += "%%\n";
