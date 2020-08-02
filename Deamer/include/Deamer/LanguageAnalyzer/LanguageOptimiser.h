@@ -6,9 +6,8 @@
  * -July 2020 Thimo Böhmer
  */
 
-#ifndef DEAMER_LANGUAGEANALYZER_LANGUAGEANALYZER_H
-#define DEAMER_LANGUAGEANALYZER_LANGUAGEANALYZER_H
-#include <vector>
+#ifndef DEAMER_LANGUAGEANALYZER_LANGUAGEOPTIMISER_H
+#define DEAMER_LANGUAGEANALYZER_LANGUAGEOPTIMISER_H
 
 #include "Deamer/ParserGen/BisonBuilder/BisonRuleSectionFormatter.h"
 
@@ -16,7 +15,7 @@ namespace deamer
 {
 	class LanguageDefinition;
 
-	class LanguageAnalyzer
+	class LanguageOptimiser
 	{
 	private:
 		bool IsTypeUsedByOtherTypes(Type* type) const;
@@ -29,8 +28,8 @@ namespace deamer
 		bool AllRulesOfTypeAreGroupable(Type* type) const;
 		void GroupAllRulesOfType(Type* type) const;
 	public:
-		LanguageAnalyzer() = default;
-		~LanguageAnalyzer() = default;
+		LanguageOptimiser() = default;
+		~LanguageOptimiser() = default;
 		void ApplyAllOptimisations(LanguageDefinition& language_definition) const;
 		void RemovedUnusedProductionRules(LanguageDefinition& language_definition) const;
 		void ApplyEmptyTypeToAllEmptyRules(LanguageDefinition& language_definition) const;
@@ -39,4 +38,4 @@ namespace deamer
 	};
 }
 
-#endif //DEAMER_LANGUAGEANALYZER_LANGUAGEANALYZER_H
+#endif //DEAMER_LANGUAGEANALYZER_LANGUAGEOPTIMISER_H

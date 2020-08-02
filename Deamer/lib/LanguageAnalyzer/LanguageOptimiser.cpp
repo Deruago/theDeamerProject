@@ -6,19 +6,19 @@
  * -July 2020 Thimo Böhmer
  */
 
-#include "Deamer/LanguageAnalyzer/LanguageAnalyzer.h"
+#include "Deamer/LanguageAnalyzer/LanguageOptimiser.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 #include "Deamer/LanguageGen/Rule.h"
 #include "Deamer/LanguageGen/Type.h"
 
-void deamer::LanguageAnalyzer::ApplyAllOptimisations(LanguageDefinition& language_definition) const
+void deamer::LanguageOptimiser::ApplyAllOptimisations(LanguageDefinition& language_definition) const
 {
 	RemovedUnusedProductionRules(language_definition);
 	ApplyEmptyTypeToAllEmptyRules(language_definition);
 	ApplyGroupedTypeToAllGroupableRules(language_definition);
 }
 
-void deamer::LanguageAnalyzer::RemovedUnusedProductionRules(LanguageDefinition& language_definition) const
+void deamer::LanguageOptimiser::RemovedUnusedProductionRules(LanguageDefinition& language_definition) const
 {
 	for (Type* type : language_definition.Types)
 	{
@@ -27,26 +27,26 @@ void deamer::LanguageAnalyzer::RemovedUnusedProductionRules(LanguageDefinition& 
 	}
 }
 
-bool deamer::LanguageAnalyzer::IsTypeUsedByOtherTypes(Type* type) const
+bool deamer::LanguageOptimiser::IsTypeUsedByOtherTypes(Type* type) const
 {
 	return type->TotalAmountOfTypesThatUsesThisToken >= 1;
 }
 
-void deamer::LanguageAnalyzer::RecursivelyRemoveTypeFromLanguageDefinitionIncludingAllRules(Type* type, LanguageDefinition& language_definition) const
+void deamer::LanguageOptimiser::RecursivelyRemoveTypeFromLanguageDefinitionIncludingAllRules(Type* type, LanguageDefinition& language_definition) const
 {
 	language_definition.RemoveType(type);
 }
 
-void deamer::LanguageAnalyzer::ApplyEmptyTypeToAllEmptyRules(LanguageDefinition& language_definition) const
+void deamer::LanguageOptimiser::ApplyEmptyTypeToAllEmptyRules(LanguageDefinition& language_definition) const
 {
 	for (Rule* rule : language_definition.Rules)
 	{
 		if (rule->IsEmpty())
-			rule->RuleType = RuleType_t::empty;
+			rule->RuleType.set_flag(RuleType_t::empty);
 	}
 }
 
-void deamer::LanguageAnalyzer::ApplyVectorisedTypeToAllRecursiveContinuedRules(
+void deamer::LanguageOptimiser::ApplyVectorisedTypeToAllRecursiveContinuedRules(
 	LanguageDefinition& language_definition) const
 {
 	for (Type* type : language_definition.Types)
@@ -55,8 +55,8 @@ void deamer::LanguageAnalyzer::ApplyVectorisedTypeToAllRecursiveContinuedRules(
 		{
 			if (RuleContinuesRecursively(type, rule))
 			{
-				rule->RuleType = RuleType_t::vectorised;
-				type->IsVector = true;
+				rule->RuleType.set_flag(RuleType_t::vectorised);
+				type->TokenType.set_flag(TokenType_t::vector);
 				type->SetBaseGroupTokensIsVector(true);
 			}
 		}
@@ -64,22 +64,22 @@ void deamer::LanguageAnalyzer::ApplyVectorisedTypeToAllRecursiveContinuedRules(
 }
 
 
-bool deamer::LanguageAnalyzer::RuleContinuesRecursively(Type* outputTokenOfRule, Rule* rule) const
+bool deamer::LanguageOptimiser::RuleContinuesRecursively(Type* outputTokenOfRule, Rule* rule) const
 {
-	if (rule->Tokens.size() == 0)
+	if (rule->Tokens.empty())
 		return false;
 	return rule->Tokens[0] == outputTokenOfRule || rule->Tokens[rule->Tokens.size() - 1] == outputTokenOfRule;
 }
 
-bool deamer::LanguageAnalyzer::IsARuleInTypeAVector(Type* type) const
+bool deamer::LanguageOptimiser::IsARuleInTypeAVector(Type* type) const
 {
 	for (Rule* rule : type->Rules)
-		if (rule->Tokens[0]->IsVector)
+		if (rule->Tokens[0]->TokenType.has_flag(TokenType_t::vector))
 			return true;
 	return false;
 }
 
-void deamer::LanguageAnalyzer::ApplyGroupedTypeToAllGroupableRules(LanguageDefinition& language_definition) const
+void deamer::LanguageOptimiser::ApplyGroupedTypeToAllGroupableRules(LanguageDefinition& language_definition) const
 {
 	for (Type* type : language_definition.Types)
 	{
@@ -88,7 +88,7 @@ void deamer::LanguageAnalyzer::ApplyGroupedTypeToAllGroupableRules(LanguageDefin
 			GroupAllRulesOfType(type);
 			if (IsARuleInTypeAVector(type))
 			{
-				type->IsVector = true;
+				type->TokenType.set_flag(TokenType_t::vector);
 				type->SetBaseGroupTokensIsVector(true);
 			}
 		}
@@ -96,7 +96,7 @@ void deamer::LanguageAnalyzer::ApplyGroupedTypeToAllGroupableRules(LanguageDefin
 }
 
 
-bool deamer::LanguageAnalyzer::AllRulesOfTypeAreGroupable(Type* type) const
+bool deamer::LanguageOptimiser::AllRulesOfTypeAreGroupable(Type* type) const
 {
 	for (Rule* rule : type->Rules)
 	{
@@ -106,17 +106,17 @@ bool deamer::LanguageAnalyzer::AllRulesOfTypeAreGroupable(Type* type) const
 	return true;
 }
 
-bool deamer::LanguageAnalyzer::RuleIsGroupable(Rule* rule) const
+bool deamer::LanguageOptimiser::RuleIsGroupable(Rule* rule) const
 {
 	return rule->Tokens.size() == 1;
 }
 
-void deamer::LanguageAnalyzer::GroupAllRulesOfType(Type* type) const
+void deamer::LanguageOptimiser::GroupAllRulesOfType(Type* type) const
 {
-	type->GroupedType = true;
+	type->TokenType |= TokenType_t::grouped;
 	for (Rule* rule : type->Rules)
 	{
-		rule->RuleType = RuleType_t::grouped;
+		rule->RuleType.set_flag(RuleType_t::grouped);
 		rule->Tokens[0]->BaseTokens.push_back(type); // Sets the base type of this subtyped token
 		rule->Tokens[0]->BaseGroupTokens.push_back(type); // Sets the grouped type of this subtyped token
 	}
