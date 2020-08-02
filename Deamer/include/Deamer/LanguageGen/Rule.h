@@ -23,14 +23,19 @@ namespace deamer
     class Rule
     {
         public:
-            std::vector<Token*> Tokens;
-            RuleType_t RuleType = RuleType_t::standard;
+            Rule() = default;
             Rule(const std::vector<Token*>& tokens);
-            void PrintRule();
+
+    		std::vector<Token*> Tokens;
+            BitwiseEnum<RuleType_t> RuleType;
+            //RuleType_t RuleType = RuleType_t::standard;
+    		
+
             bool IsEmpty() const;
-            std::string MakeConstructorArguments();
+    		void PrintRule();
+            std::string MakeConstructorArguments(Token* token_subject);
             std::string MakeConstructorPrototype(Token* token_subject);
-            std::string MakeConstructors();
+            std::string MakeConstructors(Token* token_subject);
             std::string MakeConstructor(Token* token);
     };
 }

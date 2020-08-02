@@ -31,11 +31,15 @@ bool deamer::Rule::IsEmpty() const
     return Tokens.empty();
 }
 
-std::string deamer::Rule::MakeConstructorArguments()
+std::string deamer::Rule::MakeConstructorArguments(Token* token_subject)
 {
     std::string args;
 	for(unsigned arg_count = 0; arg_count < Tokens.size(); arg_count++)
 	{
+        if (Tokens[arg_count]->TokenPermission.has_flag(TokenPermission_t::ignore))
+            continue;
+        if (Tokens[arg_count] == token_subject)
+            continue;
         if (arg_count == 0)
             args += Tokens[arg_count]->MakeFunctionArgument();
         else
@@ -47,19 +51,20 @@ std::string deamer::Rule::MakeConstructorArguments()
 
 std::string deamer::Rule::MakeConstructorPrototype(Token* token_subject)
 {
-    return token_subject->TokenName + "(" + MakeConstructorArguments() + ")";
+    return token_subject->TokenName + "(" + MakeConstructorArguments(token_subject) + ")";
 }
 
-std::string deamer::Rule::MakeConstructors()
+std::string deamer::Rule::MakeConstructors(Token* token_subject)
 {
     std::string constructor_assignments;
     for (Token* token : Tokens)
-        constructor_assignments += "    " + token->MakeConstructorTypeAssignment() + ";\n";
+        if (!token->TokenPermission.has_flag(TokenPermission_t::ignore) && token != token_subject)
+			constructor_assignments += "    " + token->MakeConstructorTypeAssignment() + ";\n";
 
     return constructor_assignments;
 }
 
 std::string deamer::Rule::MakeConstructor(Token* token)
 {
-    return "{\n" + MakeConstructors() + "}\n";
+    return "{\n" + MakeConstructors(token) + "}\n";
 }
