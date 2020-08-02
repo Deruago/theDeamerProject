@@ -39,23 +39,28 @@ void deamer::AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, Token* 
     }
 
     const std::string tokenName = token->TokenName;
-    *astSourceFile << "#include \"./AstNode" << tokenName << ".h\"\n"
-             << "#include \"Deamer/AstGen/AstNode.h\"\n"
-             << "#include \"Deamer/AstGen/AstInformation.h\"\n"
-             << "#include <iostream>\n"
+    *astSourceFile << "#include \"./AstNode_" << tokenName << ".h\"\n"
+             << "#include <Deamer/AstGen/AstNode.h>\n"
+             << "#include <Deamer/AstGen/AstInformation.h>\n"
+			 << MakeAstNodeHeaderIncludes(token)
+			 << "#include <iostream>\n"
              << "#include <fstream>\n"
              << "#include <vector>\n"
              << '\n'
+		     << languageName << "::" << "AstNode_" << tokenName << "::" << "AstNode_" << tokenName << "(bool isNode, std::string astNodeName)" << MakeCtorImplementationsForAstSpecificCtor(token) << "\n"
+			 << "{\n"
+			 << "}\n"
+			 << "\n"
              << "int " << languageName << "::AstNode_" << tokenName << "::" << "GetAstId" << "()\n"
              << "{\n"
              << "    " << "return (unsigned int)" << languageName << "::AstNode_" << tokenName << "::AstType" << ";\n"
              << "}\n"
              << "\n"
-             << languageName << "::" << "AstNode_" << tokenName << "::" << "AstNode_" << tokenName << "(std::vector<deamer::AstNode*> astNodes) : deamer::AstNode::AstNode(astNodes, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
+             << languageName << "::" << "AstNode_" << tokenName << "::" << "AstNode_" << tokenName << "(std::vector<deamer::AstNode*> astNodes)" << MakeCtorImplementationsForAstNodes(token)
              << "{\n"
              << "}\n"
              << "\n"
-             << languageName << "::" << "AstNode_" << tokenName << "::" << "AstNode_" << tokenName << "(deamer::AstInformation* astInformation) : deamer::AstNode::AstNode(astInformation, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
+             << languageName << "::" << "AstNode_" << tokenName << "::" << "AstNode_" << tokenName << "(deamer::AstInformation* astInformation)" << MakeCtorImplementationsForAstInformation(token)
              << "{\n"
              << "}\n"
              << "\n"
@@ -69,16 +74,6 @@ void deamer::AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, Token* 
 deamer::FileClassSection* deamer::AstBuilder::GetAstNodeFileBuilderClass() const
 {
     return _AstNode;
-}
-
-std::string deamer::AstBuilder::MakeSubclassesOfToken(Token* token) const
-{
-	std::string subclass_string =  " : public deamer::AstNode";
-
-	for(Token* base_token : token->BaseTokens)
-        subclass_string += ", public " + languageName + "::AstNode_" + base_token->TokenName;
-
-	return subclass_string + "\n";
 }
 
 void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, Token* token, std::string* defaultTokenName) const
@@ -104,13 +99,15 @@ void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, Token* 
     *astHeaderFile << "#ifndef ASTNODES_" << tokenNameUpper << "_H\n"
                    << "#define ASTNODES_" << tokenNameUpper << "_H\n"
                    << "\n"
-                   << "#include \"Deamer/AstGen/AstNode.h\"\n"
-                   << "#include \"Deamer/AstGen/AstInformation.h\"\n"
+                   << "#include <Deamer/AstGen/AstNode.h>\n"
+                   << "#include <Deamer/AstGen/AstInformation.h>\n"
+                   << MakeAstNodeBaseHeaderIncludes(token)
                    << "#include \"AstEnum.h\"\n"
                    << "#include <vector>\n"
                    << "\n"
                    << "namespace " << languageName << "\n"
                    << "{\n"
+				   << MakeAstNodeForwardDeclarations(token)
                    << "    class AstNode_" << tokenName << MakeSubclassesOfToken(token)
                    << "    {\n"
                    << "        private:\n"
@@ -118,6 +115,7 @@ void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, Token* 
                    << "        public:\n"
 				   << MakeCtorFields(token)
                    << "            const " << languageName << "::AstEnum_t AstType = " << languageName << "::AstEnum_t::" << *defaultTokenName << ";\n"
+				   << "            AstNode_" << tokenName << "(bool isNode, std::string astNodeName);\n"
                    << "            AstNode_" << tokenName << "(std::vector<deamer::AstNode*> astNodes);\n"
                    << "            AstNode_" << tokenName << "(deamer::AstInformation* astInformation);\n"
                    << MakeAstNodeConstructorPrototypes(token)
@@ -132,15 +130,20 @@ void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, Token* 
 
 std::string deamer::AstBuilder::MakeRuleConstructorsForAstNode(Token* token) const
 {
+    std::string isNodeStr;
+    if (token->TokenPermission.has_flag(TokenPermission_t::node))
+        isNodeStr = "true";
+    else
+        isNodeStr = "false";
     std::string ctors;
-    if (!token->IsNode)
+    if (!token->TokenPermission.has_flag(TokenPermission_t::node))
     {
         Type* tmpType = static_cast<Type*>(token);
         for (Rule* rule : tmpType->Rules)
         {
-            if (rule->RuleType != RuleType_t::empty)
+            if (rule->RuleType.is_flag_not_set(RuleType_t::empty))
             {
-                ctors += languageName + "::AstNode_" + token->TokenName + "::AstNode_" + rule->MakeConstructorPrototype(token);
+                ctors += languageName + "::AstNode_" + token->TokenName + "::AstNode_" + rule->MakeConstructorPrototype(token) + MakeCtorImplementationsForAstSpecificCtor(token);
                 ctors += "\n";
 				ctors += rule->MakeConstructor(token) + "\n";
             }
@@ -151,21 +154,110 @@ std::string deamer::AstBuilder::MakeRuleConstructorsForAstNode(Token* token) con
 
 std::string deamer::AstBuilder::MakeRuleConstructorsForAstTree(Token* token) const
 {
+    std::string isNodeStr;
+    if (token->TokenPermission.has_flag(TokenPermission_t::node))
+        isNodeStr = "true";
+    else
+        isNodeStr = "false";
     std::string ctors;
-	if (!token->IsNode)
+	if (!token->TokenPermission.has_flag(TokenPermission_t::node))
 	{
 	    Type* tmpType = static_cast<Type*>(token);
 	    for (Rule* rule : tmpType->Rules)
 	    {
-	        if (rule->RuleType != RuleType_t::empty)
+	        if (rule->RuleType.is_flag_not_set(RuleType_t::empty))
 	        {
-				ctors += languageName + "::AstTree_" + token->TokenName + "::AstTree_" + rule->MakeConstructorPrototype(token);
+                ctors += languageName + "::AstTree_" + token->TokenName + "::AstTree_" + rule->MakeConstructorPrototype(token) + MakeCtorImplementationsForAstSpecificCtor(token);
 				ctors += "\n";
 			    ctors += rule->MakeConstructor(token) + "\n";    
 	        }
 	    }
 	}
     return ctors;
+}
+
+std::string deamer::AstBuilder::MakeCtorImplementationsForAstInformation(Token* token) const
+{
+    std::string CtorImplementation;
+	
+    std::string isNodeStr;
+    if (token->TokenPermission.has_flag(TokenPermission_t::node))
+        isNodeStr = "true";
+    else
+        isNodeStr = "false";
+
+	if (token->BaseTokens.empty())
+	{
+        return " : deamer::AstNode::AstNode(astInformation, " + isNodeStr + ", \"" + token->TokenName + "\")\n";
+	}
+	
+    unsigned i = 0;
+    for (Token* base_type : token->BaseTokens)
+    {
+    	if (i == 0)
+	        CtorImplementation += " : AstNode_" + base_type->TokenName + "(astInformation)\n";
+        else
+            CtorImplementation += ", AstNode_" + base_type->TokenName + "(astInformation)\n";
+        i++;
+    }
+	
+    return CtorImplementation;
+}
+
+std::string deamer::AstBuilder::MakeCtorImplementationsForAstNodes(Token* token) const
+{
+    std::string CtorImplementation;
+
+    std::string isNodeStr;
+    if (token->TokenPermission.has_flag(TokenPermission_t::node))
+        isNodeStr = "true";
+    else
+        isNodeStr = "false";
+
+    if (token->BaseTokens.empty())
+    {
+        return " : deamer::AstNode::AstNode(astNodes, " + isNodeStr + ", \"" + token->TokenName + "\")\n";
+    }
+
+    unsigned i = 0;
+    for (Token* base_type : token->BaseTokens)
+    {
+        if (i == 0)
+            CtorImplementation += " : AstNode_" + base_type->TokenName + "(astNodes)\n";
+        else
+            CtorImplementation += ", AstNode_" + base_type->TokenName + "(astNodes)\n";
+        i++;
+    }
+
+    return CtorImplementation;
+}
+
+std::string deamer::AstBuilder::MakeCtorImplementationsForAstSpecificCtor(Token* token) const
+{
+    std::string CtorImplementation;
+
+    std::string isNodeStr;
+    if (token->TokenPermission.has_flag(TokenPermission_t::node))
+        isNodeStr = "true";
+    else
+        isNodeStr = "false";
+
+    if (token->BaseTokens.empty())
+    {
+        return " : deamer::AstNode::AstNode(" + isNodeStr + ", \"" + token->TokenName + "\")\n";
+    }
+
+    unsigned i = 0;
+    for (Token* base_type : token->BaseTokens)
+    {
+        if (i == 0)
+            CtorImplementation += " : AstNode_" + base_type->TokenName + "(" + isNodeStr + ", \"" + token->TokenName + "\")\n";
+        else
+            CtorImplementation += ", AstNode_" + base_type->TokenName + "(" + isNodeStr + ", \"" + token->TokenName + "\")\n";
+        i++;
+    }
+
+	return CtorImplementation;
 }
 
 void deamer::AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, Token* token, std::string* defaultTokenName, bool isNode) const
@@ -182,38 +274,43 @@ void deamer::AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, Tok
 
     const std::string tokenName = token->TokenName;
     *astSourceFile << "#include \"./AstTree_" << tokenName << ".h\"\n"
-             << "#include \"Deamer/AstGen/AstTree.h\"\n"
-             << "#include \"Deamer/AstGen/AstNode.h\"\n"
-             << "#include \"Deamer/AstGen/AstInformation.h\"\n"
-             << "#include <iostream>\n"
-             << "#include <fstream>\n"
-             << "#include <vector>\n"
-             << '\n'
-             << languageName << "::" << "AstTree_" << tokenName << "* " << languageName << "::" << tokenName << "::currentTree;\n"
-             << '\n'
-             << "int " << languageName << "::AstTree_" << tokenName << "::" << "GetAstId" << "()\n"
-             << "{\n"
-             << "    " << "return (unsigned int)" << languageName << "::AstTree_" << tokenName << "::AstType" << ";\n"
-             << "}\n"
-             << "\n"
-             << languageName << "::" << "AstTree_" << tokenName << "::" << "AstTree_" << tokenName << "(std::vector<deamer::AstNode*> astNodes) : deamer::AstNode::AstNode(astNodes, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
-             << "{\n"
-             << "}\n"
-             << "\n"
-             << languageName << "::" << "AstTree_" << tokenName << "::" << "AstTree_" << tokenName << "(deamer::AstInformation* astInformation) : deamer::AstNode::AstNode(astInformation, " <<  isNodeStr << ", \"" << *defaultTokenName << "\")\n"
-             << "{\n"
-             << "}\n"
-             << "\n"
-			 << MakeRuleConstructorsForAstTree(token)
-             << "void " << languageName << "::AstTree_" << tokenName << "::SetCurrentTree(AstTree_" << tokenName << "* astTreePtr)\n"
-             << "{\n"
-             << "    " << languageName << "::AstTree_" << tokenName << "::currentTree = astTreePtr;\n"
-             << "}\n"
-             << "\n"
-             << "void " << languageName << "::AstTree_" << tokenName << "::Generate()\n"
-             << "{\n"
-             << "\n"
-             << "}\n";
+        << "#include \"Deamer/AstGen/AstTree.h\"\n"
+        << "#include \"Deamer/AstGen/AstNode.h\"\n"
+        << "#include \"Deamer/AstGen/AstInformation.h\"\n"
+        << MakeAstNodeHeaderIncludes(token)
+        << "#include <iostream>\n"
+        << "#include <fstream>\n"
+        << "#include <vector>\n"
+        << '\n'
+        << languageName << "::" << "AstTree_" << tokenName << "* " << languageName << "::AstTree_" << tokenName << "::currentTree;\n"
+        << '\n'
+        << "int " << languageName << "::AstTree_" << tokenName << "::" << "GetAstId" << "()\n"
+        << "{\n"
+        << "    " << "return (unsigned int)" << languageName << "::AstTree_" << tokenName << "::AstType" << ";\n"
+        << "}\n"
+        << "\n"
+		<< languageName << "::" << "AstTree_" << tokenName << "::" << "AstTree_" << tokenName << "(bool isNode, std::string astNodeName)" << MakeCtorImplementationsForAstSpecificCtor(token) << "\n"
+        << "{\n"
+        << "}\n"
+		<< "\n"
+        << languageName << "::" << "AstTree_" << tokenName << "::" << "AstTree_" << tokenName << "(std::vector<deamer::AstNode*> astNodes)" << MakeCtorImplementationsForAstNodes(token)
+        << "{\n"
+        << "}\n"
+        << "\n"
+        << languageName << "::" << "AstTree_" << tokenName << "::" << "AstTree_" << tokenName << "(deamer::AstInformation* astInformation)" << MakeCtorImplementationsForAstInformation(token)
+	    << "{\n"
+	    << "}\n"
+	    << "\n"
+		<< MakeRuleConstructorsForAstTree(token)
+	    << "void " << languageName << "::AstTree_" << tokenName << "::SetCurrentTree(AstTree_" << tokenName << "* astTreePtr)\n"
+	    << "{\n"
+	    << "    " << languageName << "::AstTree_" << tokenName << "::currentTree = astTreePtr;\n"
+	    << "}\n"
+	    << "\n"
+	    << "void " << languageName << "::AstTree_" << tokenName << "::Generate()\n"
+	    << "{\n"
+	    << "\n"
+	    << "}\n";
 }
 
 std::string deamer::AstBuilder::MakeSubclassesForAstTree(Token* token) const
@@ -221,9 +318,7 @@ std::string deamer::AstBuilder::MakeSubclassesForAstTree(Token* token) const
 	std::string subclass_string = " : public deamer::AstNode, public deamer::AstTree";
 
 	for(Token* base_token : token->BaseTokens)
-	{
         subclass_string += ", public " + languageName + "::AstNode_" + base_token->TokenName;
-	}
 
     return subclass_string + "\n";
 }
@@ -231,25 +326,86 @@ std::string deamer::AstBuilder::MakeSubclassesForAstTree(Token* token) const
 std::string deamer::AstBuilder::MakeAstNodeConstructorPrototypes(Token* token) const
 {
     std::string ctors;
-	if (!token->IsNode)
+	if (!token->TokenPermission.has_flag(TokenPermission_t::node))
 	{
         Type* tmpType = static_cast<Type*>(token);
         for(Rule* rule : tmpType->Rules)
-            if (rule->RuleType != RuleType_t::empty)
+            if (rule->RuleType.is_flag_not_set(RuleType_t::empty))
 	            ctors += "            AstNode_" + rule->MakeConstructorPrototype(token) + ";\n";
 	}
 	return ctors;
 }
 
+std::string deamer::AstBuilder::MakeSubclassesOfToken(Token* token) const
+{
+    std::string subclass_string;
+	if (token->BaseTokens.empty())
+		subclass_string =  " : public deamer::AstNode";
+	else
+	{
+        unsigned i = 0;
+		for(Token* base_token : token->BaseTokens)
+		{
+			if (i == 0)
+			{
+                subclass_string += " : public AstNode_" + base_token->TokenName;
+			}
+            else
+            {
+				subclass_string += ", public AstNode_" + base_token->TokenName;
+            }
+            i++;
+		}
+	}
+	return subclass_string + "\n";
+}
+
+std::string deamer::AstBuilder::MakeAstNodeBaseHeaderIncludes(Token* token) const
+{
+    std::string tmpHeaderIncludes;
+    	for (Token* base_token : token->BaseTokens)
+            tmpHeaderIncludes += "#include \"AstNode_" + base_token->TokenName + ".h\"\n";
+    return tmpHeaderIncludes;
+}
+
+std::string deamer::AstBuilder::MakeAstNodeHeaderIncludes(Token* token) const
+{
+    std::string tmpHeaderIncludes;
+    if (!token->TokenPermission.has_flag(TokenPermission_t::node))
+    {
+        Type* tmpType = static_cast<Type*>(token);
+        const std::vector<Token*> unique_tokens = tmpType->GetVectorOfUniqueTokensDefiningThisType();
+        for (Token* token_unique : unique_tokens)
+            if (token_unique != token)
+	            tmpHeaderIncludes += "#include \"AstNode_" + token_unique->TokenName + ".h\"\n";
+    }
+    return tmpHeaderIncludes;
+}
+
+std::string deamer::AstBuilder::MakeAstNodeForwardDeclarations(Token* token) const
+{
+    std::string tmpHeaderIncludes;
+    if (!token->TokenPermission.has_flag(TokenPermission_t::node))
+    {
+        Type* tmpType = static_cast<Type*>(token);
+        const std::vector<Token*> unique_tokens = tmpType->GetVectorOfUniqueTokensDefiningThisType();
+        for (Token* token_unique : unique_tokens)
+            if (token_unique != token)
+                tmpHeaderIncludes += "    class AstNode_" + token_unique->TokenName + ";\n";
+    }
+    return tmpHeaderIncludes;
+}
+
 std::string deamer::AstBuilder::MakeCtorFields(Token* token) const
 {
     std::string tmpCtorFields;
-	if (!token->IsNode)
+	if (!token->TokenPermission.has_flag(TokenPermission_t::node))
 	{
         Type* tmpType = static_cast<Type*>(token);
         const std::vector<Token*> unique_tokens = tmpType->GetVectorOfUniqueTokensDefiningThisType();
-        for (Token* token : unique_tokens)
-            tmpCtorFields += "            " + token->MakeTypeAsClassField() + ";\n";
+        for (Token* unique_token : unique_tokens)
+            if (unique_token != token)
+                tmpCtorFields += "            " + unique_token->MakeTypeAsClassField() + ";\n";
 	}
     return tmpCtorFields;
 }
@@ -257,11 +413,11 @@ std::string deamer::AstBuilder::MakeCtorFields(Token* token) const
 std::string deamer::AstBuilder::MakeAstTreeConstructorPrototypes(Token* token) const
 {
     std::string ctors;
-    if (!token->IsNode)
+    if (!token->TokenPermission.has_flag(TokenPermission_t::node))
     {
         Type* tmpType = static_cast<Type*>(token);
         for (Rule* rule : tmpType->Rules)
-            if (rule->RuleType != RuleType_t::empty)
+            if (rule->RuleType.is_flag_not_set(RuleType_t::empty))
 	            ctors += "            AstTree_" + rule->MakeConstructorPrototype(token) + ";\n";
     }
     return ctors;
@@ -281,6 +437,7 @@ void deamer::AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, Tok
                    << "\n"
                    << "#include \"Deamer/AstGen/AstTree.h\"\n"
                    << "#include \"Deamer/AstGen/AstNode.h\"\n"
+                   << MakeAstNodeBaseHeaderIncludes(token)
                    << "#include \"Deamer/AstGen/AstInformation.h\"\n"
                    << "#include \"AstEnum.h\"\n"
                    << "#include <string>\n"
@@ -288,14 +445,16 @@ void deamer::AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, Tok
                    << "\n"
                    << "namespace " << languageName << "\n"
                    << "{\n"
+			       << MakeAstNodeForwardDeclarations(token)
                    << "    class AstTree_" << tokenName << MakeSubclassesForAstTree(token)
                    << "    {\n"
-                   << "        private:\n"
+				   << "        private:\n"
                    << "        protected:\n"
                    << "        public:\n"
 				   << MakeCtorFields(token)
-                   << "            static " << tokenName << "* currentTree;\n"
-                   << "            const " << languageName << "::" << "AstEnum_t AstType = " << languageName << "::" << "AstEnum_t::" << *defaultTokenName << ";\n"
+                   << "            static AstTree_" << tokenName << "* currentTree;\n"
+			       << "            const " << languageName << "::" << "AstEnum_t AstType = " << languageName << "::" << "AstEnum_t::" << *defaultTokenName << ";\n"
+			       << "            AstTree_" << tokenName << "(bool isNode, std::string astNodeName);\n"
                    << "            AstTree_" << tokenName << "(std::vector<deamer::AstNode*> astNodes);\n"
                    << "            AstTree_" << tokenName << "(deamer::AstInformation* astInformation);\n"
 				   << MakeAstTreeConstructorPrototypes(token)

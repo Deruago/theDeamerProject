@@ -33,9 +33,15 @@ namespace deamer
             void FillAstHeaderFile(std::ofstream* astHeaderFile, Token* token, std::string* defaultTokenName) const;
             std::string MakeRuleConstructorsForAstNode(Token* token) const;
             std::string MakeRuleConstructorsForAstTree(Token* token) const;
+            std::string MakeCtorImplementationsForAstInformation(Token* token) const;
+            std::string MakeCtorImplementationsForAstNodes(Token* token) const;
+            std::string MakeCtorImplementationsForAstSpecificCtor(Token* token) const;
             void FillAstTreeSourceFile(std::ofstream* astSourceFile, Token* token, std::string* defaultTokenName, bool isNode) const;
             std::string MakeSubclassesForAstTree(Token* token) const;
             std::string MakeAstNodeConstructorPrototypes(Token* token) const;
+            std::string MakeAstNodeBaseHeaderIncludes(Token* token) const;
+            std::string MakeAstNodeHeaderIncludes(Token* token) const;
+            std::string MakeAstNodeForwardDeclarations(Token* token) const;
             std::string MakeCtorFields(Token* token) const;
             std::string MakeAstTreeConstructorPrototypes(Token* token) const;
             void FillAstTreeHeaderFile(std::ofstream* astHeaderFile, Token* token, std::string* defaultTokenName) const;
