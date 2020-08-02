@@ -16,19 +16,25 @@
 #include <memory>
 
 std::unique_ptr<deamer::BisonRuleFormatter> deamer::BisonRuleFormatterFactory::MakeRuleFormatter(
-	RuleType_t ruleType, std::string& languageName, unsigned currentLineNumber, bool isFirstType,
-	Type& currentType) const
+	Rule* rule, std::string& languageName, unsigned currentLineNumber, bool isFirstType,
+	Type* currentType) const
 {
-	switch(ruleType)
+	BitwiseEnum<RuleType_t> ruleType = rule->RuleType;
+	if(ruleType.has_flag(RuleType_t::empty))
 	{
-	case RuleType_t::empty:
-		return std::make_unique<BisonEmptyRuleFormatter>(languageName, currentLineNumber, isFirstType, currentType);
-	case RuleType_t::standard:
-		return std::make_unique<BisonStandardRuleFormatter>(languageName, currentLineNumber, isFirstType, currentType);
-	case RuleType_t::grouped:
-		return std::make_unique<BisonGroupedRuleFormatter>(languageName, currentLineNumber, isFirstType, currentType);
-	case RuleType_t::vectorised:
-		return std::make_unique<BisonVectorisedRuleFormatter>(languageName, currentLineNumber, isFirstType, currentType);
+		return std::make_unique<BisonEmptyRuleFormatter>(languageName, currentLineNumber, isFirstType, currentType, rule);
 	}
-	return std::make_unique<BisonStandardRuleFormatter>(languageName, currentLineNumber, isFirstType, currentType);
+	if(ruleType.has_flag(RuleType_t::standard))
+	{
+		return std::make_unique<BisonStandardRuleFormatter>(languageName, currentLineNumber, isFirstType, currentType, rule);
+	}
+	if (ruleType.has_flag(RuleType_t::grouped))
+	{
+		return std::make_unique<BisonGroupedRuleFormatter>(languageName, currentLineNumber, isFirstType, currentType, rule);
+	}
+	if (ruleType.has_flag(RuleType_t::vectorised))
+	{
+		return std::make_unique<BisonVectorisedRuleFormatter>(languageName, currentLineNumber, isFirstType, currentType, rule);
+	}
+	return std::make_unique<BisonStandardRuleFormatter>(languageName, currentLineNumber, isFirstType, currentType, rule);
 }

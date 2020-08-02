@@ -8,12 +8,11 @@
 
 #ifndef DEAMER_PARSERGEN_BISONBUILDER_RULEFORMATTERS_BISONRULEFORMATTERFACTORY_H
 #define DEAMER_PARSERGEN_BISONBUILDER_RULEFORMATTERS_BISONRULEFORMATTERFACTORY_H
-#include <memory>
-#include <string>
-
 
 #include "BisonEmptyRuleFormatter.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
+#include <memory>
+#include <string>
 
 namespace deamer
 {
@@ -24,9 +23,9 @@ namespace deamer
 	public:
 		BisonRuleFormatterFactory() = default;
 		~BisonRuleFormatterFactory() = default;
-		std::unique_ptr<deamer::BisonRuleFormatter> MakeRuleFormatter(RuleType_t ruleType, std::string& languageName,
-		                                                              unsigned currentLineNumber, bool isFirstType,
-		                                                              Type& currentType) const;
+		std::unique_ptr<deamer::BisonRuleFormatter> MakeRuleFormatter(Rule* rule,
+		                                                              std::string& languageName, unsigned currentLineNumber,
+		                                                              bool isFirstType, Type* currentType) const;
 	};
 }
 
