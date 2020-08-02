@@ -24,7 +24,7 @@ namespace deamer
 		Type* currentType;
 		unsigned int curRuleSizeOfType;
 		unsigned int CurrentLineNumber;
-		Type* firstType;
+		Type* startType;
 
 		bool CurTypeIsFirstType() const;
 	public:
@@ -33,7 +33,7 @@ namespace deamer
 		void AddType(Type*& type);
 		void ResetTypeInformation(Type*& type);
 		std::string GetFormattedRuleSection() const;
-		void AddRule(Rule* rule);
+		void AddRule(Rule* currentRule);
 		void AddFirstType(Type*& type);
 		void MakeType(deamer::Type*& type);
 		void EndLastType();

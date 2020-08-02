@@ -18,14 +18,14 @@
 
 bool deamer::BisonRuleSectionFormatter::CurTypeIsFirstType() const
 {
-	return firstType == currentType;
+	return startType == currentType;
 }
 
 deamer::BisonRuleSectionFormatter::BisonRuleSectionFormatter(const std::string& lang_name)
 {
 	language_name_ = lang_name;
 	currentType = nullptr;
-	firstType = nullptr;
+	startType = nullptr;
 }
 
 std::string deamer::BisonRuleSectionFormatter::GetFormattedRuleSection() const
@@ -36,7 +36,7 @@ std::string deamer::BisonRuleSectionFormatter::GetFormattedRuleSection() const
 
 void deamer::BisonRuleSectionFormatter::AddFirstType(Type*& type)
 {
-	firstType = type;
+	startType = type;
 
 	MakeType(type);
 	ResetTypeInformation(type);
@@ -67,9 +67,9 @@ void deamer::BisonRuleSectionFormatter::ResetTypeInformation(Type*& type)
 	currentType = type;
 }
 
-void deamer::BisonRuleSectionFormatter::AddRule(Rule* rule)
+void deamer::BisonRuleSectionFormatter::AddRule(Rule* currentRule)
 {
-	const std::unique_ptr<BisonRuleFormatter> ruleFormatter = BisonRuleFormatterFactory().MakeRuleFormatter(rule->RuleType, language_name_, CurrentLineNumber, CurTypeIsFirstType(), *currentType);
-	ruleDeclarationPart += ruleFormatter->MakeRule(rule);
+	const std::unique_ptr<BisonRuleFormatter> ruleFormatter = BisonRuleFormatterFactory().MakeRuleFormatter(currentRule, language_name_, CurrentLineNumber, CurTypeIsFirstType(), currentType);
+	ruleDeclarationPart += ruleFormatter->MakeRule();
 	CurrentLineNumber++;
 }
