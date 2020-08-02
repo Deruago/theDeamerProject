@@ -16,11 +16,11 @@ namespace deamer
 	class BisonStandardRuleFormatter : public BisonRuleFormatter
 	{
 	private:
-		std::string MakeExecutedCodeForProductionRule(Rule* rule) const override;
-		std::string FormatTypeRulePart(Rule* rule) const;
-		std::string MakeRuleExecutionPart(Rule* rule) const;
+		std::string MakeExecutedCodeForProductionRule() const override;
+		std::string FormatTypeRulePart() const;
+		std::string MakeRuleExecutionPart() const;
 	public:
-		BisonStandardRuleFormatter(std::string& languageName, unsigned currentLineNumber, bool isFirstType, Type& currentType);
+		BisonStandardRuleFormatter(std::string& languageName, unsigned currentLineNumber, bool isFirstType, Type* currentType, Rule* currentRule);
 	};
 }
 

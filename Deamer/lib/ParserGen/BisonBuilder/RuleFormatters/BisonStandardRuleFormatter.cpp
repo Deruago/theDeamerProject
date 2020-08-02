@@ -9,22 +9,22 @@
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonStandardRuleFormatter.h"
 
 deamer::BisonStandardRuleFormatter::BisonStandardRuleFormatter(std::string& languageName, unsigned currentLineNumber,
-                                                               bool isFirstType, Type& currentType) : BisonRuleFormatter(languageName, currentLineNumber, isFirstType, currentType)
+                                                               bool isFirstType, Type* currentType, Rule* currentRule) : BisonRuleFormatter(languageName, currentLineNumber, isFirstType, currentType, currentRule)
 {
 }
 
 
-std::string deamer::BisonStandardRuleFormatter::MakeExecutedCodeForProductionRule(Rule* rule) const
+std::string deamer::BisonStandardRuleFormatter::MakeExecutedCodeForProductionRule() const
 {
-	return FormatTypeRulePart(rule);
+	return FormatTypeRulePart();
 }
 
-std::string deamer::BisonStandardRuleFormatter::FormatTypeRulePart(Rule* rule) const
+std::string deamer::BisonStandardRuleFormatter::FormatTypeRulePart() const
 {
-	return MakeRuleExecutionPart(rule) + MakeOutputCodeWhenNodeIsStartType();
+	return MakeRuleExecutionPart() + MakeOutputCodeWhenNodeIsStartType();
 }
 
-std::string deamer::BisonStandardRuleFormatter::MakeRuleExecutionPart(Rule* rule) const
+std::string deamer::BisonStandardRuleFormatter::MakeRuleExecutionPart() const
 {
-	return MakeAstType(LanguageName) + AddArgumentsToAstType(LanguageName, rule);
+	return MakeAstType(LanguageName) + AddArgumentsToAstType(LanguageName);
 }
