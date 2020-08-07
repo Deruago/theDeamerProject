@@ -34,16 +34,23 @@ bool deamer::Rule::IsEmpty() const
 std::string deamer::Rule::MakeConstructorArguments(Token* token_subject)
 {
     std::string args;
+    unsigned arg_count_implemented = 0;
 	for(unsigned arg_count = 0; arg_count < Tokens.size(); arg_count++)
 	{
-        if (Tokens[arg_count]->TokenPermission.has_flag(TokenPermission_t::ignore))
-            continue;
-        if (Tokens[arg_count] == token_subject)
-            continue;
-        if (arg_count == 0)
-            args += Tokens[arg_count]->MakeFunctionArgument();
-        else
-            args += ", " + Tokens[arg_count]->MakeFunctionArgument();
+	    if (Tokens[arg_count]->TokenPermission.has_flag(TokenPermission_t::ignore))
+ 	       continue;
+	    if (Tokens[arg_count] == token_subject)
+  	      continue;
+	    if (arg_count_implemented == 0)
+	    {
+ 	       args += Tokens[arg_count]->MakeFunctionArgument();
+ 	       arg_count_implemented++;
+	    }
+	    else
+	    {
+	        args += ", " + Tokens[arg_count]->MakeFunctionArgument();
+	        arg_count_implemented++;
+	    }
 	}
 
     return args;
