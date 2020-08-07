@@ -66,7 +66,18 @@ std::string deamer::Rule::MakeConstructors(Token* token_subject)
     std::string constructor_assignments;
     for (Token* token : Tokens)
         if (!token->TokenPermission.has_flag(TokenPermission_t::ignore) && token != token_subject)
+        {
 			constructor_assignments += "    " + token->MakeConstructorTypeAssignment() + ";\n";
+			if (token->TokenType.has_flag(TokenType_t::vector))
+			{
+				constructor_assignments += "    for(AstNode_" + token->TokenName + "* _" + token->MakeTypeCallAsClassField() + " : *" + token->MakeTypeAsCtorInputVariable() + ")\n";
+				constructor_assignments += "        AstNodes.push_back(_" + token->MakeTypeCallAsClassField() + ");\n";
+			}
+			else
+			{
+				constructor_assignments += "    AstNodes.push_back(" + token->MakeTypeAsCtorInputVariable() + ");\n";
+			}
+        }
 
     return constructor_assignments;
 }
