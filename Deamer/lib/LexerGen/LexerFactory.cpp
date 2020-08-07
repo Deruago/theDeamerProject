@@ -10,7 +10,7 @@
 #include "Deamer/LexerGen/LexerFactory.h"
 #include "Deamer/LexerGen/LexerBuilder.h"
 #include "Deamer/LexerGen/FlexBuilder/FlexBuilder.h"
-#include "Deamer/LexerGen/DLexBuilder/DLexBuilder.h"
+#include "Deamer/LexerGen/DLexBuilder/DlexBuilder.h"
 
 deamer::LexerBuilder* deamer::LexerFactory::MakeLexerUseRecursiveBasedDS(LexerType_t lexerType_t, LanguageDefinition* langDef) const
 {
