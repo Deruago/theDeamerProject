@@ -42,6 +42,7 @@ void deamer::AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, Token* 
     *astSourceFile << "#include \"./AstNode_" << tokenName << ".h\"\n"
              << "#include <Deamer/AstGen/AstNode.h>\n"
              << "#include <Deamer/AstGen/AstInformation.h>\n"
+             << "#include \"" + languageName + "IR.h\"\n"
 			 << MakeAstNodeHeaderIncludes(token)
 			 << "#include <iostream>\n"
              << "#include <fstream>\n"
@@ -65,7 +66,7 @@ void deamer::AstBuilder::FillAstSourceFile(std::ofstream* astSourceFile, Token* 
              << "}\n"
              << "\n"
 		     << MakeRuleConstructorsForAstNode(token)
-             << "void " << languageName << "::AstNode_" << tokenName << "::Generate()"
+             << languageName << "::" << languageName << "IR* " << languageName << "::AstNode_" << tokenName << "::Generate()"
              << "{\n"
              << "\n"
              << "}\n";
@@ -108,6 +109,7 @@ void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, Token* 
                    << "namespace " << languageName << "\n"
                    << "{\n"
 				   << MakeAstNodeForwardDeclarations(token)
+                   << "    class " << languageName << "IR;\n"
                    << "    class AstNode_" << tokenName << MakeSubclassesOfToken(token)
                    << "    {\n"
                    << "        private:\n"
@@ -119,7 +121,7 @@ void deamer::AstBuilder::FillAstHeaderFile(std::ofstream* astHeaderFile, Token* 
                    << "            AstNode_" << tokenName << "(std::vector<deamer::AstNode*> astNodes);\n"
                    << "            AstNode_" << tokenName << "(deamer::AstInformation* astInformation);\n"
                    << MakeAstNodeConstructorPrototypes(token)
-                   << "            void Generate() override;\n"
+                   << "            " << languageName << "IR* Generate();\n"
                    << "            int GetAstId() override;\n"
                    << "    };\n"
                    << "}\n"
@@ -277,6 +279,7 @@ void deamer::AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, Tok
         << "#include \"Deamer/AstGen/AstTree.h\"\n"
         << "#include \"Deamer/AstGen/AstNode.h\"\n"
         << "#include \"Deamer/AstGen/AstInformation.h\"\n"
+        << "#include \"" + languageName + "IR.h\"\n"
         << MakeAstNodeHeaderIncludes(token)
         << "#include <iostream>\n"
         << "#include <fstream>\n"
@@ -307,7 +310,7 @@ void deamer::AstBuilder::FillAstTreeSourceFile(std::ofstream* astSourceFile, Tok
 	    << "    " << languageName << "::AstTree_" << tokenName << "::currentTree = astTreePtr;\n"
 	    << "}\n"
 	    << "\n"
-	    << "void " << languageName << "::AstTree_" << tokenName << "::Generate()\n"
+	    << languageName << "::" << languageName << "IR* " << languageName << "::AstTree_" << tokenName << "::Generate()\n"
 	    << "{\n"
 	    << "\n"
 	    << "}\n";
@@ -446,6 +449,7 @@ void deamer::AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, Tok
                    << "namespace " << languageName << "\n"
                    << "{\n"
 			       << MakeAstNodeForwardDeclarations(token)
+                   << "class " << languageName << "IR;\n"
                    << "    class AstTree_" << tokenName << MakeSubclassesForAstTree(token)
                    << "    {\n"
 				   << "        private:\n"
@@ -458,7 +462,7 @@ void deamer::AstBuilder::FillAstTreeHeaderFile(std::ofstream* astHeaderFile, Tok
                    << "            AstTree_" << tokenName << "(std::vector<deamer::AstNode*> astNodes);\n"
                    << "            AstTree_" << tokenName << "(deamer::AstInformation* astInformation);\n"
 				   << MakeAstTreeConstructorPrototypes(token)
-                   << "            void Generate() override;\n"
+                   << "            " << languageName << "IR* Generate();\n"
                    << "            int GetAstId() override;\n"
                    << "            void SetCurrentTree(AstTree_" << tokenName << "* astTreePtr);\n"
                    << "    };\n"

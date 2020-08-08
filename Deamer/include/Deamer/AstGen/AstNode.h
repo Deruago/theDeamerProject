@@ -37,7 +37,7 @@ namespace deamer
             AstNode(std::vector<AstNode*> astNodes, bool isNode, std::string astNodeName); // Is used to initliase a basic AST node.
             AstNode(AstInformation* astInformation, bool isNode, std::string astNodeName); // Is used to initiliase AstEndPoints. (Only endpoints may use this constructor)
         public:
-            virtual void Generate() = 0; // This generates the source code.
+            //virtual void Generate() = 0; // This generates the source code.
             virtual int GetAstId() = 0;
             void PrintNode(int indent);
             void PrintDirectChildren(int indent);
