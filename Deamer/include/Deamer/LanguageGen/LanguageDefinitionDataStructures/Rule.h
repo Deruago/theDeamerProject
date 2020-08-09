@@ -14,13 +14,16 @@
 This header describes the class implementation of Rule. Which is the base class for Rules.
 */
 
-#include "Deamer/LanguageGen/Token.h"
+#include "Deamer/Types/Visitable.h"
+#include "Deamer/LanguageAnalyzer/LanguageVisitor/LanguageDefinitionVisitor.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
 #include "Deamer/ParserGen/BisonBuilder/BisonBuilder.h"
 #include <vector>
 
+
 namespace deamer
 {
-    class Rule
+    class Rule : public Visitable<LanguageDefinitionVisitor>
     {
         public:
             Rule() = default;

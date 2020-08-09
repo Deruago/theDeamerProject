@@ -7,14 +7,15 @@
  * -July 2020 Thimo Böhmer
  */
 
-#ifndef DEAMER_LANGUAGEGEN_TOKEN_H
-#define DEAMER_LANGUAGEGEN_TOKEN_H
-
-
 /*
 This header describes the class implementation of Token. Which is the Base class for Tokens
 */
 
+#ifndef DEAMER_LANGUAGEGEN_TOKEN_H
+#define DEAMER_LANGUAGEGEN_TOKEN_H
+
+#include "Deamer/Types/Visitable.h"
+#include "Deamer/LanguageAnalyzer/LanguageVisitor/LanguageDefinitionVisitor.h"
 #include "Deamer/Types/BitwiseEnum.h"
 #include <string>
 #include <vector>
@@ -25,7 +26,7 @@ namespace deamer
     enum class TokenType_t;
     enum class TokenPermission_t;
 	
-	class Token
+	class Token : public Visitable<LanguageDefinitionVisitor>
     {
     protected:
         //Token(const std::string& tokenName, const bool isNode, const bool createAst);

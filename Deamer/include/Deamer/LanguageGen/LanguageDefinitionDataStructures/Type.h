@@ -15,8 +15,8 @@
  This header describes the class implementation of Type. Type is a subclass of Token. And describes an object that exists of rules
  */
 
-#include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/Rule.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
 #include <vector>
 #include <string>
 
