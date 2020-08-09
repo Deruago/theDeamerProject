@@ -85,48 +85,7 @@ void deamer::LanguageDefinition::DeleteAllRules()
     }
 }
 
-void deamer::LanguageDefinition::PrintNodes()
-{
-    for (int i = 0; i < Nodes.size(); i++)
-    {
-        std::cout << Nodes[i]->TokenName << '\n';
-    }
-    std::cout << '\n';
-}
-
-void deamer::LanguageDefinition::PrintTypes()
-{
-    for (int i = 0; i < Types.size(); i++)
-    {
-        std::cout << Types[i]->TokenName << '\n';
-    }
-    std::cout << '\n';
-}
-
-void deamer::LanguageDefinition::PrintRules()
-{
-    for (int i = 0; i < Rules.size(); i++)
-    {
-        for(int j = 0; j < Rules[i]->Tokens.size(); j++)
-        {
-            std::cout << Rules[i]->Tokens[j]->TokenName << ' ';
-        }
-        std::cout << '\n';
-    }
-}
-
 bool deamer::LanguageDefinition::TypeIsStartType(Type* type)
 {
     return type->TokenType.has_flag(TokenType_t::start);
-}
-
-void deamer::LanguageDefinition::PrintLanguageConfig()
-{
-    for(int i = Types.size() - 1; i >= 0; i--)
-    {
-        Types[i]->PrintToken();
-        std::cout << '\n';
-        Types[i]->PrintRules();
-        std::cout << '\n';
-    }
 }
