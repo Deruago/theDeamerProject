@@ -8,8 +8,8 @@
  */
 
 #include <string>
-#include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/Node.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Node.h"
 
 //deamer::Node::Node(const std::string& nodeName, const std::string& regex, const bool createAst) : Token(nodeName, true, createAst)
 //{

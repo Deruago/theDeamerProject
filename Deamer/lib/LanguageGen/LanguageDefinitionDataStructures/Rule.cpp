@@ -9,8 +9,8 @@
 
 #include <iostream>
 #include <string>
-#include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/Rule.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
 
 deamer::Rule::Rule(const std::vector<Token*>& tokens)
 {

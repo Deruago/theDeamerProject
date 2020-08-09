@@ -7,8 +7,8 @@
  * -July 2020 Thimo Böhmer
  */
 
-#include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/Type.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include <iostream>
 #include <string>
