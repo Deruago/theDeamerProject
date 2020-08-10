@@ -21,11 +21,11 @@ namespace deamer
 		~NodePrinter() = default;
 
 		void visit(Token& visited_type) override;
-		void visit(Rule& visited_type) override;
-		void visit(Node& visited_type) override;
-		void visit(Type& visited_type) override;
-		void last_visit(Type& type) override;
-		void last_visit(Node& node) override;
+		void first_visit(Rule& visited_type) override;
+		void first_visit(Node& visited_type) override;
+		void first_visit(Type& visited_type) override;
+		void visit(Type& type) override;
+		void visit(Node& node) override;
 
 		void Print(LanguageDefinition& language_definition) override;
 	};

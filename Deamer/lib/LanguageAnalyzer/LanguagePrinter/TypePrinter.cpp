@@ -14,24 +14,24 @@ void deamer::TypePrinter::visit(Token& visited_type)
 {
 }
 
-void deamer::TypePrinter::visit(Rule& visited_type)
+void deamer::TypePrinter::first_visit(Rule& visited_type)
 {
 }
 
-void deamer::TypePrinter::visit(Node& visited_type)
+void deamer::TypePrinter::first_visit(Node& visited_type)
 {
 }
 
-void deamer::TypePrinter::visit(Type& visited_type)
+void deamer::TypePrinter::first_visit(Type& visited_type)
 {
 	std::cout << MakeIndentation(0, 4) << visited_type.TokenName << std::endl;
 }
 
-void deamer::TypePrinter::last_visit(Type& type)
+void deamer::TypePrinter::visit(Type& type)
 {
 }
 
-void deamer::TypePrinter::last_visit(Node& node)
+void deamer::TypePrinter::visit(Node& node)
 {
 }
 

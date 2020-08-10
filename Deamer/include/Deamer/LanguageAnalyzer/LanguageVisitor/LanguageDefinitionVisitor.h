@@ -24,11 +24,11 @@ namespace deamer
 	class LanguageDefinitionVisitor : Visitor
 	{
 	private:
-		virtual void visit(Type& visited_type) = 0;
-		virtual void visit(Rule& visited_type) = 0;
-		virtual void visit(Node& visited_type) = 0;
-		virtual void last_visit(Type& type) = 0;
-		virtual void last_visit(Node& node) = 0;
+		virtual void first_visit(Type& visited_type) = 0;
+		virtual void first_visit(Rule& visited_type) = 0;
+		virtual void first_visit(Node& visited_type) = 0;
+		virtual void visit(Type& type) = 0;
+		virtual void visit(Node& node) = 0;
 	protected:
 		std::vector<Token*> Tokens;
 		bool TokenIsInVisitedVector(const Token& visited_token);

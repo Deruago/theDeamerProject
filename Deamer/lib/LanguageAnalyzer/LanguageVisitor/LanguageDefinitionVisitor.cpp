@@ -16,7 +16,7 @@ void deamer::LanguageDefinitionVisitor::dispatch(Type& visited_type)
 {
 	if (!TokenIsInVisitedVector(visited_type))
 	{
-		visit(visited_type);
+		first_visit(visited_type);
 		depth++;
 		Tokens.push_back(&visited_type);
 		for (Rule* rule : visited_type.Rules)
@@ -25,7 +25,7 @@ void deamer::LanguageDefinitionVisitor::dispatch(Type& visited_type)
 	}
 	else
 	{
-		last_visit(visited_type);
+		visit(visited_type);
 	}
 }
 
@@ -33,16 +33,16 @@ void deamer::LanguageDefinitionVisitor::dispatch(Node& visited_type)
 {
 	if (!TokenIsInVisitedVector(visited_type))
 	{
-		visit(visited_type);
+		first_visit(visited_type);
 		Tokens.push_back(&visited_type);
 	}
 	else
-		last_visit(visited_type);
+		visit(visited_type);
 }
 
 void deamer::LanguageDefinitionVisitor::dispatch(Rule& visited_type)
 {
-	visit(visited_type);
+	first_visit(visited_type);
 	for (Token* token : visited_type.Tokens)
 		token->Accept(*this);
 }

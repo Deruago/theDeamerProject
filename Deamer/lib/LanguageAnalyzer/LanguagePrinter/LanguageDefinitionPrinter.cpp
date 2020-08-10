@@ -18,23 +18,23 @@ void deamer::LanguageDefinitionPrinter::visit(Token& visited_type)
 	std::cout << MakeIndentation(depth, 4) << visited_type.TokenName << std::endl;
 }
 
-void deamer::LanguageDefinitionPrinter::visit(Rule& visited_type)
+void deamer::LanguageDefinitionPrinter::first_visit(Rule& visited_type)
 {
 }
 
-void deamer::LanguageDefinitionPrinter::visit(Node& visited_type)
+void deamer::LanguageDefinitionPrinter::first_visit(Node& visited_type)
 {
 	std::cout << MakeIndentation(depth, 4) << visited_type.TokenName << std::endl;
 }
 
-void deamer::LanguageDefinitionPrinter::visit(Type& visited_type)
+void deamer::LanguageDefinitionPrinter::first_visit(Type& visited_type)
 {
 	std::cout << MakeIndentation(depth, 4) << visited_type.TokenName << std::endl;
 }
 
-void deamer::LanguageDefinitionPrinter::last_visit(Type& type)
+void deamer::LanguageDefinitionPrinter::visit(Type& type)
 {
-	visit(type);
+	first_visit(type);
 	for (Rule* rule : type.Rules)
 	{
 		depth++;
@@ -44,9 +44,9 @@ void deamer::LanguageDefinitionPrinter::last_visit(Type& type)
 	}
 }
 
-void deamer::LanguageDefinitionPrinter::last_visit(Node& node)
+void deamer::LanguageDefinitionPrinter::visit(Node& node)
 {
-	visit(node);
+	first_visit(node);
 }
 
 void deamer::LanguageDefinitionPrinter::Print(LanguageDefinition& language_definition)
