@@ -25,8 +25,8 @@ namespace deamer
         public:
             virtual void DirTarget(std::string dirTarget) = 0;
             virtual void FileTarget(std::string fileTarget) = 0;
-            virtual bool Build();
-            virtual bool Write();
+            virtual void Build();
+            virtual void Write();
             bool DoesDirectoryExist(std::string* Directory);
             bool CreateDirectory(std::string* Directory);
             void CreateDirectoryIfNotExist(std::string* Directory);

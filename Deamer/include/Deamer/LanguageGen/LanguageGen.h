@@ -32,20 +32,21 @@ namespace deamer
 
         public:
             LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition& languageDefinition);
-            bool CreateDefaultLexerAPI() const;      // Used to communicate with the lexer
-            bool CreateDefaultParserAPI() const;     // Used to communicate with the parser
-            bool CreateDefaultCompilerAPIHeader() const;   // Used to communicate with the compiler. The compiler API supports multiple interfaces/features.
-            bool CreateDefaultCompilerAPISource() const;   // Implements the API
-            void DirTarget(std::string dirTarget) override;
+            void CreateDefaultLexerAPI() const;      // Used to communicate with the lexer
+            void CreateDefaultParserAPI() const;     // Used to communicate with the parser
+            void CreateDefaultCompilerAPIHeader() const;   // Used to communicate with the compiler. The compiler API supports multiple interfaces/features.
+            void CreateDefaultCompilerAPISource() const;   // Implements the API
+
+    		void DirTarget(std::string dirTarget) override;
             void FileTarget(std::string fileTarget) override;
             void GenerateLexer() const;
             void GenerateParser() const;
             void SetLexer(LexerType_t lexerType) const;
             void SetParser(ParserType_t parserType) const;
-            bool Build() override;
-            bool Write() override;
-            bool Compile() const;
-            bool Finish();
+            void Build() override;
+            void Write() override;
+            void Compile() const;
+            void Finish();
     };
 }
 

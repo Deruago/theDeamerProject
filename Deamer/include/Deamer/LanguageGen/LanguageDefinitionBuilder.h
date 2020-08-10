@@ -28,14 +28,12 @@ namespace deamer
 	class LanguageDefinitionBuilder
 	{
 	private:
-		LanguageDefinition language_definition = LanguageDefinition();
+		LanguageDefinition _language_definition = LanguageDefinition();
 		
 		TypeContinuation_t type_continuation = TypeContinuation_t::recursive;
-		
-		bool RuleIsGroupable(Type* type, Rule* rule) const;
-		bool RuleIsVectorisable(Type* type, Rule* rule) const;
 	public:
 		LanguageDefinitionBuilder() = default;
+		LanguageDefinitionBuilder(LanguageDefinition& language_definition);
 		~LanguageDefinitionBuilder() = default;
 
 		void AddType(Type* type);

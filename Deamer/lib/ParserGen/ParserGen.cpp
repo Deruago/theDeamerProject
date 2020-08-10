@@ -53,7 +53,7 @@ void deamer::ParserGen::BuildRulesOfType(Type* type) const
     }
 }
 
-bool deamer::ParserGen::Build()
+void deamer::ParserGen::Build()
 {
     BuildNodes();
 
@@ -64,17 +64,13 @@ bool deamer::ParserGen::Build()
         parserBuilder->AddType(langDef->Types[i]);
         BuildRulesOfType(langDef->Types[i]);
     }
-    bool BuildSuccessfull = parserBuilder->FinishBuild();
-    //std::cout << deamer::ParserGen::parserBuilder->GetOutput() << "\n";
-    return BuildSuccessfull;
+    parserBuilder->FinishBuild();
 }
 
-bool deamer::ParserGen::Write()
+void deamer::ParserGen::Write()
 {
     parserBuilder->SetFileTarget(langDef->LanguageName + Filename);
     parserBuilder->WriteOutputToFile();
-
-    return true;
 }
 
 std::string deamer::ParserGen::GetFileLocation() const

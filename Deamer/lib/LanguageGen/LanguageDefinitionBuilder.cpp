@@ -7,14 +7,19 @@
  */
 
 #include "Deamer/LanguageGen/LanguageDefinitionBuilder.h"
-
 #include "Deamer/LanguageGen/RuleFactory.h"
 #include "Deamer/LanguageGen/TokenFactory.h"
 #include "Deamer/LanguageGen/UngroupableRuleExeption.h"
+#include "Deamer/LanguageAnalyzer/LanguageAnalyzer/RuleAnalyzer.h"
+
+deamer::LanguageDefinitionBuilder::LanguageDefinitionBuilder(LanguageDefinition& language_definition)
+{
+	_language_definition = language_definition;
+}
 
 void deamer::LanguageDefinitionBuilder::AddType(Type* type)
 {
-	language_definition.Types.push_back(type);
+	_language_definition.Types.push_back(type);
 }
 
 deamer::Type* deamer::LanguageDefinitionBuilder::AddType(const std::string& tokenName)
@@ -36,7 +41,7 @@ deamer::Type* deamer::LanguageDefinitionBuilder::AddStartType(const std::string&
 {
 	Type* new_start_type = TokenFactory().MakeStartType(tokenName);
 	AddType(new_start_type);
-	language_definition.StartType = new_start_type;
+	_language_definition.StartType = new_start_type;
 	return new_start_type;
 }
 
@@ -59,13 +64,13 @@ void deamer::LanguageDefinitionBuilder::AddTokensToGroupedType(Type* grouped_tok
 
 void deamer::LanguageDefinitionBuilder::AddNode(Node* node)
 {
-	language_definition.Nodes.push_back(node);
+	_language_definition.Nodes.push_back(node);
 }
 
 deamer::Node* deamer::LanguageDefinitionBuilder::AddNode(const std::string& tokenName, const std::string& regex)
 {
 	Node* new_node = TokenFactory().MakeNode(tokenName, regex);
-	language_definition.Nodes.push_back(new_node);
+	_language_definition.Nodes.push_back(new_node);
 	return new_node;
 }
 
@@ -98,7 +103,7 @@ void deamer::LanguageDefinitionBuilder::AddRuleToType(Type* type, Rule* rule_def
 	}
 	else if (type->TokenType.has_flag(TokenType_t::grouped) && !type->TokenType.has_flag(TokenType_t::start))
 	{
-		if (RuleIsGroupable(type, rule_definition))
+		if (RuleAnalyzer().IsGroupable(*rule_definition))
 		{
 			rule_definition->RuleType.set_flag(RuleType_t::grouped);
 			rule_definition->Tokens[0]->BaseTokens.push_back(type);
@@ -109,14 +114,14 @@ void deamer::LanguageDefinitionBuilder::AddRuleToType(Type* type, Rule* rule_def
 	}
 	else if (type_continuation == TypeContinuation_t::vector)
 	{
-		if (RuleIsVectorisable(type, rule_definition))
+		if (RuleAnalyzer().IsVectorisable(*type, *rule_definition))
 		{
 			rule_definition->RuleType.set_flags({ RuleType_t::vectorised, RuleType_t::recursive });
 			type->TokenType.set_flag(TokenType_t::vector);
 		}
 	}
 	type->Rules.push_back(rule_definition);
-	language_definition.Rules.push_back(rule_definition);
+	_language_definition.Rules.push_back(rule_definition);
 }
 
 void deamer::LanguageDefinitionBuilder::SetTypeContinuation(TypeContinuation_t typeContinuation)
@@ -126,23 +131,10 @@ void deamer::LanguageDefinitionBuilder::SetTypeContinuation(TypeContinuation_t t
 
 void deamer::LanguageDefinitionBuilder::SetLanguageName(const std::string& language_name)
 {
-	language_definition.LanguageName = language_name;
+	_language_definition.LanguageName = language_name;
 }
 
 deamer::LanguageDefinition deamer::LanguageDefinitionBuilder::GetLanguageDefinition() const
 {
-	return language_definition;
-}
-
-
-bool deamer::LanguageDefinitionBuilder::RuleIsGroupable(Type* type, Rule* rule) const
-{
-	return rule->Tokens.size() == 1;
-}
-
-bool deamer::LanguageDefinitionBuilder::RuleIsVectorisable(Type* type, Rule* rule) const
-{
-	if (rule->Tokens.empty())
-		return false;
-	return rule->Tokens[0] == type || rule->Tokens[rule->Tokens.size() - 1] == type;
+	return _language_definition;
 }

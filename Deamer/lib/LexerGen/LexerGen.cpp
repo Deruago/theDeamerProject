@@ -37,7 +37,7 @@ void deamer::LexerGen::FileTarget(std::string fileTarget)
     lexerBuilder->SetFileTarget(fileTarget);
 }
 
-bool deamer::LexerGen::Build()
+void deamer::LexerGen::Build()
 {
     lexerBuilder->StartBuild();
     for (auto& Node : langDef->Nodes)
@@ -50,17 +50,13 @@ bool deamer::LexerGen::Build()
         lexerBuilder->AddIgnoreNode(IgnoreNode);
     }
 
-    bool IsBuildSuccesfull = lexerBuilder->FinishBuild();
-    //std::cout << deamer::LexerGen::lexerBuilder->GetOutput() << "\n";
-    return IsBuildSuccesfull;
+    lexerBuilder->FinishBuild();
 }
 
-bool deamer::LexerGen::Write()
+void deamer::LexerGen::Write()
 {
     lexerBuilder->SetFileTarget(langDef->LanguageName + Filename);
     lexerBuilder->WriteOutputToFile();
-
-    return true;
 }
 
 std::string deamer::LexerGen::GetFileLocation() const

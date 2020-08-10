@@ -33,8 +33,8 @@ namespace deamer
             void DirTarget(std::string dirTarget) override;
             void FileTarget(std::string fileTarget) override;
             void SetTarget(LexerType_t LexerTarget);
-            bool Build() override;
-            bool Write() override;
+            void Build() override;
+            void Write() override;
             void SetLangDef(LanguageDefinition* langDef);
     };
 }
