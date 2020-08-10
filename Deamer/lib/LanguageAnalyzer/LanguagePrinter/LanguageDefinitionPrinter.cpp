@@ -9,25 +9,49 @@
 
 #include "Deamer/LanguageAnalyzer/LanguagePrinter/LanguageDefinitionPrinter.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
-#include "Deamer/LanguageGen/Rule.h"
-#include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/Type.h"
-#include "Deamer/LanguageGen/Node.h"
 #include <vector>
 #include <string>
 #include <iostream>
 
-void deamer::LanguageDefinitionPrinter::PrintTree(LanguageDefinition& language_definition) const
+void deamer::LanguageDefinitionPrinter::visit(Token& visited_type)
 {
-	PrintCompleteType(language_definition.StartType, 0);
+	std::cout << MakeIndentation(depth, 4) << visited_type.TokenName << std::endl;
 }
 
-bool deamer::LanguageDefinitionPrinter::TypeAlreadyVisited(const std::vector<Type*>& visited_types, Token* new_type) const
+void deamer::LanguageDefinitionPrinter::visit(Rule& visited_type)
 {
-	for (Type* visited_type : visited_types)
-		if (visited_type == new_type)
-			return true;
-	return false;
+}
+
+void deamer::LanguageDefinitionPrinter::visit(Node& visited_type)
+{
+	std::cout << MakeIndentation(depth, 4) << visited_type.TokenName << std::endl;
+}
+
+void deamer::LanguageDefinitionPrinter::visit(Type& visited_type)
+{
+	std::cout << MakeIndentation(depth, 4) << visited_type.TokenName << std::endl;
+}
+
+void deamer::LanguageDefinitionPrinter::last_visit(Type& type)
+{
+	visit(type);
+	for (Rule* rule : type.Rules)
+	{
+		depth++;
+		for (Token* token : rule->Tokens)
+			visit(*token);
+		--depth;
+	}
+}
+
+void deamer::LanguageDefinitionPrinter::last_visit(Node& node)
+{
+	visit(node);
+}
+
+void deamer::LanguageDefinitionPrinter::Print(LanguageDefinition& language_definition)
+{
+	dispatch(*language_definition.StartType);
 }
 
 std::string deamer::LanguageDefinitionPrinter::MakeIndent(unsigned indent) const
@@ -49,40 +73,6 @@ std::string deamer::LanguageDefinitionPrinter::MakeIndentation(unsigned depth, u
 	}
 	return indentation;
 }
-
-void deamer::LanguageDefinitionPrinter::PrintCompleteType(std::vector<Type*> visited_types, Type* type, unsigned indent) const
-{
-	visited_types.push_back(type);
-	for (Rule* rule : type->Rules)
-	{
-		std::cout << MakeIndentation(indent, 4) << type->TokenName << std::endl;
-		if (rule->RuleType.is_flag_not_set(RuleType_t::empty))
-			PrintCompleteRule(visited_types, rule, indent + 1);
-	}
-}
-
-void deamer::LanguageDefinitionPrinter::PrintCompleteToken(Token* token, unsigned indent) const
-{
-	std::cout << MakeIndentation(indent, 4) << token->TokenName << std::endl;
-}
-
-void deamer::LanguageDefinitionPrinter::PrintCompleteRule(std::vector<Type*>& visited_types, Rule* rule, unsigned indent) const
-{
-	for (Token* token_in_rule : rule->Tokens)
-	{
-		if (!TypeAlreadyVisited(visited_types, token_in_rule) && !token_in_rule->TokenPermission.has_flag(TokenPermission_t::node))
-			PrintCompleteType(visited_types, static_cast<Type*>(token_in_rule), indent);
-		else
-			PrintCompleteToken(token_in_rule, indent);
-	}
-}
-
-void deamer::LanguageDefinitionPrinter::PrintCompleteType(Type* type, unsigned indent) const
-{
-	std::vector<Type*> visited_types;
-	PrintCompleteType(visited_types, type, indent);
-}
-
 
 
 

@@ -9,31 +9,32 @@
 
 #ifndef DEAMER_LANGUAGEANALYZER_LANGUAGEDEFINITIONPRINTER_H
 #define DEAMER_LANGUAGEANALYZER_LANGUAGEDEFINITIONPRINTER_H
+#include "Deamer/LanguageAnalyzer/LanguageVisitor/LanguageDefinitionVisitor.h"
 #include <vector>
 #include <string>
 
 namespace deamer
 {
 	class LanguageDefinition;
-	class Token;
-	class Type;
-	class Rule;
 
-	class LanguageDefinitionPrinter
+	class LanguageDefinitionPrinter : public LanguageDefinitionVisitor
 	{
+	protected:
+		std::string MakeIndent(unsigned indent) const;
+		std::string MakeIndentation(unsigned depth, unsigned indent) const;
+		void PrintAllTokens(LanguageDefinition& language_definition) const;
 	public:
 		LanguageDefinitionPrinter() = default;
 		~LanguageDefinitionPrinter() = default;
 
-		void PrintCompleteToken(Token* token, unsigned indent) const;
-		void PrintCompleteRule(std::vector<Type*>& visited_types, Rule* rule, unsigned indent) const;
-		void PrintCompleteType(Type* type, unsigned indent) const;
-		void PrintTree(LanguageDefinition& language_definition) const;
-		bool TypeAlreadyVisited(const std::vector<Type*>& visited_types, Token* new_type) const;
-		std::string MakeIndent(unsigned indent) const;
-		std::string MakeIndentation(unsigned depth, unsigned indent) const;
-		void PrintCompleteType(std::vector<Type*> visited_types, Type* type, unsigned indent) const;
-		void PrintAllTokens(LanguageDefinition& language_definition) const;
+		virtual void visit(Token& visited_type);
+		void visit(Rule& visited_type) override;
+		void visit(Node& visited_type) override;
+		void visit(Type& visited_type) override;
+		void last_visit(Type& type) override;
+		void last_visit(Node& node) override;
+		
+		virtual void Print(LanguageDefinition& language_definition);
 		void PrintAllRules(LanguageDefinition& language_definition) const;
 		void PrintAllNodes(LanguageDefinition& language_definition) const;
 		void PrintAllGroupedTypes(LanguageDefinition& language_definition) const;
