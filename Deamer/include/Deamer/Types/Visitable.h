@@ -14,11 +14,10 @@
 
 #ifndef DEAMER_TYPES_VISITABLE_H
 #define DEAMER_TYPES_VISITABLE_H
-#include "Deamer/Types/Visitor.h"
 
 namespace deamer
 {
-	template<typename visitor_type>
+	template<typename Derived, typename visitor_type>
 	class Visitable
 	{
 	private:
@@ -29,7 +28,7 @@ namespace deamer
 
 		void Accept(visitor_type& visitor)
 		{
-			visitor.dispatch(*this);
+			visitor.dispatch(static_cast<Derived&>(*this));
 		}
 	};
 }
