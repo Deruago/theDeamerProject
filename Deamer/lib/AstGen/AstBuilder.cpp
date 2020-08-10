@@ -10,9 +10,10 @@
 #include "Deamer/AstGen/AstBuilder.h"
 //#include "Deamer/FileBuilder/HFileBuilder/HFClassBuilder.h"
 //#include "Deamer/FileBuilder/Types/FileNamespaceSection.h"
-#include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/Type.h"
-#include "Deamer/LanguageGen/Rule.h"
+#include "Deamer/FileBuilder/Types/FileClassSection.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
 #include <sstream>
 #include <fstream>
 

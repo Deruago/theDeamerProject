@@ -15,11 +15,11 @@
 #include <fstream>
 #include <vector>
 
-#include "Deamer/FileBuilder/Types/FileClassSection.h"
-#include "Deamer/LanguageGen/Token.h"
-
 namespace deamer
 {
+    class Token;
+    class FileClassSection;
+	
     class AstBuilder : public Builder
     {
         private:
