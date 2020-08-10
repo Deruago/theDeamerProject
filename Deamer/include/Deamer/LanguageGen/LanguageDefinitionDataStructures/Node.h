@@ -15,13 +15,15 @@
  It represents an object that is the end point of rules or types.
  */
 
+#include "Deamer/Types/Visitable.h"
+#include "Deamer/LanguageAnalyzer/LanguageVisitor/LanguageDefinitionVisitor.h"
 #include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
 #include <string>
 
 
 namespace deamer
 {
-	class Node : public Token
+	class Node : public Token, public Visitable<Node, LanguageDefinitionVisitor>
 	{
 	public:
 		std::string Regex;

@@ -23,7 +23,7 @@ This header describes the class implementation of Rule. Which is the base class 
 
 namespace deamer
 {
-    class Rule : public Visitable<LanguageDefinitionVisitor>
+    class Rule : public Visitable<Rule, LanguageDefinitionVisitor>
     {
         public:
             Rule() = default;

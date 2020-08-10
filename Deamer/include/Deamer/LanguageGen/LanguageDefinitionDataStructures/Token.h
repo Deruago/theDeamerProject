@@ -26,7 +26,7 @@ namespace deamer
     enum class TokenType_t;
     enum class TokenPermission_t;
 	
-	class Token : public Visitable<LanguageDefinitionVisitor>
+	class Token : public Visitable<Token, LanguageDefinitionVisitor>
     {
     protected:
         //Token(const std::string& tokenName, const bool isNode, const bool createAst);

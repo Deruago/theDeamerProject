@@ -15,6 +15,8 @@
  This header describes the class implementation of Type. Type is a subclass of Token. And describes an object that exists of rules
  */
 
+#include "Deamer/Types/Visitable.h"
+#include "Deamer/LanguageAnalyzer/LanguageVisitor/LanguageDefinitionVisitor.h"
 #include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
 #include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
 #include <vector>
@@ -22,7 +24,7 @@
 
 namespace deamer
 {
-	class Type : public Token
+	class Type : public Token, public Visitable<Type, LanguageDefinitionVisitor>
 	{
 	public:
 		std::vector<Rule*> Rules;
