@@ -8,6 +8,8 @@
 
 #ifndef DEAMER_ASTGEN_ASTFORMATTER_ASTFILEFORMATTERFACTORY_H
 #define DEAMER_ASTGEN_ASTFORMATTER_ASTFILEFORMATTERFACTORY_H
+#include <memory>
+
 #include "Deamer/AstGen/AstFormatter/AstFileFormatter.h"
 
 namespace deamer
@@ -23,7 +25,9 @@ namespace deamer
 		AstFileFormatterFactory() = default;
 		~AstFileFormatterFactory() = default;
 
-		const AstFileFormatter MakeAstFileFormatter(AstType ast_type, AstFileType ast_file_type) const;
+		std::unique_ptr<AstFileFormatter> MakeAstFileFormatter(AstType ast_type, AstFileType ast_file_type) const;
+		std::unique_ptr<AstFileFormatter> MakeAstSourceFileFormatter(AstType ast_type) const;
+		std::unique_ptr<AstFileFormatter> MakeAstHeaderFileFormatter(AstType ast_type) const;
 	};
 }
 
