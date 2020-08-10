@@ -11,6 +11,9 @@
 
 namespace deamer
 {
+	enum class AstFileType;
+	class AstFileFormatter;
+
 	class AstNodeFormatter
 	{
 	private:
@@ -18,6 +21,9 @@ namespace deamer
 	public:
 		AstNodeFormatter() = default;
 		~AstNodeFormatter() = default;
+
+		void MakeAstNode(AstFileType ast_file_type);
+		void MakeAstTree(AstFileType ast_file_type);
 	};
 }
 
