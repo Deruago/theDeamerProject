@@ -7,6 +7,7 @@
  */
 
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonEmptyRuleFormatter.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
 
 deamer::BisonEmptyRuleFormatter::BisonEmptyRuleFormatter(std::string& languageName, unsigned currentLineNumber,
                                                          bool isFirstType, Type* currentType, Rule* currentRule) : BisonRuleFormatter(languageName, currentLineNumber, isFirstType, currentType, currentRule)

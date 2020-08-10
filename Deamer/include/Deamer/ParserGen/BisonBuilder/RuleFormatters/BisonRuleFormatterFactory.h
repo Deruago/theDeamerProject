@@ -9,8 +9,10 @@
 #ifndef DEAMER_PARSERGEN_BISONBUILDER_RULEFORMATTERS_BISONRULEFORMATTERFACTORY_H
 #define DEAMER_PARSERGEN_BISONBUILDER_RULEFORMATTERS_BISONRULEFORMATTERFACTORY_H
 
-#include "BisonEmptyRuleFormatter.h"
-#include "Deamer/LanguageGen/LanguageGenConstants.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Node.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
 #include <memory>
 #include <string>
 

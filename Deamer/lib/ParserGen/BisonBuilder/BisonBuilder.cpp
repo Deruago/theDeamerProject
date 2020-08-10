@@ -11,10 +11,10 @@
 #include "Deamer/ParserGen/BisonBuilder/BisonParserFormatter.h"
 #include "Deamer/ParserGen/BisonBuilder/BisonRuleSectionFormatter.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
-#include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/Node.h"
-#include "Deamer/LanguageGen/Rule.h"
-#include "Deamer/LanguageGen/Type.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Node.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
 #include <sstream>
 #include <ostream>
 

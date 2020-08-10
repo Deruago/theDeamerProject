@@ -9,9 +9,9 @@
 #include "Deamer/LanguageGen/TokenFactory.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include "Deamer/LanguageGen/RuleFactory.h"
-#include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/Type.h"
-#include "Deamer/LanguageGen/Node.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Node.h"
 
 deamer::Node* deamer::TokenFactory::MakeNode(const std::string& tokenName, const std::string& regex) const
 {

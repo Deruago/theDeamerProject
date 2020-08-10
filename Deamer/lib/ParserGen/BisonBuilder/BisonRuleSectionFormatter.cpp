@@ -7,9 +7,9 @@
  */
 
 #include "Deamer/ParserGen/BisonBuilder/BisonRuleSectionFormatter.h"
-#include "Deamer/LanguageGen/Rule.h"
-#include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/Type.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonRuleFormatterFactory.h"
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonRuleFormatter.h"
 #include <string>

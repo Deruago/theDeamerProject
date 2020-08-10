@@ -9,11 +9,11 @@
 #ifndef DEAMER_LANGUAGEANALYZER_LANGUAGEOPTIMISER_H
 #define DEAMER_LANGUAGEANALYZER_LANGUAGEOPTIMISER_H
 
-#include "Deamer/ParserGen/BisonBuilder/BisonRuleSectionFormatter.h"
-
 namespace deamer
 {
 	class LanguageDefinition;
+	class Type;
+	class Rule;
 
 	class LanguageOptimiser
 	{

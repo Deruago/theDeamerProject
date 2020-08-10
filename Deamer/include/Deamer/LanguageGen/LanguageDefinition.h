@@ -15,10 +15,10 @@ This class is used to define a language. This definition can be used to generate
 or just display certain trees/diagrams about the language.
 */
 
-#include "Deamer/LanguageGen/Node.h"
-#include "Deamer/LanguageGen/Type.h"
-#include "Deamer/LanguageGen/Token.h"
-#include "Deamer/LanguageGen/Rule.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Node.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
 #include <string>
 #include <vector>
 

@@ -7,13 +7,14 @@
  */
 
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonRuleFormatterFactory.h"
-#include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonRuleFormatter.h"
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonEmptyRuleFormatter.h"
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonGroupedRuleFormatter.h"
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonVectorisedRuleFormatter.h"
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonStandardRuleFormatter.h"
+#include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include <memory>
+
 
 std::unique_ptr<deamer::BisonRuleFormatter> deamer::BisonRuleFormatterFactory::MakeRuleFormatter(
 	Rule* rule, std::string& languageName, unsigned currentLineNumber, bool isFirstType,

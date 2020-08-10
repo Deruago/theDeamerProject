@@ -7,6 +7,9 @@
  */
 
 #include "Deamer/ParserGen/BisonBuilder/RuleFormatters/BisonGroupedRuleFormatter.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
 
 std::string deamer::BisonGroupedRuleFormatter::MakeExecutedCodeForProductionRule() const
 {

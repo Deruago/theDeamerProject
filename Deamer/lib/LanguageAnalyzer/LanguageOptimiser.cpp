@@ -9,8 +9,8 @@
 
 #include "Deamer/LanguageAnalyzer/LanguageOptimiser.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
-#include "Deamer/LanguageGen/Rule.h"
-#include "Deamer/LanguageGen/Type.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
 
 void deamer::LanguageOptimiser::ApplyAllOptimisations(LanguageDefinition& language_definition) const
 {

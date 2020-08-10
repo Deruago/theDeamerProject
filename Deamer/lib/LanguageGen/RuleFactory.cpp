@@ -7,8 +7,8 @@
  */
 
 #include "Deamer/LanguageGen/RuleFactory.h"
-#include "Deamer/LanguageGen/Rule.h"
-#include "Deamer/LanguageGen/Token.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
 
 deamer::Rule* deamer::RuleFactory::MakeRule() const
 {

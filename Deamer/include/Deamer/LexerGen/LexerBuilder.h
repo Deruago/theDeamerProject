@@ -13,7 +13,7 @@
 #include "Deamer/Types/Builder.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
-#include "Deamer/LanguageGen/Node.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Node.h"
 #include <string>
 
 namespace deamer

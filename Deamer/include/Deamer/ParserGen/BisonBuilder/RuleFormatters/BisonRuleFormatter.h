@@ -10,7 +10,6 @@
 #define DEAMER_PARSERGEN_BISONBUILDER_RULEFORMATTERS_BISONRULEFORMATTER_H
 
 #include "Deamer/ParserGen/BisonBuilder/BisonRuleSectionFormatter.h"
-#include "Deamer/LanguageGen/Type.h"
 #include <string>
 
 namespace deamer
