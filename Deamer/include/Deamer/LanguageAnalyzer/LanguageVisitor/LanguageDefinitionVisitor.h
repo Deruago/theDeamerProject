@@ -8,7 +8,10 @@
 
 #ifndef DEAMER_LANGUAGEANALYZER_LANGUAGEVISITOR_LANGUAGEDEFINITIONVISITOR_H
 #define DEAMER_LANGUAGEANALYZER_LANGUAGEVISITOR_LANGUAGEDEFINITIONVISITOR_H
+
+#include "Deamer/Types/Visitable.h"
 #include "Deamer/Types/Visitor.h"
+#include <vector>
 
 namespace deamer
 {
@@ -16,15 +19,21 @@ namespace deamer
 	class Token;
 	class Rule;
 	class Node;
+
 	
 	class LanguageDefinitionVisitor : Visitor
 	{
 	private:
-		virtual void visit(Type& visited_type);
-		virtual void visit(Token& visited_type);
-		virtual void visit(Rule& visited_type);
-		virtual void visit(Node& visited_type);
+		virtual void visit(Type& visited_type) = 0;
+		virtual void visit(Rule& visited_type) = 0;
+		virtual void visit(Node& visited_type) = 0;
+		virtual void last_visit(Type& type) = 0;
+		virtual void last_visit(Node& node) = 0;
+	protected:
+		std::vector<Token*> Tokens;
+		bool TokenIsInVisitedVector(const Token& visited_token);
 	public:
+		unsigned depth = 0;
 		void dispatch(Type& visited_type);
 		void dispatch(Token& visited_type);
 		void dispatch(Rule& visited_type);
