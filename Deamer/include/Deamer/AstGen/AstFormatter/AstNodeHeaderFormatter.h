@@ -12,7 +12,7 @@
 
 namespace deamer
 {
-	class AstNodeHeaderFormatter : AstFileFormatter
+	class AstNodeHeaderFormatter : public AstFileFormatter
 	{
 	private:
 	protected:

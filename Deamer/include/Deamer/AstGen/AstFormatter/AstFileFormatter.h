@@ -18,7 +18,7 @@ namespace deamer
 	protected:
 	public:
 		AstFileFormatter() = default;
-		~AstFileFormatter() = default;
+		virtual ~AstFileFormatter() = default;
 	};
 }
 
