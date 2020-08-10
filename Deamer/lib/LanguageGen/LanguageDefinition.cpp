@@ -54,38 +54,3 @@ void deamer::LanguageDefinition::RemoveNode(Node* node)
 			IgnoreNodes.erase(std::remove(IgnoreNodes.begin(), IgnoreNodes.end(), node), IgnoreNodes.end());
 	}
 }
-
-void deamer::LanguageDefinition::DeleteAllNodes()
-{
-    for(auto itr = Nodes.end(); itr != Nodes.begin(); itr--)
-    {
-        delete *itr;
-        *itr = nullptr;
-        Nodes.pop_back();
-    }
-}
-
-void deamer::LanguageDefinition::DeleteAllTypes()
-{
-    for(auto itr = Types.end(); itr != Types.begin(); itr--)
-    {
-        delete *itr;
-        *itr = nullptr;
-        Types.pop_back();
-    }
-}
-
-void deamer::LanguageDefinition::DeleteAllRules()
-{
-    for(auto itr = Rules.end(); itr != Rules.begin(); itr--)
-    {
-        delete *itr;
-        *itr = nullptr;
-        Rules.pop_back();
-    }
-}
-
-bool deamer::LanguageDefinition::TypeIsStartType(Type* type)
-{
-    return type->TokenType.has_flag(TokenType_t::start);
-}

@@ -29,13 +29,7 @@ namespace deamer
 	public:
 		std::vector<Rule*> Rules;
 
-		//Type(const std::string& typeName, const bool createAst, const TokenType_t tokenType);
 		Type(const std::string& typeName, const BitwiseEnum<TokenType_t> tokenType, const BitwiseEnum<TokenPermission_t> tokenPermission);
-		void AddRule(Rule* newRule);
-		void PrintType();
-		void PrintRules();
-		void AddTokenToVectorIfNotAlreadyInVector(std::vector<Token*>& tokens, Token* token);
-		std::vector<Token*> GetVectorOfUniqueTokensDefiningThisType();
 	};
 }
 

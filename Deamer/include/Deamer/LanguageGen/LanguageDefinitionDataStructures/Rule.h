@@ -31,15 +31,6 @@ namespace deamer
 
     		std::vector<Token*> Tokens;
             BitwiseEnum<RuleType_t> RuleType;
-            //RuleType_t RuleType = RuleType_t::standard;
-    		
-
-            bool IsEmpty() const;
-    		void PrintRule();
-            std::string MakeConstructorArguments(Token* token_subject);
-            std::string MakeConstructorPrototype(Token* token_subject);
-            std::string MakeConstructors(Token* token_subject);
-            std::string MakeConstructor(Token* token);
     };
 }
 

@@ -42,12 +42,6 @@ namespace deamer
     	void RemoveType(Type* type);
         void RemoveRule(Rule* rule);
         void RemoveNode(Node* node);
-    
-    	void DeleteAllNodes();
-        void DeleteAllTypes();
-        void DeleteAllRules();
-
-        bool TypeIsStartType(Type* type);
     };
 }
 
