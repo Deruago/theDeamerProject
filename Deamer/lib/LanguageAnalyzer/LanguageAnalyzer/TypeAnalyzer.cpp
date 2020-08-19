@@ -13,18 +13,19 @@
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include <vector>
 #include <map>
+#include <iostream>
 
 deamer::TypeAnalyzer::TypeAnalyzer(Type& type)
 {
-    type_ = type;
+    type_ = &type;
 }
 
 std::vector<deamer::Token*> deamer::TypeAnalyzer::GetVectorOfUniqueTokensDefiningThisType() const
 {
     std::vector<Token*> token_vector;
-    for (Rule* rule : type_.Rules)
+    for (Rule* rule : type_->Rules)
         for (Token* token : rule->Tokens)
-            if (!token->TokenPermission.has_flag(TokenPermission_t::ignore))
+            if (!token->TokenPermission.has_flag(TokenPermission_t::ignore) && type_ != token)
                 AddTokenToVectorIfNotAlreadyInVector(token_vector, token);
     return token_vector;
 }
@@ -32,12 +33,14 @@ std::vector<deamer::Token*> deamer::TypeAnalyzer::GetVectorOfUniqueTokensDefinin
 std::vector<deamer::TokenAppearance> deamer::TypeAnalyzer::GetVectorOfMinimalAmountOfTokensUsedDefiningThisType() const
 {
     std::map<Token*, unsigned> count_token;
-    for (Rule* rule : type_.Rules)
+    for (Rule* rule : type_->Rules)
     {
         std::map<Token*, unsigned> tmp_token_count;
         std::vector<Token*> tmp_token_vector;
         for (Token* token : rule->Tokens)
         {
+        	if (type_ == token)
+                continue;
 	        const unsigned new_token_count = tmp_token_count[token] + 1;
             if (new_token_count == 1)
 	        	tmp_token_vector.push_back(token);

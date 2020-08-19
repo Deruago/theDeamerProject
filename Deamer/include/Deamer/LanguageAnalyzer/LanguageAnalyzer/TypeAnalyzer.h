@@ -20,7 +20,7 @@ namespace deamer
 	class TypeAnalyzer
 	{
 	private:
-		Type type_;
+		Type* type_;
 		void AddTokenToVectorIfNotAlreadyInVector(std::vector<Token*>& tokens, Token* token) const;
 	public:
 		TypeAnalyzer(Type& type);
