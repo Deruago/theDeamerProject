@@ -260,8 +260,6 @@ void deamer::LanguageGen::Compile() const
 	std::system(ossCompileParser.str().c_str());
 	//std::cout << ossCompileParser.str();
 	*/
-
-	return true;
 }
 
 void deamer::LanguageGen::Finish()

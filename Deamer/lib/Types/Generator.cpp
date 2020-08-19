@@ -17,14 +17,12 @@ deamer::Generator::Generator()
     
 }
 
-bool deamer::Generator::Build()
+void deamer::Generator::Build()
 {
-    return false;
 }
 
-bool deamer::Generator::Write()
+void deamer::Generator::Write()
 {
-    return false;
 }
 
 bool deamer::Generator::DoesDirectoryExist(std::string* Directory)
@@ -47,15 +45,14 @@ bool deamer::Generator::DoesDirectoryExist(std::string* Directory)
 
 bool deamer::Generator::CreateDirectory(std::string* Directory)
 {
-    int status;
-    status = mkdir(Directory->c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+	const unsigned status = mkdir(Directory->c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     return status;
 }
 
 void deamer::Generator::CreateDirectoryIfNotExist(std::string* Directory)
 {
-    if(!deamer::Generator::DoesDirectoryExist(Directory))
+    if(!DoesDirectoryExist(Directory))
     {
-        deamer::Generator::CreateDirectory(Directory);
+        CreateDirectory(Directory);
     }
 }
