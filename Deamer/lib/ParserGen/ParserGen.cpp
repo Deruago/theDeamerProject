@@ -26,7 +26,7 @@ void deamer::ParserGen::SetTarget(ParserType_t parserType_t)
 void deamer::ParserGen::DirTarget(std::string dirTarget)
 {
     dirTarget.append("Parser/");
-    CreateDirectoryIfNotExist(&dirTarget);
+    CreateDirectoryIfNotExist(dirTarget);
 
     parserBuilder->SetDirTarget(dirTarget);
     Directory = dirTarget;

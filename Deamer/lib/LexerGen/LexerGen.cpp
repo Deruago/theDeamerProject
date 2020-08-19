@@ -26,7 +26,7 @@ void deamer::LexerGen::SetTarget(LexerType_t LexerType_t)
 void deamer::LexerGen::DirTarget(std::string dirTarget)
 {
     dirTarget.append("Lexer/");
-    CreateDirectoryIfNotExist(&dirTarget);
+    CreateDirectoryIfNotExist(dirTarget);
     
     lexerBuilder->SetDirTarget(dirTarget);
     Directory = dirTarget;
