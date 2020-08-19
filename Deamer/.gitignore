@@ -9,3 +9,4 @@ DeamerProject/*
 *.log
 *.out
 *.gch
+*.*/
