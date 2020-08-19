@@ -28,7 +28,7 @@ namespace deamer
 	{
 	public:
 		std::vector<Rule*> Rules;
-
+		Type() = default;
 		Type(const std::string& typeName, const BitwiseEnum<TokenType_t> tokenType, const BitwiseEnum<TokenPermission_t> tokenPermission);
 	};
 }

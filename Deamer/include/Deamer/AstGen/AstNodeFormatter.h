@@ -8,6 +8,9 @@
 
 #ifndef DEAMER_ASTGEN_ASTNODEFORMATTER_H
 #define DEAMER_ASTGEN_ASTNODEFORMATTER_H
+#include <string>
+
+#include "AstNodeInterpreterBasedBuilder/AstBuilder.h"
 
 namespace deamer
 {
@@ -17,13 +20,15 @@ namespace deamer
 	class AstNodeFormatter
 	{
 	private:
+		std::string language_name_;
 	protected:
 	public:
-		AstNodeFormatter() = default;
+		std::string output;
+		AstNodeFormatter(std::string language_name);
 		~AstNodeFormatter() = default;
 
-		void MakeAstNode(AstFileType ast_file_type);
-		void MakeAstTree(AstFileType ast_file_type);
+		void MakeAstNode(Token* token, AstFileType ast_file_type);
+		void MakeAstTree(Token* token, AstFileType ast_file_type);
 	};
 }
 

@@ -29,12 +29,12 @@ namespace deamer
 	class Token : public Visitable<Token, LanguageDefinitionVisitor>
     {
     protected:
-        //Token(const std::string& tokenName, const bool isNode, const bool createAst);
+        Token() = default;
         Token(const std::string& tokenName, const BitwiseEnum<TokenType_t> tokenType, const BitwiseEnum<TokenPermission_t> tokenPermission);
     public:
 		std::string TokenName;
 
-		unsigned TotalAmountOfTypesThatUsesThisToken;
+		unsigned TotalAmountOfTypesThatUsesThisToken = 0;
         std::vector<Token*> BaseTokens;
         std::vector<Type*> BaseGroupTokens;
 	

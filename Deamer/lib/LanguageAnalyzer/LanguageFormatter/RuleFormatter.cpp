@@ -13,6 +13,7 @@
 
 std::string deamer::RuleFormatter::MakeConstructorArguments(Token* token_subject, Rule& rule)
 {
+	/*
 	std::string args;
 	unsigned arg_count_implemented = 0;
 	for (auto& Token : rule.Tokens)
@@ -34,6 +35,7 @@ std::string deamer::RuleFormatter::MakeConstructorArguments(Token* token_subject
 	}
 
 	return args;
+	//*/
 }
 
 std::string deamer::RuleFormatter::MakeConstructorPrototype(Token* token_subject, Rule& rule)
@@ -43,6 +45,7 @@ std::string deamer::RuleFormatter::MakeConstructorPrototype(Token* token_subject
 
 std::string deamer::RuleFormatter::MakeConstructors(Token* token_subject, Rule& rule)
 {
+	/*
 	std::string constructor_assignments;
 	for (Token* token : rule.Tokens)
 		if (!token->TokenPermission.has_flag(TokenPermission_t::ignore) && token != token_subject)
@@ -60,6 +63,7 @@ std::string deamer::RuleFormatter::MakeConstructors(Token* token_subject, Rule& 
 		}
 
 	return constructor_assignments;
+	//*/
 }
 
 std::string deamer::RuleFormatter::MakeConstructor(Token* token, Rule& rule)

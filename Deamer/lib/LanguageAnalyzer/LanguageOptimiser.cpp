@@ -42,7 +42,7 @@ void deamer::LanguageOptimiser::ApplyEmptyTypeToAllEmptyRules(LanguageDefinition
 {
 	for (Rule* rule : language_definition.Rules)
 	{
-		if (rule->IsEmpty())
+		if (rule->Tokens.empty())
 			rule->RuleType.set_flag(RuleType_t::empty);
 	}
 }

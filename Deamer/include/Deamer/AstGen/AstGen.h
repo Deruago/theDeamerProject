@@ -13,7 +13,8 @@
 #include "Deamer/Types/Generator.h"
 #include "Deamer/AstGen/AstNode.h"
 #include "Deamer/AstGen/AstTree.h"
-#include "Deamer/AstGen/AstBuilder.h"
+#include "Deamer/AstGen/AstBuilderFactory.h"
+#include "Deamer/AstGen/AstNodeInterpreterBasedBuilder/AstBuilder.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 #include <string>
 
