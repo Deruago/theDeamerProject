@@ -8,6 +8,7 @@
  */
 
 #include "Deamer/AstGen/AstNodeInterpreterBasedBuilder/AstBuilderInterpreterBased.h"
+#include "Deamer/AstGen/AstNodeInterpreterBasedBuilder/AstNodeSectionFormatter.h"
 //#include "Deamer/FileBuilder/HFileBuilder/HFClassBuilder.h"
 //#include "Deamer/FileBuilder/Types/FileNamespaceSection.h"
 #include "Deamer/FileBuilder/Types/FileClassSection.h"
@@ -16,8 +17,6 @@
 #include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
 #include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Node.h"
 #include "Deamer/AstGen/AstNodeDataStructures/AstFileType.h"
-#include "Deamer/AstGen/AstNodeFormatter.h"
-#include "Deamer/AstGen/AstNodeInterpreterBasedBuilder/AstNodeSectionFormatter.h"
 
 deamer::AstInterpreterBuilder::AstBuilderInterpreterBased::AstBuilderInterpreterBased(const std::string& directory, const std::string
                                                                                       & language_name) : AstBuilder(directory, language_name)
@@ -56,14 +55,14 @@ void deamer::AstInterpreterBuilder::AstBuilderInterpreterBased::FinishBuild()
 
 std::string deamer::AstInterpreterBuilder::AstBuilderInterpreterBased::FillAstSourceFile(Token* token) const
 {
-    auto formatter = AstNodeSectionFormatter(language_name_);
+    AstNodeSectionFormatter formatter = AstNodeSectionFormatter(language_name_);
     formatter.MakeAstNode(token, AstFileType::source);
     return formatter.output;
 }
 
 std::string deamer::AstInterpreterBuilder::AstBuilderInterpreterBased::FillAstHeaderFile(Token* token) const
 {
-    auto formatter = AstNodeSectionFormatter(language_name_);
+    AstNodeSectionFormatter formatter = AstNodeSectionFormatter(language_name_);
     formatter.MakeAstNode(token, AstFileType::header);
     return formatter.output;
 }

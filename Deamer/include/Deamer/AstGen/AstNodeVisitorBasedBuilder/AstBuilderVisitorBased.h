@@ -10,12 +10,10 @@
 #ifndef DEAMER_ASTGEN_ASTNODEVISITORBASEDBUILDER_ASTBUILDER_H
 #define DEAMER_ASTGEN_ASTNODEVISITORBASEDBUILDER_ASTBUILDER_H
 
-
 #include "Deamer/AstGen/AstBuilder.h"
 #include "Deamer/AstGen/AstEnumHeaderSectionFormatter.h"
 #include "Deamer/AstGen/AstGlobalHeaderFormatter.h"
 #include "Deamer/AstGen/AstNodeVisitorBasedBuilder/AstVisitor/AstVisitorSection.h"
-
 
 namespace deamer {
 	namespace AstVisitorBuilder {
