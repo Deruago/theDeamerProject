@@ -41,5 +41,7 @@ install: clean uninstall $(OBJS)
 	ar rcs /usr/lib/Deamer/libDeamer.a $(OBJS)
 	
 uninstall:
+	mkdir -p /usr/include/Deamer/
+	mkdir -p /usr/lib/Deamer/
 	sudo rm -r -f /usr/include/Deamer/*
 	sudo rm -f /usr/lib/Deamer/*
