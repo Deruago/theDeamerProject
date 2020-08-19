@@ -19,28 +19,28 @@ deamer::Builder::Builder()
 
 void deamer::Builder::SetDirTarget(std::string dirName)
 {
-    deamer::Builder::Directory = dirName;
+    Directory = dirName;
 }
 
 void deamer::Builder::SetFileTarget(std::string fileName)
 {
-    deamer::Builder::FileName = fileName;
+    FileName = fileName;
 }
 
 std::string deamer::Builder::GetOutput()
 {
-    return deamer::Builder::Output;
+    return Output;
 }
 
 bool deamer::Builder::WriteOutputToFile()
 {
     std::ostringstream oss0;
-    oss0 << deamer::Builder::Directory << deamer::Builder::FileName;
+    oss0 << Directory << FileName;
     std::ofstream newParserFile;
 
     newParserFile.open(oss0.str(), std::ios_base::app);
 
-    newParserFile << deamer::Builder::Output << '\n';
+    newParserFile << Output << '\n';
     
     newParserFile.close();
 
