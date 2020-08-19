@@ -19,37 +19,43 @@ deamer::AstFileFormatter::AstFileFormatter(Token* token, std::string& language_n
 
 std::string deamer::AstFileFormatter::MakeIncludeSectionSourceClassDefinitionDependency() const
 {
-    if (token_->TokenPermission.has_flag(TokenPermission_t::node))
-        return AstNodeClassDefinitionClassDependency();
-    else
-        return AstTreeClassDefinitionClassDependency();
+    return AstClassDefinitionClassDependency();
+}
+
+std::string deamer::AstFileFormatter::AstClassDefinitionClassDependency() const
+{
+    return MakeIncludeHeader(MakeClassName(token_));
 }
 
 std::string deamer::AstFileFormatter::AstTreeClassDefinitionClassDependency() const
 {
-    return MakeIncludeHeader("AstTree_" + token_->TokenName);
+    return MakeIncludeHeader(MakeClassName(token_));
 }
 
 std::string deamer::AstFileFormatter::AstNodeClassDefinitionClassDependency() const
 {
-    return MakeIncludeHeader("AstNode_" + token_->TokenName);
+    return MakeIncludeHeader(MakeClassName(token_));
 }
 
 std::string deamer::AstFileFormatter::MakeIncludeSectionSourceSystemDependencies() const
 {
     std::string include_system_headers = MakeSystemIncludeHeader("Deamer/AstGen/AstNode") +
-                                         MakeSystemIncludeHeader("Deamer/AstGen/AstContext") +
 							             MakeSystemIncludeHeader("Deamer/AstGen/AstInformation") +
-	                                     MakeSystemIncludeHeader("vector");
+	                                     MakeSystemStandardLibraryIncludeHeader("vector");
     return include_system_headers;
 }
 
 std::string deamer::AstFileFormatter::MakeIncludeSectionHeaderSystemDependencies() const
 {
+    return  MakeSystemIncludeHeader("Deamer/AstGen/AstNode") +
+	        MakeSystemIncludeHeader("Deamer/AstGen/AstInformation") +
+	        MakeIncludeHeader("AstEnum") +
+	        MakeSystemStandardLibraryIncludeHeader("vector");
 }
 
 std::string deamer::AstFileFormatter::MakeForwardDeclarationSectionHeaderSystemDependencies() const
 {
+    return "";
 }
 
 std::string deamer::AstFileFormatter::MakeIncludeSectionSourceAstDependencies() const
@@ -61,7 +67,7 @@ std::string deamer::AstFileFormatter::MakeIncludeSectionSourceAstDependencies() 
         const std::vector<Token*> unique_tokens = TypeAnalyzer(*tmpType).GetVectorOfUniqueTokensDefiningThisType();
         for (Token* token_unique : unique_tokens)
             if (token_unique != token_)
-                tmpHeaderIncludes += MakeIncludeHeader("AstNode_" + token_unique->TokenName);
+                tmpHeaderIncludes += MakeIncludeHeader(MakeClassName(token_unique));
     }
     return tmpHeaderIncludes;
 }
@@ -73,9 +79,19 @@ std::string deamer::AstFileFormatter::MakeIncludeSectionHeaderAstDependencies() 
     {
         Type* tmpType = static_cast<Type*>(token_);
         for (Token* base_token : tmpType->BaseTokens)
-                tmpHeaderIncludes += MakeIncludeHeader("AstNode_" + base_token->TokenName);
+                tmpHeaderIncludes += MakeIncludeHeader(MakeClassName(base_token));
     }
     return tmpHeaderIncludes;
+}
+
+std::string deamer::AstFileFormatter::MakeForwardDeclaration(deamer::Token* token_unique) const
+{
+	return MakeSystemForwardDeclaration(MakeClassName(token_unique));
+}
+
+std::string deamer::AstFileFormatter::MakeSystemForwardDeclaration(const std::string& class_name) const
+{
+    return MakeIndentation(0) + "class " + class_name + ";\n";
 }
 
 std::string deamer::AstFileFormatter::MakeForwardDeclarationSectionHeaderAstDependencies() const
@@ -88,7 +104,7 @@ std::string deamer::AstFileFormatter::MakeForwardDeclarationSectionHeaderAstDepe
         const std::vector<Token*> unique_tokens = TypeAnalyzer(*tmpType).GetVectorOfUniqueTokensDefiningThisType();
         for (Token* token_unique : unique_tokens)
             if (token_unique != token_)
-                tmpHeaderIncludes += MakeIndentation(2) + "class AstNode_" + token_unique->TokenName + ";\n";
+                tmpHeaderIncludes += MakeForwardDeclaration(token_unique);
     }
     return tmpHeaderIncludes;
 }
@@ -133,6 +149,16 @@ std::string deamer::AstFileFormatter::MakeSystemIncludeHeader(const std::string&
     return "#include <" + header_path + ".h>\n";
 }
 
+std::string deamer::AstFileFormatter::MakeSystemNamespace(const std::string& cs) const
+{
+    return "namespace deamer {\n" + cs + "}\n";
+}
+
+std::string deamer::AstFileFormatter::MakeSystemStandardLibraryIncludeHeader(const std::string& header_path) const
+{
+    return "#include <" + header_path + ">\n";
+}
+
 std::string deamer::AstFileFormatter::MakeConstructorNameWithLanguageNamespace() const
 {
     return language_name_ + "::" + MakeConstructorName();
@@ -164,7 +190,7 @@ std::string deamer::AstFileFormatter::MakeConstructorFunctionArgumentsFromProduc
     unsigned i = 0;
     for (Token* token : rule->Tokens)
     {
-        if (token->TokenPermission.has_flag(TokenPermission_t::ignore))
+        if (token->TokenPermission.has_flag(TokenPermission_t::ignore) || token_ == token)
             continue;
         track_visited_tokens.push_back(token);
         if (i == 0)
@@ -194,7 +220,7 @@ std::string deamer::AstFileFormatter::MakeFieldNameOfType(const Token* token, co
 std::string deamer::AstFileFormatter::MakeArgumentNameOfType(const Token* token, const unsigned count_token) const
 {
     if (token->TokenType.has_flag(TokenType_t::vector))
-        return token->TokenName + "_vector" + std::to_string(count_token);
+        return token->TokenName + std::to_string(count_token);
     else
         return token->TokenName + std::to_string(count_token);
 }
@@ -219,24 +245,36 @@ std::string deamer::AstFileFormatter::IsTokenNodeString() const
 
 std::string deamer::AstFileFormatter::MakeGetAstIdPrototype() const
 {
-    return "int " + language_name_ + "::" + MakeClassName() + "::" + "GetAstId" + "()";
+    return "int " + language_name_ + "::" + MakeClassName(token_) + "::GetAstId()";
 }
 
 std::string deamer::AstFileFormatter::MakeInterpreterFunctionPrototype() const
 {
-    return "void " + language_name_ + "::" + MakeClassName() + "::Generate(AstContext* ast_context)";
+    return "void " + language_name_ + "::" + MakeClassName(token_) + "::Generate(deamer::AstContext& ast_context)";
+}
+
+std::string deamer::AstFileFormatter::MakeVisitorFunctionPrototype() const
+{
+    return "void " + language_name_ + "::" + MakeClassName(token_) + "::Accept(deamer::AstVisitor& ast_visitor)";
+}
+
+std::string deamer::AstFileFormatter::MakeSpecificConstructorPrototypeWithPath(deamer::Rule* rule) const
+{
+    const std::string ctor_function_name = MakeConstructorNameWithLanguageNamespace();
+    const std::string ctor_function_arguments = MakeConstructorFunctionArgumentsFromProductionRule(rule);
+    return ctor_function_name + "(" + ctor_function_arguments + ")";
 }
 
 std::string deamer::AstFileFormatter::MakeSpecificConstructorPrototype(deamer::Rule* rule) const
 {
-    const std::string ctor_function_name = language_name_ + MakeConstructorName();
+    const std::string ctor_function_name = MakeClassName();
     const std::string ctor_function_arguments = MakeConstructorFunctionArgumentsFromProductionRule(rule);
     return ctor_function_name + "(" + ctor_function_arguments + ")";
 }
 
 std::string deamer::AstFileFormatter::MakeSpecificConstructorPrototypeWithBaseConstructorImplementations(Rule* rule) const
 {
-    return MakeSpecificConstructorPrototype(rule) + MakeCtorImplementationsForSpecificCtor();
+    return MakeSpecificConstructorPrototypeWithPath(rule) + MakeCtorImplementationsForSpecificCtor();
 }
 
 std::string deamer::AstFileFormatter::MakeCtorImplementationsForSpecificCtor() const
@@ -304,7 +342,7 @@ std::string deamer::AstFileFormatter::MakeSpecificConstructorImplementation(Rule
     unsigned i = 0;
     for (Token* token : rule->Tokens)
     {
-        if (token->TokenPermission.has_flag(TokenPermission_t::ignore))
+        if (token->TokenPermission.has_flag(TokenPermission_t::ignore) || token_ == token)
             continue;
         track_visited_tokens.push_back(token);
         const unsigned count_token = CountTokenInVector(token, track_visited_tokens);
@@ -378,6 +416,37 @@ std::string deamer::AstFileFormatter::MakeAstConstructorSpecificFunction(const s
 std::string deamer::AstFileFormatter::MakeEmptyFunction(const std::string& function_prototype) const
 {
     return MakeFunction(function_prototype, "");
+}
+
+std::string deamer::AstFileFormatter::MakeCurrentTreeHeaderDeclaration() const
+{
+    if (token_->TokenType.has_flag(TokenType_t::start))
+        return "    void SetCurrentTree(" + MakeClassName(token_) + "* new_ast_base_node);\n";
+    return "";
+}
+
+std::string deamer::AstFileFormatter::MakeSetCurrentTreeHeaderDeclaration() const
+{
+    if (token_->TokenType.has_flag(TokenType_t::start))
+        return "    static " + MakeClassName(token_) + "* currentTree;\n";
+    return "";
+}
+
+std::string deamer::AstFileFormatter::MakeCurrentTreeDeclaration() const
+{
+    if (token_->TokenType.has_flag(TokenType_t::start))
+        return language_name_ + "::" + MakeClassName(token_) + "* " + language_name_ + "::" + MakeClassName(token_) + "::currentTree;\n\n";
+    return "";
+}
+
+std::string deamer::AstFileFormatter::MakeSetTree() const
+{
+    if (token_->TokenType.has_flag(TokenType_t::start))
+        return  "void " + language_name_ + "::" + MakeClassName(token_) + "::SetCurrentTree(" + MakeClassName(token_) + "* new_ast_base_node)\n"
+        "{\n"
+        "    currentTree = new_ast_base_node;\n"
+        "}\n";
+    return "";
 }
 
 std::string deamer::AstFileFormatter::MakeFunction(const std::string& function_prototype) const

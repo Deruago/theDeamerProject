@@ -24,8 +24,6 @@ namespace deamer
 
 		std::string MakeIndent() const;
 
-		std::string MakeIncludeHeader(const std::string& header_path) const;
-		std::string MakeSystemIncludeHeader(const std::string& header_path) const;
 	protected:
 		Token* token_;
 		std::string language_name_;
@@ -33,7 +31,11 @@ namespace deamer
 		std::string MakeIndentation() const;
 		std::string MakeIndentation(unsigned depth_) const;
 
+		std::string MakeIncludeHeader(const std::string& header_path) const;
+		std::string MakeSystemIncludeHeader(const std::string& header_path) const;
 
+		std::string MakeSystemNamespace(const std::string& cs) const;
+		
 		std::string MakeConstructorNameWithLanguageNamespace() const;
 		std::string MakeClassName() const;
 		std::string MakeConstructorName() const;
@@ -47,7 +49,9 @@ namespace deamer
 
 		std::string MakeGetAstIdPrototype() const;
 		std::string MakeInterpreterFunctionPrototype() const;
+		std::string MakeVisitorFunctionPrototype() const;
 
+		std::string MakeSpecificConstructorPrototypeWithPath(deamer::Rule* rule) const;
 		std::string MakeSpecificConstructorPrototype(deamer::Rule* rule) const;
 		std::string MakeSpecificConstructorPrototypeWithBaseConstructorImplementations(Rule* rule) const;
 		
@@ -79,6 +83,11 @@ namespace deamer
 		std::string MakeFunctionImplementation(const std::string& cs) const;
 
 		std::string MakeEmptyFunction(const std::string& function_prototype) const;
+
+		std::string MakeCurrentTreeHeaderDeclaration() const;
+		std::string MakeSetCurrentTreeHeaderDeclaration() const;
+		std::string MakeCurrentTreeDeclaration() const;
+		std::string MakeSetTree() const;
 	public:
 		AstFileFormatter(Token* token, std::string& language_name);
 		virtual ~AstFileFormatter() = default;
@@ -87,9 +96,13 @@ namespace deamer
 		std::string AstTreeClassDefinitionClassDependency() const;
 		std::string AstNodeClassDefinitionClassDependency() const;
 		std::string MakeIncludeSectionSourceClassDefinitionDependency() const;
+		std::string AstClassDefinitionClassDependency() const;
 		std::string MakeIncludeSectionSourceAstDependencies() const;
 		std::string MakeIncludeSectionHeaderAstDependencies() const;
+		std::string MakeForwardDeclaration(deamer::Token* token_unique) const;
+		std::string MakeSystemForwardDeclaration(const std::string& class_name) const;
 		std::string MakeForwardDeclarationSectionHeaderAstDependencies() const;
+		std::string MakeSystemStandardLibraryIncludeHeader(const std::string& header_path) const;
 		std::string MakeIncludeSectionSourceSystemDependencies() const;
 		std::string MakeIncludeSectionHeaderSystemDependencies() const;
 		std::string MakeForwardDeclarationSectionHeaderSystemDependencies() const;
