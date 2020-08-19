@@ -21,15 +21,15 @@ namespace deamer
     class Generator
     {
         protected:
-            Generator();
         public:
-            virtual void DirTarget(std::string dirTarget) = 0;
-            virtual void FileTarget(std::string fileTarget) = 0;
+            Generator() = default;
+            virtual void DirTarget(std::string dirTarget);
+            virtual void FileTarget(std::string fileTarget);
             virtual void Build();
             virtual void Write();
-            bool DoesDirectoryExist(std::string* Directory);
-            bool CreateDirectory(std::string* Directory);
-            void CreateDirectoryIfNotExist(std::string* Directory);
+            bool DoesDirectoryExist(const std::string& Directory) const;
+            bool CreateDirectory(const std::string& Directory) const;
+            void CreateDirectoryIfNotExist(const std::string& Directory) const;
     };
 }
 

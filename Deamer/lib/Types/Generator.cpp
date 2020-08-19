@@ -12,9 +12,12 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-deamer::Generator::Generator()
+void deamer::Generator::DirTarget(std::string dirTarget)
 {
-    
+}
+
+void deamer::Generator::FileTarget(std::string fileTarget)
+{
 }
 
 void deamer::Generator::Build()
@@ -25,11 +28,11 @@ void deamer::Generator::Write()
 {
 }
 
-bool deamer::Generator::DoesDirectoryExist(std::string* Directory)
+bool deamer::Generator::DoesDirectoryExist(const std::string& Directory) const
 {
     struct stat info;
 
-    if(stat(Directory->c_str(), &info ) != 0 )
+    if(stat(Directory.c_str(), &info ) != 0 )
     {
         return false;
     }
@@ -43,13 +46,13 @@ bool deamer::Generator::DoesDirectoryExist(std::string* Directory)
     }
 }
 
-bool deamer::Generator::CreateDirectory(std::string* Directory)
+bool deamer::Generator::CreateDirectory(const std::string& Directory) const
 {
-	const unsigned status = mkdir(Directory->c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+	const unsigned status = mkdir(Directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     return status;
 }
 
-void deamer::Generator::CreateDirectoryIfNotExist(std::string* Directory)
+void deamer::Generator::CreateDirectoryIfNotExist(const std::string& Directory) const
 {
     if(!DoesDirectoryExist(Directory))
     {
