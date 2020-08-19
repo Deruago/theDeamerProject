@@ -14,20 +14,21 @@
 #include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 
-deamer::AstNodeSourceFormatter::AstNodeSourceFormatter(Token* token, std::string language_name) : AstFileFormatter::AstFileFormatter(token, language_name)
+deamer::AstInterpreterBuilder::AstNodeSourceFormatter::AstNodeSourceFormatter(Token* token, std::string language_name) : AstFileFormatter::AstFileFormatter(token, language_name)
 {
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeAstFile() const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeAstFile() const
 {
     std::string ast_file = MakeIncludeSectionSourceClassDefinitionDependency() +
 				           MakeIncludeSectionSourceAstDependencies() +
 				           MakeIncludeSectionSourceSystemDependencies() +
+						   MakeCurrentTreeDeclaration() +
 				           MakeAstSourceImplementation();
     return ast_file;
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeAstSourceImplementation() const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeAstSourceImplementation() const
 {
 	std::string ast_node_implementation =
 		MakeBaseConstructor() +
@@ -35,45 +36,46 @@ std::string deamer::AstNodeSourceFormatter::MakeAstSourceImplementation() const
 		MakeGeneralConstructor() +
 		MakeSpecificConstructors() +
 		MakeGetAstIdFunction() +
-        MakeInterpreterFunction();
+		MakeSetTree() +
+		MakeInterpreterFunction();
 	return ast_node_implementation;
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeGetAstIdFunction() const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeGetAstIdFunction() const
 {
 	return MakeFunction(MakeGetAstIdPrototype(),
       	   MakeGetAstIdImplementation());
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeGetAstIdImplementation() const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeGetAstIdImplementation() const
 {
 	return "    return (unsigned int)" + language_name_ + "::" + MakeClassName() + "::AstType" + ";\n";
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeBaseConstructor() const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeBaseConstructor() const
 {
 	return MakeAstConstructorSpecificFunction(MakeConstructorNameWithLanguageNamespace() +
 		"(bool isNode, std::string astNodeName)");
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeGeneralConstructor() const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeGeneralConstructor() const
 {
 	return MakeAstConstructorGeneralFunction(MakeConstructorNameWithLanguageNamespace() +
 		"(std::vector<deamer::AstNode*> astNodes)");
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeInterpreterFunction() const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeInterpreterFunction() const
 {
 	return MakeFunction(MakeInterpreterFunctionPrototype(), MakeInterpreterImplementation());
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeInterpreterTypeNullPointerGuard(const Token* token, const unsigned i) const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeInterpreterTypeNullPointerGuard(const Token* token, const unsigned i) const
 {
 	return MakeIndentation(1) + "if (" + MakeFieldNameOfType(token, i) + " != nullptr)\n" +
 		   MakeIndentation(1) + "{\n";
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeInterpreterImplementation() const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeInterpreterImplementation() const
 {
 	std::string complete_interpreter_implementation;
 	if(token_->TokenPermission.has_flag(TokenPermission_t::node))
@@ -86,9 +88,10 @@ std::string deamer::AstNodeSourceFormatter::MakeInterpreterImplementation() cons
 	return complete_interpreter_implementation;
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeInterpreterType(TokenAppearance token_appearance) const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeInterpreterType(TokenAppearance token_appearance) const
 {
 	std::string interpreter_implementation;
+	//interpreter_implementation += MakeIndentation(1) + "ast_context.interpreter(this)\n";
 	for(unsigned i = 1; i <= token_appearance.token_count; i++)
 	{
 		interpreter_implementation += MakeInterpreterTypeNullPointerGuard(token_appearance.token, i);
@@ -101,7 +104,7 @@ std::string deamer::AstNodeSourceFormatter::MakeInterpreterType(TokenAppearance 
 	return interpreter_implementation;
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeSingleVectorisedInterpreteredType(const Token* token, const unsigned count_token) const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeSingleVectorisedInterpreteredType(const Token* token, const unsigned count_token) const
 {
 	return MakeIndentation(2) + "for(" + MakeClassName(token) + "* " + token->TokenName + " : " + MakeFieldNameOfType(token, count_token) + ")\n" +
 		   MakeIndentation(2) + "{\n" +
@@ -109,7 +112,7 @@ std::string deamer::AstNodeSourceFormatter::MakeSingleVectorisedInterpreteredTyp
 		   MakeIndentation(2) + "}\n";
 }
 
-std::string deamer::AstNodeSourceFormatter::MakeAstNodeConstructor() const
+std::string deamer::AstInterpreterBuilder::AstNodeSourceFormatter::MakeAstNodeConstructor() const
 {
 	return MakeAstConstructorAstInformationFunction(MakeConstructorNameWithLanguageNamespace() +
 		"(deamer::AstInformation* astInformation)");

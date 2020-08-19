@@ -13,9 +13,7 @@
 #include "Deamer/AstGen/AstFileFormatter.h"
 #include "Deamer/LanguageAnalyzer/LanguageAnalyzer/Datastructures/TokenAppearance.h"
 
-namespace deamer
-{
-	class Rule;
+namespace deamer { namespace AstInterpreterBuilder {
 
 	class AstNodeSourceFormatter : public AstFileFormatter
 	{
@@ -42,6 +40,6 @@ namespace deamer
 		~AstNodeSourceFormatter() = default;
 		std::string MakeAstFile() const override;
 	};
-}
+}}
 
 #endif //DEAMER_ASTGEN_ASTNODEINTERPRETERBASEDBUILDER_ASTFORMATTER_ASTNODESOURCEFORMATTER_H

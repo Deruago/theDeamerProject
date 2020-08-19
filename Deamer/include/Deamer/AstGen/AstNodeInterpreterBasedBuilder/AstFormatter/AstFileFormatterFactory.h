@@ -11,10 +11,10 @@
 #include "Deamer/AstGen/AstFileFormatter.h"
 #include <memory>
 
-namespace deamer
-{
+namespace deamer {
 	enum class AstType;
 	enum class AstFileType;
+	namespace AstInterpreterBuilder {
 
 	class AstFileFormatterFactory
 	{
@@ -26,6 +26,6 @@ namespace deamer
 
 		std::unique_ptr<AstFileFormatter> MakeAstFileFormatter(Token* token, const std::string& language_name, AstFileType ast_file_type) const;
 	};
-}
+}}
 
 #endif //DEAMER_ASTGEN_ASTNODEINTERPRETERBASEDBUILDER_ASTFORMATTER_ASTFILEFORMATTERFACTORY_H

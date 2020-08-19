@@ -12,7 +12,7 @@
 #include "Deamer/AstGen/AstNodeInterpreterBasedBuilder/AstFormatter/AstNodeSourceFormatter.h"
 #include "Deamer/AstGen/AstNodeDataStructures/AstFileType.h"
 
-std::unique_ptr<deamer::AstFileFormatter> deamer::AstFileFormatterFactory::MakeAstFileFormatter(Token* token, const std::string
+std::unique_ptr<deamer::AstFileFormatter> deamer::AstInterpreterBuilder::AstFileFormatterFactory::MakeAstFileFormatter(Token* token, const std::string
                                                                                                 & language_name,
 	AstFileType ast_file_type) const
 {
