@@ -1,62 +1,45 @@
-INCLUDE_HEADER_DIR=./include
-LIB_FILES=$(wildcard ./lib/*/*/*/*.cpp) \
-		  $(wildcard ./lib/*/*/*.cpp) \
-		  $(wildcard ./lib/*/*.cpp) \
-		  $(wildcard ./lib/*.cpp)
+SRCDIR := ./lib
+HEADERDIR := ./include
+HEADERSDIR := $(shell find include/Deamer/ -type d -maxdepth 1)
+OBJDIR := .obj
+DEPDIR := .dep
+CHEADERDIR := .cheader
 
-TEST_FILE=DeamerTest.cpp
+COMPILER := clang++
+COMPILER_ARGS := -Wall
 
-OBJFILES=$(wildcard *.o)
+SRCS     := $(shell find $(SRCDIR) -name "*.cpp")
+OBJS     := $(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
+DEPS     := $(SRCS:$(SRCDIR)/%.cpp=$(DEPDIR)/%.d)
 
-FILEBUILDER_HEADERFILES=$(wildcard include/Deamer/FileBuilder/*.h) \
-$(wildcard include/Deamer/FileBuilder/*/*.h) \
-$(wildcard include/Deamer/FileBuilder/*/*/*.h) \
+HEADERS  := $(shell find $(HEADERDIR) -name "*.h")
 
-STRINGBUILDER_HEADERFILES=$(wildcard include/Deamer/StringBuilder/*.h) \
-$(wildcard include/Deamer/StringBuilder/*/*.h) \
-$(wildcard include/Deamer/StringBuilder/*/*/*.h) \
+TREE     := $(patsubst %/,%,$(dir $(OBJS)))
+CPPFLAGS  = -MMD -MP -MF $(@:$(OBJDIR)/%.o=$(DEPDIR)/%.d)  $(COMPILER_ARGS) -I$(HEADERDIR)
 
-DEAMER_HEADERFILES=$(wildcard include/Deamer/*.h) \
-$(wildcard include/Deamer/*/*.h) \
-$(wildcard include/Deamer/*/*/*.h) \
-$(wildcard include/Deamer/*/*/*/*.h) \
-$(wildcard include/Deamer/*/*/*/*/*.h) \
+.PHONY: all clean uninstall install
 
-ARGS=-Wall 
-CC=clang++
+all: $(OBJS)
 
-all: cleanAstNodeGen deamer
-	$(CC) $(ARGS) $(LIB_FILES) -I $(INCLUDE_HEADER_DIR) $(TEST_FILE) -o Deamer
+.SECONDEXPANSION:
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $$(@D)
+	$(COMPILER) $(CPPFLAGS) $(CXXFLAGS) -o $@ -c $<
+
+$(TREE): %:
+	mkdir -p $@
+	mkdir -p $(@:$(OBJDIR)%=$(DEPDIR)%)
+
+clean:
+	$(RM) -r $(OBJDIR) $(DEPDIR)
+
+ifeq "$(MAKECMDGOALS)" ""
+-include $(DEPS)
+endif
+
+install: clean uninstall $(OBJS)
+	sudo cp -r $(HEADERSDIR) /usr/include/Deamer/
+	ar rcs /usr/lib/Deamer/libDeamer.a $(OBJS)
 	
-	
-deamer:
-	$(CC) $(ARGS) -c $(LIB_FILES) -I $(INCLUDE_HEADER_DIR)
-	ar rcs ExportDeamer/libDeamer.a $(wildcard *.o)
-	rm -f $(wildcard *.o)
-
-compiler:
-	flex lexer.l
-	bison -d parser.y
-	g++ -c parser.tab.c -o parser.tab.o
-	g++ -c lex.yy.c -o lex.yy.o
-	g++ parser.tab.o lex.yy.o -lfl -o myparser.out
-	
-cleanAstNodeGen:
-	rm -f tests/AstNodes/*
-	rm -f tests/Lexer/*
-	rm -f tests/Parser/*
-	rm -f lexer.l
-	rm -f parser.y
-	rm -f parser.tab.c
-	rm -f parser.tab.o
-	rm -f lex.yy.o
-	rm -f parser.tab.h
-	rm -f lex.yy.c
-
-FileBuilder:
-	$(CC) $(ARGS) $(LIB_FILES) FileBuildertest.cpp -I $(INCLUDE_HEADER_DIR) -o FileBuildertest.out
-	
-DeamerHeaderFilesCompilation:
-	$(CC) $(ARGS) $(DEAMER_HEADERFILES) -I $(INCLUDE_HEADER_DIR)
-	$(CC) $(ARGS) $(STRINGBUILDER_HEADERFILES) -I $(INCLUDE_HEADER_DIR)
-	$(CC) $(ARGS) $(FILEBUILDER_HEADERFILES) -I $(INCLUDE_HEADER_DIR)
+uninstall:
+	sudo rm -r -f /usr/include/Deamer/*
+	sudo rm -f /usr/lib/Deamer/*
