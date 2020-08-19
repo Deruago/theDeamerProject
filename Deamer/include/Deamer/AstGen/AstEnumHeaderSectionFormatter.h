@@ -6,8 +6,8 @@
  * -August 2020 Thimo Böhmer
  */
 
-#ifndef DEAMER_ASTGEN_ASTGLOBALHEADERFORMATTER_H
-#define DEAMER_ASTGEN_ASTGLOBALHEADERFORMATTER_H
+#ifndef DEAMER_ASTGEN_ASTENUMHEADERSECTIONFORMATTER_H
+#define DEAMER_ASTGEN_ASTENUMHEADERSECTIONFORMATTER_H
 #include <string>
 
 /*
@@ -18,20 +18,20 @@ namespace deamer
 {
 	class Token;
 
-	class AstGlobalHeaderFormatter
+	class AstEnumHeaderSectionFormatter
     {
     private:
         std::string directory_;
         std::string language_name_;
-    	
-    public:
-        AstGlobalHeaderFormatter(const std::string& directory, const std::string& language_name);
 
-    	void CreateGlobalHeaderFile() const;
+    public:
+        AstEnumHeaderSectionFormatter(std::string directory, std::string language_name);
+
+        void CreateAstNodeEnumFile() const;
         void AddToken(const Token& token) const;
-        void FinishGlobalHeaderFile() const;
+        void FinishAstNodeEnumFile() const;
         void AddCodeToFile(const std::string& new_code) const;
     };
 }
 
-#endif //DEAMER_ASTGEN_ASTGLOBALHEADERFORMATTER_H
+#endif //DEAMER_ASTGEN_ASTENUMHEADERSECTIONFORMATTER_H
