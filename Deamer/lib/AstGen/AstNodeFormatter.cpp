@@ -7,24 +7,17 @@
  */
 
 #include "Deamer/AstGen/AstNodeFormatter.h"
-#include "Deamer/AstGen/AstNodeInterpreterBasedBuilder/AstFormatter/AstFileFormatterFactory.h"
-#include "Deamer/AstGen/AstNodeDataStructures/AstFileType.h"
-#include <memory>
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
 
-
-deamer::AstNodeFormatter::AstNodeFormatter(std::string language_name)
+deamer::AstNodeFormatter::AstNodeFormatter(const std::string& language_name)
 {
 	language_name_ = language_name;
 }
 
-void deamer::AstNodeFormatter::MakeAstNode(Token* token, AstFileType ast_file_type)
+std::string deamer::AstNodeFormatter::MakeClassName(const Token* token) const
 {
-	const std::unique_ptr<AstFileFormatter> formatter = AstFileFormatterFactory().MakeAstFileFormatter(token, language_name_, ast_file_type);
-	output += formatter->MakeAstFile();
-}
-
-void deamer::AstNodeFormatter::MakeAstTree(Token* token, AstFileType ast_file_type)
-{
-	const std::unique_ptr<AstFileFormatter> formatter = AstFileFormatterFactory().MakeAstFileFormatter(token, language_name_, ast_file_type);
-	output += formatter->MakeAstFile();
+	if (token->TokenType.has_flag(TokenType_t::start))
+		return "AstTree_" + token->TokenName;
+	else
+		return "AstNode_" + token->TokenName;
 }
