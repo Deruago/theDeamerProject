@@ -29,8 +29,9 @@ namespace deamer
         public:
             void SetDirTarget(std::string dirName);
             void SetFileTarget(std::string fileName);
-            std::string GetOutput(); // Returns the output
-            bool WriteOutputToFile();
+            std::string GetOutput() const; // Returns the output
+            void WriteOutputToFile() const;
+            void WriteOutputToFile(const std::string& file_name, const std::string& file_content) const;
     };
 }
 

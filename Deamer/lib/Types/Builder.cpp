@@ -27,22 +27,34 @@ void deamer::Builder::SetFileTarget(std::string fileName)
     FileName = fileName;
 }
 
-std::string deamer::Builder::GetOutput()
+std::string deamer::Builder::GetOutput() const
 {
     return Output;
 }
 
-bool deamer::Builder::WriteOutputToFile()
+void deamer::Builder::WriteOutputToFile() const
 {
-    std::ostringstream oss0;
-    oss0 << Directory << FileName;
-    std::ofstream newParserFile;
+    std::ostringstream file_path;
+    file_path << Directory << FileName;
+    std::ofstream new_file;
 
-    newParserFile.open(oss0.str(), std::ios_base::app);
+    new_file.open(file_path.str(), std::ios_base::app);
 
-    newParserFile << Output << '\n';
+    new_file << Output << '\n';
     
-    newParserFile.close();
+    new_file.close();
+}
 
-    return true;
+
+void deamer::Builder::WriteOutputToFile(const std::string& file_name, const std::string& file_content) const
+{
+    std::ostringstream file_path;
+    file_path << Directory << file_name;
+    std::ofstream new_file;
+
+    new_file.open(file_path.str(), std::ios_base::app);
+
+    new_file << file_content << '\n';
+
+    new_file.close();
 }
