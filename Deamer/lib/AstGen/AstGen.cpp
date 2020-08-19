@@ -8,69 +8,43 @@
  */
 
 #include "Deamer/AstGen/AstGen.h"
+#include "Deamer/AstGen/AstBuilderFactory.h"
 #include <sstream>
 
-deamer::AstGen::AstGen()
+deamer::AstGen::AstGen(const LanguageDefinition& language_definition, AstBuilderType ast_builder_type)
 {
-
+    language_definition_ = language_definition;
+    astBuilder = AstBuilderFactory().MakeAstBuilder(ast_builder_type, "AstNodes/", language_definition_.LanguageName);
+    CreateDirectoryIfNotExist("AstNodes/");
 }
 
-deamer::AstGen::AstGen(std::string dirTarget)
-{
-    AstGen::DirTarget(dirTarget);
-}
+//deamer::AstGen::AstGen(std::string dirTarget)
+//{
+//    AstGen::DirTarget(dirTarget);
+//}
 
 void deamer::AstGen::DirTarget(std::string dirTarget)
 {
     dirTarget.append("AstNodes/");
-    CreateDirectoryIfNotExist(&dirTarget);
-
-    astBuilder.SetDirTarget(dirTarget);
 }
 
 void deamer::AstGen::FileTarget(std::string fileTarget)
 {
 }
 
-std::string deamer::AstGen::GetAstNodeClassName(std::string TokenName)
+void deamer::AstGen::CreateAstNodes()
 {
-    std::ostringstream oss;
-    oss << "AstNode_" << TokenName;
-    return oss.str();
-}
-
-void deamer::AstGen::CreateAstNodes(LanguageDefinition* langDef)
-{
-    astBuilder.SetLanguageName(langDef->LanguageName);
-    
-    astBuilder.CreateGlobalHeaderFile();
-    astBuilder.CreateAstNodeEnumFile();
-    
-    astBuilder.CreateAstTree(langDef->Types[langDef->Types.size() - 1], langDef->Types[langDef->Types.size() - 1]->TokenPermission.has_flag(TokenPermission_t::node));
-    astBuilder.AppendAstTreeHeaderFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
-    astBuilder.AppendAstNodeEnumFile(langDef->Types[langDef->Types.size() - 1]->TokenName);
-
-    for (int i = langDef->Types.size() - 2; i >= 0; i--)
+    astBuilder->StartBuild();
+    for (auto& Type : language_definition_.Types)
     {
-        if (langDef->Types[i]->TokenPermission.has_flag(TokenPermission_t::ast))
-        {
-            astBuilder.CreateAstNode(langDef->Types[i], langDef->Types[i]->TokenPermission.has_flag(TokenPermission_t::node));
-            astBuilder.AppendAstNodeHeaderFile(langDef->Types[i]->TokenName);
-            astBuilder.AppendAstNodeEnumFile(langDef->Types[i]->TokenName);
-        }
+        if (Type->TokenPermission.has_flag(TokenPermission_t::ast))
+            astBuilder->Build(*Type);
     }
-
-
-    for (int i = 0; i < langDef->Nodes.size(); i++)
+	
+    for (auto& Node : language_definition_.Nodes)
     {
-        if (langDef->Nodes[i]->TokenPermission.has_flag(TokenPermission_t::ast))
-        {
-            astBuilder.CreateAstNode(langDef->Nodes[i], langDef->Nodes[i]->TokenPermission.has_flag(TokenPermission_t::node));
-            astBuilder.AppendAstNodeHeaderFile(langDef->Nodes[i]->TokenName);
-            astBuilder.AppendAstNodeEnumFile(langDef->Nodes[i]->TokenName);
-        }
+        if (Node->TokenPermission.has_flag(TokenPermission_t::ast))
+            astBuilder->Build(*Node);
     }
-
-    astBuilder.FinishGlobalHeaderFile();
-    astBuilder.FinishAstNodeEnumFile();
+    astBuilder->FinishBuild();
 }
