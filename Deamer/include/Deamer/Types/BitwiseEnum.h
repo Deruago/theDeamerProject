@@ -31,14 +31,14 @@ public:
 	void operator&=(T b);
 	void operator^=(T b);
 
-	unsigned operator&(T b);
-	unsigned operator^(T b);
-	unsigned operator|(T b);
+	unsigned operator&(T b) const;
+	unsigned operator^(T b) const;
+	unsigned operator|(T b) const;
 
-	bool operator==(std::vector<T> b_vector);
-	bool operator!=(std::vector<T> b_vector);
-	bool operator==(T b);
-	bool operator!=(T b);
+	bool operator==(std::vector<T> b_vector) const;
+	bool operator!=(std::vector<T> b_vector) const;
+	bool operator==(T b) const;
+	bool operator!=(T b) const;
 
 	void set_flag(T a);
 	void set_flag(T a, bool cond);
@@ -46,12 +46,12 @@ public:
 	void set_flags(std::vector<T> a_vector);
 	void clear_flags(std::vector<T> a_vector);
 	
-	bool is_flag_set(T a);
-	bool is_flag_not_set(T a);
-	bool has_flag(T a);
-	bool has_flags(T a);
-	bool are_flags_set(std::vector<T> a_vector);
-	bool are_flags_not_set(std::vector<T> a_vector);
+	bool is_flag_set(T a) const;
+	bool is_flag_not_set(T a) const;
+	bool has_flag(T a) const;
+	bool has_flags(T a) const;
+	bool are_flags_set(std::vector<T> a_vector) const;
+	bool are_flags_not_set(std::vector<T> a_vector) const;
 };
 
 template <class T>
@@ -85,25 +85,25 @@ void BitwiseEnum<T>::operator^=(T b)
 }
 
 template <class T>
-unsigned BitwiseEnum<T>::operator&(T b)
+unsigned BitwiseEnum<T>::operator&(T b) const
 {
 	return bitwise_value & static_cast<unsigned>(b);
 }
 
 template <class T>
-unsigned BitwiseEnum<T>::operator^(T b)
+unsigned BitwiseEnum<T>::operator^(T b) const
 {
 	return bitwise_value ^ static_cast<unsigned>(b);
 }
 
 template <class T>
-unsigned BitwiseEnum<T>::operator|(T b)
+unsigned BitwiseEnum<T>::operator|(T b) const
 {
 	return bitwise_value | static_cast<unsigned>(b);
 }
 
 template <class T>
-bool BitwiseEnum<T>::operator==(std::vector<T> b_vector)
+bool BitwiseEnum<T>::operator==(std::vector<T> b_vector) const
 {
 	for (T b : b_vector)
 	{
@@ -114,7 +114,7 @@ bool BitwiseEnum<T>::operator==(std::vector<T> b_vector)
 }
 
 template <class T>
-bool BitwiseEnum<T>::operator!=(std::vector<T> b_vector)
+bool BitwiseEnum<T>::operator!=(std::vector<T> b_vector) const
 {
 	for (T b : b_vector)
 	{
@@ -125,13 +125,13 @@ bool BitwiseEnum<T>::operator!=(std::vector<T> b_vector)
 }
 
 template <class T>
-bool BitwiseEnum<T>::operator==(T b)
+bool BitwiseEnum<T>::operator==(T b) const
 {
 	return bitwise_value & static_cast<unsigned>(b);
 }
 
 template <class T>
-bool BitwiseEnum<T>::operator!=(T b)
+bool BitwiseEnum<T>::operator!=(T b) const
 {
 	return ~bitwise_value & static_cast<unsigned>(b);
 }
@@ -178,37 +178,37 @@ void BitwiseEnum<T>::clear_flags(std::vector<T> a_vector)
 }
 
 template <class T>
-bool BitwiseEnum<T>::is_flag_set(T a)
+bool BitwiseEnum<T>::is_flag_set(T a) const
 {
 	return operator==(a);
 }
 
 template <class T>
-bool BitwiseEnum<T>::is_flag_not_set(T a)
+bool BitwiseEnum<T>::is_flag_not_set(T a) const
 {
 	return operator!=(a);
 }
 
 template <class T>
-bool BitwiseEnum<T>::has_flag(T a)
+bool BitwiseEnum<T>::has_flag(T a) const
 {
 	return is_flag_set(a);
 }
 
 template <class T>
-bool BitwiseEnum<T>::has_flags(T a)
+bool BitwiseEnum<T>::has_flags(T a) const
 {
 	return are_flags_set(a);
 }
 
 template <class T>
-bool BitwiseEnum<T>::are_flags_set(std::vector<T> a_vector)
+bool BitwiseEnum<T>::are_flags_set(std::vector<T> a_vector) const
 {
 	return operator==(a_vector);
 }
 
 template <class T>
-bool BitwiseEnum<T>::are_flags_not_set(std::vector<T> a_vector)
+bool BitwiseEnum<T>::are_flags_not_set(std::vector<T> a_vector) const
 {
 	return operator!=(a_vector);
 }
