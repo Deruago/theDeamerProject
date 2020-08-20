@@ -19,35 +19,35 @@ deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::AstPrinterVisitorFormatte
 
 void deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::CreateVisitor()
 {
-	header_file_ =	"#ifndef ASTNODES_ASTVISITOR_ASTVISITOR_H\n"
+	header_file_ =	"#ifndef ASTNODES_ASTVISITOR_ASTPRINTER_H\n"
 					"\n"
 					"/* This is an system generated AstPrinter. We recommend not changing code in this file\n"
 					"   If you have improvements, make an pull request.\n"
 	                "   If you have suggestions, make an issue or contact a developer or maintainer.\n"
 					"*/\n\n"
-					"#define ASTNODES_ASTVISITOR_ASTVISITOR_H\n"
+					"#define ASTNODES_ASTVISITOR_ASTPRINTER_H\n"
 					"\n"
 					"#include <Deamer/AstGen/AstVisitor.h>\n"
 					"\n"
 					"namespace " + language_name_ + "\n"
 					"{\n";
 
-	header_file_class_definition_ = "    class " + language_name_ + "_AstVisitor : public AstVisitor\n"
+	header_file_class_definition_ = "    class " + language_name_ + "_AstPrinter : public deamer::AstVisitor\n"
 									"    {\n"
 									"    private:\n"
 									"    protected:\n"
 									"    public:\n"
-									"        " + language_name_ + "_AstVisitor() = Printer;\n"
-									"        void Dispatch(AstNode& ast_node) override;\n"
+									"        " + language_name_ + "_AstPrinter() = default;\n"
+									"        void Dispatch(deamer::AstNode& ast_node) override;\n"
 									"\n";
 
-	source_file_ =	"#include \"./" + language_name_ + "_AstVisitor.h\"\n"
+	source_file_ =	"#include \"./" + language_name_ + "_AstPrinter.h\"\n"
 					"#include \"AstEnum.h\"\n"
 					"#include \"AstNodes.h\"\n"
 					"#include <iostream>\n"
 					"\n";
 
-	source_file_dispatch_ = "void " + language_name_ + "::" + language_name_ + "_AstVisitor::Dispatch(AstNode& ast_node)\n"
+	source_file_dispatch_ = "void " + language_name_ + "::" + language_name_ + "_AstPrinter::Dispatch(deamer::AstNode& ast_node)\n"
 							"{\n"
 							"    switch(ast_node.GetAstId())\n"
 							"    {\n";
@@ -67,11 +67,11 @@ std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeAdditionT
 		header_file_class_forward_declarations_ += "    class AstTree_" + token.TokenName + ";\n";
 	else
 		header_file_class_forward_declarations_ += "    class AstNode_" + token.TokenName + ";\n";
-
+		
 	header_file_visit_prototypes_ += "        void Visit(AstNode_" + token.TokenName + "& ast_node);\n";
 
 	std::string cases;
-	cases += "void " + language_name_ + "::" + language_name_ + "_AstVisitor::Visit(AstNode_" + token.TokenName + "& ast_node)\n";
+	cases += "void " + language_name_ + "::" + language_name_ + "_AstPrinter::Visit(AstNode_" + token.TokenName + "& ast_node)\n";
 	cases += "{\n";
 	cases += PrintAstNode(token) + "\n";
 	if (token.TokenPermission.has_flag(TokenPermission_t::node))
@@ -125,9 +125,9 @@ void deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::FinishVisitor()
 {
 	header_file_ += header_file_class_forward_declarations_ + "\n" +
 		header_file_class_definition_ + header_file_visit_prototypes_ +
-		"    }\n"
+		"    };\n"
 		"}\n"
-		"#endif //ASTNODES_ASTVISITOR_ASTVISITOR_H\n";
+		"#endif //ASTNODES_ASTVISITOR_ASTPRINTER_H\n";
 	source_file_dispatch_ += "    }\n"
 		"}\n"
 		"\n";
