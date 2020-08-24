@@ -1,9 +1,9 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bï¿½hmer 2020
  *
  * Modified:
- * -July 2020 Thimo Böhmer
+ * -July 2020 Thimo Bï¿½hmer
  */
 
 /*
@@ -35,6 +35,7 @@ namespace deamer
 		Node* MakeNode(const std::string& tokenName, const std::string& regex) const; //alias for MakeTerminalSymbol
 		Node* MakeNode(const std::string& tokenName, const std::string& regex, BitwiseEnum<TokenType_t> tokenType, BitwiseEnum<TokenPermission_t> tokenPermission) const; //alias for MakeTerminalSymbol
 		Node* MakeIgnorableNode(const std::string& tokenName, const std::string& regex) const;
+		Node* MakeDeletableNode(const std::string& tokenName, const std::string& regex) const;
 		
 		Type* MakeType(const std::string& tokenName) const; //alias for MakeNonTerminalSymbol
 		Type* MakeType(const std::string& tokenName, BitwiseEnum<TokenType_t> tokenType, BitwiseEnum<TokenPermission_t> tokenPermission) const; //alias for MakeNonTerminalSymbol

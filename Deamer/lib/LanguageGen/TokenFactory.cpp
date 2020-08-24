@@ -1,9 +1,9 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bï¿½hmer 2020
  *
  * Modified:
- * -July 2020 Thimo Böhmer
+ * -July 2020 Thimo Bï¿½hmer
  */
 
 #include "Deamer/LanguageGen/TokenFactory.h"
@@ -19,7 +19,7 @@ deamer::Node* deamer::TokenFactory::MakeNode(const std::string& tokenName, const
 	tokenType.set_flag(TokenType_t::none);
 
 	BitwiseEnum<TokenPermission_t> tokenPermission;
-	tokenPermission.set_flags({ TokenPermission_t::node, TokenPermission_t::ast });
+	tokenPermission.set_flags({ TokenPermission_t::node });
 	return MakeTerminalSymbol(tokenName, regex, tokenType, tokenPermission);
 }
 
@@ -39,12 +39,21 @@ deamer::Node* deamer::TokenFactory::MakeIgnorableNode(const std::string& tokenNa
 	return MakeTerminalSymbol(tokenName, regex, tokenType, tokenPermission);
 }
 
+deamer::Node* deamer::TokenFactory::MakeDeletableNode(const std::string& tokenName, const std::string& regex) const
+{
+	BitwiseEnum<TokenType_t> tokenType;
+	tokenType.set_flag(TokenType_t::none);
+
+	BitwiseEnum<TokenPermission_t> tokenPermission;
+	tokenPermission.set_flags({ TokenPermission_t::node, TokenPermission_t::ignore, TokenPermission_t::delete_});
+	return MakeTerminalSymbol(tokenName, regex, tokenType, tokenPermission);
+}
+
 deamer::Type* deamer::TokenFactory::MakeType(const std::string& tokenName) const
 {
 	BitwiseEnum<TokenType_t> tokenType;
 	tokenType.set_flag(TokenType_t::standard);
 	BitwiseEnum<TokenPermission_t> tokenPermission;
-	tokenPermission.set_flag(TokenPermission_t::ast);
 
 	return MakeNonTerminalSymbol(tokenName, tokenType, tokenPermission);
 }
@@ -61,7 +70,6 @@ deamer::Type* deamer::TokenFactory::MakeStartType(const std::string& tokenName) 
 	tokenType.set_flag(TokenType_t::start);
 	tokenType.set_flag(TokenType_t::standard);
 	BitwiseEnum<TokenPermission_t> tokenPermission;
-	tokenPermission.set_flag(TokenPermission_t::ast);
 
 	return MakeNonTerminalSymbol(tokenName, tokenType, tokenPermission);
 }
@@ -79,7 +87,6 @@ deamer::Type* deamer::TokenFactory::MakeGroupedType(const std::string& tokenName
 	tokenType.set_flag(TokenType_t::standard);
 	tokenType.set_flag(TokenType_t::grouped);
 	BitwiseEnum<TokenPermission_t> tokenPermission;
-	tokenPermission.set_flag(TokenPermission_t::ast);
 
 	return MakeNonTerminalSymbol(tokenName, tokenType, tokenPermission);
 }

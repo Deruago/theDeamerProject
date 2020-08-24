@@ -1,10 +1,10 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bï¿½hmer 2020
  *
  * Modified:
- * -June 2020 Thimo Böhmer
- * -July 2020 Thimo Böhmer
+ * -June 2020 Thimo Bï¿½hmer
+ * -July 2020 Thimo Bï¿½hmer
  */
 
 #ifndef DEAMER_LEXERGEN_DLEXBUILDER_DLEXBUILDER_H
@@ -22,6 +22,7 @@ namespace deamer
             DlexBuilder(LanguageDefinition* langDef);
             void AddNode(Node* node) override;
             void AddIgnoreNode(Node* node) override;
+            void AddDeleteNode(Node* node) override;
             bool FinishBuild() override;
             bool StartBuild() override;
     };

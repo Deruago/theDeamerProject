@@ -1,10 +1,10 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bï¿½hmer 2020
  *
  * Modified:
- * -June 2020 Thimo Böhmer
- * -July 2020 Thimo Böhmer
+ * -June 2020 Thimo Bï¿½hmer
+ * -July 2020 Thimo Bï¿½hmer
  */
 
 #include "Deamer/AstGen/AstGen.h"
@@ -37,13 +37,13 @@ void deamer::AstGen::CreateAstNodes()
     astBuilder->StartBuild();
     for (auto& Type : language_definition_.Types)
     {
-        if (Type->TokenPermission.has_flag(TokenPermission_t::ast))
+        if (!Type->TokenPermission.has_flag(TokenPermission_t::ignore))
             astBuilder->Build(*Type);
     }
 	
     for (auto& Node : language_definition_.Nodes)
     {
-        if (Node->TokenPermission.has_flag(TokenPermission_t::ast))
+        if (!Node->TokenPermission.has_flag(TokenPermission_t::ignore))
             astBuilder->Build(*Node);
     }
     astBuilder->FinishBuild();

@@ -13,17 +13,21 @@ void deamer::TokenPermissionBuilder::SetTypeToType()
 
 void deamer::TokenPermissionBuilder::SetAllPermissions()
 {
-	tokenPermission.set_flag(TokenPermission_t::ast);
 }
 
 void deamer::TokenPermissionBuilder::SetAstCreation()
 {
-	tokenPermission.set_flag(TokenPermission_t::ast);
 }
 
 void deamer::TokenPermissionBuilder::SetIgnoreToken()
 {
 	tokenPermission.set_flag(TokenPermission_t::ignore);
+}
+
+void deamer::TokenPermissionBuilder::SetDeleteToken()
+{
+	tokenPermission.set_flag(TokenPermission_t::ignore);
+	tokenPermission.set_flag(TokenPermission_t::delete_);
 }
 
 BitwiseEnum<deamer::TokenPermission_t> deamer::TokenPermissionBuilder::GetTokenPermission() const

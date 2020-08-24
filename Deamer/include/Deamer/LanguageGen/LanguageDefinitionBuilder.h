@@ -1,9 +1,9 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bï¿½hmer 2020
  *
  * Modified:
- * -July 2020 Thimo Böhmer
+ * -July 2020 Thimo Bï¿½hmer
  */
 
 #ifndef DEAMER_LANGUAGEGEN_LANGUAGEDEFINITIONBUILDER_H
@@ -47,6 +47,7 @@ namespace deamer
 		Node* AddNode(const std::string& tokenName, const std::string& regex);
 		Node* AddNode(const std::string& tokenName, const std::string& regex, BitwiseEnum<TokenType_t> tokenType, BitwiseEnum<TokenPermission_t> tokenPermission);
 		Node* AddIgnorableNode(const std::string& tokenName, const std::string& regex);
+		Node* AddDeletableNode(const std::string& tokenName, const std::string& regex);
 		
 		void AddRuleToType(Type* type, std::vector<Token*> rule_definition);
 		void AddRuleToType(Type* type, Rule* rule_definition);

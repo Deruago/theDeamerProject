@@ -42,7 +42,18 @@ void deamer::LexerGen::Build()
     lexerBuilder->StartBuild();
     for (auto& Node : langDef->Nodes)
     {
-        lexerBuilder->AddNode(Node);
+        if (Node->TokenPermission.has_flag(TokenPermission_t::delete_))
+        {
+            lexerBuilder->AddDeleteNode(Node);
+        }
+        else if (Node->TokenPermission.has_flag(TokenPermission_t::ignore))
+        {
+            lexerBuilder->AddIgnoreNode(Node);
+        }
+        else
+        {
+            lexerBuilder->AddNode(Node);
+        }
     }
     
     for (auto& IgnoreNode : langDef->IgnoreNodes)

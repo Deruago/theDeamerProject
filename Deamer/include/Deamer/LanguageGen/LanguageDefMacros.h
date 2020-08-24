@@ -1,10 +1,10 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bï¿½hmer 2020
  *
  * Modified:
- * -June 2020 Thimo Böhmer
- * -July 2020 Thimo Böhmer
+ * -June 2020 Thimo Bï¿½hmer
+ * -July 2020 Thimo Bï¿½hmer
  */
 
 #ifndef DEAMER_LANGUAGEGEN_LANGUAGE_DEFMACROS_H
@@ -23,6 +23,7 @@
 
 #define NODE(...) GET_MACRO_NODE(__VA_ARGS__, newNode2, _1, newNode1) (__VA_ARGS__)
 #define IGNORENODE(node, regex) deamer::Node* node = currentLangDef.AddIgnorableNode(#node, regex);
+#define DELETENODE(node, regex) deamer::Node* node = currentLangDef.AddDeletableNode(#node, regex);
 
 #define TYPE(...) GET_MACRO_TYPE(__VA_ARGS__, newType2, _1, newType1) (__VA_ARGS__)
 #define STARTTYPE(start_type) deamer::Type* start_type = currentLangDef.AddStartType(#start_type);

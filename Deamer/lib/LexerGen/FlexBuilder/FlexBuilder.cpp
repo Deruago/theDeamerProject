@@ -13,7 +13,6 @@
 
 deamer::FlexBuilder::FlexBuilder()
 {
-    
 }
 
 deamer::FlexBuilder::FlexBuilder(LanguageDefinition* langDef) : FlexBuilder()
@@ -40,6 +39,11 @@ void deamer::FlexBuilder::AddNode(Node* node)
 }
 
 void deamer::FlexBuilder::AddIgnoreNode(Node* node)
+{
+    AddNode(node);
+}
+
+void deamer::FlexBuilder::AddDeleteNode(Node* node)
 {
     std::ostringstream oss;
     oss << node->TokenName << "   " << "(" << node->Regex << ")\n";

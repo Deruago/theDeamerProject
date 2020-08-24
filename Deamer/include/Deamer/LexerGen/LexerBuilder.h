@@ -1,10 +1,10 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bï¿½hmer 2020
  *
  * Modified:
- * -June 2020 Thimo Böhmer
- * -July 2020 Thimo Böhmer
+ * -June 2020 Thimo Bï¿½hmer
+ * -July 2020 Thimo Bï¿½hmer
  */
 
 #ifndef DEAMER_LEXERGEN_LEXERBUILDER_H
@@ -26,8 +26,11 @@ namespace deamer
             LexerBuilder(std::string fileName);
         public:
             LanguageDefinition* langDef;
+            
             virtual void AddNode(Node* node) = 0; // Writes the node to the file
             virtual void AddIgnoreNode(Node* node) = 0;
+            virtual void AddDeleteNode(Node* node) = 0;
+
             virtual bool StartBuild() = 0;
             virtual bool FinishBuild() = 0;
             LexerType_t GetLexerTarget();

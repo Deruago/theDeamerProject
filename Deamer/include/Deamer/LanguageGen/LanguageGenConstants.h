@@ -1,10 +1,10 @@
 /*
  * Part of the Deamer Project, under the GPLV3 license.
- * Copyright Thimo Böhmer 2020
+ * Copyright Thimo Bï¿½hmer 2020
  *
  * Modified:
- * -June 2020 Thimo Böhmer
- * -July 2020 Thimo Böhmer
+ * -June 2020 Thimo Bï¿½hmer
+ * -July 2020 Thimo Bï¿½hmer
  */
 
 #ifndef DEAMER_LANGUAGEGEN_LANGUAGEGEN_CONSTANTS_H
@@ -54,7 +54,7 @@ namespace deamer
 	{
 		none = 0,
 		node = 1,
-		ast = 2,
+		delete_ = 2,
 		ignore = 4,
 		all = 8,
 	};

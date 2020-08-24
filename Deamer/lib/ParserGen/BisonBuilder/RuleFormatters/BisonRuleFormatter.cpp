@@ -83,7 +83,7 @@ bool deamer::BisonRuleFormatter::CurrentTokenIsNode(Token* CurrentToken) const
 
 bool deamer::BisonRuleFormatter::CurrentTokenHasAnAstNode(Token* CurrentToken) const
 {
-	return CurrentToken->TokenPermission.has_flag(TokenPermission_t::ast);
+	return !CurrentToken->TokenPermission.has_flag(TokenPermission_t::ignore);
 }
 
 bool deamer::BisonRuleFormatter::CurrentTypeIsTheFirstType() const
