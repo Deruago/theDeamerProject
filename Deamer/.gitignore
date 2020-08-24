@@ -10,3 +10,4 @@ DeamerProject/*
 *.out
 *.gch
 *.*/
+.*/
