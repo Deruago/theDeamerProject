@@ -8,6 +8,6 @@
 
 #include "Deamer/AstGen/AstVisitor.h"
 
-void deamer::AstVisitor::Dispatch(AstNode& astnode) const
+void deamer::AstVisitor::Dispatch(AstNode& astnode)
 {
 }

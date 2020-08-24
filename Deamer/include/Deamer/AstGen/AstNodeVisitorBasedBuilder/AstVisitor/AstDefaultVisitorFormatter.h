@@ -31,6 +31,9 @@ namespace deamer {
 			std::string MakeDefaultVisit(const Token& token, unsigned token_count);
 			std::string MakeVectorVisit(const Token& token, unsigned token_count);
 			std::string MakeAdditionToSourceFile(Token& token);
+			
+			std::string CreateAstNodeClassName(Token& token);
+			std::string visit_function_prototype(Token& token);
 		protected:
 		public:
 			AstDefaultVisitorFormatter(const std::string& language_name);

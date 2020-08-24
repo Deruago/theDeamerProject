@@ -21,7 +21,7 @@ namespace deamer
     {
     public:
         AstVisitor() = default;
-        virtual void Dispatch(AstNode& astnode) const;
+        virtual void Dispatch(AstNode& astnode);
     };
 }
 

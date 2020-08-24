@@ -56,7 +56,7 @@ void deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::CreateVisitor()
 void deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::AddToken(Token& token)
 {
 	source_file_dispatch_ += "    case " + language_name_ + "::AstEnum_t::" + token.TokenName + ":\n"
-		"        Visit(static_cast<AstNode_" + token.TokenName + "&>(ast_node));\n"
+		"        Visit(static_cast<" + CreateAstNodeClassName(token) + "&>(ast_node));\n"
 		"        break;\n";
 	source_file_visit_functions += MakeAdditionToSourceFile(token) + "\n";
 }
@@ -68,10 +68,10 @@ std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeAdditionT
 	else
 		header_file_class_forward_declarations_ += "    class AstNode_" + token.TokenName + ";\n";
 		
-	header_file_visit_prototypes_ += "        void Visit(AstNode_" + token.TokenName + "& ast_node);\n";
+	header_file_visit_prototypes_ += "        void " + visit_function_prototype(token) + ";\n";
 
 	std::string cases;
-	cases += "void " + language_name_ + "::" + language_name_ + "_AstPrinter::Visit(AstNode_" + token.TokenName + "& ast_node)\n";
+	cases += "void " + language_name_ + "::" + language_name_ + "_AstPrinter::" + visit_function_prototype(token) + "\n";
 	cases += "{\n";
 	cases += PrintAstNode(token) + "\n";
 	if (token.TokenPermission.has_flag(TokenPermission_t::node))
@@ -98,18 +98,21 @@ std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeAdditionT
 std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakePrinterVisit(const Token& token,
 	unsigned token_count)
 {
-	return	"    if (ast_node." + token.TokenName + std::to_string(token_count) + " != nullptr)\n"
+    if (token.TokenPermission.has_flag(TokenPermission_t::node))
+        return "";
+    else
+        return	"    if (ast_node." + token.TokenName + std::to_string(token_count) + "_ != nullptr)\n"
 			"    {\n"
-			"        ast_node." + token.TokenName + std::to_string(token_count) + "->Accept(*this);\n"
+			"        ast_node." + token.TokenName + std::to_string(token_count) + "_->Accept(*this);\n"
 			"    }\n";
 }
 
 std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeVectorVisit(const Token& token,
 	unsigned token_count)
 {
-	return	"    if (ast_node." + token.TokenName + std::to_string(token_count) + " != nullptr)\n"
+	return	"    if (ast_node." + token.TokenName + std::to_string(token_count) + "_ != nullptr)\n"
 			"    {\n"
-			"        for(AstNode_" + token.TokenName + " " + token.TokenName + " : ast_node." + token.TokenName + std::to_string(token_count) + ")\n"
+			"        for(AstNode_" + token.TokenName + "* " + token.TokenName + " : *ast_node." + token.TokenName + std::to_string(token_count) + "_)\n"
 			"        {\n"
 			"            " + token.TokenName + "->Accept(*this);\n"
 			"        }\n"
@@ -135,4 +138,17 @@ void deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::FinishVisitor()
 
 	WriteOutputToFile("./AstNodes/AstVisitor/" + language_name_ + "_AstPrinter.cpp", source_file_);
 	WriteOutputToFile("./AstNodes/AstVisitor/" + language_name_ + "_AstPrinter.h", header_file_);
+}
+
+std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::visit_function_prototype(Token& token)
+{
+    return "Visit(" + CreateAstNodeClassName(token) + "& ast_node)";
+}
+
+std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::CreateAstNodeClassName(Token& token)
+{
+    if (token.TokenType.has_flag(TokenType_t::start))
+        return "AstTree_" + token.TokenName;
+    else
+        return "AstNode_" + token.TokenName;
 }

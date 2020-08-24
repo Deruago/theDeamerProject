@@ -26,13 +26,13 @@ void deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::CreateVisitor()
 					"namespace " + language_name_ + "\n"
 					"{\n";
 	
-	header_file_class_definition_ = "    class " + language_name_ + "_AstVisitor : public AstVisitor\n"
+	header_file_class_definition_ = "    class " + language_name_ + "_AstVisitor : public deamer::AstVisitor\n"
 									"    {\n"
 									"    private:\n"
 									"    protected:\n"
 									"    public:\n"
 									"        " + language_name_ + "_AstVisitor() = default;\n"
-									"        void Dispatch(AstNode& ast_node) override;\n"
+									"        void Dispatch(deamer::AstNode& ast_node) override;\n"
 									"\n";
 	
 	source_file_ = "#include \"./" + language_name_ + "_AstVisitor.h\"\n"
@@ -40,7 +40,7 @@ void deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::CreateVisitor()
 				   "#include \"AstNodes.h\"\n"
 					"\n";
 	
-	source_file_dispatch_ =	"void " + language_name_ + "::" + language_name_ + "_AstVisitor::Dispatch(AstNode& ast_node)\n"
+	source_file_dispatch_ =	"void " + language_name_ + "::" + language_name_ + "_AstVisitor::Dispatch(deamer::AstNode& ast_node)\n"
 							"{\n"
 							"    switch(ast_node.GetAstId())\n"
 							"    {\n";					
@@ -49,7 +49,7 @@ void deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::CreateVisitor()
 void deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::AddToken(Token& token)
 {
 	source_file_dispatch_ += "    case " + language_name_ + "::AstEnum_t::" + token.TokenName + ":\n"
-							"        Visit(static_cast<AstNode_" + token.TokenName + "&>(ast_node));\n"
+							"        Visit(static_cast<" + CreateAstNodeClassName(token) + "&>(ast_node));\n"
 							"        break;\n";
 	source_file_visit_functions += MakeAdditionToSourceFile(token) + "\n";
 }
@@ -61,10 +61,10 @@ std::string deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::MakeAdditionT
 	else
 		header_file_class_forward_declarations_ += "    class AstNode_" + token.TokenName + ";\n";
 	
-	header_file_visit_prototypes_ += "        void Visit(AstNode_" + token.TokenName + "& ast_node);\n";
+	header_file_visit_prototypes_ += "        void " + visit_function_prototype(token) + ";\n";
 	
 	std::string cases;
-	cases += "void " + language_name_ + "::" + language_name_ + "_AstVisitor::Visit(AstNode_" + token.TokenName + "& ast_node)\n";
+	cases += "void " + language_name_ + "::" + language_name_ + "_AstVisitor::" + visit_function_prototype(token) + "\n";
 	cases += "{\n";
 	if (token.TokenPermission.has_flag(TokenPermission_t::node))
 	{
@@ -90,18 +90,21 @@ std::string deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::MakeAdditionT
 std::string deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::MakeDefaultVisit(const Token& token,
 	unsigned token_count)
 {
-	return	"    if (ast_node." + token.TokenName + std::to_string(token_count) + " != nullptr)\n"
+    if (token.TokenPermission.has_flag(TokenPermission_t::node))
+        return "";
+    else
+        return	"    if (ast_node." + token.TokenName + std::to_string(token_count) + "_ != nullptr)\n"
 			"    {\n"
-			"        ast_node." + token.TokenName + std::to_string(token_count) + "->Accept(*this);\n"
+			"        ast_node." + token.TokenName + std::to_string(token_count) + "_->Accept(*this);\n"
 			"    }\n";
 }
 
 std::string deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::MakeVectorVisit(const Token& token,
 	unsigned token_count)
 {
-	return	"    if (ast_node." + token.TokenName + std::to_string(token_count) + " != nullptr)\n"
+	return	"    if (ast_node." + token.TokenName + std::to_string(token_count) + "_ != nullptr)\n"
 			"    {\n"
-			"        for(AstNode_" + token.TokenName + " " + token.TokenName + " : ast_node." + token.TokenName + std::to_string(token_count) + ")\n"
+			"        for(AstNode_" + token.TokenName + "* " + token.TokenName + " : *ast_node." + token.TokenName + std::to_string(token_count) + "_)\n"
 			"        {\n"
 			"            " + token.TokenName + "->Accept(*this);\n"
 			"        }\n"
@@ -112,7 +115,7 @@ void deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::FinishVisitor()
 {
 	header_file_ += header_file_class_forward_declarations_ + "\n" + 
 					header_file_class_definition_ + header_file_visit_prototypes_ + 
-					"    }\n"
+					"    };\n"
 					"}\n"
 					"#endif //ASTNODES_ASTVISITOR_ASTVISITOR_H\n";
 	source_file_dispatch_ += "    }\n"
@@ -122,4 +125,17 @@ void deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::FinishVisitor()
 	
 	WriteOutputToFile("./AstNodes/AstVisitor/" + language_name_ + "_AstVisitor.cpp", source_file_);
 	WriteOutputToFile("./AstNodes/AstVisitor/" + language_name_ + "_AstVisitor.h", header_file_);
+}
+
+std::string deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::visit_function_prototype(Token& token)
+{
+    return "Visit(" + CreateAstNodeClassName(token) + "& ast_node)";
+}
+
+std::string deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::CreateAstNodeClassName(Token& token)
+{
+    if (token.TokenType.has_flag(TokenType_t::start))
+        return "AstTree_" + token.TokenName;
+    else
+        return "AstNode_" + token.TokenName;
 }

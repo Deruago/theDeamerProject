@@ -35,6 +35,9 @@ namespace deamer {
 			std::string MakeVectorVisit(const Token& token, unsigned token_count);
 			std::string PrintAstNode(const Token& token);
 			std::string MakeAdditionToSourceFile(Token& token);
+			
+			std::string CreateAstNodeClassName(Token& token);
+			std::string visit_function_prototype(Token& token);
 		protected:
 		public:
 			AstPrinterVisitorFormatter(const std::string& language_name);
