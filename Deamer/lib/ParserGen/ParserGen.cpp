@@ -46,14 +46,6 @@ void deamer::ParserGen::BuildNodes() const
 	}
 }
 
-void deamer::ParserGen::BuildRulesOfType(Type* type) const
-{
-    for(Rule* rule : type->Rules)
-    {
-        parserBuilder->AddRule(rule);
-    }
-}
-
 void deamer::ParserGen::Build()
 {
     BuildNodes();
@@ -61,10 +53,7 @@ void deamer::ParserGen::Build()
     parserBuilder->StartBuild();
 
 	for(Type* type : langDef->Types)
-	{
         parserBuilder->AddType(type);
-        BuildRulesOfType(type);
-	}
 	
     parserBuilder->FinishBuild();
 }

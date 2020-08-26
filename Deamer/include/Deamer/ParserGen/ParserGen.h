@@ -27,7 +27,6 @@ namespace deamer
             std::string Filename = "parser.y";
             void SetParserBuilder();
             void BuildNodes() const;
-            void BuildRulesOfType(Type* type) const;
         public:
             ParserType_t ParserTarget;
             std::string GetFileLocation() const;
