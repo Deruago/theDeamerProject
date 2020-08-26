@@ -26,7 +26,8 @@ namespace deamer
 		Rule* MakeRule(Token* token) const;
 		Rule* MakeRule(const std::vector<Token*>& tokens) const;
 		Rule* MakeGroupedRule(Token* token) const;
-		deamer::Rule* MakeEmptyRule() const;
+		Rule* MakeEmptyRule() const;
+		Rule* MakeDefaultRule(const std::vector<Token*>& tokens);
 	};
 }
 

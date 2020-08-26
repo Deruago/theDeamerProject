@@ -78,12 +78,19 @@ std::vector<deamer::Rule*> deamer::TypeAnalyzer::GetVectorOfUniqueRulesApplyingI
 deamer::Rule* deamer::TypeAnalyzer::CreateRule_Without_Ignored_Tokens(Rule* rule) const
 {
     std::vector<Token*> tokens;
+    bool encountered_ignorable_token = false;
+	
 	for(Token* token : rule->Tokens)
 	{
-        if (!token->TokenPermission.has_flag(TokenPermission_t::ignore) && !token->TokenType.has_flag(TokenType_t::vector))
+        if (!token->TokenPermission.has_flag(TokenPermission_t::ignore) && token != type_)
             tokens.push_back(token);
+		if (token->TokenPermission.has_flag(TokenPermission_t::ignore))
+            encountered_ignorable_token = true;
 	}
-    return RuleFactory().MakeRule(tokens);
+	if (encountered_ignorable_token)
+        return RuleFactory().MakeDefaultRule(tokens);
+    else
+	    return RuleFactory().MakeRule(tokens);
 }
 
 bool deamer::TypeAnalyzer::IsThisRuleUniqueInVector(const std::vector<Rule*>& rules, const Rule& rule) const

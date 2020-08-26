@@ -44,3 +44,8 @@ deamer::Rule* deamer::RuleFactory::MakeEmptyRule() const
 	return new_empty_rule;
 }
 
+deamer::Rule* deamer::RuleFactory::MakeDefaultRule(const std::vector<Token*>& tokens)
+{
+	return new Rule(tokens);
+}
+
