@@ -35,6 +35,10 @@ void deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::CreateVisitor()
 	header_file_class_definition_ = "    class " + language_name_ + "_AstPrinter : public deamer::AstVisitor\n"
 									"    {\n"
 									"    private:\n"
+									"        unsigned depth = 0;\n"
+									"        unsigned indent_size = 4;\n"
+									"        std::string MakeIndentation();\n"
+									"        std::string MakeIndent();\n"
 									"    protected:\n"
 									"    public:\n"
 									"        " + language_name_ + "_AstPrinter() = default;\n"
@@ -74,6 +78,7 @@ std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeAdditionT
 	cases += "void " + language_name_ + "::" + language_name_ + "_AstPrinter::" + visit_function_prototype(token) + "\n";
 	cases += "{\n";
 	cases += PrintAstNode(token) + "\n";
+	cases += "    depth++;\n";
 	if (token.TokenPermission.has_flag(TokenPermission_t::node))
 	{
 		cases += MakePrinterVisit(token, 1);
@@ -90,13 +95,37 @@ std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeAdditionT
 					cases += MakePrinterVisit(*token_appearance.token, token_count);
 			}
 	}
-
+	
+	cases += "    --depth;\n";
 	cases += "}\n";
 	return cases;
 }
 
+std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeStringBuilderFunctions()
+{
+	return	"std::string " + language_name_ + "::" + language_name_ + "_AstPrinter::MakeIndentation()\n"
+			"{\n"
+			"    std::string indentation;\n"
+			"    for(unsigned i = 0; i < depth; i++)\n"
+			"    {\n"
+			"        indentation += MakeIndent();\n"
+			"    }\n"
+			"    return indentation;\n"
+			"}\n"
+			"\n"
+			"std::string " + language_name_ + "::" + language_name_ + "_AstPrinter::MakeIndent()\n"
+			"{\n"
+			"    std::string indent;\n"
+			"    for(unsigned i = 0; i < indent_size; i++)\n"
+			"    {\n"
+			"        indent += ' ';\n"
+			"    }\n"
+			"    return indent;\n"
+			"}\n";
+}
+
 std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakePrinterVisit(const Token& token,
-	unsigned token_count)
+                                                                                    unsigned token_count)
 {
     if (token.TokenPermission.has_flag(TokenPermission_t::node))
         return "";
@@ -121,7 +150,7 @@ std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeVectorVis
 
 std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::PrintAstNode(const Token& token)
 {
-	return "    std::cout << \"" + token.TokenName + "\" << std::endl;\n";
+	return "    std::cout << MakeIndentation() << \"" + token.TokenName + "\" << std::endl;\n";
 }
 
 void deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::FinishVisitor()
@@ -134,7 +163,7 @@ void deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::FinishVisitor()
 	source_file_dispatch_ += "    }\n"
 		"}\n"
 		"\n";
-	source_file_ += source_file_visit_functions + source_file_dispatch_;
+	source_file_ += source_file_visit_functions + source_file_dispatch_ + MakeStringBuilderFunctions();
 
 	WriteOutputToFile("./AstNodes/AstVisitor/" + language_name_ + "_AstPrinter.cpp", source_file_);
 	WriteOutputToFile("./AstNodes/AstVisitor/" + language_name_ + "_AstPrinter.h", header_file_);
