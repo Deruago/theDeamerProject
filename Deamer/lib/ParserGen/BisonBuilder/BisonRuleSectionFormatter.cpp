@@ -31,7 +31,7 @@ deamer::BisonRuleSectionFormatter::BisonRuleSectionFormatter(const std::string& 
 std::string deamer::BisonRuleSectionFormatter::GetFormattedRuleSection() const
 {
 	//The last ';' is used to correctly end the last type.
-	return ruleDeclarationPart + ';';
+	return ruleDeclarationPart;
 }
 
 void deamer::BisonRuleSectionFormatter::AddFirstType(Type*& type)
@@ -40,6 +40,10 @@ void deamer::BisonRuleSectionFormatter::AddFirstType(Type*& type)
 
 	MakeType(type);
 	ResetTypeInformation(type);
+	for (Rule* rule : type->Rules)
+		AddRule(rule);
+
+	EndLastType();
 }
 
 void deamer::BisonRuleSectionFormatter::MakeType(Type*& type)
@@ -47,17 +51,20 @@ void deamer::BisonRuleSectionFormatter::MakeType(Type*& type)
 	ruleDeclarationPart += type->TokenName + ":\n";
 }
 
-void deamer::BisonRuleSectionFormatter::EndLastType()
-{
-	ruleDeclarationPart += ";\n\n";
-}
-
 void deamer::BisonRuleSectionFormatter::AddType(Type*& type)
 {
-	EndLastType();
 
 	MakeType(type);
 	ResetTypeInformation(type);
+	for (Rule* rule : type->Rules)
+		AddRule(rule);
+	
+	EndLastType();
+}
+
+void deamer::BisonRuleSectionFormatter::EndLastType()
+{
+	ruleDeclarationPart += ";\n\n";
 }
 
 void deamer::BisonRuleSectionFormatter::ResetTypeInformation(Type*& type)
