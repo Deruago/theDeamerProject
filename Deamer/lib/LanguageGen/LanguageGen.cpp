@@ -9,6 +9,7 @@
 
 #include "Deamer/LanguageGen/LanguageGen.h"
 #include <fstream>
+#include <iostream>
 #include <sstream>
 
 deamer::LanguageGen::LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition& languageDefinition)
@@ -87,7 +88,6 @@ void deamer::LanguageGen::CreateDefaultLexerAPI() const
 	std::ostringstream oss0;
 	oss0 << Directory << "Lexer/" << "" << languageDefinition.LanguageName << "Lexer.h";
 	std::ofstream newLexerAPIFile;
-
 	newLexerAPIFile.open(oss0.str(), std::ios_base::app);
 
 	newLexerAPIFile << LexerAPIFile.str() << '\n';
@@ -135,6 +135,10 @@ void deamer::LanguageGen::CreateDefaultParserAPI() const
 
 void deamer::LanguageGen::CreateDefaultCompilerAPIHeader() const
 {
+	const std::string file_location = Directory + languageDefinition.LanguageName + "Compiler.h";
+	if (DoesFileExist(file_location))
+		return;
+	
 	std::ostringstream CompilerAPIHeaderFile;
 	CompilerAPIHeaderFile << "#ifndef " << languageDefinition.LanguageName << "_COMPILERAPIFILE_H\n"
 		<< "#define " << languageDefinition.LanguageName << "_COMPILERAPIFILE_H\n"
@@ -166,11 +170,10 @@ void deamer::LanguageGen::CreateDefaultCompilerAPIHeader() const
 		<< "}\n"
 		<< "\n"
 		<< "#endif //" << languageDefinition.LanguageName << "_COMPILERAPIFILE_H\n";
-	std::ostringstream oss0;
-	oss0 << Directory << languageDefinition.LanguageName << "Compiler.h";
+	
 	std::ofstream newCompilerAPIHeaderFile;
 
-	newCompilerAPIHeaderFile.open(oss0.str(), std::ios_base::app);
+	newCompilerAPIHeaderFile.open(file_location, std::ios_base::app);
 
 	newCompilerAPIHeaderFile << CompilerAPIHeaderFile.str() << '\n';
 
@@ -179,6 +182,11 @@ void deamer::LanguageGen::CreateDefaultCompilerAPIHeader() const
 
 void deamer::LanguageGen::CreateDefaultCompilerAPISource() const
 {
+	const std::string file_location = Directory + languageDefinition.LanguageName + "Compiler.cpp";
+	std::cout << file_location << std::endl;
+	if (DoesFileExist(file_location))
+		return;
+	
 	std::ostringstream CompilerAPISourceFile;
 	CompilerAPISourceFile
 		<< "#include <" << languageDefinition.LanguageName << "Compiler.h>\n"
@@ -204,11 +212,10 @@ void deamer::LanguageGen::CreateDefaultCompilerAPISource() const
 		<< "{\n"
 		<< "    return nullptr;\n"
 		<< "}\n\n";
-	std::ostringstream oss0;
-	oss0 << Directory << languageDefinition.LanguageName << "Compiler.cpp";
+	
 	std::ofstream newCompilerAPISourceFile;
 
-	newCompilerAPISourceFile.open(oss0.str(), std::ios_base::app);
+	newCompilerAPISourceFile.open(file_location.c_str(), std::ios_base::app);
 
 	newCompilerAPISourceFile << CompilerAPISourceFile.str() << '\n';
 
@@ -260,6 +267,14 @@ void deamer::LanguageGen::Compile() const
 	std::system(ossCompileParser.str().c_str());
 	//std::cout << ossCompileParser.str();
 	*/
+}
+
+bool deamer::LanguageGen::DoesFileExist(const std::string& file_location) const
+{
+	std::ifstream open_file(file_location);
+	const bool result = open_file.is_open();
+	open_file.close();
+	return result;
 }
 
 void deamer::LanguageGen::Finish()

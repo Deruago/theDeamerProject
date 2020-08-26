@@ -46,7 +46,8 @@ namespace deamer
             void Build() override;
             void Write() override;
             void Compile() const;
-            void Finish();
+        bool DoesFileExist(const std::string& file_location) const;
+        void Finish();
     };
 }
 
