@@ -77,14 +77,12 @@ std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeAdditionT
 	std::string cases;
 	cases += "void " + language_name_ + "::" + language_name_ + "_AstPrinter::" + visit_function_prototype(token) + "\n";
 	cases += "{\n";
-	cases += PrintAstNode(token) + "\n";
-	cases += "    depth++;\n";
-	if (token.TokenPermission.has_flag(TokenPermission_t::node))
+	cases += PrintAstNode(token);
+	if (!token.TokenPermission.has_flag(TokenPermission_t::node))
 	{
-		cases += MakePrinterVisit(token, 1);
-	}
-	else
-	{
+		cases += "\n";
+		if (!token.TokenType.has_flag(TokenType_t::vector))
+			cases += "    depth++;\n";
 		std::vector<TokenAppearance> token_appearances = TypeAnalyzer(static_cast<Type&>(token)).GetVectorOfMinimalAmountOfTokensUsedDefiningThisType();
 		for (TokenAppearance token_appearance : token_appearances)
 			for (unsigned token_count = 1; token_count <= token_appearance.token_count; token_count++)
@@ -94,9 +92,10 @@ std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeAdditionT
 				else
 					cases += MakePrinterVisit(*token_appearance.token, token_count);
 			}
+
+		if (!token.TokenType.has_flag(TokenType_t::vector))
+			cases += "    --depth;\n";
 	}
-	
-	cases += "    --depth;\n";
 	cases += "}\n";
 	return cases;
 }
@@ -127,10 +126,7 @@ std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeStringBui
 std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakePrinterVisit(const Token& token,
                                                                                     unsigned token_count)
 {
-    if (token.TokenPermission.has_flag(TokenPermission_t::node))
-        return "";
-    else
-        return	"    if (ast_node." + token.TokenName + std::to_string(token_count) + "_ != nullptr)\n"
+    return	"    if (ast_node." + token.TokenName + std::to_string(token_count) + "_ != nullptr)\n"
 			"    {\n"
 			"        ast_node." + token.TokenName + std::to_string(token_count) + "_->Accept(*this);\n"
 			"    }\n";
@@ -150,7 +146,12 @@ std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::MakeVectorVis
 
 std::string deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::PrintAstNode(const Token& token)
 {
-	return "    std::cout << MakeIndentation() << \"" + token.TokenName + "\" << std::endl;\n";
+	if (token.TokenType.has_flag(TokenType_t::vector))
+		return "";
+	else if (token.TokenPermission.has_flag(TokenPermission_t::node))
+		return "    ast_node.PrintNode(depth);\n";
+	else
+		return "    std::cout << MakeIndentation() << \"" + token.TokenName + "\" << std::endl;\n";
 }
 
 void deamer::AstVisitorBuilder::AstPrinterVisitorFormatter::FinishVisitor()
