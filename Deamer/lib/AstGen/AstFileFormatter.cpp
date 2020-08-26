@@ -319,14 +319,13 @@ std::string deamer::AstFileFormatter::MakeStandardInterpreterTypeImplementation(
 {
     return MakeIndentation(2) + MakeFieldNameOfType(token, count_token) + "->Generate(ast_context);\n";
 }
-
 std::string deamer::AstFileFormatter::MakeSpecificConstructors() const
 {
     std::string constructors;
     if (!token_->TokenPermission.has_flag(TokenPermission_t::node))
     {
         Type* tmpType = static_cast<Type*>(token_);
-        for (Rule* rule : tmpType->Rules)
+        for (Rule* rule : TypeAnalyzer(*tmpType).GetVectorOfUniqueRulesApplyingIgnoredTokens())
         {
             if (rule->RuleType.is_flag_not_set(RuleType_t::empty))
                 constructors += MakeAstConstructorFunction(MakeSpecificConstructorPrototypeWithBaseConstructorImplementations(rule), MakeSpecificConstructorImplementation(rule));

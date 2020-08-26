@@ -11,6 +11,7 @@
 #include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
 #include "Deamer/LanguageAnalyzer/LanguageAnalyzer/Datastructures/TokenAppearance.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
+#include "Deamer/LanguageGen/RuleFactory.h"
 #include <vector>
 #include <map>
 #include <iostream>
@@ -59,6 +60,53 @@ std::vector<deamer::TokenAppearance> deamer::TypeAnalyzer::GetVectorOfMinimalAmo
         token_appearances.push_back(token_appearance);
 	}
     return token_appearances;
+}
+
+std::vector<deamer::Rule*> deamer::TypeAnalyzer::GetVectorOfUniqueRulesApplyingIgnoredTokens() const
+{
+    std::vector<Rule*> unique_rules_without_ignored_tokens;
+	for(Rule* tmp_rule : type_->Rules)
+	{
+        auto new_rule = CreateRule_Without_Ignored_Tokens(tmp_rule);
+        if(IsThisRuleUniqueInVector(unique_rules_without_ignored_tokens, *new_rule))
+            unique_rules_without_ignored_tokens.push_back(new_rule);
+	}
+	
+    return unique_rules_without_ignored_tokens;
+}
+
+deamer::Rule* deamer::TypeAnalyzer::CreateRule_Without_Ignored_Tokens(Rule* rule) const
+{
+    std::vector<Token*> tokens;
+	for(Token* token : rule->Tokens)
+	{
+        if (!token->TokenPermission.has_flag(TokenPermission_t::ignore) && !token->TokenType.has_flag(TokenType_t::vector))
+            tokens.push_back(token);
+	}
+    return RuleFactory().MakeRule(tokens);
+}
+
+bool deamer::TypeAnalyzer::IsThisRuleUniqueInVector(const std::vector<Rule*>& rules, const Rule& rule) const
+{
+	for(Rule* unique_rule : rules)
+	{
+        if (AreRulesEqual(*unique_rule, rule))
+            return false;
+	}
+    return true;
+}
+
+bool deamer::TypeAnalyzer::AreRulesEqual(const Rule& rule1, const Rule& rule2) const
+{
+    if (rule1.Tokens.size() != rule2.Tokens.size())
+        return false;
+	
+	for(unsigned i = 0; i < rule1.Tokens.size(); i++)
+	{
+        if (rule1.Tokens[i] != rule2.Tokens[i])
+            return false;
+	}
+    return true;
 }
 
 void deamer::TypeAnalyzer::AddTokenToVectorIfNotAlreadyInVector(std::vector<Token*>& tokens, Token* token) const

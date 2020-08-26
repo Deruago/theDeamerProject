@@ -104,9 +104,9 @@ std::string deamer::AstVisitorBuilder::AstDefaultVisitorFormatter::MakeVectorVis
 {
 	return	"    if (ast_node." + token.TokenName + std::to_string(token_count) + "_ != nullptr)\n"
 			"    {\n"
-			"        for(AstNode_" + token.TokenName + "* " + token.TokenName + " : *ast_node." + token.TokenName + std::to_string(token_count) + "_)\n"
+			"        for(int i = (*ast_node." + token.TokenName + std::to_string(token_count) + "_).size() - 1; i >= 0; i--)\n"
 			"        {\n"
-			"            " + token.TokenName + "->Accept(*this);\n"
+			"            (*ast_node." + token.TokenName + std::to_string(token_count) + "_)[i]->Accept(*this);\n"
 			"        }\n"
 			"    }\n";
 }
