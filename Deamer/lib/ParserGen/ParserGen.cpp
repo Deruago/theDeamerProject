@@ -9,6 +9,7 @@
 
 #include "Deamer/ParserGen/ParserGen.h"
 #include "Deamer/ParserGen/ParserFactory.h"
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
 #include <sstream>
 
 deamer::ParserGen::ParserGen(ParserType_t parserType_t, LanguageDefinition* langDef)
@@ -39,17 +40,17 @@ void deamer::ParserGen::FileTarget(std::string fileTarget)
 
 void deamer::ParserGen::BuildNodes() const
 {
-    for(int i = langDef->Nodes.size() - 1; i >= 0; i--)
-    {
-        parserBuilder->AddNode(langDef->Nodes[i]);
-    }
+	for(Node* node : langDef->Nodes)
+	{
+        parserBuilder->AddNode(node);
+	}
 }
 
 void deamer::ParserGen::BuildRulesOfType(Type* type) const
 {
-    for(int i = type->Rules.size() - 1; i >= 0; i--)
+    for(Rule* rule : type->Rules)
     {
-        parserBuilder->AddRule(type->Rules[i]);
+        parserBuilder->AddRule(rule);
     }
 }
 
@@ -59,11 +60,12 @@ void deamer::ParserGen::Build()
 
     parserBuilder->StartBuild();
 
-    for(int i = langDef->Types.size() - 1; i >= 0; i--)
-    {
-        parserBuilder->AddType(langDef->Types[i]);
-        BuildRulesOfType(langDef->Types[i]);
-    }
+	for(Type* type : langDef->Types)
+	{
+        parserBuilder->AddType(type);
+        BuildRulesOfType(type);
+	}
+	
     parserBuilder->FinishBuild();
 }
 
