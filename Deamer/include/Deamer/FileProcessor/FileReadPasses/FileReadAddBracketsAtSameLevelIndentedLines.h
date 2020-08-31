@@ -25,7 +25,8 @@ namespace deamer
 		FileReadAddBracketsAtSameLevelIndentedLines(const std::string& illegal_characters, const std::string& illegal_block);
 
 		std::vector<std::string> ProcessLines(std::vector<std::string>& lines) const override;
-		void ConvertIndentationToBracketsUsingTheseLines(const unsigned current_line_index, const unsigned last_line_index, std::vector<std::string>& lines) const;
+		unsigned GetLastLineIndentDepthIgnoringIndentedSubBlockLines(const unsigned current_line_index, std::vector<std::string>& lines) const;
+		void ConvertIndentationToBracketsUsingTheseLines(const unsigned current_line_index, const unsigned next_line_index, std::vector<std::string>& lines) const;
 	};
 }
 

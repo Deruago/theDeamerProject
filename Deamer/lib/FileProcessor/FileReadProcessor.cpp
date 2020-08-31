@@ -25,7 +25,7 @@ std::string deamer::FileReadProcessor::ReadFile(const std::string& file_location
 	std::ifstream read_in_file(file_location);
 	const FileReadRemoveUnusedText input_cleaner;
 	const FileReadReplaceIndentationWithBrackets indentation_to_brackets;
-	const FileReadAddBracketsAtSameLevelIndentedLines brackets_at_same_level(":/{}", ":");
+	const FileReadAddBracketsAtSameLevelIndentedLines brackets_at_same_level(":/", ":");
 
 	auto lines = input_cleaner.ProcessFile(read_in_file);
 	lines = indentation_to_brackets.ProcessLines(lines);

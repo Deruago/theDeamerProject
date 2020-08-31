@@ -28,13 +28,34 @@ std::vector<std::string> deamer::FileReadAddBracketsAtSameLevelIndentedLines::Pr
 	return lines;
 }
 
-void deamer::FileReadAddBracketsAtSameLevelIndentedLines::ConvertIndentationToBracketsUsingTheseLines(
-	const unsigned current_line_index, const unsigned last_line_index, std::vector<std::string>& lines) const
+unsigned deamer::FileReadAddBracketsAtSameLevelIndentedLines::GetLastLineIndentDepthIgnoringIndentedSubBlockLines(const unsigned current_line_index, std::vector<std::string>& lines) const
 {
 	const unsigned current_line_indent_depth = GetAmountOfIndentsInLine(lines[current_line_index]);
-	const unsigned last_line_indent_depth = GetAmountOfIndentsInLine(lines[last_line_index]);
+	unsigned previous_line_peek_count = 1;
+	unsigned last_line_indent_depth;
 
-	if (current_line_indent_depth == last_line_indent_depth && LineIsValid(lines[current_line_index]) && BlockIsValidWhereThisLineIsIn(lines, current_line_index))
+	if (current_line_index == 0)
+		last_line_indent_depth = 0;
+	else
+		last_line_indent_depth = GetAmountOfIndentsInLine(lines[current_line_index - previous_line_peek_count]);
+	
+	while(last_line_indent_depth > current_line_indent_depth)
+	{
+		previous_line_peek_count++;
+		last_line_indent_depth = GetAmountOfIndentsInLine(lines[current_line_index - previous_line_peek_count]);		
+	}
+	
+	return last_line_indent_depth;
+}
+
+void deamer::FileReadAddBracketsAtSameLevelIndentedLines::ConvertIndentationToBracketsUsingTheseLines(
+	const unsigned current_line_index, const unsigned next_line_index, std::vector<std::string>& lines) const
+{
+	const unsigned last_line_indent_depth = GetLastLineIndentDepthIgnoringIndentedSubBlockLines(current_line_index, lines);
+	const unsigned current_line_indent_depth = GetAmountOfIndentsInLine(lines[current_line_index]);
+	const unsigned next_line_indent_depth = GetAmountOfIndentsInLine(lines[next_line_index]);
+
+	if ((next_line_indent_depth <= current_line_indent_depth && current_line_indent_depth >= last_line_indent_depth) && LineIsValid(lines[current_line_index]) && BlockIsValidWhereThisLineIsIn(lines, current_line_index))
 		AddOpeningAndClosingBracketsAtEndOfLine(lines[current_line_index]);
 }
 
