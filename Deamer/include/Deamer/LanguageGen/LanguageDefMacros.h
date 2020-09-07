@@ -14,6 +14,7 @@
 
 #define currentLangDef
 #define EMPTY_RULE 
+#define EMPTY
 
 #define GET_MACRO_NODE(_1,_2,_3,_4,NAME,...) NAME
 #define GET_MACRO_TYPE(_1,_2,_3,NAME,...) NAME
@@ -28,7 +29,8 @@
 #define TYPE(...) GET_MACRO_TYPE(__VA_ARGS__, newType2, _1, newType1) (__VA_ARGS__)
 #define STARTTYPE(start_type) deamer::Type* start_type = currentLangDef.AddStartType(#start_type);
 #define GROUPEDTYPE(type) deamer::Type* type = currentLangDef.AddGroupedType(#type);
-#define GROUPTOKENS(grouped_type, ...) deamer::Type* grouped_type = currentLangDef.AddTokensToGroupedType(grouped_type, {__VA_ARGS__});
+#define GROUPTOKENS(grouped_type, ...) currentLangDef.AddTokensToGroupedType(grouped_type, {__VA_ARGS__});
+//#define GROUPTOKENS(grouped_type, ...) deamer::Type* grouped_type = currentLangDef.AddTokensToGroupedType(grouped_type, {__VA_ARGS__});
 
 #define RULE(type, ...) currentLangDef.AddRuleToType(type, {__VA_ARGS__});
 
