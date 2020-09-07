@@ -46,6 +46,8 @@ bool deamer::FileReadMidPass::BlockIsValidWhereThisLineIsIn(const std::vector<st
 {
 	unsigned last_line_depth = GetAmountOfIndentsInLine(lines[line_index]);
 	unsigned tmp_line_index = line_index;
+	if (last_line_depth == 0)
+		return LineIsValid(lines[tmp_line_index]);
 	while(last_line_depth > 0 && tmp_line_index >= 0)
 	{
 		const unsigned line_depth = GetAmountOfIndentsInLine(lines[tmp_line_index]);
@@ -57,7 +59,10 @@ bool deamer::FileReadMidPass::BlockIsValidWhereThisLineIsIn(const std::vector<st
 				return false;
 			}
 		}
-		tmp_line_index--;
+		if (line_depth != 0)
+		{
+			tmp_line_index--;
+		}
 	}
 
 	return LineIsValid(lines[tmp_line_index], illegal_blocks_);
