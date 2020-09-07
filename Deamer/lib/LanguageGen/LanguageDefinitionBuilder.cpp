@@ -57,8 +57,8 @@ void deamer::LanguageDefinitionBuilder::AddTokensToGroupedType(Type* grouped_tok
 	for(Token* single_token : tokens)
 	{
 		AddRuleToType(grouped_token, RuleFactory().MakeGroupedRule(single_token));
-		single_token->BaseTokens.push_back(grouped_token);
-		single_token->BaseGroupTokens.push_back(grouped_token);
+		//single_token->BaseTokens.push_back(grouped_token);
+		//single_token->BaseGroupTokens.push_back(grouped_token);
 	}
 }
 
