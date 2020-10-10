@@ -23,8 +23,8 @@
 #define newType(...) GET_MACRO_TYPE(__VA_ARGS__, newType2, _1, newType1) (__VA_ARGS__)
 
 #define NODE(...) GET_MACRO_NODE(__VA_ARGS__, newNode2, _1, newNode1) (__VA_ARGS__)
-#define IGNORENODE(node, regex) deamer::Node* node = currentLangDef.AddIgnorableNode(#node, #regex);
-#define DELETENODE(node, regex) deamer::Node* node = currentLangDef.AddDeletableNode(#node, #regex);
+#define IGNORENODE(node, regex) deamer::Node* node = currentLangDef.AddIgnorableNode(#node, regex);
+#define DELETENODE(node, regex) deamer::Node* node = currentLangDef.AddDeletableNode(#node, regex);
 
 #define TYPE(...) GET_MACRO_TYPE(__VA_ARGS__, newType2, _1, newType1) (__VA_ARGS__)
 #define STARTTYPE(start_type) deamer::Type* start_type = currentLangDef.AddStartType(#start_type);
@@ -36,10 +36,10 @@
 
 
 #define newNode1(node, regex) \
-deamer::Node* node = currentLangDef.AddNode(#node, #regex);
+deamer::Node* node = currentLangDef.AddNode(#node, regex);
 
 #define newNode2(node, regex, token_type, token_permission) \
-deamer::Node* node = currentLangDef.AddNode(#node, #regex, token_type, token_permission);
+deamer::Node* node = currentLangDef.AddNode(#node, regex, token_type, token_permission);
 
 #define newType1(type) \
 deamer::Type* type = currentLangDef.AddType(#type);

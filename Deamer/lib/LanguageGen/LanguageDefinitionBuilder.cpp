@@ -142,7 +142,21 @@ void deamer::LanguageDefinitionBuilder::SetLanguageName(const std::string& langu
 	_language_definition.LanguageName = language_name;
 }
 
-deamer::LanguageDefinition deamer::LanguageDefinitionBuilder::GetLanguageDefinition() const
+deamer::LanguageDefinition deamer::LanguageDefinitionBuilder::GetLanguageDefinition()
 {
+	if (!LanguageDefinitionContainsStartType())
+	{
+		_language_definition.Types[0]->TokenType.set_flag(TokenType_t::start);
+		_language_definition.StartType = _language_definition.Types[0];
+	}
 	return _language_definition;
+}
+
+bool deamer::LanguageDefinitionBuilder::LanguageDefinitionContainsStartType() const
+{
+	bool contains_start_type = false;
+	for (Type* type_ : _language_definition.Types)
+		if (type_->TokenType.has_flag(TokenType_t::start))
+			contains_start_type = true;
+	return contains_start_type;
 }

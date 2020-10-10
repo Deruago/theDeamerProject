@@ -31,6 +31,8 @@ namespace deamer
 		LanguageDefinition _language_definition = LanguageDefinition();
 		
 		TypeContinuation_t type_continuation = TypeContinuation_t::recursive;
+		
+		bool LanguageDefinitionContainsStartType() const;
 	public:
 		LanguageDefinitionBuilder() = default;
 		LanguageDefinitionBuilder(LanguageDefinition& language_definition);
@@ -55,7 +57,7 @@ namespace deamer
 		void SetTypeContinuation(TypeContinuation_t typeContinuation);
 		void SetLanguageName(const std::string& language_name);
 
-		LanguageDefinition GetLanguageDefinition() const;
+		LanguageDefinition GetLanguageDefinition();
 	};
 }
 
