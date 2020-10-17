@@ -38,7 +38,7 @@ namespace deamer
             AstNode(AstInformation* astInformation, bool isNode, std::string astNodeName); // Is used to initiliase AstEndPoints. (Only endpoints may use this constructor)
         public:
             //virtual void Generate() = 0; // This generates the source code.
-            virtual int GetAstId() = 0;
+            virtual unsigned int GetAstId() = 0;
             void PrintNode(int indent);
             void PrintDirectChildren(int indent);
             void PrintAllChildren();
