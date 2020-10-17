@@ -17,6 +17,8 @@ namespace deamer
 	{
 	private:
 		std::string MakeExecutedCodeForProductionRule() const override;
+		std::string FormatTypeRulePart() const;
+		std::string MakeRuleExecutionPart() const;
 	public:
 		BisonEmptyRuleFormatter(std::string& languageName, unsigned currentLineNumber, bool isFirstType, Type* currentType, Rule* currentRule);
 	};

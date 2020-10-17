@@ -19,5 +19,15 @@ std::string deamer::BisonEmptyRuleFormatter::MakeExecutedCodeForProductionRule()
 	if (CurrentType->TokenType.has_flag(TokenType_t::vector))
 		return "          $$ = new std::vector<" + TypeToClassName(CurrentType) + "*>();\n";
 	else
-		return "";
+		return FormatTypeRulePart();
+}
+
+std::string deamer::BisonEmptyRuleFormatter::FormatTypeRulePart() const
+{
+	return MakeRuleExecutionPart() + MakeOutputCodeWhenNodeIsStartType();
+}
+
+std::string deamer::BisonEmptyRuleFormatter::MakeRuleExecutionPart() const
+{
+	return MakeAstType(LanguageName) + AddArgumentsToAstType(LanguageName);
 }
