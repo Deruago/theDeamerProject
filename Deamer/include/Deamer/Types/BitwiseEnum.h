@@ -4,6 +4,7 @@
  *
  * Modified:
  * -July 2020 Thimo Böhmer
+ * -October 2020 Thimo Böhmer
  */
 
 /*
@@ -15,6 +16,7 @@
 
 #ifndef DEAMER_TYPES_BITWISEENUM_H
 #define DEAMER_TYPES_BITWISEENUM_H
+#include <string>
 #include <vector>
 
 template<class T>
@@ -24,6 +26,8 @@ public:
 	unsigned bitwise_value = 0;
 
 	unsigned value() const;
+	T enum_value() const;
+	unsigned active_flags() const;
 	unsigned operator()() const;
 
 	void operator=(T b);
@@ -140,6 +144,25 @@ template <class T>
 unsigned BitwiseEnum<T>::value() const
 {
 	return bitwise_value;
+}
+
+template <class T>
+T BitwiseEnum<T>::enum_value() const
+{
+	return static_cast<T>(value());
+}
+
+template <class T>
+unsigned BitwiseEnum<T>::active_flags() const
+{
+	unsigned tmp_value = value();
+	unsigned active_flags_ = 0;
+	while (tmp_value != 0)
+	{
+		active_flags_ += tmp_value & 1;
+		tmp_value >>= 1;
+	}
+	return active_flags_;
 }
 
 template <class T>
