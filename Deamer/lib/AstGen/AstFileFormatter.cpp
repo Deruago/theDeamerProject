@@ -75,13 +75,10 @@ std::string deamer::AstFileFormatter::MakeIncludeSectionSourceAstDependencies() 
 std::string deamer::AstFileFormatter::MakeIncludeSectionHeaderAstDependencies() const
 {
     std::string tmpHeaderIncludes;
-    if (!token_->TokenPermission.has_flag(TokenPermission_t::node))
-    {
-        Type* tmpType = static_cast<Type*>(token_);
-        for (Token* base_token : tmpType->BaseTokens)
-                tmpHeaderIncludes += MakeIncludeHeader(MakeClassName(base_token));
-    }
-    return tmpHeaderIncludes;
+    for (Token* base_token : token_->BaseTokens)
+            tmpHeaderIncludes += MakeIncludeHeader(MakeClassName(base_token));
+
+	return tmpHeaderIncludes;
 }
 
 std::string deamer::AstFileFormatter::MakeForwardDeclaration(deamer::Token* token_unique) const
@@ -245,7 +242,7 @@ std::string deamer::AstFileFormatter::IsTokenNodeString() const
 
 std::string deamer::AstFileFormatter::MakeGetAstIdPrototype() const
 {
-    return "int " + language_name_ + "::" + MakeClassName(token_) + "::GetAstId()";
+    return "unsigned int " + language_name_ + "::" + MakeClassName(token_) + "::GetAstId()";
 }
 
 std::string deamer::AstFileFormatter::MakeInterpreterFunctionPrototype() const
@@ -327,8 +324,7 @@ std::string deamer::AstFileFormatter::MakeSpecificConstructors() const
         Type* tmpType = static_cast<Type*>(token_);
         for (Rule* rule : TypeAnalyzer(*tmpType).GetVectorOfUniqueRulesApplyingIgnoredTokens())
         {
-            if (rule->RuleType.is_flag_not_set(RuleType_t::empty))
-                constructors += MakeAstConstructorFunction(MakeSpecificConstructorPrototypeWithBaseConstructorImplementations(rule), MakeSpecificConstructorImplementation(rule));
+            constructors += MakeAstConstructorFunction(MakeSpecificConstructorPrototypeWithBaseConstructorImplementations(rule), MakeSpecificConstructorImplementation(rule));
         }
     }
     return constructors;

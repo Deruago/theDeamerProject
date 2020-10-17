@@ -218,7 +218,7 @@ std::string deamer::AstInterpreterBuilder::AstNodeHeaderFormatter::MakeHeaderBas
 
 std::string deamer::AstInterpreterBuilder::AstNodeHeaderFormatter::MakeHeaderAstIdPrototype() const
 {
-	return MakeHeaderPrototype("int GetAstId() override");
+	return MakeHeaderPrototype("unsigned int GetAstId() override");
 }
 
 std::string deamer::AstInterpreterBuilder::AstNodeHeaderFormatter::MakeHeaderSystemPrototypes() const

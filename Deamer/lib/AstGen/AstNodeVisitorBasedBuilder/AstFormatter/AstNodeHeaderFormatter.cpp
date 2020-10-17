@@ -140,8 +140,7 @@ std::string deamer::AstVisitorBuilder::AstNodeHeaderFormatter::MakeHeaderSpecifi
 		Type* tmpType = static_cast<Type*>(token_);
 		for (Rule* rule : TypeAnalyzer(*tmpType).GetVectorOfUniqueRulesApplyingIgnoredTokens())
 		{
-			if (rule->RuleType.is_flag_not_set(RuleType_t::empty))
-				constructors += MakeHeaderPrototype(MakeSpecificConstructorPrototype(rule));
+			constructors += MakeHeaderPrototype(MakeSpecificConstructorPrototype(rule));
 		}
 	}
 	return constructors;
@@ -217,7 +216,7 @@ std::string deamer::AstVisitorBuilder::AstNodeHeaderFormatter::MakeHeaderBasePro
 
 std::string deamer::AstVisitorBuilder::AstNodeHeaderFormatter::MakeHeaderAstIdPrototype() const
 {
-	return MakeHeaderPrototype("int GetAstId() override");
+	return MakeHeaderPrototype("unsigned int GetAstId() override");
 }
 
 std::string deamer::AstVisitorBuilder::AstNodeHeaderFormatter::MakeHeaderSystemPrototypes() const
