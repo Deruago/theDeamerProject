@@ -84,3 +84,8 @@ std::string deamer::AstNode::CreateIndent(int indent)
     }
     return oss.str();
 }
+
+std::string deamer::AstNode::GetValue() const
+{
+    return AstInfo->ValueName;
+}

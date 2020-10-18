@@ -42,6 +42,7 @@ namespace deamer
             void PrintNode(int indent);
             void PrintDirectChildren(int indent);
             void PrintAllChildren();
+            std::string GetValue() const;
     };
 }
 
