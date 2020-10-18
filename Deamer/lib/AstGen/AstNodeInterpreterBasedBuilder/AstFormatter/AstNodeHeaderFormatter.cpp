@@ -177,7 +177,7 @@ std::string deamer::AstInterpreterBuilder::AstNodeHeaderFormatter::MakeFieldsFro
 {
 	std::string fields;
 	for(unsigned i = 1; i <= token_appearance.token_count; i++)
-		fields += MakeHeaderField(MakeClassFieldType(token_appearance) + "* " + MakeClassFieldName(token_appearance, i));
+		fields += MakeHeaderField(MakeClassFieldType(token_appearance) + "* " + MakeClassFieldName(token_appearance, i) + " = nullptr");
 	
 	return fields;
 }
