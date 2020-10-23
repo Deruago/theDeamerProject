@@ -18,7 +18,7 @@ Installing the library is as simple as running the following commands:
 
 - ```
   mkdir DeamerProject
-  cd DeamerProject
+  cd ./DeamerProject
   ```
 
 - ```
@@ -26,5 +26,6 @@ Installing the library is as simple as running the following commands:
   ```
 
 - ```
+  cd ./Deamer
   sudo make install
   ```
