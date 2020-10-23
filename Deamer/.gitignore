@@ -11,3 +11,5 @@ DeamerProject/*
 *.gch
 *.*/
 .*/
+/.dep
+/.obj
