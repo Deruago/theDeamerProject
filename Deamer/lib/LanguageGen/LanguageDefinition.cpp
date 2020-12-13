@@ -18,9 +18,9 @@ void deamer::LanguageDefinition::IncreaseReferenceCounterOfTokensUsedInRule(cons
         token->AddReferenceToTokenThatUsesThisToken();
 }
 
+
 deamer::LanguageDefinition::~LanguageDefinition()
 {
-	/*
 	for (const auto* node : Nodes)
 		delete node;
 
@@ -29,27 +29,30 @@ deamer::LanguageDefinition::~LanguageDefinition()
 
 	for (const auto* rule : Rules)
 		delete rule;
-	*/
 }
 
 void deamer::LanguageDefinition::AddNode(Node* newNode)
 {
-	Nodes.push_back(newNode);
+	if (!IsNodeInVector(newNode))
+		Nodes.push_back(newNode);
 }
 
 void deamer::LanguageDefinition::AddIgnoredNode(Node* newNode)
 {
-	IgnoreNodes.push_back(newNode);
+	if (!IsIgnoredNodeInVector(newNode))
+		IgnoreNodes.push_back(newNode);
 }
 
 void deamer::LanguageDefinition::AddType(Type* newType)
 {
-	Types.push_back(newType);
+	if (!IsTypeInVector(newType))
+		Types.push_back(newType);
 }
 
 void deamer::LanguageDefinition::AddRule(Rule* newRule)
 {
-	Rules.push_back(newRule);
+	if (!IsRuleInVector(newRule))
+		Rules.push_back(newRule);
 }
 
 void deamer::LanguageDefinition::RemoveType(Type* type)
@@ -107,4 +110,36 @@ const std::vector<deamer::Type*>& deamer::LanguageDefinition::GetTypes() const
 const std::vector<deamer::Rule*>& deamer::LanguageDefinition::GetRules() const
 {
 	return Rules;
+}
+
+bool deamer::LanguageDefinition::IsNodeInVector(const Node* node) const
+{
+	for (auto* const node_ : Nodes)
+		if (node_ == node)
+			return true;
+	return false;
+}
+
+bool deamer::LanguageDefinition::IsIgnoredNodeInVector(const Node* node) const
+{
+	for (auto* const node_ : IgnoreNodes)
+		if (node_ == node)
+			return true;
+	return false;
+}
+
+bool deamer::LanguageDefinition::IsTypeInVector(const Type* type) const
+{
+	for (auto* const type_ : Types)
+		if (type_ == type)
+			return true;
+	return false;
+}
+
+bool deamer::LanguageDefinition::IsRuleInVector(const Rule* rule) const
+{
+	for (auto* const rule_ : Rules)
+		if (rule_ == rule)
+			return true;
+	return false;
 }

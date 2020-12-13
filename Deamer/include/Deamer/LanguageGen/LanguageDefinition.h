@@ -33,6 +33,11 @@ namespace deamer
         std::vector<Node*> IgnoreNodes;
         std::vector<Type*> Types;
         std::vector<Rule*> Rules;
+
+        bool IsNodeInVector(const Node* node) const;
+        bool IsIgnoredNodeInVector(const Node* node) const;
+        bool IsTypeInVector(const Type* type) const;
+    	bool IsRuleInVector(const Rule* rule) const;
     public:
         LanguageDefinition() = default;
         ~LanguageDefinition();
