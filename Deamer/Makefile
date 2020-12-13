@@ -23,8 +23,11 @@ all: $(OBJS)
 
 .SECONDEXPANSION:
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $$(@D)
+ifdef debug
+	$(COMPILER) $(CPPFLAGS) $(CXXFLAGS) -g -o $@ -c $<	
+else
 	$(COMPILER) $(CPPFLAGS) $(CXXFLAGS) -o $@ -c $<
-
+endif
 $(TREE): %:
 	mkdir -p $@
 	mkdir -p $(@:$(OBJDIR)%=$(DEPDIR)%)
