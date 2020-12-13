@@ -14,30 +14,35 @@
 #include "Deamer/ParserGen/ParserBuilder.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
+#include "Deamer/Types/SmartPointer/BaseAutoPtr.h"
 #include <string>
+
 
 namespace deamer
 {
     class ParserGen : public Generator
     {
-        private:
-            ParserBuilder* parserBuilder;
-            LanguageDefinition* langDef;
-            std::string Directory;
-            std::string Filename = "parser.y";
-            void SetParserBuilder();
-            void BuildNodes() const;
-        public:
-            ParserType_t ParserTarget;
-            std::string GetFileLocation() const;
-            std::string GetDirectoryLocation() const;
-            ParserGen(ParserType_t parserTarget, LanguageDefinition* langDef);
-            void DirTarget(std::string dirTarget) override;
-            void FileTarget(std::string fileTarget) override;
-            void SetTarget(ParserType_t parserTarget);
-            void Build() override;
-            void Write() override;
-            void SetLangDef(LanguageDefinition* langDef);
+    private:
+        std::string Directory;
+        std::string Filename = "parser.y";
+    	
+    	ParserType_t ParserTarget;
+        LanguageDefinition* langDef;
+        BaseAutoPtr<ParserBuilder> parserBuilder;
+
+    	void BuildNodes() const;
+    public:
+        ParserGen(ParserType_t parserTarget, LanguageDefinition* langDef);
+        virtual ~ParserGen() = default;
+    	
+        std::string GetFileLocation() const;
+        std::string GetDirectoryLocation() const;
+
+    	void DirTarget(std::string dirTarget) override;
+        void FileTarget(std::string fileTarget) override;
+        void SetTarget(ParserType_t parserTarget);
+        void Build() override;
+        void Write() override;
     };
 }
 

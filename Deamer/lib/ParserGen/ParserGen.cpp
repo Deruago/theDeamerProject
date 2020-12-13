@@ -13,10 +13,10 @@
 #include <sstream>
 
 deamer::ParserGen::ParserGen(ParserType_t parserType_t, LanguageDefinition* langDef)
+		:   ParserTarget(parserType_t),
+			langDef(langDef),
+			parserBuilder(ParserFactory().MakeParser(parserType_t, langDef))
 {
-    ParserGen::langDef = langDef;
-    ParserTarget = parserType_t;
-    parserBuilder = ParserFactory().MakeParser(parserType_t, langDef);
 }
 
 void deamer::ParserGen::SetTarget(ParserType_t parserType_t)

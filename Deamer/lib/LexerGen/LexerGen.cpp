@@ -11,11 +11,11 @@
 #include "Deamer/LexerGen/LexerFactory.h"
 #include <sstream>
 
-deamer::LexerGen::LexerGen(const LexerType_t LexerType_t, LanguageDefinition* langDef)
+deamer::LexerGen::LexerGen(const LexerType_t LexerTarget, LanguageDefinition* languageDefinition)
+		:   LexerTarget(LexerTarget),
+			langDef(languageDefinition),
+			lexerBuilder(LexerFactory().MakeLexerUseRecursiveBasedDS(LexerTarget, languageDefinition))
 {
-    LexerGen::langDef = langDef;
-    LexerTarget = LexerType_t;
-    lexerBuilder = LexerFactory().MakeLexerUseRecursiveBasedDS(LexerType_t, langDef);
 }
 
 void deamer::LexerGen::SetTarget(LexerType_t LexerType_t)

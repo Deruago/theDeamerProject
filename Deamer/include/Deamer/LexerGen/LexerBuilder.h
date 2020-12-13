@@ -20,20 +20,20 @@ namespace deamer
 {
     class LexerBuilder : public Builder
     {
-        protected:
-            LexerType_t LexerType;
-            LexerBuilder();
-            LexerBuilder(std::string fileName);
-        public:
-            LanguageDefinition* langDef;
-            
-            virtual void AddNode(Node* node) = 0; // Writes the node to the file
-            virtual void AddIgnoreNode(Node* node) = 0;
-            virtual void AddDeleteNode(Node* node) = 0;
+    protected:
+        LexerType_t LexerType;
+        LanguageDefinition* langDef;
+    	
+        LexerBuilder();
+    public:
+        virtual ~LexerBuilder() = default;
+        
+        virtual void AddNode(Node* node) = 0; // Writes the node to the file
+        virtual void AddIgnoreNode(Node* node) = 0;
+        virtual void AddDeleteNode(Node* node) = 0;
 
-            virtual bool StartBuild() = 0;
-            virtual bool FinishBuild() = 0;
-            LexerType_t GetLexerTarget();
+        virtual bool StartBuild() = 0;
+        virtual bool FinishBuild() = 0;
     };
 }
 

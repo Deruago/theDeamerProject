@@ -23,18 +23,20 @@ namespace deamer
 	
     class ParserBuilder : public Builder
     {
-        protected:
-            ParserType_t parserType;
-            ParserBuilder();
-            ParserBuilder(std::string fileName);
-        public:
-            LanguageDefinition* langDef;
-            virtual void AddNode(Node* node) = 0; // Writes the node to the file
-            virtual void AddType(Type* type) = 0; // Writes the type to the file
-            virtual void AddRule(Rule* rule) = 0; // Writes the rule to the file, Note: Type already includes rules so this could be unneccessary
-            virtual bool StartBuild() = 0;
-            virtual bool FinishBuild() = 0;
-            ParserType_t GetParserTarget();
+    protected:
+        ParserType_t parserType;
+
+    	ParserBuilder();
+    public:
+        virtual ~ParserBuilder() = default;
+
+    	LanguageDefinition* langDef;
+
+    	virtual void AddNode(Node* node) = 0; // Writes the node to the file
+        virtual void AddType(Type* type) = 0; // Writes the type to the file
+        virtual void AddRule(Rule* rule) = 0; // Writes the rule to the file, Note: Type already includes rules so this could be unneccessary
+        virtual bool StartBuild() = 0;
+        virtual bool FinishBuild() = 0;
     };
 }
 

@@ -14,28 +14,32 @@
 #include "Deamer/LexerGen/LexerBuilder.h"
 #include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
+#include "Deamer/Types/SmartPointer/BaseAutoPtr.h"
 #include <string>
 
 namespace deamer
 {
     class LexerGen : public Generator
     {
-        private:
-            LexerBuilder* lexerBuilder;
-            LanguageDefinition* langDef;
-            std::string Directory;
-            std::string Filename = "lexer.l";
-        public:
-            LexerType_t LexerTarget;
-            std::string GetFileLocation() const;
-            std::string GetDirectoryLocation() const;
-            LexerGen(LexerType_t LexerTarget, LanguageDefinition* langDef);
-            void DirTarget(std::string dirTarget) override;
-            void FileTarget(std::string fileTarget) override;
-            void SetTarget(LexerType_t LexerTarget);
-            void Build() override;
-            void Write() override;
-            void SetLangDef(LanguageDefinition* langDef);
+    private:
+        std::string Directory;
+        std::string Filename = "lexer.l";
+
+        LexerType_t LexerTarget;
+    	LanguageDefinition* langDef;
+        BaseAutoPtr<LexerBuilder> lexerBuilder;
+    public:
+        LexerGen(LexerType_t LexerTarget, LanguageDefinition* languageDefinition);
+        virtual ~LexerGen() = default;
+    	
+    	std::string GetFileLocation() const;
+        std::string GetDirectoryLocation() const;
+
+    	void DirTarget(std::string dirTarget) override;
+        void FileTarget(std::string fileTarget) override;
+        void SetTarget(LexerType_t LexerTarget);
+        void Build() override;
+        void Write() override;
     };
 }
 
