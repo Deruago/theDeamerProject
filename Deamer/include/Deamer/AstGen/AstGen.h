@@ -25,7 +25,7 @@ namespace deamer
     {
         private:
             std::unique_ptr<AstBuilder> astBuilder;
-            LanguageDefinition language_definition_;
+            const LanguageDefinition& language_definition_;
         public:
             AstGen(const LanguageDefinition& language_definition, AstBuilderType ast_builder_type);
             //AstGen(std::string dirTarget);

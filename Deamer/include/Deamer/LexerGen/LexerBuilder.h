@@ -22,9 +22,9 @@ namespace deamer
     {
     protected:
         LexerType_t LexerType;
-        LanguageDefinition* langDef;
+        const LanguageDefinition* langDef;
     	
-        LexerBuilder();
+        LexerBuilder(const LanguageDefinition* languageDefinition);
     public:
         virtual ~LexerBuilder() = default;
         

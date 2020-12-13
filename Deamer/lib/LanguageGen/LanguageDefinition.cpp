@@ -12,10 +12,44 @@
 #include <algorithm>
 #include <utility>
 
-void deamer::LanguageDefinition::IncreaseReferenceCounterOfTokensUsedInRule(std::vector<Token*> tokens)
+void deamer::LanguageDefinition::IncreaseReferenceCounterOfTokensUsedInRule(const std::vector<Token*>& tokens)
 {
-	for(Token* token : tokens)
+	for(auto* token : tokens)
         token->AddReferenceToTokenThatUsesThisToken();
+}
+
+deamer::LanguageDefinition::~LanguageDefinition()
+{
+	/*
+	for (const auto* node : Nodes)
+		delete node;
+
+	for (const auto* type : Types)
+		delete type;
+
+	for (const auto* rule : Rules)
+		delete rule;
+	*/
+}
+
+void deamer::LanguageDefinition::AddNode(Node* newNode)
+{
+	Nodes.push_back(newNode);
+}
+
+void deamer::LanguageDefinition::AddIgnoredNode(Node* newNode)
+{
+	IgnoreNodes.push_back(newNode);
+}
+
+void deamer::LanguageDefinition::AddType(Type* newType)
+{
+	Types.push_back(newType);
+}
+
+void deamer::LanguageDefinition::AddRule(Rule* newRule)
+{
+	Rules.push_back(newRule);
 }
 
 void deamer::LanguageDefinition::RemoveType(Type* type)
@@ -53,4 +87,24 @@ void deamer::LanguageDefinition::RemoveNode(Node* node)
 		else
 			IgnoreNodes.erase(std::remove(IgnoreNodes.begin(), IgnoreNodes.end(), node), IgnoreNodes.end());
 	}
+}
+
+const std::vector<deamer::Node*>& deamer::LanguageDefinition::GetNodes() const
+{
+	return Nodes;
+}
+
+const std::vector<deamer::Node*>& deamer::LanguageDefinition::GetIgnoreNodes() const
+{
+	return IgnoreNodes;
+}
+
+const std::vector<deamer::Type*>& deamer::LanguageDefinition::GetTypes() const
+{
+	return Types;
+}
+
+const std::vector<deamer::Rule*>& deamer::LanguageDefinition::GetRules() const
+{
+	return Rules;
 }

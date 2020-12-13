@@ -26,10 +26,10 @@ namespace deamer
         std::string Filename = "lexer.l";
 
         LexerType_t LexerTarget;
-    	LanguageDefinition* langDef;
+    	const LanguageDefinition* langDef;
         BaseAutoPtr<LexerBuilder> lexerBuilder;
     public:
-        LexerGen(LexerType_t LexerTarget, LanguageDefinition* languageDefinition);
+        LexerGen(LexerType_t LexerTarget, const LanguageDefinition* languageDefinition);
         virtual ~LexerGen() = default;
     	
     	std::string GetFileLocation() const;

@@ -17,14 +17,13 @@ namespace deamer
 {
     class DlexBuilder : public LexerBuilder
     {
-        public:
-            DlexBuilder();
-            DlexBuilder(LanguageDefinition* langDef);
-            void AddNode(Node* node) override;
-            void AddIgnoreNode(Node* node) override;
-            void AddDeleteNode(Node* node) override;
-            bool FinishBuild() override;
-            bool StartBuild() override;
+    public:
+        DlexBuilder(const LanguageDefinition* langDef);
+        void AddNode(Node* node) override;
+        void AddIgnoreNode(Node* node) override;
+        void AddDeleteNode(Node* node) override;
+        bool FinishBuild() override;
+        bool StartBuild() override;
     };
 }
 

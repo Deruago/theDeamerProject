@@ -12,7 +12,7 @@
 #include "Deamer/LexerGen/FlexBuilder/FlexBuilder.h"
 #include "Deamer/LexerGen/DLexBuilder/DlexBuilder.h"
 
-deamer::LexerBuilder* deamer::LexerFactory::MakeLexerUseRecursiveBasedDS(LexerType_t lexerType_t, LanguageDefinition* langDef) const
+deamer::LexerBuilder* deamer::LexerFactory::MakeLexerUseRecursiveBasedDS(LexerType_t lexerType_t, const LanguageDefinition* langDef) const
 {
     switch(lexerType_t)
     {

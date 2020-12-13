@@ -28,6 +28,7 @@ namespace deamer
         public:
             Rule() = default;
             Rule(const std::vector<Token*>& tokens);
+            virtual ~Rule() = default;
 
     		std::vector<Token*> Tokens;
             BitwiseEnum<RuleType_t> RuleType;

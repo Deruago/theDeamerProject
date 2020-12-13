@@ -32,6 +32,8 @@ namespace deamer
         Token() = default;
         Token(const std::string& tokenName, const BitwiseEnum<TokenType_t> tokenType, const BitwiseEnum<TokenPermission_t> tokenPermission);
     public:
+        virtual ~Token() = default;
+		
 		std::string TokenName;
 
 		unsigned TotalAmountOfTypesThatUsesThisToken = 0;

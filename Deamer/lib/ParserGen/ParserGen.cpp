@@ -12,7 +12,7 @@
 #include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
 #include <sstream>
 
-deamer::ParserGen::ParserGen(ParserType_t parserType_t, LanguageDefinition* langDef)
+deamer::ParserGen::ParserGen(ParserType_t parserType_t, const LanguageDefinition* langDef)
 		:   ParserTarget(parserType_t),
 			langDef(langDef),
 			parserBuilder(ParserFactory().MakeParser(parserType_t, langDef))
@@ -40,7 +40,7 @@ void deamer::ParserGen::FileTarget(std::string fileTarget)
 
 void deamer::ParserGen::BuildNodes() const
 {
-	for(Node* node : langDef->Nodes)
+	for(Node* node : langDef->GetNodes())
 	{
         parserBuilder->AddNode(node);
 	}
@@ -52,7 +52,7 @@ void deamer::ParserGen::Build()
 
     parserBuilder->StartBuild();
 
-	for(Type* type : langDef->Types)
+	for(Type* type : langDef->GetTypes())
         parserBuilder->AddType(type);
 	
     parserBuilder->FinishBuild();

@@ -29,7 +29,7 @@ namespace deamer
 		Type* firstType;
 		bool IsTypeFirstType(Type* type) const;
 	public:
-		BisonBuilder(LanguageDefinition* langDef);
+		BisonBuilder(const LanguageDefinition* langDef);
 		~BisonBuilder() = default;
 		void AddNode(Node* node) override;
 		void AddType(Type* type) override;

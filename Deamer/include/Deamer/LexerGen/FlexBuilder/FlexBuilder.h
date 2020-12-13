@@ -17,23 +17,22 @@ namespace deamer
 {
     class FlexBuilder : public LexerBuilder
     {
-        private:
-	        std::string declarationPart;
-	        std::string regexDeclarationPart;
-	        std::string tokenDeclarationPart;
-	        std::string functionPart;
-	    protected:
-			virtual std::string NewNodeFunctionalData(Node* node) const;
-        public:
-            FlexBuilder();
-            FlexBuilder(LanguageDefinition* langDef);
-            
-            void AddNode(Node* node) override;
-            void AddIgnoreNode(Node* node) override;
-            void AddDeleteNode(Node* node) override;
+    private:
+        std::string declarationPart;
+        std::string regexDeclarationPart;
+        std::string tokenDeclarationPart;
+        std::string functionPart;
+    protected:
+		virtual std::string NewNodeFunctionalData(Node* node) const;
+    public:
+        FlexBuilder(const LanguageDefinition* langDef);
+        
+        void AddNode(Node* node) override;
+        void AddIgnoreNode(Node* node) override;
+        void AddDeleteNode(Node* node) override;
 
-            bool FinishBuild()  override;
-            bool StartBuild() override;
+        bool FinishBuild()  override;
+        bool StartBuild() override;
     };
 }
 

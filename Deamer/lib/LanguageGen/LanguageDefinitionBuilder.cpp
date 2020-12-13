@@ -12,17 +12,18 @@
 #include "Deamer/LanguageGen/UngroupableRuleExeption.h"
 #include "Deamer/LanguageAnalyzer/LanguageAnalyzer/RuleAnalyzer.h"
 
-deamer::LanguageDefinitionBuilder::LanguageDefinitionBuilder(LanguageDefinition& language_definition)
+
+deamer::LanguageDefinitionBuilder::LanguageDefinitionBuilder()
 {
-	_language_definition = language_definition;
+	_language_definition = new LanguageDefinition();
 }
 
-void deamer::LanguageDefinitionBuilder::AddType(Type* type)
+void deamer::LanguageDefinitionBuilder::AddType(Type* type) const
 {
-	_language_definition.Types.push_back(type);
+	_language_definition->AddType(type);
 }
 
-deamer::Type* deamer::LanguageDefinitionBuilder::AddType(const std::string& tokenName)
+deamer::Type* deamer::LanguageDefinitionBuilder::AddType(const std::string& tokenName) const
 {
 	Type* new_type = TokenFactory().MakeType(tokenName);
 	AddType(new_type);
@@ -30,29 +31,29 @@ deamer::Type* deamer::LanguageDefinitionBuilder::AddType(const std::string& toke
 }
 
 deamer::Type* deamer::LanguageDefinitionBuilder::AddType(const std::string& tokenName,
-	BitwiseEnum<TokenType_t> tokenType, BitwiseEnum<TokenPermission_t> tokenPermission)
+	BitwiseEnum<TokenType_t> tokenType, BitwiseEnum<TokenPermission_t> tokenPermission) const
 {
 	Type* new_type = TokenFactory().MakeType(tokenName, tokenType, tokenPermission);
 	AddType(new_type);
 	return new_type;
 }
 
-deamer::Type* deamer::LanguageDefinitionBuilder::AddStartType(const std::string& tokenName)
+deamer::Type* deamer::LanguageDefinitionBuilder::AddStartType(const std::string& tokenName) const
 {
 	Type* new_start_type = TokenFactory().MakeStartType(tokenName);
 	AddType(new_start_type);
-	_language_definition.StartType = new_start_type;
+	_language_definition->StartType = new_start_type;
 	return new_start_type;
 }
 
-deamer::Type* deamer::LanguageDefinitionBuilder::AddGroupedType(const std::string& tokenName)
+deamer::Type* deamer::LanguageDefinitionBuilder::AddGroupedType(const std::string& tokenName) const
 {
 	Type* new_type = TokenFactory().MakeGroupedType(tokenName);
 	AddType(new_type);
 	return new_type;
 }
 
-void deamer::LanguageDefinitionBuilder::AddTokensToGroupedType(Type* grouped_token, std::vector<Token*> tokens)
+void deamer::LanguageDefinitionBuilder::AddTokensToGroupedType(Type* grouped_token, std::vector<Token*> tokens) const
 {
 	for(Token* single_token : tokens)
 	{
@@ -62,20 +63,20 @@ void deamer::LanguageDefinitionBuilder::AddTokensToGroupedType(Type* grouped_tok
 	}
 }
 
-void deamer::LanguageDefinitionBuilder::AddNode(Node* node)
+void deamer::LanguageDefinitionBuilder::AddNode(Node* node) const
 {
-	_language_definition.Nodes.push_back(node);
+	_language_definition->AddNode(node);
 }
 
-deamer::Node* deamer::LanguageDefinitionBuilder::AddNode(const std::string& tokenName, const std::string& regex)
+deamer::Node* deamer::LanguageDefinitionBuilder::AddNode(const std::string& tokenName, const std::string& regex) const
 {
 	Node* new_node = TokenFactory().MakeNode(tokenName, regex);
-	_language_definition.Nodes.push_back(new_node);
+	_language_definition->AddNode(new_node);
 	return new_node;
 }
 
 deamer::Node* deamer::LanguageDefinitionBuilder::AddNode(const std::string& tokenName, const std::string& regex,
-	BitwiseEnum<TokenType_t> tokenType, BitwiseEnum<TokenPermission_t> tokenPermission)
+	BitwiseEnum<TokenType_t> tokenType, BitwiseEnum<TokenPermission_t> tokenPermission) const
 {
 	Node* new_node = TokenFactory().MakeNode(tokenName, regex, tokenType, tokenPermission);
 	AddNode(new_node);
@@ -83,7 +84,7 @@ deamer::Node* deamer::LanguageDefinitionBuilder::AddNode(const std::string& toke
 }
 
 deamer::Node* deamer::LanguageDefinitionBuilder::AddIgnorableNode(const std::string& tokenName,
-	const std::string& regex)
+	const std::string& regex) const
 {
 	Node* new_node = TokenFactory().MakeIgnorableNode(tokenName, regex);
 	AddNode(new_node);
@@ -91,19 +92,19 @@ deamer::Node* deamer::LanguageDefinitionBuilder::AddIgnorableNode(const std::str
 }
 
 deamer::Node* deamer::LanguageDefinitionBuilder::AddDeletableNode(const std::string& tokenName,
-	const std::string& regex)
+	const std::string& regex) const
 {
 	Node* new_node = TokenFactory().MakeDeletableNode(tokenName, regex);
 	AddNode(new_node);
 	return new_node;
 }
 
-void deamer::LanguageDefinitionBuilder::AddRuleToType(Type* type, std::vector<Token*> rule_definition)
+void deamer::LanguageDefinitionBuilder::AddRuleToType(Type* type, std::vector<Token*> rule_definition) const
 {
 	AddRuleToType(type, RuleFactory().MakeRule(rule_definition));
 }
 
-void deamer::LanguageDefinitionBuilder::AddRuleToType(Type* type, Rule* rule_definition)
+void deamer::LanguageDefinitionBuilder::AddRuleToType(Type* type, Rule* rule_definition) const
 {
 	if (rule_definition == nullptr)
 	{
@@ -129,7 +130,7 @@ void deamer::LanguageDefinitionBuilder::AddRuleToType(Type* type, Rule* rule_def
 		}
 	}
 	type->Rules.push_back(rule_definition);
-	_language_definition.Rules.push_back(rule_definition);
+	_language_definition->AddRule(rule_definition);
 }
 
 void deamer::LanguageDefinitionBuilder::SetTypeContinuation(TypeContinuation_t typeContinuation)
@@ -137,17 +138,17 @@ void deamer::LanguageDefinitionBuilder::SetTypeContinuation(TypeContinuation_t t
 	type_continuation = typeContinuation;
 }
 
-void deamer::LanguageDefinitionBuilder::SetLanguageName(const std::string& language_name)
+void deamer::LanguageDefinitionBuilder::SetLanguageName(const std::string& language_name) const
 {
-	_language_definition.LanguageName = language_name;
+	_language_definition->LanguageName = language_name;
 }
 
-deamer::LanguageDefinition deamer::LanguageDefinitionBuilder::GetLanguageDefinition()
+deamer::LanguageDefinition* deamer::LanguageDefinitionBuilder::GetLanguageDefinition() const
 {
 	if (!LanguageDefinitionContainsStartType())
 	{
-		_language_definition.Types[0]->TokenType.set_flag(TokenType_t::start);
-		_language_definition.StartType = _language_definition.Types[0];
+		_language_definition->GetTypes()[0]->TokenType.set_flag(TokenType_t::start);
+		_language_definition->StartType = _language_definition->GetTypes()[0];
 	}
 	return _language_definition;
 }
@@ -155,7 +156,7 @@ deamer::LanguageDefinition deamer::LanguageDefinitionBuilder::GetLanguageDefinit
 bool deamer::LanguageDefinitionBuilder::LanguageDefinitionContainsStartType() const
 {
 	bool contains_start_type = false;
-	for (Type* type_ : _language_definition.Types)
+	for (Type* type_ : _language_definition->GetTypes())
 		if (type_->TokenType.has_flag(TokenType_t::start))
 			contains_start_type = true;
 	return contains_start_type;

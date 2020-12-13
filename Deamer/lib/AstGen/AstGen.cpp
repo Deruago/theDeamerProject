@@ -11,9 +11,8 @@
 #include "Deamer/AstGen/AstBuilderFactory.h"
 #include <sstream>
 
-deamer::AstGen::AstGen(const LanguageDefinition& language_definition, AstBuilderType ast_builder_type)
+deamer::AstGen::AstGen(const LanguageDefinition& language_definition, AstBuilderType ast_builder_type) : language_definition_(language_definition)
 {
-    language_definition_ = language_definition;
     astBuilder = AstBuilderFactory().MakeAstBuilder(ast_builder_type, "AstNodes/", language_definition_.LanguageName);
     CreateDirectoryIfNotExist("AstNodes/");
 }
@@ -35,13 +34,13 @@ void deamer::AstGen::FileTarget(std::string fileTarget)
 void deamer::AstGen::CreateAstNodes()
 {
     astBuilder->StartBuild();
-    for (auto& Type : language_definition_.Types)
+    for (const auto& Type : language_definition_.GetTypes())
     {
         if (!Type->TokenPermission.has_flag(TokenPermission_t::ignore))
             astBuilder->Build(*Type);
     }
 	
-    for (auto& Node : language_definition_.Nodes)
+    for (const auto& Node : language_definition_.GetNodes())
     {
         if (!Node->TokenPermission.has_flag(TokenPermission_t::ignore))
             astBuilder->Build(*Node);

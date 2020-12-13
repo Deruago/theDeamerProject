@@ -9,14 +9,8 @@
 
 #include "Deamer/LexerGen/DLexBuilder/DlexBuilder.h"
 
-deamer::DlexBuilder::DlexBuilder()
+deamer::DlexBuilder::DlexBuilder(const LanguageDefinition* langDef) : LexerBuilder(langDef)
 {
-
-}
-
-deamer::DlexBuilder::DlexBuilder(LanguageDefinition* langDef) : DlexBuilder()
-{
-    DlexBuilder::langDef = langDef;
 }
 
 void deamer::DlexBuilder::AddNode(Node* node)

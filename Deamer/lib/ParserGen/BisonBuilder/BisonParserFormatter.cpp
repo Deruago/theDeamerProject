@@ -16,10 +16,9 @@ deamer::BisonParserFormatter::BisonParserFormatter(const std::string& lang_name,
                                                    const std::string& token_declaration_part,
                                                    const std::string& type_declaration_part,
                                                    const std::string& rule_declaration_part,
-                                                   const LanguageDefinition& language_definition)
+                                                   const LanguageDefinition* language_definition) : language_definition_(language_definition)
 {
 	language_name_ = lang_name;
-	language_definition_ = language_definition;
 	first_type_name_ = firstType;
 	include_part_ = MakeInclude();
 	union_declaration_part_ = MakeUnion();
@@ -122,7 +121,7 @@ std::string deamer::BisonParserFormatter::MakeUnion() const
 std::string deamer::BisonParserFormatter::MakeUnionAstNodes() const
 {
 	std::string union_ast_nodes;
-	for(Type* type : language_definition_.Types)
+	for(Type* type : language_definition_->GetTypes())
 	{
 		if (type->TokenPermission.has_flag(TokenPermission_t::ignore))
 			continue;
@@ -140,7 +139,7 @@ std::string deamer::BisonParserFormatter::MakeUnionAstNodes() const
 		union_ast_nodes += ";\n";
 	}
 	
-	for(Node* node : language_definition_.Nodes)
+	for(Node* node : language_definition_->GetNodes())
 	{
 		if (node->TokenPermission.has_flag(TokenPermission_t::ignore))
 			continue;

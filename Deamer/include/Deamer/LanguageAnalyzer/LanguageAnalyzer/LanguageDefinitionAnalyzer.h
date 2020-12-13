@@ -18,7 +18,7 @@ namespace deamer
 	class LanguageDefinitionAnalyzer
 	{
 	private:
-		LanguageDefinition languageDefinition;
+		const LanguageDefinition& languageDefinition;
 	public:
 		LanguageDefinitionAnalyzer(const LanguageDefinition& languageDefinition_);
 		~LanguageDefinitionAnalyzer() = default;

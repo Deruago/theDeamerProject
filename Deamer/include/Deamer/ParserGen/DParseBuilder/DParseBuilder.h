@@ -17,14 +17,13 @@ namespace deamer
 {
     class DParseBuilder : public ParserBuilder
     {
-        public:
-            DParseBuilder(LanguageDefinition* langDef);
-            void AddNode(Node* node) override;
-            void AddType(Type* type) override;
-            void AddRule(Rule* rule) override;
-            bool FinishBuild() override;
-            bool StartBuild() override;
-            
+	public:
+		DParseBuilder(const LanguageDefinition* langDef);
+		void AddNode(Node* node) override;
+		void AddType(Type* type) override;
+		void AddRule(Rule* rule) override;
+		bool FinishBuild() override;
+		bool StartBuild() override;      
     };
 }
 

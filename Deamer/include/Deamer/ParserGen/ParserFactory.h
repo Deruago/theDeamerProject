@@ -25,7 +25,7 @@ namespace deamer
             //STMTS:
             //    STMT STMTS
             // New STMTS recursively define new STMTS.
-            ParserBuilder* MakeParser(deamer::ParserType_t ParserType_t, LanguageDefinition* langDef) const;
+            ParserBuilder* MakeParser(deamer::ParserType_t ParserType_t, const LanguageDefinition* langDef) const;
     };
 }
 

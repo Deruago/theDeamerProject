@@ -19,9 +19,8 @@
 #include <ostream>
 
 
-deamer::BisonBuilder::BisonBuilder(LanguageDefinition* langDef)
+deamer::BisonBuilder::BisonBuilder(const LanguageDefinition* langDef) : ParserBuilder(langDef)
 {
-	BisonBuilder::langDef = langDef;
 	firstType = langDef->StartType;
 	ruleFormatter = BisonRuleSectionFormatter(langDef->LanguageName);
 }
@@ -118,7 +117,7 @@ bool deamer::BisonBuilder::FinishBuild()
 	std::ostringstream ParserFunctions;
 	const BisonParserFormatter ParserFormatter(langDef->LanguageName, firstType->TokenName,
 	                                            tokenDeclarationPart, typeDeclarationPart,
-	                                            ruleDeclarationPart, *langDef);
+	                                            ruleDeclarationPart, langDef);
 	Output = ParserFormatter.MakeParserFile(ParserFunctions);
 	
 	return true;

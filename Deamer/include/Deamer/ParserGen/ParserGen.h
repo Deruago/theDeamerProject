@@ -27,12 +27,12 @@ namespace deamer
         std::string Filename = "parser.y";
     	
     	ParserType_t ParserTarget;
-        LanguageDefinition* langDef;
+        const LanguageDefinition* langDef;
         BaseAutoPtr<ParserBuilder> parserBuilder;
 
     	void BuildNodes() const;
     public:
-        ParserGen(ParserType_t parserTarget, LanguageDefinition* langDef);
+        ParserGen(ParserType_t parserTarget, const LanguageDefinition* langDef);
         virtual ~ParserGen() = default;
     	
         std::string GetFileLocation() const;

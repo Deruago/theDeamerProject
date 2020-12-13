@@ -8,9 +8,8 @@
 
 #include "Deamer/LanguageAnalyzer/LanguageAnalyzer/LanguageDefinitionAnalyzer.h"
 
-deamer::LanguageDefinitionAnalyzer::LanguageDefinitionAnalyzer(const LanguageDefinition& languageDefinition_)
+deamer::LanguageDefinitionAnalyzer::LanguageDefinitionAnalyzer(const LanguageDefinition& languageDefinition_) : languageDefinition(languageDefinition_)
 {
-	languageDefinition = languageDefinition_;
 }
 
 deamer::Token* deamer::LanguageDefinitionAnalyzer::GetStartToken() const
@@ -18,10 +17,10 @@ deamer::Token* deamer::LanguageDefinitionAnalyzer::GetStartToken() const
 	if (languageDefinition.StartType != nullptr)
 		return languageDefinition.StartType;
 	else
-		if (languageDefinition.Types.empty())
+		if (languageDefinition.GetTypes().empty())
 			return nullptr;
 		else
-			return languageDefinition.Types[0];
+			return languageDefinition.GetTypes()[0];
 }
 
 // This is done by finding a cycle from NT a to NT a, via NT's.

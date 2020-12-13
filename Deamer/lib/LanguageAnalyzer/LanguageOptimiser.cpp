@@ -21,7 +21,7 @@ void deamer::LanguageOptimiser::ApplyAllOptimisations(LanguageDefinition& langua
 
 void deamer::LanguageOptimiser::RemovedUnusedProductionRules(LanguageDefinition& language_definition) const
 {
-	for (Type* type : language_definition.Types)
+	for (Type* type : language_definition.GetTypes())
 	{
 		if (!IsTypeUsedByOtherTypes(type))
 			RecursivelyRemoveTypeFromLanguageDefinitionIncludingAllRules(type, language_definition);
@@ -40,7 +40,7 @@ void deamer::LanguageOptimiser::RecursivelyRemoveTypeFromLanguageDefinitionInclu
 
 void deamer::LanguageOptimiser::ApplyEmptyTypeToAllEmptyRules(LanguageDefinition& language_definition) const
 {
-	for (Rule* rule : language_definition.Rules)
+	for (Rule* rule : language_definition.GetRules())
 	{
 		if (rule->Tokens.empty())
 			rule->RuleType.set_flag(RuleType_t::empty);
@@ -50,7 +50,7 @@ void deamer::LanguageOptimiser::ApplyEmptyTypeToAllEmptyRules(LanguageDefinition
 void deamer::LanguageOptimiser::ApplyVectorisedTypeToAllRecursiveContinuedRules(
 	LanguageDefinition& language_definition) const
 {
-	for (Type* type : language_definition.Types)
+	for (Type* type : language_definition.GetTypes())
 	{
 		for (Rule* rule : type->Rules)
 		{
@@ -82,7 +82,7 @@ bool deamer::LanguageOptimiser::IsARuleInTypeAVector(Type* type) const
 
 void deamer::LanguageOptimiser::ApplyGroupedTypeToAllGroupableRules(LanguageDefinition& language_definition) const
 {
-	for (Type* type : language_definition.Types)
+	for (Type* type : language_definition.GetTypes())
 	{
 		if (AllRulesOfTypeAreGroupable(type))
 		{

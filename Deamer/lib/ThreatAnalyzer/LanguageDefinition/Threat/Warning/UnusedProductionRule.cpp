@@ -25,7 +25,7 @@ AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition)
 	dispatch(*startType);
 
 	std::vector<ThreatData> data;
-	for (auto rule : languageDefinition.Rules)
+	for (auto* rule : languageDefinition.GetRules())
 	{
 		if (ProductionRuleIsInVisitedRules(rule))
 			continue;

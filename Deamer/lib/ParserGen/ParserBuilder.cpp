@@ -9,7 +9,6 @@
 
 #include "Deamer/ParserGen/ParserBuilder.h"
 
-deamer::ParserBuilder::ParserBuilder()
+deamer::ParserBuilder::ParserBuilder(const LanguageDefinition* languageDefinition) : langDef(languageDefinition)
 {
-
 }

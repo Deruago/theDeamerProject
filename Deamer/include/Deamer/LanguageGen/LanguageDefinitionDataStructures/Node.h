@@ -31,6 +31,7 @@ namespace deamer
 		//Node(const std::string& nodeName, const std::string& regex, const bool createAst);
 		Node(const std::string& typeName, const std::string& regex, const BitwiseEnum<TokenType_t> tokenType,
 			const BitwiseEnum<TokenPermission_t> tokenPermission);
+		virtual ~Node() = default;
 	};
 }
 

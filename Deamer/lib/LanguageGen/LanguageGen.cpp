@@ -12,11 +12,11 @@
 #include <iostream>
 #include <sstream>
 
-deamer::LanguageGen::LanguageGen(LexerType_t lexerType, ParserType_t parserType, LanguageDefinition& languageDefinition)
-	: lexerGen(new LexerGen(lexerType, &languageDefinition)),
-	parserGen(new ParserGen(parserType, &languageDefinition))
+deamer::LanguageGen::LanguageGen(LexerType_t lexerType, ParserType_t parserType, const LanguageDefinition& languageDefinition)
+	:	languageDefinition(languageDefinition),
+		lexerGen(new LexerGen(lexerType, &languageDefinition)),
+		parserGen(new ParserGen(parserType, &languageDefinition))
 {
-	LanguageGen::languageDefinition = languageDefinition;
 }
 
 void deamer::LanguageGen::DirTarget(std::string TargetDir)

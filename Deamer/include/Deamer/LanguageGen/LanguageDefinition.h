@@ -27,21 +27,32 @@ namespace deamer
     class LanguageDefinition
     {
     private:
-        void IncreaseReferenceCounterOfTokensUsedInRule(std::vector<Token*> tokens);
-    public:
-        LanguageDefinition() = default;
-        ~LanguageDefinition() = default;
+        void IncreaseReferenceCounterOfTokensUsedInRule(const std::vector<Token*>& tokens);
 
-        Type* StartType = nullptr;
-        std::string LanguageName;
     	std::vector<Node*> Nodes;
         std::vector<Node*> IgnoreNodes;
         std::vector<Type*> Types;
         std::vector<Rule*> Rules;
+    public:
+        LanguageDefinition() = default;
+        ~LanguageDefinition();
 
+        Type* StartType = nullptr;
+        std::string LanguageName;
+
+        void AddNode(Node* newNode);
+        void AddIgnoredNode(Node* newNode);
+        void AddType(Type* newType);
+        void AddRule(Rule* newRule);
+    	
     	void RemoveType(Type* type);
         void RemoveRule(Rule* rule);
         void RemoveNode(Node* node);
+
+        const std::vector<Node*>& GetNodes() const;
+        const std::vector<Node*>& GetIgnoreNodes() const;
+        const std::vector<Type*>& GetTypes() const;
+        const std::vector<Rule*>& GetRules() const;
     };
 }
 

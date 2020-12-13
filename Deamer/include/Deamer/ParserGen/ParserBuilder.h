@@ -25,12 +25,12 @@ namespace deamer
     {
     protected:
         ParserType_t parserType;
+        const LanguageDefinition* langDef;
 
-    	ParserBuilder();
+    	ParserBuilder(const LanguageDefinition* languageDefinition);
     public:
         virtual ~ParserBuilder() = default;
 
-    	LanguageDefinition* langDef;
 
     	virtual void AddNode(Node* node) = 0; // Writes the node to the file
         virtual void AddType(Type* type) = 0; // Writes the type to the file

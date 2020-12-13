@@ -25,7 +25,7 @@ namespace deamer
             //STMTS:
             //    STMT STMTS
             // New STMTS recursively define new STMTS.
-            LexerBuilder* MakeLexerUseRecursiveBasedDS(LexerType_t lexerType_t, LanguageDefinition* langDef) const;
+            LexerBuilder* MakeLexerUseRecursiveBasedDS(LexerType_t lexerType_t, const LanguageDefinition* langDef) const;
     };
 }
 

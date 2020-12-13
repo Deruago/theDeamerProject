@@ -26,7 +26,7 @@ AnalyseLanguageDefinition(const LanguageDefinition & languageDefinition)
 	dispatch(*startType);
 
 	std::vector<ThreatData> data;
-	for (auto* type : languageDefinition.Types)
+	for (auto* type : languageDefinition.GetTypes())
 	{
 		if (NonTerminalIsInVisitedTypes(type))
 			continue;

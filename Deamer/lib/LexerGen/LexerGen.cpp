@@ -11,7 +11,7 @@
 #include "Deamer/LexerGen/LexerFactory.h"
 #include <sstream>
 
-deamer::LexerGen::LexerGen(const LexerType_t LexerTarget, LanguageDefinition* languageDefinition)
+deamer::LexerGen::LexerGen(const LexerType_t LexerTarget, const LanguageDefinition* languageDefinition)
 		:   LexerTarget(LexerTarget),
 			langDef(languageDefinition),
 			lexerBuilder(LexerFactory().MakeLexerUseRecursiveBasedDS(LexerTarget, languageDefinition))
@@ -40,7 +40,7 @@ void deamer::LexerGen::FileTarget(std::string fileTarget)
 void deamer::LexerGen::Build()
 {
     lexerBuilder->StartBuild();
-    for (auto& Node : langDef->Nodes)
+    for (const auto& Node : langDef->GetNodes())
     {
         if (Node->TokenPermission.has_flag(TokenPermission_t::delete_))
         {
@@ -56,7 +56,7 @@ void deamer::LexerGen::Build()
         }
     }
     
-    for (auto& IgnoreNode : langDef->IgnoreNodes)
+    for (const auto& IgnoreNode : langDef->GetIgnoreNodes())
     {
         lexerBuilder->AddIgnoreNode(IgnoreNode);
     }

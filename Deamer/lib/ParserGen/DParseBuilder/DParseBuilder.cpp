@@ -9,9 +9,8 @@
 
 #include "Deamer/ParserGen/DParseBuilder/DParseBuilder.h"
 
-deamer::DParseBuilder::DParseBuilder(LanguageDefinition* langDef)
+deamer::DParseBuilder::DParseBuilder(const LanguageDefinition* langDef) : ParserBuilder(langDef)
 {
-    DParseBuilder::langDef = langDef;
 }
 
 void deamer::DParseBuilder::AddNode(Node* node)
