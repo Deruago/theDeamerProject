@@ -11,17 +11,35 @@
 
 #include "Deamer/ThreatAnalyzer/LanguageDefinition/LanguageDefintionThreat.h"
 #include "Deamer/ThreatAnalyzer/Threat/ErrorThreat.h"
+#include "Deamer/LanguageGen/LanguageDefinition.h"
 
 namespace deamer { namespace threat { namespace analyzer { namespace languagedefinition { namespace error {
 
-	class EmptyRecursion : public ErrorThreat
+	class EmptyRecursion : public ErrorThreat, public LanguageDefinitionVisitor
 	{
 	public:
-		const std::string description = "No starting symbol specified";
+		const std::string description = "Non Terminal Empty recursion";
 		constexpr static unsigned id = static_cast<unsigned>(LanguageDefinitionThreat::emptyRecursion);
 		EmptyRecursion();
 
 		std::vector<ThreatData> AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition) override;
+
+
+	private:
+		ThreatData MakeThreatData(Type* type) const;
+		ThreatCodeDescription MakeThreatCodeDescription(Type* type) const;
+		std::string MakeErrorDescription(const Type& type) const;
+		bool NonTerminalIsInVisitedTypes(Type* type) const;
+		std::vector<Type*> UsedTypes;
+		LanguageDefinition languageDefinition_;
+
+		void first_visit(Type& visited_type) override;
+		void first_visit(Rule& visited_type) override;
+		void first_visit(Node& visited_type) override;
+		void visit(Type& type) override;
+		void visit(Node& node) override;
+	public:
+		~EmptyRecursion() override = default;
 	};
 
 }}}}}

@@ -24,6 +24,7 @@ namespace deamer
 		~LanguageDefinitionAnalyzer() = default;
 
 		Token* GetStartToken() const;
+		bool DoesTokenHaveEmptyRecursion() const;
 	};
 }
 

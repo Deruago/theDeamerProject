@@ -10,7 +10,7 @@
 
 deamer::threat::analyzer::languagedefinition::LanguageDefinitionThreatAnalyzer::~LanguageDefinitionThreatAnalyzer()
 {
-	for(auto threat : Threats)
+	for(auto* threat : Threats)
 	{
 		delete threat;
 	}

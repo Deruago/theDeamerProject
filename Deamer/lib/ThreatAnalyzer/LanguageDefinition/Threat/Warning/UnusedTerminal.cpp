@@ -25,9 +25,10 @@ AnalyseLanguageDefinition(const LanguageDefinition & languageDefinition)
 	dispatch(*startnode);
 
 	std::vector<ThreatData> data;
-	for (auto node : languageDefinition.Nodes)
+	for (auto* node : languageDefinition.Nodes)
 	{
-		if (TerminalIsInVisitedNodes(node))
+		if (TerminalIsInVisitedNodes(node) ||
+			node->TokenPermission.has_flag(TokenPermission_t::delete_))
 			continue;
 
 		data.push_back(MakeThreatData(node));

@@ -23,3 +23,10 @@ deamer::Token* deamer::LanguageDefinitionAnalyzer::GetStartToken() const
 		else
 			return languageDefinition.Types[0];
 }
+
+// This is done by finding a cycle from NT a to NT a, via NT's.
+// The analysis is extremely complex as a huge grammar with a lot of production rules, have a lot of options.
+bool deamer::LanguageDefinitionAnalyzer::DoesTokenHaveEmptyRecursion() const
+{
+	return false;
+}
