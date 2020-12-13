@@ -78,9 +78,11 @@ std::vector<deamer::Rule*> deamer::TypeAnalyzer::GetVectorOfUniqueRulesApplyingI
 	std::vector<Rule*> unique_rules_without_ignored_tokens;
 	for (Rule* tmp_rule : type_->Rules)
 	{
-		auto new_rule = CreateRule_Without_Ignored_Tokens(tmp_rule);
+		auto* new_rule = CreateRule_Without_Ignored_Tokens(tmp_rule);
 		if (IsThisRuleUniqueInVector(unique_rules_without_ignored_tokens, *new_rule))
 			unique_rules_without_ignored_tokens.push_back(new_rule);
+		else
+			delete new_rule;
 	}
 
 	return unique_rules_without_ignored_tokens;

@@ -111,6 +111,11 @@ namespace deamer
 			return newRawPtr;
 		}
 
+		T& GetReferenceToItem() const
+		{
+			return *managedPtr;
+		}
+
 		bool IsDeleted() const
 		{
 			return managedPtr == nullptr;

@@ -22,9 +22,11 @@ namespace deamer
 	private:
 	protected:
 		std::string language_name_;
-		FileClassSection* _AstNode;
-		FileClassSection* type_int;
-		FileClassSection* type_void;
+
+		// Currently not used
+		FileClassSection* _AstNode = nullptr; 
+		FileClassSection* type_int = nullptr;
+		FileClassSection* type_void = nullptr;
 	public:
 		AstBuilder(const std::string& directory, const std::string& language_name);
 	    virtual ~AstBuilder() = default;

@@ -10,6 +10,7 @@
 #include "Deamer/LanguageAnalyzer/LanguageAnalyzer/TypeAnalyzer.h"
 #include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Rule.h"
 #include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Type.h"
+#include "Deamer/Types/SmartPointer/BaseAutoPtr.h"
 
 
 std::string deamer::AstVisitorBuilder::AstNodeHeaderFormatter::MakeStringAllCaps(std::string cs) const
@@ -138,9 +139,10 @@ std::string deamer::AstVisitorBuilder::AstNodeHeaderFormatter::MakeHeaderSpecifi
 	if (!token_->TokenPermission.has_flag(TokenPermission_t::node))
 	{
 		Type* tmpType = static_cast<Type*>(token_);
-		for (Rule* rule : TypeAnalyzer(*tmpType).GetVectorOfUniqueRulesApplyingIgnoredTokens())
+		auto rules = TypeAnalyzer(*tmpType).GetVectorOfUniqueRulesApplyingIgnoredTokens();
+		for (const BaseAutoPtr<Rule> rule : rules)
 		{
-			constructors += MakeHeaderPrototype(MakeSpecificConstructorPrototype(rule));
+			constructors += MakeHeaderPrototype(MakeSpecificConstructorPrototype(&rule.GetReferenceToItem()));
 		}
 	}
 	return constructors;

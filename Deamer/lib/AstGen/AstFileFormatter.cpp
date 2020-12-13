@@ -11,6 +11,8 @@
 #include "Deamer/LanguageAnalyzer/LanguageAnalyzer/TypeAnalyzer.h"
 #include <vector>
 
+#include "Deamer/Types/SmartPointer/BaseAutoPtr.h"
+
 deamer::AstFileFormatter::AstFileFormatter(Token* token, std::string& language_name)
 {
 	token_ = token;
@@ -322,9 +324,9 @@ std::string deamer::AstFileFormatter::MakeSpecificConstructors() const
     if (!token_->TokenPermission.has_flag(TokenPermission_t::node))
     {
         Type* tmpType = static_cast<Type*>(token_);
-        for (Rule* rule : TypeAnalyzer(*tmpType).GetVectorOfUniqueRulesApplyingIgnoredTokens())
+        for (const BaseAutoPtr<Rule> rule : TypeAnalyzer(*tmpType).GetVectorOfUniqueRulesApplyingIgnoredTokens())
         {
-            constructors += MakeAstConstructorFunction(MakeSpecificConstructorPrototypeWithBaseConstructorImplementations(rule), MakeSpecificConstructorImplementation(rule));
+            constructors += MakeAstConstructorFunction(MakeSpecificConstructorPrototypeWithBaseConstructorImplementations(&rule.GetReferenceToItem()), MakeSpecificConstructorImplementation(&rule.GetReferenceToItem()));
         }
     }
     return constructors;
