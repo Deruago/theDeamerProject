@@ -17,7 +17,7 @@ This header describes the class implementation of Rule. Which is the base class 
 #include "Deamer/Types/Visitable.h"
 #include "Deamer/LanguageAnalyzer/LanguageVisitor/LanguageDefinitionVisitor.h"
 #include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
-#include "Deamer/ParserGen/BisonBuilder/BisonBuilder.h"
+#include "Deamer/LanguageGen/LanguageGenConstants.h"
 #include <vector>
 
 
