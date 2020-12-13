@@ -39,8 +39,9 @@ namespace deamer
         void CreateDefaultParserAPI() const;     // Used to communicate with the parser
         void CreateDefaultCompilerAPIHeader() const;   // Used to communicate with the compiler. The compiler API supports multiple interfaces/features.
         void CreateDefaultCompilerAPISource() const;   // Implements the API
+	    void CreateDefaultCompilerSource() const;
 
-    	void DirTarget(std::string dirTarget) override;
+	    void DirTarget(std::string dirTarget) override;
         void FileTarget(std::string fileTarget) override;
         void GenerateLexer() const;
         void GenerateParser() const;

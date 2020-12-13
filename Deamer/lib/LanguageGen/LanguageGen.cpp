@@ -58,77 +58,80 @@ void deamer::LanguageGen::Build()
 	CreateDefaultParserAPI();
 	CreateDefaultCompilerAPIHeader();
 	CreateDefaultCompilerAPISource();
+	CreateDefaultCompilerSource();
 }
 
 void deamer::LanguageGen::CreateDefaultLexerAPI() const
 {
-	std::ostringstream LexerAPIFile;
-	LexerAPIFile << "#ifndef LEXER_" << languageDefinition.LanguageName << "_LEXERAPIFILE_H\n"
-		<< "#define LEXER_" << languageDefinition.LanguageName << "_LEXERAPIFILE_H\n"
-		<< "\n"
-		<< "#include <Deamer/DefaultAPI/DeamerLexerAPI.h>\n"
-		<< "#include <Deamer/AstGen/AstInformation.h>\n"
-		<< "#include <Deamer/AstGen/AstNode.h>\n"
-		<< "#include <Deamer/AstGen/AstTree.h>\n"
-		<< "\n"
-		<< "namespace " << languageDefinition.LanguageName << "\n"
-		<< "{\n"
-		<< "    class " << languageDefinition.LanguageName << "Lexer : public deamer::DeamerLexerAPI\n"
-		<< "    {\n"
-		<< "        private:\n"
-		<< "        protected:\n"
-		<< "        public:\n"
-		<< "            deamer::AstInformation* LexText(std::string inputText) override;\n"
-		<< "            deamer::AstInformation* LexFile(FILE* inputFile) override;\n"
-		<< "            deamer::AstInformation* LexFile(std::string fileLocation) override;\n"
-		<< "    };\n"
-		<< "}\n"
-		<< "\n"
-		<< "#endif //LEXER_" << languageDefinition.LanguageName << "_LEXERAPIFILE_H\n";
-	std::ostringstream oss0;
-	oss0 << Directory << "Lexer/" << "" << languageDefinition.LanguageName << "Lexer.h";
+	const std::string directory = 
+		Directory + "Lexer/" + "" + languageDefinition.LanguageName + "Lexer.h";
+	
+	const std::string LexerAPIFile =
+		"#ifndef LEXER_" + languageDefinition.LanguageName + "_LEXERAPIFILE_H\n"
+		"#define LEXER_" + languageDefinition.LanguageName + "_LEXERAPIFILE_H\n"
+		"\n"
+		"#include <Deamer/DefaultAPI/DeamerLexerAPI.h>\n"
+		"#include <Deamer/AstGen/AstInformation.h>\n"
+		"#include <Deamer/AstGen/AstNode.h>\n"
+		"#include <Deamer/AstGen/AstTree.h>\n"
+		"\n"
+		"namespace " + languageDefinition.LanguageName + "\n"
+		"{\n"
+		"    class " + languageDefinition.LanguageName + "Lexer : public deamer::DeamerLexerAPI\n"
+		"    {\n"
+		"        private:\n"
+		"        protected:\n"
+		"        public:\n"
+		"            deamer::AstInformation* LexText(std::string inputText) override;\n"
+		"            deamer::AstInformation* LexFile(FILE* inputFile) override;\n"
+		"            deamer::AstInformation* LexFile(std::string fileLocation) override;\n"
+		"    };\n"
+		"}\n"
+		"\n"
+		"#endif //LEXER_" + languageDefinition.LanguageName + "_LEXERAPIFILE_H\n";
 	std::ofstream newLexerAPIFile;
-	newLexerAPIFile.open(oss0.str(), std::ios_base::app);
+	newLexerAPIFile.open(directory, std::ios_base::app);
 
-	newLexerAPIFile << LexerAPIFile.str() << '\n';
+	newLexerAPIFile << LexerAPIFile << '\n';
 
 	newLexerAPIFile.close();
 }
 
 void deamer::LanguageGen::CreateDefaultParserAPI() const
 {
-	std::ostringstream ParserAPIFile;
-	ParserAPIFile << "#ifndef PARSER_" << languageDefinition.LanguageName << "_PARSERAPIFILE_H\n"
-		<< "#define PARSER_" << languageDefinition.LanguageName << "_PARSERAPIFILE_H\n"
-		<< "\n"
-		<< "#include <Deamer/DefaultAPI/DeamerParserAPI.h>\n"
-		<< "#include <Deamer/AstGen/AstNode.h>\n"
-		<< "#include <Deamer/AstGen/AstTree.h>\n"
-		<< "\n"
-		<< "namespace " << languageDefinition.LanguageName << "\n"
-		<< "{\n"
-		<< "    class " << languageDefinition.LanguageName << "Parser : public deamer::DeamerParserAPI\n"
-		<< "    {\n"
-		<< "        private:\n"
-		<< "        protected:\n"
-		<< "        public:\n"
-		<< "            " << languageDefinition.LanguageName << "Parser();\n"
-		<< "            ~" << languageDefinition.LanguageName << "Parser();\n"
-		<< "\n"
-		<< "            deamer::AstNode* ParseText(std::string inputText) override;\n"
-		<< "            deamer::AstNode* ParseFile(FILE* inputFile) override;\n"
-		<< "            deamer::AstNode* ParseFile(std::string fileLocation) override;\n"
-		<< "    };\n"
-		<< "}\n"
-		<< "\n"
-		<< "#endif //PARSER_" << languageDefinition.LanguageName << "_PARSERAPIFILE_H\n";
-	std::ostringstream oss0;
-	oss0 << Directory << "Parser/" << "" << languageDefinition.LanguageName << "Parser.h";
+	const std::string directory =
+		Directory + "Parser/" + "" + languageDefinition.LanguageName + "Parser.h";
+	
+	const std::string ParserAPIFile =
+		"#ifndef PARSER_" + languageDefinition.LanguageName + "_PARSERAPIFILE_H\n"
+		"#define PARSER_" + languageDefinition.LanguageName + "_PARSERAPIFILE_H\n"
+		"\n"
+		"#include <Deamer/DefaultAPI/DeamerParserAPI.h>\n"
+		"#include <Deamer/AstGen/AstNode.h>\n"
+		"#include <Deamer/AstGen/AstTree.h>\n"
+		"\n"
+		"namespace " + languageDefinition.LanguageName + "\n"
+		"{\n"
+		"    class " + languageDefinition.LanguageName + "Parser : public deamer::DeamerParserAPI\n"
+		"    {\n"
+		"        private:\n"
+		"        protected:\n"
+		"        public:\n"
+		"            " + languageDefinition.LanguageName + "Parser();\n"
+		"            ~" + languageDefinition.LanguageName + "Parser();\n"
+		"\n"
+		"            deamer::AstNode* ParseText(std::string inputText) override;\n"
+		"            deamer::AstNode* ParseFile(FILE* inputFile) override;\n"
+		"            deamer::AstNode* ParseFile(std::string fileLocation) override;\n"
+		"    };\n"
+		"}\n"
+		"\n"
+		"#endif //PARSER_" + languageDefinition.LanguageName + "_PARSERAPIFILE_H\n";
+
 	std::ofstream newParserAPIFile;
+	newParserAPIFile.open(directory, std::ios_base::app);
 
-	newParserAPIFile.open(oss0.str(), std::ios_base::app);
-
-	newParserAPIFile << ParserAPIFile.str() << '\n';
+	newParserAPIFile << ParserAPIFile << '\n';
 
 	newParserAPIFile.close();
 }
@@ -138,44 +141,46 @@ void deamer::LanguageGen::CreateDefaultCompilerAPIHeader() const
 	const std::string file_location = Directory + languageDefinition.LanguageName + "Compiler.h";
 	if (DoesFileExist(file_location))
 		return;
-	
-	std::ostringstream CompilerAPIHeaderFile;
-	CompilerAPIHeaderFile << "#ifndef " << languageDefinition.LanguageName << "_COMPILERAPIFILE_H\n"
-		<< "#define " << languageDefinition.LanguageName << "_COMPILERAPIFILE_H\n"
-		<< "\n"
-		<< "#include <Deamer/DefaultAPI/DeamerCompilerAPI.h>\n"
-		<< "#include <Deamer/CompilerGen/CompiledObject.h>\n"
-		<< "#include <Deamer/AstGen/AstNode.h>\n"
-		<< "#include <Deamer/AstGen/AstTree.h>\n"
-		<< "\n"
-		<< "namespace " << languageDefinition.LanguageName << "\n"
-		<< "{\n"
-		<< "    class " << languageDefinition.LanguageName << "Compiler : public deamer::DeamerCompilerAPI\n"
-		<< "    {\n"
-		<< "        private:\n"
-		<< "        protected:\n"
-		<< "        public:\n"
-		<< "            const bool SupportsCompilation = true; // If this can compile data. Set this to false if it cant\n"
-		<< "            const bool SupportsDebugging = false; // Set this to true if it supports Debugging note that it needs to inherit the specified interface\n"
-		<< "\n"
-		<< "            const std::string Language = \"" << languageDefinition.LanguageName << "\";\n"
-		<< "\n"
-		<< "            " << languageDefinition.LanguageName << "Compiler();\n"
-		<< "            ~" << languageDefinition.LanguageName << "Compiler();\n"
-		<< "\n"
-		<< "            deamer::CompiledObject* CompileText(std::string inputText) override;\n"
-		<< "            deamer::CompiledObject* CompileFile(FILE* inputFile) override;\n"
-		<< "            deamer::CompiledObject* CompileFile(std::string fileLocation) override;\n"
-		<< "    };\n"
-		<< "}\n"
-		<< "\n"
-		<< "#endif //" << languageDefinition.LanguageName << "_COMPILERAPIFILE_H\n";
-	
+
+	const std::string CompilerAPIHeaderFile =
+		"#ifndef " + languageDefinition.LanguageName + "_COMPILERAPIFILE_H\n"
+		"#define " + languageDefinition.LanguageName + "_COMPILERAPIFILE_H\n"
+		"\n"
+		"#include <Deamer/DefaultAPI/DeamerCompilerAPI.h>\n"
+		"#include <" + languageDefinition.LanguageName + "Parser.h>\n"
+		"#include <Deamer/CompilerGen/CompiledObject.h>\n"
+		"#include <Deamer/AstGen/AstNode.h>\n"
+		"#include <Deamer/AstGen/AstTree.h>\n"
+		"\n"
+		"namespace " + languageDefinition.LanguageName + "\n"
+		"{\n"
+		"    class " + languageDefinition.LanguageName + "Compiler : public deamer::DeamerCompilerAPI\n"
+		"    {\n"
+		"        private:\n"
+		"        protected:\n"
+		"        public:\n"
+		"            const bool SupportsCompilation = true; // If this can compile data. Set this to false if it cant\n"
+		"            const bool SupportsDebugging = false; // Set this to true if it supports Debugging note that it needs to inherit the specified interface\n"
+		"\n"
+		"            const std::string Language = \"" + languageDefinition.LanguageName + "\";\n"
+		"\n"
+		"            " + languageDefinition.LanguageName + "Parser parser = " + languageDefinition.LanguageName + "Parser();\n"
+		"            " + languageDefinition.LanguageName + "Compiler();\n"
+		"            ~" + languageDefinition.LanguageName + "Compiler();\n"
+		"\n"
+		"            deamer::CompiledObject* CompileText(std::string inputText) override;\n"
+		"            deamer::CompiledObject* CompileFile(FILE* inputFile) override;\n"
+		"            deamer::CompiledObject* CompileFile(std::string fileLocation) override;\n"
+		"    };\n"
+		"}\n"
+		"\n"
+		"#endif //" + languageDefinition.LanguageName + "_COMPILERAPIFILE_H\n";
+
 	std::ofstream newCompilerAPIHeaderFile;
 
 	newCompilerAPIHeaderFile.open(file_location, std::ios_base::app);
 
-	newCompilerAPIHeaderFile << CompilerAPIHeaderFile.str() << '\n';
+	newCompilerAPIHeaderFile << CompilerAPIHeaderFile << '\n';
 
 	newCompilerAPIHeaderFile.close();
 }
@@ -186,38 +191,81 @@ void deamer::LanguageGen::CreateDefaultCompilerAPISource() const
 	std::cout << file_location << std::endl;
 	if (DoesFileExist(file_location))
 		return;
-	
-	std::ostringstream CompilerAPISourceFile;
-	CompilerAPISourceFile
-		<< "#include <" << languageDefinition.LanguageName << "Compiler.h>\n"
-		<< "#include <" << languageDefinition.LanguageName << "Parser.h>\n"
-		<< "\n"
-		<< languageDefinition.LanguageName << "::" << languageDefinition.LanguageName << "Compiler::" << languageDefinition.LanguageName << "Compiler()\n"
-		<< "{\n"
-		<< "\n"
-		<< "}\n\n"
-		<< languageDefinition.LanguageName << "::" << languageDefinition.LanguageName << "Compiler::~" << languageDefinition.LanguageName << "Compiler()\n"
-		<< "{\n"
-		<< "\n"
-		<< "}\n\n"
-		<< "deamer::CompiledObject* " << languageDefinition.LanguageName << "::" << languageDefinition.LanguageName << "Compiler::CompileText(std::string inputText)\n"
-		<< "{\n"
-		<< "    return nullptr;\n"
-		<< "}\n\n"
-		<< "deamer::CompiledObject* " << languageDefinition.LanguageName << "::" << languageDefinition.LanguageName << "Compiler::CompileFile(FILE* inputFile)\n"
-		<< "{\n"
-		<< "    return nullptr;\n"
-		<< "}\n\n"
-		<< "deamer::CompiledObject* " << languageDefinition.LanguageName << "::" << languageDefinition.LanguageName << "Compiler::CompileFile(std::string fileLocation)\n"
-		<< "{\n"
-		<< "    return nullptr;\n"
-		<< "}\n\n";
-	
+
+	const std::string CompilerAPISourceFile =
+		"#include <" + languageDefinition.LanguageName + "Compiler.h>\n"
+		"#include <AstVisitor/" + languageDefinition.LanguageName + "_AstPrinter.h>\n"
+		""
+		"\n"
+		+ languageDefinition.LanguageName + "::" + languageDefinition.LanguageName + "Compiler::" + languageDefinition.LanguageName + "Compiler()\n"
+		"{\n"
+		"\n"
+		"}\n\n"
+		+ languageDefinition.LanguageName + "::" + languageDefinition.LanguageName + "Compiler::~" + languageDefinition.LanguageName + "Compiler()\n"
+		"{\n"
+		"\n"
+		"}\n\n"
+		"deamer::CompiledObject* " + languageDefinition.LanguageName + "::" + languageDefinition.LanguageName + "Compiler::CompileText(std::string inputText)\n"
+		"{\n"
+		"    deamer::AstNode* ast_node = parser.ParseText(inputText);\n"
+		"    " + languageDefinition.LanguageName + "_AstPrinter ast_printer = " + languageDefinition.LanguageName + "_AstPrinter();\n"
+		"    if (ast_node != nullptr)\n"
+		"    {\n"
+		"        ast_printer.Dispatch(*ast_node);\n"
+		"    }\n"
+		"    return nullptr;\n"
+		"}\n\n"
+		"deamer::CompiledObject* " + languageDefinition.LanguageName + "::" + languageDefinition.LanguageName + "Compiler::CompileFile(FILE* inputFile)\n"
+		"{\n"
+		"    deamer::AstNode* ast_node = parser.ParseFile(inputFile);\n"
+		"    " + languageDefinition.LanguageName + "_AstPrinter ast_printer = " + languageDefinition.LanguageName + "_AstPrinter();\n"
+		"    if (ast_node != nullptr)\n"
+		"    {\n"
+		"        ast_printer.Dispatch(*ast_node);\n"
+		"    }\n"
+		"    return nullptr;\n"
+		"}\n\n"
+		"deamer::CompiledObject* " + languageDefinition.LanguageName + "::" + languageDefinition.LanguageName + "Compiler::CompileFile(std::string fileLocation)\n"
+		"{\n"
+		"    deamer::AstNode* ast_node = parser.ParseFile(fileLocation);\n"
+		"    " + languageDefinition.LanguageName + "_AstPrinter ast_printer = " + languageDefinition.LanguageName + "_AstPrinter();\n"
+		"    if (ast_node != nullptr)\n"
+		"    {\n"
+		"        ast_printer.Dispatch(*ast_node);\n"
+		"    }\n"
+		"    return nullptr;\n"
+		"}\n\n";
+
 	std::ofstream newCompilerAPISourceFile;
 
 	newCompilerAPISourceFile.open(file_location.c_str(), std::ios_base::app);
 
-	newCompilerAPISourceFile << CompilerAPISourceFile.str() << '\n';
+	newCompilerAPISourceFile << CompilerAPISourceFile << '\n';
+
+	newCompilerAPISourceFile.close();
+}
+
+void deamer::LanguageGen::CreateDefaultCompilerSource() const
+{
+	const std::string file_location = Directory + "Compiler.cpp";
+	std::cout << file_location << std::endl;
+	if (DoesFileExist(file_location))
+		return;
+
+	const std::string CompilerSourceFile =
+		"#include <" + languageDefinition.LanguageName + "Compiler.h>\n"\
+		"\n"
+		"int main(int argc, char** argv)\n"
+		"{\n"
+		"    " + languageDefinition.LanguageName + "::" + languageDefinition.LanguageName + "Compiler compiler = " + languageDefinition.LanguageName + "::" + languageDefinition.LanguageName + "Compiler();\n"
+		"    compiler.CompileFile(argv[1]);\n"
+		"}\n";
+
+	std::ofstream newCompilerAPISourceFile;
+
+	newCompilerAPISourceFile.open(file_location.c_str(), std::ios_base::app);
+
+	newCompilerAPISourceFile << CompilerSourceFile << '\n';
 
 	newCompilerAPISourceFile.close();
 }
