@@ -19,9 +19,9 @@ namespace deamer { namespace threat { namespace analyzer { namespace languagedef
 	public:
 		const std::string description = "NonTerminal doesn't have any production-rules";
 		constexpr static unsigned id = static_cast<unsigned>(LanguageDefinitionThreat::nonTerminalHasNoProductionRulesAssociated);
-		NonTerminalHasNoProductionRulesAssociated();
+		NonTerminalHasNoProductionRulesAssociated(const LanguageDefinition& languageDefinition_);
 
-		std::vector<ThreatData> AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition) override;
+		std::vector<ThreatData> AnalyseLanguageDefinition() override;
 
 
 	private:

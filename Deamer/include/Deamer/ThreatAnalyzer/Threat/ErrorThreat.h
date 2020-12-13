@@ -16,7 +16,7 @@ namespace deamer { namespace threat {
 	{
 	private:
 	public:
-		ErrorThreat(const unsigned id);
+		ErrorThreat(const unsigned id, const LanguageDefinition& languageDefinition);
 	};
 
 }}

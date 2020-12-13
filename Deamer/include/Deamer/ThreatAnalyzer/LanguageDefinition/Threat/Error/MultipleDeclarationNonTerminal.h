@@ -16,14 +16,6 @@ namespace deamer { namespace threat { namespace analyzer { namespace languagedef
 
 	class MultipleDeclarationNonTerminal : public ErrorThreat, public LanguageDefinitionVisitor
 	{
-	public:
-		const std::string description = "Redeclared Nonterminal";
-		constexpr static unsigned id = static_cast<unsigned>(LanguageDefinitionThreat::multipleDeclarationNonTerminal);
-		MultipleDeclarationNonTerminal();
-
-		std::vector<ThreatData> AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition) override;
-
-
 	private:
 		ThreatData MakeThreatData(Type* type) const;
 		ThreatCodeDescription MakeThreatCodeDescription(Type* type) const;
@@ -40,6 +32,12 @@ namespace deamer { namespace threat { namespace analyzer { namespace languagedef
 		void first_visit(Node& visited_type) override;
 		void visit(Type& type) override;
 		void visit(Node& node) override;
+	public:
+		const std::string description = "Redeclared Nonterminal";
+		constexpr static unsigned id = static_cast<unsigned>(LanguageDefinitionThreat::multipleDeclarationNonTerminal);
+		MultipleDeclarationNonTerminal(const LanguageDefinition& languageDefinition_);
+
+		std::vector<ThreatData> AnalyseLanguageDefinition() override;
 	public:
 		~MultipleDeclarationNonTerminal() override = default;
 	};

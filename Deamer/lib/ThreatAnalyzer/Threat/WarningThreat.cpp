@@ -9,6 +9,6 @@
 #include "Deamer/ThreatAnalyzer/Threat/WarningThreat.h"
 #include "Deamer/ThreatAnalyzer/ThreatType.h"
 
-deamer::threat::WarningThreat::WarningThreat(const unsigned id) : Threat(ThreatType::warning, id)
+deamer::threat::WarningThreat::WarningThreat(const unsigned id, const LanguageDefinition& languageDefinition_) : Threat(ThreatType::warning, id, languageDefinition_)
 {
 }

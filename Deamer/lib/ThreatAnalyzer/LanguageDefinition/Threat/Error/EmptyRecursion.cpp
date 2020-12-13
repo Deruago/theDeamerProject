@@ -10,15 +10,14 @@
 #include "Deamer/LanguageAnalyzer/LanguageAnalyzer/LanguageDefinitionAnalyzer.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 
-deamer::threat::analyzer::languagedefinition::error::EmptyRecursion::EmptyRecursion() : ErrorThreat(id)
+deamer::threat::analyzer::languagedefinition::error::EmptyRecursion::EmptyRecursion(const LanguageDefinition& languageDefinition_) : ErrorThreat(id, languageDefinition_)
 {
 	SetThreatDescription(description);
 }
 
 std::vector<deamer::threat::ThreatData> deamer::threat::analyzer::languagedefinition::error::EmptyRecursion::
-AnalyseLanguageDefinition(const LanguageDefinition & languageDefinition)
+AnalyseLanguageDefinition()
 {
-	languageDefinition_ = languageDefinition;
 	Token* startType = LanguageDefinitionAnalyzer(languageDefinition).GetStartToken();
 	if (startType == nullptr)
 		return {};
@@ -74,7 +73,7 @@ bool deamer::threat::analyzer::languagedefinition::error::EmptyRecursion::NonTer
 void deamer::threat::analyzer::languagedefinition::error::EmptyRecursion::first_visit(Type & visited_type)
 {
 
-	if (!LanguageDefinitionAnalyzer(languageDefinition_).DoesTokenHaveEmptyRecursion())
+	if (!LanguageDefinitionAnalyzer(languageDefinition).DoesTokenHaveEmptyRecursion())
 	{
 		UsedTypes.push_back(&visited_type);	
 	}

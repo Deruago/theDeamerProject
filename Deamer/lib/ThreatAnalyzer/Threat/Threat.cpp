@@ -8,7 +8,7 @@
 
 #include "Deamer/ThreatAnalyzer/Threat/Threat.h"
 
-deamer::threat::Threat::Threat(ThreatType type, unsigned threatId)
+deamer::threat::Threat::Threat(ThreatType type, unsigned threatId, const LanguageDefinition& languageDefinition_) : languageDefinition(languageDefinition_)
 {
 	threatData = ThreatData(type, "", threatId);
 }

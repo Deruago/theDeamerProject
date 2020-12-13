@@ -24,11 +24,12 @@ namespace deamer { namespace threat {
 	private:
 	public:
 		ThreatData threatData;
+		const LanguageDefinition& languageDefinition;
 		
-		Threat(ThreatType type, unsigned threatId);
+		Threat(ThreatType type, unsigned threatId, const LanguageDefinition& languageDefinition_);
 		virtual ~Threat() = default;
 
-		virtual std::vector<ThreatData> AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition) = 0;
+		virtual std::vector<ThreatData> AnalyseLanguageDefinition() = 0;
 
 		void SetThreatDescription(const std::string& description);
 	};

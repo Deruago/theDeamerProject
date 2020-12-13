@@ -10,13 +10,13 @@
 #include "Deamer/LanguageAnalyzer/LanguageAnalyzer/LanguageDefinitionAnalyzer.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 
-deamer::threat::analyzer::languagedefinition::error::MultipleDeclarationTerminal::MultipleDeclarationTerminal() : ErrorThreat(id)
+deamer::threat::analyzer::languagedefinition::error::MultipleDeclarationTerminal::MultipleDeclarationTerminal(const LanguageDefinition& languageDefinition) : ErrorThreat(id, languageDefinition)
 {
 	SetThreatDescription(description);
 }
 
 std::vector<deamer::threat::ThreatData> deamer::threat::analyzer::languagedefinition::error::MultipleDeclarationTerminal::
-AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition)
+AnalyseLanguageDefinition()
 {
 	Token* startType = LanguageDefinitionAnalyzer(languageDefinition).GetStartToken();
 	if (startType == nullptr)

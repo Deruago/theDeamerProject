@@ -11,13 +11,13 @@
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 
 deamer::threat::analyzer::languagedefinition::error::NonTerminalHasNoProductionRulesAssociated::
-NonTerminalHasNoProductionRulesAssociated() : ErrorThreat(id)
+NonTerminalHasNoProductionRulesAssociated(const LanguageDefinition& languageDefinition_) : ErrorThreat(id, languageDefinition_)
 {
 	SetThreatDescription(description);
 }
 
 std::vector<deamer::threat::ThreatData> deamer::threat::analyzer::languagedefinition::error::NonTerminalHasNoProductionRulesAssociated::
-AnalyseLanguageDefinition(const LanguageDefinition & languageDefinition)
+AnalyseLanguageDefinition()
 {
 	Token* startType = LanguageDefinitionAnalyzer(languageDefinition).GetStartToken();
 	if (startType == nullptr)

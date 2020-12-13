@@ -19,9 +19,9 @@ namespace deamer { namespace threat { namespace analyzer { namespace languagedef
 	public:
 		const std::string description = "Unused Nonterminal";
 		constexpr static unsigned id = static_cast<unsigned>(LanguageDefinitionThreat::unusedNonTerminal);
-		UnusedNonTerminal();
+		UnusedNonTerminal(const LanguageDefinition& languageDefinition_);
 
-		std::vector<ThreatData> AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition) override;
+		std::vector<ThreatData> AnalyseLanguageDefinition() override;
 
 
 	private:

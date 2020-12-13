@@ -9,12 +9,12 @@
 #include "Deamer/ThreatAnalyzer/LanguageDefinition/Threat/Error/MultipleDeclarationProductionRule.h"
 
 deamer::threat::analyzer::languagedefinition::error::MultipleDeclarationProductionRule::
-MultipleDeclarationProductionRule() : ErrorThreat(id)
+MultipleDeclarationProductionRule(const LanguageDefinition& languageDefinition_) : ErrorThreat(id, languageDefinition)
 {
 }
 
 std::vector<deamer::threat::ThreatData> deamer::threat::analyzer::languagedefinition::error::
-MultipleDeclarationProductionRule::AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition)
+MultipleDeclarationProductionRule::AnalyseLanguageDefinition()
 {
 	return {};
 }

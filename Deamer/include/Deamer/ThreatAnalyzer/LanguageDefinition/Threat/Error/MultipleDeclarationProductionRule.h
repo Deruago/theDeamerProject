@@ -19,9 +19,9 @@ namespace deamer { namespace threat { namespace analyzer { namespace languagedef
 	public:
 		const std::string description = "No starting symbol specified";
 		constexpr static unsigned id = static_cast<unsigned>(LanguageDefinitionThreat::multipleDeclarationProductionRule);
-		MultipleDeclarationProductionRule();
+		MultipleDeclarationProductionRule(const LanguageDefinition& languageDefinition_);
 
-		std::vector<ThreatData> AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition) override;
+		std::vector<ThreatData> AnalyseLanguageDefinition() override;
 	};
 
 }}}}}

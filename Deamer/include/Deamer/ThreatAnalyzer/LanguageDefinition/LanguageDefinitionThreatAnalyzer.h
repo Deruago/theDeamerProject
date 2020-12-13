@@ -11,42 +11,23 @@
 
 #include "Deamer/ThreatAnalyzer/Threat/Threat.h"
 #include "Deamer/ThreatAnalyzer/ThreatAnalyzer.h"
-
-#include "Deamer/ThreatAnalyzer/LanguageDefinition/Threat/Error/MultipleDeclarationTerminal.h"
-#include "Deamer/ThreatAnalyzer/LanguageDefinition/Threat/Error/MultipleDeclarationNonTerminal.h"
-#include "Deamer/ThreatAnalyzer/LanguageDefinition/Threat/Error/MultipleDeclarationProductionRule.h"
-#include "Deamer/ThreatAnalyzer/LanguageDefinition/Threat/Error/NonTerminalHasNoProductionRulesAssociated.h"
-#include "Deamer/ThreatAnalyzer/LanguageDefinition/Threat/Error/EmptyRecursion.h"
-
-#include "Deamer/ThreatAnalyzer/LanguageDefinition/Threat/Warning/NoStartingSymbolSpecified.h"
-#include "Deamer/ThreatAnalyzer/LanguageDefinition/Threat/Warning/UnusedProductionRule.h"
-#include "Deamer/ThreatAnalyzer/LanguageDefinition/Threat/Warning/UnusedTerminal.h"
-#include "Deamer/ThreatAnalyzer/LanguageDefinition/Threat/Warning/UnusedNonTerminal.h"
+#include "Deamer/ThreatAnalyzer/LanguageDefinition/LanguageDefintionThreat.h"
 
 namespace deamer { namespace threat { namespace analyzer { namespace languagedefinition {
 	
 	class LanguageDefinitionThreatAnalyzer final : public ThreatAnalyzer
 	{
 	private:
-		const std::vector<Threat*> Threats = {
-			new error::EmptyRecursion(),
-			new error::MultipleDeclarationTerminal(),
-			new error::MultipleDeclarationNonTerminal(),
-			new error::MultipleDeclarationProductionRule(),
-			new error::NonTerminalHasNoProductionRulesAssociated(),
-			
-			new warning::NoStartingSymbolSpecified(),
-			new warning::UnusedProductionRule(),
-			new warning::UnusedTerminal(),
-			new warning::UnusedNonTerminal(),
-		};
+		const LanguageDefinition& languageDefinition;
+		const std::vector<Threat*> Threats;
+		
 		bool ThreatIsInSkippedThreatPasses(Threat* threat, const std::vector<LanguageDefinitionThreat>& skippedPasses) const;
 	public:
-		LanguageDefinitionThreatAnalyzer() = default;
+		LanguageDefinitionThreatAnalyzer(const LanguageDefinition& languageDefinition_);
 		~LanguageDefinitionThreatAnalyzer() override;
 		
-		std::vector<ThreatData> AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition) const override;
-		std::vector<ThreatData> AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition, const std::vector<LanguageDefinitionThreat>& skippedThreatPasses) const;
+		std::vector<ThreatData> AnalyseLanguageDefinition() const;
+		std::vector<ThreatData> AnalyseLanguageDefinition(const std::vector<LanguageDefinitionThreat>& skippedThreatPasses) const;
 	};
 
 }}}}

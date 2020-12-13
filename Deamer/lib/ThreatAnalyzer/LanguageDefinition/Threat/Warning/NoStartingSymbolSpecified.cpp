@@ -9,13 +9,13 @@
 #include "Deamer/ThreatAnalyzer/LanguageDefinition/Threat/Warning/NoStartingSymbolSpecified.h"
 #include "Deamer/LanguageGen/LanguageDefinition.h"
 
-deamer::threat::analyzer::languagedefinition::warning::NoStartingSymbolSpecified::NoStartingSymbolSpecified() : WarningThreat(id)
+deamer::threat::analyzer::languagedefinition::warning::NoStartingSymbolSpecified::NoStartingSymbolSpecified(const LanguageDefinition& languageDefinition_) : WarningThreat(id, languageDefinition_)
 {
 	SetThreatDescription(description);
 }
 
 std::vector<deamer::threat::ThreatData> deamer::threat::analyzer::languagedefinition::warning::NoStartingSymbolSpecified::
-AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition)
+AnalyseLanguageDefinition()
 {
 	if (languageDefinition.StartType == nullptr)
 		return {threatData};

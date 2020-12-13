@@ -12,10 +12,6 @@
 #include "Deamer/ThreatAnalyzer/ThreatData/ThreatData.h"
 #include <vector>
 
-namespace deamer {
-	class LanguageDefinition;
-}
-
 namespace deamer { namespace threat {
 
 	class ThreatAnalyzer
@@ -25,7 +21,6 @@ namespace deamer { namespace threat {
 		ThreatAnalyzer() = default;
 		virtual ~ThreatAnalyzer() = default;
 
-		virtual std::vector<ThreatData> AnalyseLanguageDefinition(const LanguageDefinition& languageDefinition) const = 0;
 		bool DoesThreatDataContainErrors(const std::vector<ThreatData>& threatData) const;
 		bool DoesThreatDataContainWarnings(const std::vector<ThreatData>& threatData) const;
 	};
