@@ -4,16 +4,7 @@
  *
  * Modified:
  * -July 2020 Thimo Böhmer
+ * -December 2020 Thimo Bohmer
  */
 
 #include "Deamer/DefaultAPI/DeamerCompilerAPI.h"
-
-deamer::DeamerCompilerAPI::DeamerCompilerAPI()
-{
-
-}
-
-deamer::DeamerCompilerAPI::~DeamerCompilerAPI()
-{
-
-}

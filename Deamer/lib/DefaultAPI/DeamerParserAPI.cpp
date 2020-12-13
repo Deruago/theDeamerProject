@@ -5,16 +5,7 @@
  * Modified:
  * -June 2020 Thimo Böhmer
  * -July 2020 Thimo Böhmer
+ * -December 2020 Thimo Bohmer
  */
 
 #include "Deamer/DefaultAPI/DeamerParserAPI.h"
-
-deamer::DeamerParserAPI::DeamerParserAPI()
-{
-
-}
-
-deamer::DeamerParserAPI::~DeamerParserAPI()
-{
-
-}

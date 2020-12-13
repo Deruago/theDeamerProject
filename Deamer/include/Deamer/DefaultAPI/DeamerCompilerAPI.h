@@ -4,6 +4,7 @@
  *
  * Modified:
  * -July 2020 Thimo Böhmer
+ * -December 2020 Thimo Bohmer
  */
 
 #ifndef DEAMER_DEFAULTAPI_DEAMERCOMPILEAPI_H
@@ -15,14 +16,15 @@ namespace deamer
 {
     class DeamerCompilerAPI
     {
-        private:
-        protected:
-        public:
-            DeamerCompilerAPI();
-            ~DeamerCompilerAPI();
-            virtual CompiledObject* CompileText(std::string inputText) = 0;
-            virtual CompiledObject* CompileFile(FILE* inputFile) = 0;
-            virtual CompiledObject* CompileFile(std::string fileLocation) = 0;
+    private:
+    protected:
+    public:
+        DeamerCompilerAPI() = default;
+        virtual ~DeamerCompilerAPI() = default;
+    
+        virtual CompiledObject* CompileText(std::string inputText) = 0;
+        virtual CompiledObject* CompileFile(FILE* inputFile) = 0;
+        virtual CompiledObject* CompileFile(std::string fileLocation) = 0;
     };
 }
 
