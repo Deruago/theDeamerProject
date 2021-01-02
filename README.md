@@ -23,6 +23,7 @@ Installing the library is as simple as running the following commands:
 
 - ```
   git clone https://github.com/Deruago/theDeamerProject.git
+  cd ./theDeamerProject
   ```
 
 - ```
