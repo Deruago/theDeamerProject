@@ -47,5 +47,5 @@ The GPL strictly aims at protecting these freedoms, requiring everyone  to share
 
 Feel free to contribute to the DeamerProject! But there are some things to note:
 
-- All contributions through pull-requests, issues, or otherwise, you accept to release your contribution to the license terms described in [LICENSE][https://github.com/Deruago/theDeamerProject/blob/master/LICENSE].
+- All contributions through pull-requests, issues, or otherwise, you accept to release your contribution to the license terms described in [LICENSE](https://github.com/Deruago/theDeamerProject/blob/master/LICENSE).
 - If a contributor wants to further state their copyright on any of their contributions, they can do so by indicating their copyright in the commit message.
