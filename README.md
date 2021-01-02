@@ -29,3 +29,23 @@ Installing the library is as simple as running the following commands:
   cd ./Deamer
   sudo make install
   ```
+
+## License
+
+DeamerProject is distributed under the [GNU General Public License](http://www.gnu.org/copyleft/gpl.html) (GPL, or “free software”).
+
+This license grants people a number of freedoms:
+
+- You are free to use DeamerProject , for any purpose
+- You are free to distribute DeamerProject 
+- You can study how DeamerProject works and change it
+- You can distribute changed versions of DeamerProject 
+
+The GPL strictly aims at protecting these freedoms, requiring everyone  to share their modifications when they also share the software in  public. That aspect is commonly referred to as [Copyleft](http://en.wikipedia.org/wiki/Copyleft).
+
+### Contributing
+
+Feel free to contribute to the DeamerProject! But there are some things to note:
+
+- All contributions through pull-requests, issues, or otherwise, you accept to release your contribution to the license terms described in [LICENSE][https://github.com/Deruago/theDeamerProject/blob/master/LICENSE].
+- If a contributor wants to further state their copyright on any of their contributions, they can do so by indicating their copyright in the commit message.
