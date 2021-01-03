@@ -39,10 +39,17 @@ ifeq "$(MAKECMDGOALS)" ""
 -include $(DEPS)
 endif
 
-install: uninstall $(OBJS)
+install: uninstall
+	mkdir -p ./Deamer
+	ar rcs ./Deamer/libDeamer.a $(OBJS)
+
+uninstall:
+	sudo rm -f ./Deamer/*
+
+install_into_bin_dir: uninstall_from_bin_dir $(OBJS)
 	sudo cp -r $(HEADERSDIR) /usr/include/Deamer/
 	ar rcs /usr/lib/Deamer/libDeamer.a $(OBJS)
 	
-uninstall:
+uninstall_from_bin_dir:
 	sudo rm -r -f /usr/include/Deamer/*
 	sudo rm -f /usr/lib/Deamer/*
