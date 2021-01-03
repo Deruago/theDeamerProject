@@ -46,10 +46,10 @@ install: uninstall
 uninstall:
 	sudo rm -f ./Deamer/*
 
-install_into_bin_dir: uninstall_from_bin_dir $(OBJS)
+install_into_system_dirs: uninstall_from_system_dirs $(OBJS)
 	sudo cp -r $(HEADERSDIR) /usr/include/Deamer/
 	ar rcs /usr/lib/Deamer/libDeamer.a $(OBJS)
 	
-uninstall_from_bin_dir:
+uninstall_from_system_dirs:
 	sudo rm -r -f /usr/include/Deamer/*
 	sudo rm -f /usr/lib/Deamer/*
