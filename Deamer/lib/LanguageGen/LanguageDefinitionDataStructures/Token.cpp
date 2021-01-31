@@ -59,3 +59,8 @@ void deamer::Token::SetBaseGroupTokensIsVector(const bool cond)
         }
     }
 }
+
+bool deamer::Token::IsTerminal() const
+{
+    return TokenPermission.is_flag_set(TokenPermission_t::node);
+}

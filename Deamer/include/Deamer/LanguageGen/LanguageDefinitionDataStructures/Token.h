@@ -44,8 +44,8 @@ namespace deamer
         Token(const std::string& tokenName, const BitwiseEnum<TokenType_t> tokenType, const BitwiseEnum<TokenPermission_t> tokenPermission);
     public:
         virtual ~Token() = default;
-		
-		std::string TokenName;
+
+        std::string TokenName;
 
 		unsigned TotalAmountOfTypesThatUsesThisToken = 0;
         std::vector<Token*> BaseTokens;
@@ -57,6 +57,8 @@ namespace deamer
         void AddReferenceToTokenThatUsesThisToken();
         void RemoveReferenceThatUsedThisToken();
         void SetBaseGroupTokensIsVector(const bool cond);
+
+		bool IsTerminal() const;
     };
 }
 
