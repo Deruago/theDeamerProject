@@ -30,7 +30,7 @@ namespace deamer
 	protected:
 	public:
 		TokenPrinter() = default;
-		~TokenPrinter() = default;
+		~TokenPrinter() override = default;
 
 		void visit(Token & visited_type) override;
 		void first_visit(Rule & visited_type) override;
@@ -40,6 +40,7 @@ namespace deamer
 		void visit(Node& node) override;
 
 		void Print(LanguageDefinition & language_definition) override;
+		void PrintTokens(const std::vector<Token*>& tokens) const;
 	};
 }
 

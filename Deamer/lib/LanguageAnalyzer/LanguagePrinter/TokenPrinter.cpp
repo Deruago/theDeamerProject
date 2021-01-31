@@ -52,3 +52,12 @@ void deamer::TokenPrinter::Print(LanguageDefinition& language_definition)
 {
 	dispatch(*language_definition.StartType);
 }
+
+void deamer::TokenPrinter::PrintTokens(const std::vector<Token*>& tokens) const
+{
+	for(auto* token : tokens)
+	{
+		std::cout << token->TokenName << ' ';
+	}
+	std::cout << std::endl;
+}
