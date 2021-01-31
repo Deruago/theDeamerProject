@@ -64,59 +64,6 @@ void deamer::BisonBuilder::AddType(Type* type)
 		ruleFormatter.AddType(type);
 }
 
-/*
- *
-bool deamer::BisonBuilder::IsCurrentTypeGrouped() const
-{
-	return currentType->GroupedType;
-}
-
-void deamer::BisonBuilder::MakeGroupedRule(Rule* rule)
-{
-	ruleDeclarationPart += FormatGroupedRule(rule);
-}
-
-std::string deamer::BisonBuilder::FormatGroupedRule(Rule* rule)
-{
-	std::ostringstream oss;
-	oss << "    ";
-
-	AddCorrectNotationForNewRule(oss);
-
-	WriteRule(rule, &oss);
-	WriteGroupedRuleModificationPart(rule, &oss);
-
-	oss << '\n';
-	return oss.str();
-}
-
-void deamer::BisonBuilder::WriteGroupedRuleModificationPart(Rule* rule, std::ostringstream* oss) const
-{
-	const std::string LanguageName = langDef->LanguageName;
-	FormatTypeGroupedRulePart(rule, oss, LanguageName);
-}
-
-void deamer::BisonBuilder::FormatTypeGroupedRulePart(Rule* rule, std::ostringstream* oss, const std::string&
-	LanguageName) const
-{
-	*oss << "{\n";
-	MakeGroupRuleExecutionPart(LanguageName, rule, oss);
-	MakeOutputCodeWhenNodeIsStartType(oss);
-	*oss << "    }";
-}
-
-void deamer::BisonBuilder::MakeGroupRuleExecutionPart(const std::string& LanguageName, Rule* rule, std::ostringstream* oss) const
-{
-	//This makes sure we dont create random ',' when nothing can be added.
-	if (!rule->IsEmpty())
-	{
-		MakeAstType(LanguageName, oss);
-		AddArgumentsToAstType(LanguageName, rule, oss);
-	}
-}
-
-*/
-
 void deamer::BisonBuilder::AddRule(Rule* rule)
 {
 	ruleFormatter.AddRule(rule);
