@@ -39,7 +39,7 @@ AnalyseLanguageDefinition()
 	std::vector<ThreatData> data;
 	for (auto* type : languageDefinition.GetTypes())
 	{
-		if (NonTerminalIsInVisitedTypes(type))
+		if (!NonTerminalIsInTypesWithEmptyRecursion(type))
 			continue;
 
 		data.push_back(MakeThreatData(type));
@@ -82,13 +82,24 @@ bool deamer::threat::analyzer::languagedefinition::error::EmptyRecursion::NonTer
 	return false;
 }
 
+bool deamer::threat::analyzer::languagedefinition::error::EmptyRecursion::NonTerminalIsInTypesWithEmptyRecursion(
+	Type* type) const
+{
+	for (auto* visited_type : TypesWithEmptyRecursion)
+		if (visited_type == type)
+			return true;
+
+	return false;
+}
+
 void deamer::threat::analyzer::languagedefinition::error::EmptyRecursion::first_visit(Type & visited_type)
 {
-
-	if (!LanguageDefinitionAnalyzer(languageDefinition).DoesTokenHaveEmptyRecursion())
+	if (LanguageDefinitionAnalyzer(languageDefinition).DoesTokenHaveEmptyRecursion(visited_type))
 	{
-		UsedTypes.push_back(&visited_type);	
+		TypesWithEmptyRecursion.push_back(&visited_type);
 	}
+	
+	UsedTypes.push_back(&visited_type);
 }
 
 void deamer::threat::analyzer::languagedefinition::error::EmptyRecursion::first_visit(Rule & visited_type) { }

@@ -34,8 +34,10 @@ namespace deamer { namespace threat { namespace analyzer { namespace languagedef
 		ThreatCodeDescription MakeThreatCodeDescription(Type* type) const;
 		std::string MakeErrorDescription(const Type& type) const;
 		bool NonTerminalIsInVisitedTypes(Type* type) const;
+		bool NonTerminalIsInTypesWithEmptyRecursion(Type* type) const;
 		std::vector<Type*> UsedTypes;
-
+		std::vector<Type*> TypesWithEmptyRecursion;
+		
 		void first_visit(Type& visited_type) override;
 		void first_visit(Rule& visited_type) override;
 		void first_visit(Node& visited_type) override;
