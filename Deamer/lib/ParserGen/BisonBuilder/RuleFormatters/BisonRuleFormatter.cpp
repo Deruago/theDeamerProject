@@ -132,6 +132,8 @@ std::string deamer::BisonRuleFormatter::AddFirstArgument(const std::string& Lang
 	while (j < CurrentRule->Tokens.size() && !createdFirstParam)
 	{
 		Token* CurrentToken = CurrentRule->Tokens[j];
+		j++;
+		
 		if (CurrentToken == CurrentType)
 			continue;
 		if (CurrentTokenHasAnAstNode(CurrentToken))
@@ -139,7 +141,6 @@ std::string deamer::BisonRuleFormatter::AddFirstArgument(const std::string& Lang
 			tmpString += MakeArgument(LanguageName, j, CurrentToken);
 			createdFirstParam = true;
 		}
-		j++;
 	}
 
 	return tmpString;
@@ -153,6 +154,7 @@ std::string deamer::BisonRuleFormatter::MakeNewAstNode(const std::string& Langua
 std::string deamer::BisonRuleFormatter::AddRestOfAllArguments(const std::string& LanguageName, int ArgumentCount) const
 {
 	std::string tmpString;
+	int tokenCount = 0;
 	for (;ArgumentCount < CurrentRule->Tokens.size(); ArgumentCount++)
 	{
 		Token* CurrentToken = CurrentRule->Tokens[ArgumentCount];
@@ -163,7 +165,13 @@ std::string deamer::BisonRuleFormatter::AddRestOfAllArguments(const std::string&
 			continue;
 		}
 
-		tmpString += ", " + MakeArgument(LanguageName, ArgumentCount, CurrentToken);
+		if (tokenCount > 0)
+		{
+			tmpString += ", ";
+		}
+		
+		tmpString += MakeArgument(LanguageName, ArgumentCount, CurrentToken);
+		tokenCount++;
 	}
 
 	return tmpString;
@@ -183,8 +191,8 @@ std::string deamer::BisonRuleFormatter::MakeAstType(const std::string& LanguageN
 
 std::string deamer::BisonRuleFormatter::AddArgumentsToAstType(const std::string& LanguageName) const
 {
-	int argumentCount;
-	return "(" + AddFirstArgument(LanguageName, argumentCount) + AddRestOfAllArguments(LanguageName, argumentCount) + ")" + MakeEndAddToMainTypeLine() + ";\n";
+	int argumentCount = 0;
+	return "(" + AddRestOfAllArguments(LanguageName, argumentCount) + ")" + MakeEndAddToMainTypeLine() + ";\n";
 }
 
 std::string deamer::BisonRuleFormatter::MakeAstTree(const std::string& LanguageName) const
