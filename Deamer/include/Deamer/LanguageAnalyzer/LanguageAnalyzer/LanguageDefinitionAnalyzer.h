@@ -22,6 +22,7 @@
 #define DEAMER_LANGUAGEANALYZER_LANGUAGEANALYZER_LANGUAGEDEFINITIONANALYZER_H
 
 #include "Deamer/LanguageGen/LanguageDefinition.h"
+#include <tuple>
 
 namespace deamer
 {
@@ -34,7 +35,17 @@ namespace deamer
 		~LanguageDefinitionAnalyzer() = default;
 
 		Token* GetStartToken() const;
-		bool DoesTokenHaveEmptyRecursion() const;
+		bool DoesLanguageHaveEmptyRecursion() const;
+		bool CheckIfTypeHasEmptyRecursion(deamer::Type& type) const;
+		bool DoesTokenHaveEmptyRecursion(Type& type) const;
+	private:
+		bool IsTokenViableForEmptyRecursion(Type& type) const;
+
+		bool DoesTypeHaveProductionRuleDirectlyReferingItself(const Type& type) const;
+		bool DoesTypeHaveProductionRuleDirectlyReferingItself(const Type& type, const Rule& rule) const;
+
+		bool DoesTypeHaveProductionRuleWhenReducedHasDoubleType(const Type& type) const;
+		bool DoesTypeHaveProductionRuleWhenReducedHasDoubleType(const Type& type, const Rule& rule) const;
 	};
 }
 

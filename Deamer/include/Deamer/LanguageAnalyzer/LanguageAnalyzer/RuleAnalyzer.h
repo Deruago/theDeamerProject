@@ -20,6 +20,9 @@
 
 #ifndef DEAMER_LANGUAGEANALYZER_LANGUAGEANALYZER_RULEANALYZER_H
 #define DEAMER_LANGUAGEANALYZER_LANGUAGEANALYZER_RULEANALYZER_H
+#include <stack>
+
+#include "Deamer/LanguageGen/LanguageDefinitionDataStructures/Token.h"
 
 namespace deamer
 {
@@ -41,6 +44,14 @@ namespace deamer
 		// This is an inefficent overload. This uses the types within the rule to check if the types have this rule. O(n^2)
 		// Only use this member function if you dont have direct access to the type containing this rule.
 		bool IsVectorisable(Rule& rule) const;
+
+		// e.g. NT1 NT1 NT2, or NT3 NT1 NT2 NT1 NT1 NT3
+		bool DoesRuleHaveMultipleCallsToTypeDirectlyAfterEachOther(const Rule& rule, const Type& type) const;
+
+		// Flatten rule, makes 1 big rule where NT's are substituted for their first production rule
+		Rule FlattenRule(const Rule& rule, const Type& terminatingType) const;
+	private:
+		void FlattenRule(const Rule& rule, std::vector<Token*>& tokens, const Type& terminatingType, std::vector<Token*>& visitedTokens) const;
 	};
 }
 
