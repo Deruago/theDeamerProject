@@ -1,6 +1,7 @@
+PROJECT_NAME := Deamer
 SRCDIR := ./lib
 HEADERDIR := ./include
-HEADERSDIR := $(shell find include/Deamer/ -type d -maxdepth 1)
+HEADERSDIR := $(shell find include/$(PROJECT_NAME)/ -type d -maxdepth 1)
 OBJDIR := .obj
 DEPDIR := .dep
 CHEADERDIR := .cheader
@@ -40,16 +41,16 @@ ifeq "$(MAKECMDGOALS)" ""
 endif
 
 install: uninstall
-	mkdir -p ./Deamer
-	ar rcs ./Deamer/libDeamer.a $(OBJS)
+	mkdir -p ./$(PROJECT_NAME)
+	ar rcs ./$(PROJECT_NAME)/lib$(PROJECT_NAME).a $(OBJS)
 
 uninstall:
-	sudo rm -f ./Deamer/*
+	sudo rm -f ./$(PROJECT_NAME)/*
 
 install_into_system_dirs: uninstall_from_system_dirs $(OBJS)
-	sudo cp -r $(HEADERSDIR) /usr/include/Deamer/
-	ar rcs /usr/lib/Deamer/libDeamer.a $(OBJS)
+	sudo cp -r $(HEADERSDIR) /usr/include/$(PROJECT_NAME)/
+	ar rcs /usr/lib/$(PROJECT_NAME)/lib$(PROJECT_NAME).a $(OBJS)
 	
 uninstall_from_system_dirs:
-	sudo rm -r -f /usr/include/Deamer/*
-	sudo rm -f /usr/lib/Deamer/*
+	sudo rm -r -f /usr/include/$(PROJECT_NAME)/*
+	sudo rm -f /usr/lib/$(PROJECT_NAME)/*
