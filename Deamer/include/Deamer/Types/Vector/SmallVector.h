@@ -183,7 +183,7 @@ template <class T>
 void SmallVectorBase<T>::push_back(T&& t)
 {
 	if (Size == capacity())
-		grow(capacity(), capacity(), element_size());
+		grow(capacity() * 2, capacity(), element_size());
 	*end() = T(std::move(t));
 	set_size(Size + 1);
 }
