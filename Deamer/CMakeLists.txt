@@ -20,6 +20,11 @@ endif()
 add_subdirectory(lib)
 add_custom_target(build_and_test ${CMAKE_CTEST_COMMAND} -V)
 
+option(EXAMPLES "Build the examples" OFF)
+if(EXAMPLES)
+	add_subdirectory(examples)
+endif()
+
 option(PACKAGE_TESTS "Build the tests" ON)
 if(PACKAGE_TESTS)
 	find_package(GTest)
