@@ -44,6 +44,10 @@ This license grants people a number of freedoms:
 
 The GPL strictly aims at protecting these freedoms, requiring everyone  to share their modifications when they also share the software in  public. That aspect is commonly referred to as [Copyleft](http://en.wikipedia.org/wiki/Copyleft).
 
+Some parts of Deamer are licensed under a different license. Whenever a part is under a different license, this will be communicated through a README.MD
+
+The "extern" directory is not covered under this license.
+
 ### Contributing
 
 Feel free to contribute to the DeamerProject! But there are some things to note:
