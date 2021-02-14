@@ -1,0 +1,3 @@
+[submodule "Deamer/extern/googletest"]
+	path = Deamer/extern/googletest
+	url = https://github.com/google/googletest.git
