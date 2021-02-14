@@ -27,20 +27,25 @@
 
 std::string deamer::TokenFormatter::MakeFunctionArgument()
 {
+	return "";
 }
 
 std::string deamer::TokenFormatter::MakeTypeCallAsClassField()
 {
+	return "";
 }
 
 std::string deamer::TokenFormatter::MakeTypeAsCtorInputVariable()
 {
+	return "";
 }
 
 std::string deamer::TokenFormatter::MakeConstructorTypeAssignment()
 {
+	return "";
 }
 
 std::string deamer::TokenFormatter::MakeTypeAsClassField()
 {
+	return "";
 }

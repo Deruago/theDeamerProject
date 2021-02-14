@@ -48,6 +48,7 @@ std::string deamer::RuleFormatter::MakeConstructorArguments(Token* token_subject
 
 	return args;
 	//*/
+	return "";
 }
 
 std::string deamer::RuleFormatter::MakeConstructorPrototype(Token* token_subject, Rule& rule)
@@ -76,6 +77,7 @@ std::string deamer::RuleFormatter::MakeConstructors(Token* token_subject, Rule& 
 
 	return constructor_assignments;
 	//*/
+	return "";
 }
 
 std::string deamer::RuleFormatter::MakeConstructor(Token* token, Rule& rule)

@@ -59,8 +59,7 @@ bool deamer::Generator::DoesDirectoryExist(const std::string& Directory) const
 
 bool deamer::Generator::CreateDirectory(const std::string& Directory) const
 {
-	const unsigned status = mkdir(Directory.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-    return status;
+	return std::filesystem::create_directory(Directory.c_str());
 }
 
 void deamer::Generator::CreateDirectoryIfNotExist(const std::string& Directory) const
