@@ -10,26 +10,55 @@ Welcome to the DeamerProject!
 
 DeamerProject exists of multiple components that as whole count as the DeamerProject. The core of this project is "Deamer", Deamer is a compiler generator used to generate the front-end and mid-end of compilers (and a whole lot more). The DeamerProject include tools for language generation, language processing, language testing, language optimisations, and tools to support people with RSI.
 
-Tools included are: Deamer, Deamer-lang, DLDL, DQSL, DCPP.
+Tools included are: [Deamer](https://github.com/Deruago/theDeamerProject), Deamer-lang, [DLDL](https://github.com/Deruago/DLDL), DQSL, DCPP.
 
 ## Getting the source code and building DeamerProject
 
-Installing the library is as simple as running the following commands:
+Deamer uses cmake for building the source code. You can install cmake [here](https://cmake.org/install/) by following the instructions.
+When you have cmake, installing the project is as simple as using the following commands:
 
-- ```
-  mkdir DeamerProject
-  cd ./DeamerProject
-  ```
-
-- ```
-  git clone https://github.com/Deruago/theDeamerProject.git
+- ``````bash
+  git clone --recursive https://github.com/Deruago/theDeamerProject.git
   cd ./theDeamerProject
+  ``````
+
+- ``````bash
+  cd ./Deamer
+  ``````
+
+- ``````bash
+  mkdir build
+  cd ./build
+  ``````
+
+- ```bash
+  cmake ..
+  sudo cmake --build . --target install
   ```
 
-- ```
-  cd ./Deamer
-  sudo make install
+### Cmake
+
+Cmake is used for installing, building, and running the tests. Currently the following targets can be used for cmake:
+
+- ```bash
+  examples		# builds all the examples, see the examples directory for more information
   ```
+
+- ``````bash
+  install			# installs the library
+  ``````
+
+- ``````bash
+  Deamer			# builds the library
+  ``````
+
+- ``````bash
+  build_and_test	# build and run the tests
+  ``````
+
+- ``````bash
+  test			# run the last build tests
+  ``````
 
 ## License
 
