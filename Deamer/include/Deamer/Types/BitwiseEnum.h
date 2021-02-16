@@ -27,7 +27,7 @@
 
 #ifndef DEAMER_TYPES_BITWISEENUM_H
 #define DEAMER_TYPES_BITWISEENUM_H
-#include <string>
+
 #include <vector>
 
 template<class T>
@@ -45,6 +45,11 @@ public:
 	void operator|=(T b);
 	void operator&=(T b);
 	void operator^=(T b);
+	
+	void operator=(unsigned b);
+	void operator|=(unsigned  b);
+	void operator&=(unsigned  b);
+	void operator^=(unsigned  b);
 
 	unsigned operator&(T b) const;
 	unsigned operator^(T b) const;
@@ -97,6 +102,30 @@ template <class T>
 void BitwiseEnum<T>::operator^=(T b)
 {
 	bitwise_value = operator^(b);
+}
+
+template <class T>
+void BitwiseEnum<T>::operator=(unsigned b)
+{
+	bitwise_value = b;
+}
+
+template <class T>
+void BitwiseEnum<T>::operator|=(unsigned b)
+{
+	bitwise_value |= b;
+}
+
+template <class T>
+void BitwiseEnum<T>::operator&=(unsigned b)
+{
+	bitwise_value &= b;
+}
+
+template <class T>
+void BitwiseEnum<T>::operator^=(unsigned b)
+{
+	bitwise_value ^= b;
 }
 
 template <class T>

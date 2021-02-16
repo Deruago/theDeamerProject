@@ -36,12 +36,14 @@ namespace deamer
 {
 	template<typename T> class BaseAutoPtr;
 	template<typename T> class DeepCopyAutoPtr;
+	template<typename T> class SharedPtr;
 
 	template<typename T>
 	class RawPtr
 	{
 		friend BaseAutoPtr<T>;
 		friend DeepCopyAutoPtr<T>;
+		friend SharedPtr<T>;
 	public:
 		using ptr = T*;
 		using const_ptr = const T* const;
@@ -128,6 +130,11 @@ namespace deamer
 		bool operator==(const_ptr comparedPtr)
 		{
 			return managedPtr == comparedPtr;
+		}
+		
+		T& GetReferenceToItem() const
+		{
+			return *managedPtr;
 		}
 
 		bool IsDeleted() const

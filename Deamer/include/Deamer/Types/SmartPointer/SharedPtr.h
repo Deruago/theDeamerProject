@@ -102,7 +102,7 @@ namespace deamer
 
 		SharedPtr<T>& operator=(const SharedPtr<T>& managedPtr_) = delete;
 		SharedPtr<T>& operator=(SharedPtr<T>&& managedPtr_) = delete;
-
+		
 		ptr operator->() const
 		{
 			if (managedPtr == nullptr)
