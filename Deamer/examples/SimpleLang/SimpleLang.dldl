@@ -1,0 +1,51 @@
+//////////////////////////////////////
+/ This is part of an example         /
+/ The language is called SimpleLang  /
+//////////////////////////////////////
+
+
+
+/ deleted sequences
+DELETE: ESCAPE_CHARACTERS [\n\r\t\s]+
+
+/ Symbols
+IGNORE: LEFT_CURLY_BRACKET  [(]
+IGNORE: RIGHT_CURLY_BRACKET [)]
+IGNORE: LEFT_BRACKET        [{]
+IGNORE: RIGHT_BRACKET       [}]
+IGNORE: EQUAL               [=]
+IGNORE: SEMICOLON           [;]
+
+/ Declarations
+IGNORE: FUNCTION_DECLARATION def
+IGNORE: VARIABLE_DECLARATION var
+
+/ Data terminals
+TERMINAL: VARNAME [a-zA-Z_]+[a-zA-Z_0-9]*
+TERMINAL: NUMBER  [0-9]+
+TERMINAL: DECIMAL [0-9]+[\.][0-9]+
+TERMINAL: STRING  [\"][.]*[\"]
+
+/ Context free grammar
+prog
+	stmts
+
+stmts
+	stmt stmts
+	EMPTY
+
+GROUP: stmt variable_initialisation function_initialisation
+
+variable_initialisation
+	VARIABLE_DECLARATION VARNAME EQUAL NUMBER SEMICOLON
+	VARIABLE_DECLARATION VARNAME EQUAL STRING SEMICOLON
+	VARIABLE_DECLARATION VARNAME EQUAL DECIMAL SEMICOLON
+	VARIABLE_DECLARATION VARNAME EQUAL VARNAME SEMICOLON
+
+function_initialisation
+	FUNCTION_DECLARATION VARNAME LEFT_CURLY_BRACKET RIGHT_CURLY_BRACKET block
+
+block
+	LEFT_BRACKET stmts RIGHT_BRACKET
+
+/
