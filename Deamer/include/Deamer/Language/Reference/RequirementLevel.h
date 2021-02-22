@@ -18,15 +18,22 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_H
-#define DEAMER_H
+#ifndef DEAMER_LANGUAGE_REFERENCE_REQUESTLEVEL_H
+#define DEAMER_LANGUAGE_REFERENCE_REQUESTLEVEL_H
 
-/*! \namespace deamer
- *
- *  Used as main namespace for all the library code
- */
-namespace deamer {
-    
+namespace deamer::language::reference
+{
+	/*! \enum RequirementLevel
+	 *
+	 *	\brief Used to specify the RequirementLevel of an reference.
+	 *
+	 *	\see LanguageReferenceRequest
+	 */
+	enum class RequirementLevel
+	{
+		Needed,
+		Optional,
+	};
 }
 
-#endif //DEAMER_H
+#endif //DEAMER_LANGUAGE_REFERENCE_REQUESTLEVEL_H

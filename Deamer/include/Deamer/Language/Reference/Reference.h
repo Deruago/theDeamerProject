@@ -18,15 +18,16 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_H
-#define DEAMER_H
+#ifndef DEAMER_LANGUAGE_REFERENCE_REFERENCE_H
+#define DEAMER_LANGUAGE_REFERENCE_REFERENCE_H
 
-/*! \namespace deamer
- *
- *  Used as main namespace for all the library code
- */
-namespace deamer {
-    
+  /*! \namespace deamer::language::reference
+   *
+   *	\brief This namespace contains a set of classes used to reference languages.
+   */
+namespace deamer::language::reference
+{
+
 }
 
-#endif //DEAMER_H
+#endif //DEAMER_LANGUAGE_REFERENCE_REFERENCE_H

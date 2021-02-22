@@ -18,15 +18,15 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_H
-#define DEAMER_H
+#ifndef DEAMER_LANGUAGE_H
+#define DEAMER_LANGUAGE_H
 
-/*! \namespace deamer
+/*! \namespace deamer::language
  *
- *  Used as main namespace for all the library code
+ *  Contains all code related to languages
  */
-namespace deamer {
-    
+namespace deamer::language {
+
 }
 
-#endif //DEAMER_H
+#endif //DEAMER_LANGUAGE_H
