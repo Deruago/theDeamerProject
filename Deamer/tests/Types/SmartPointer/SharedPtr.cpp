@@ -1,7 +1,7 @@
-#include <Deamer/Types/SmartPointer/SharedPtr.h>
+#include <Deamer/Type/SmartPointer/SharedPtr.h>
 #include <gtest/gtest.h>
 
-using namespace deamer;
+using namespace deamer::type;
 
 class TestSharedPtr : public testing::Test
 {
