@@ -28,6 +28,14 @@ endif()
 add_subdirectory(lib)
 add_custom_target(build_and_test ${CMAKE_CTEST_COMMAND} -V)
 
+find_package(Doxygen)
+if(Doxygen_FOUND)
+	add_subdirectory(docs)
+else()
+	message(STATUS "Doxygen not found, not building docs")
+endif()
+
+
 option(EXAMPLES "Build the examples" OFF)
 if(EXAMPLES)
 	message(STATUS "Examples can now be build")
