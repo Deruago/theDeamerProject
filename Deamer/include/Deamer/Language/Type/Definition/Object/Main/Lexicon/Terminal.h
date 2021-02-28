@@ -22,6 +22,8 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_TERMINAL_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Type/Memory/SafeReserve.h"
+#include <string>
 
 namespace deamer::language::type::definition::object::main {
 	/*! \class Terminal
@@ -30,7 +32,22 @@ namespace deamer::language::type::definition::object::main {
 	 */
 	class Terminal : public Base
 	{
+	friend deamer::type::SafeReserve<Terminal>;
+	public:
+		std::string Name;
+		std::string Regex;
+		
+		Terminal(std::string name_, std::string regex_);
 
+		Terminal(const Terminal& terminal);
+		Terminal(Terminal&& terminal) noexcept;
+
+		Terminal& operator=(const Terminal& terminal);
+		Terminal& operator=(Terminal&& terminal) noexcept;
+
+		~Terminal() = default;
+	private:
+		Terminal();
 	};
 }
 

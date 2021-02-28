@@ -18,28 +18,16 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_PRODUCTIONRULE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_PRODUCTIONRULE_H
+#include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
+#include <utility>
 
-#include "Deamer/Language/Type/Definition/Object/Base.h"
-#include "Deamer/Type/Memory/SafeReserve.h"
-#include <vector>
-
-namespace deamer::language::type::definition::object::main {
-	/*! \class ProductionRule
-	 *
-	 *  ProductionRule, used in grammar definitions.
-	 */
-	class ProductionRule : public Base
-	{
-	private:
-		friend deamer::type::SafeReserve<ProductionRule>;
-	public:
-		std::vector<Base*> Tokens;
-		ProductionRule(std::vector<Base*> tokens_);
-		ProductionRule();
-	private:
-	};
+deamer::language::type::definition::object::main::NonTerminal::NonTerminal(std::string name_, std::vector<ProductionRule*> productionRules_)
+	:	Base(Type::NonTerminal),
+		Name(std::move(name_)),
+		ProductionRules(std::move(productionRules_))
+{
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_PRODUCTIONRULE_H
+deamer::language::type::definition::object::main::NonTerminal::NonTerminal() : NonTerminal("", {})
+{
+}

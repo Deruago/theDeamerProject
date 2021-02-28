@@ -22,6 +22,11 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_NONTERMINAL_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Type/Memory/SafeReserve.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
+#include <string>
+#include <vector>
+
 
 namespace deamer::language::type::definition::object::main {
 	/*! \class NonTerminal
@@ -30,7 +35,15 @@ namespace deamer::language::type::definition::object::main {
 	 */
 	class NonTerminal : public Base
 	{
-
+	private:
+		friend deamer::type::SafeReserve<NonTerminal>;
+	public:
+		std::string Name;
+		std::vector<ProductionRule*> ProductionRules;
+		
+		NonTerminal(std::string name_, std::vector<ProductionRule*> productionRules_);
+	private:
+		NonTerminal();
 	};
 }
 
