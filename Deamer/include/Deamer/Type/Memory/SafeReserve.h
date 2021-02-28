@@ -1,26 +1,22 @@
-#ifndef DEAMER_TYPE_MEMORY_RESERVE_H
-#define DEAMER_TYPE_MEMORY_RESERVE_H
-
-#include <cstring>
+#ifndef DEAMER_TYPE_MEMORY_SAFERESERVE_H
+#define DEAMER_TYPE_MEMORY_SAFERESERVE_H
 
 namespace deamer::type {
 
-    /*! \class Reserve
+    /*! \class SafeReserve
      *
-     *  \brief Reserve is a memory reserving class, used to reserve memory.
+     *  \brief SafeReserve is a memory reserving class, used to reserve memory. It is a safe counterpart to Reserve.
      *
-     *  \details Reserve reserves memory for a type T, it can be used whenever you need a specific address to point to, but that address cannot be initialized immediately.
-     *  This feature of initializing later, is used in Language generation classes.
+     *  \note The type requires a default constructor, to initialize the class with default values.
+     *  The constructor may be private or protected, but remember to friend the SafeReserve class.
      *
-     *  \warning The reserved memory is allocated in the heap, and not deleted in this class. You are required to ask the Pointer and delete the pointer yourself.
-     *
-     *  \tparam T the type Reserve will reserve memory for.
+     *  \warning Note it reserves memory. You need to manually delete this memory.
      */
     template<typename T>
-    class Reserve
+    class SafeReserve
     {
     private:
-        char* const t_Reserved = static_cast<char*>(::operator new(size));
+        T* const t_Reserved = new T;
     public:
         constexpr static auto size = sizeof(T);
 
@@ -28,16 +24,16 @@ namespace deamer::type {
         using pointer = T*;
         using reference = T&;
 
-        explicit Reserve() noexcept = default;
+        SafeReserve() = default;
 
-        explicit Reserve(const T& t) noexcept
+        explicit SafeReserve(const T& t) noexcept
         {
             Set(t);
         }
 
-        explicit Reserve(const T* t) noexcept : Reserve(*t) {}
+        explicit SafeReserve(const T* t) noexcept : SafeReserve(*t) {}
 
-        explicit Reserve(T&& t) noexcept : Reserve(t) {}
+        explicit SafeReserve(T&& t) noexcept : SafeReserve(t) {}
 
         /*! \fn Set(const T& t)
          *
@@ -47,7 +43,7 @@ namespace deamer::type {
          */
         void Set(const T& t) const noexcept
         {
-            std::memcpy(t_Reserved, &t, size);
+            *t_Reserved = T(t);
         }
 
         /*! \fn Set(const T* t)
@@ -58,7 +54,7 @@ namespace deamer::type {
          */
         void Set(const T* t) const noexcept
         {
-            std::memcpy(t_Reserved, t, size);
+            Set(*t);
         }
 
         /*! \fn Get
@@ -76,12 +72,17 @@ namespace deamer::type {
          */
         T* Pointer() const noexcept
         {
-            return (pointer)t_Reserved;
+            return t_Reserved;
+        }
+    	
+        T* Pointer() noexcept
+        {
+            return t_Reserved;
         }
 
-        ~Reserve() = default;
+        ~SafeReserve() = default;
 
-        Reserve& operator=(const Reserve& reserve) = delete;
+        SafeReserve& operator=(const SafeReserve& reserve) = delete;
 
         /*! \fn operator=
          *
@@ -90,7 +91,7 @@ namespace deamer::type {
          *  \note The destructor will be called if the variable is out of scope.
          *  \see Set
          */
-        Reserve& operator=(const T& t) const noexcept
+        SafeReserve& operator=(const T& t) const noexcept
         {
             if (&t == Pointer())
             {
@@ -110,6 +111,15 @@ namespace deamer::type {
             return Pointer();
         }
 
+        /*! \fn operator->
+         *
+         *  \brief Returns a pointer to the reserved memory.
+         */
+        const T* operator->() const
+        {
+            return Pointer();
+        }
+
         void operator()(const T& t) const noexcept
         {
             Set(t);
@@ -122,4 +132,4 @@ namespace deamer::type {
     };
 }
 
-#endif //DEAMER_TYPE_MEMORY_RESERVE_H
+#endif //DEAMER_TYPE_MEMORY_SAFERESERVE_H
