@@ -56,15 +56,18 @@ namespace deamer::language::reference
 
 			return propertyDefinitions;
 		}
+		const type::definition::Language& Language;
 	public:
 		constexpr static auto totalRequestedTypes = sizeof...(types);
-		constexpr static std::vector<type::definition::property::Type> requestedTypes = { types... };
+		constexpr static auto requestedTypes = { types... };
 		const std::vector<const type::definition::property::Definition*> requestedDefinitions;
 		
 		PropertyDefinition(const type::definition::Language& language)
-			:	requestedDefinitions(GetPropertyDefinitions(language))
+			: Language(language),
+			  requestedDefinitions(GetPropertyDefinitions(language))
 		{
 		}
+
 		/*! \fn
 		 *
 		 *	\brief This function is used to check if a specific definition is requested.
@@ -103,7 +106,7 @@ namespace deamer::language::reference
 			{
 				if (definition->GetType() == type)
 				{
-					return *static_cast<typename convertor::definition::PropertyEnumToType<type>::type*>(definition);
+					return *static_cast<const typename convertor::definition::PropertyEnumToType<type>::type*>(definition);
 				}
 			}
 			throw exception::RequestedPropertyDefinitionNotFound{};
