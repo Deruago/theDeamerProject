@@ -76,6 +76,9 @@ namespace deamer::language::convertor::definition
 		constexpr static auto value = type::definition::object::Type::ProductionRule;
 		using type = type::definition::object::main::ProductionRule;
 	};
+
+	template<type::definition::object::Type T>
+	using ObjectEnumToType_t = typename ObjectEnumToType<T>::type;
 }
 
 #endif //DEAMER_LANGUAGE_CONVERTOR_DEFINITION_OBJECTENUMTOTYPE_H
