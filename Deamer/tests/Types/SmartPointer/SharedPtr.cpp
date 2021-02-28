@@ -53,12 +53,14 @@ TEST_F(TestSharedPtr, GiveValue_DeepCopyShouldCorrectlyMakeADeepCopy)
 	unsigned* const expectedValue = new unsigned(100);
 	const SharedPtr<unsigned> unsignedPtr(expectedValue);
 
-	const auto actualValue = unsignedPtr.DeepCopy();
+	auto actualValue = unsignedPtr.DeepCopy();
 	actualValue.GetReferenceToItem() = 2222;
 
 	EXPECT_EQ(2222, actualValue.GetReferenceToItem());
 
 	EXPECT_EQ(*expectedValue, unsignedPtr.GetReferenceToItem());
+
+	actualValue.Delete();
 }
 
 TEST_F(TestSharedPtr, GiveValue_DeepCopyValueAndPromotePointerAsSharedPtr)
