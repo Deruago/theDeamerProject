@@ -36,7 +36,7 @@ namespace deamer::language::exception
 		{
 		}
 
-		char const* what() const override
+		char const* what() const noexcept override
 		{
 			return "Requested definition couldn't be found.";
 		}
