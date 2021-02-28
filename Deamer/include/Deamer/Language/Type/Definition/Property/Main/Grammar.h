@@ -46,7 +46,7 @@ namespace deamer::language::type::definition::property::main {
 		void operator=(const Grammar& lexicon) = delete;
 		void operator=(Grammar&& lexicon) = delete;
 
-		~Grammar() = default;
+		virtual ~Grammar() = default;
 	};
 }
 

@@ -49,7 +49,11 @@ namespace deamer::language::type::definition::object {
 		 */
 		void Register() const noexcept {}
 	public:
+		deamer::language::type::definition::object::Type Type_;
 		
+		Base(const object::Type type_);
+		
+		virtual ~Base() = default;
 	};
 }
 

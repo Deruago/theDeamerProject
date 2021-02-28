@@ -36,6 +36,8 @@ namespace deamer::language::type::definition::property {
 		Definition(const property::Type type_ = property::Type::Unknown);
 
 		property::Type GetType() const noexcept;
+
+		virtual ~Definition() = default;
 	};
 }
 

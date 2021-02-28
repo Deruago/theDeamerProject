@@ -43,7 +43,7 @@ namespace deamer::language::type::definition::property::main {
 		void operator=(const Lexicon& lexicon) = delete;
 		void operator=(Lexicon&& lexicon) = delete;
 		
-		~Lexicon() = default;
+		virtual ~Lexicon() = default;
 	};
 }
 

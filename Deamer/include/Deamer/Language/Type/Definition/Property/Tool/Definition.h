@@ -30,7 +30,8 @@ namespace deamer::language::type::definition::property::tool {
      */
 	class Definition : public property::Definition
 	{
-		
+	public:
+		virtual ~Definition() = default;
 	};
 }
 

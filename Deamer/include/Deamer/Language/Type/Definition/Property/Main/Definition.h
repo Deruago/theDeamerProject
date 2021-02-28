@@ -32,6 +32,8 @@ namespace deamer::language::type::definition::property::main {
 	{
 	public:
 		Definition(const property::Type type) : property::Definition(type) {}
+		
+		virtual ~Definition() = default;
 	};
 }
 
