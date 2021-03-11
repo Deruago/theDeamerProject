@@ -98,6 +98,17 @@ namespace deamer::language::validator::definition
 		constexpr static auto value = type::definition::property::Type::Precedence;
 		using type = type::definition::property::main::Precedence;
 	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ObjectAssociativity>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Associativity;
+		using type = type::definition::property::main::Associativity;
+	};
 }
 
 #endif //DEAMER_LANGUAGE_VALIDATOR_DEFINITION_GETPROPERTYTYPEFROMOBJECTTYPE_H

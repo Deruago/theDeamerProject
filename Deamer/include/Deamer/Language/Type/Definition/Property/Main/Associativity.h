@@ -21,7 +21,9 @@
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_ASSOCIATIVITY_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_ASSOCIATIVITY_H
 
+#include "Deamer/Language/Type/Definition/Object/Main/Associativity/ObjectAssociativity.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
+#include <vector>
 
 namespace deamer::language::type::definition::property::main {
 	/*! \class Associativity
@@ -30,7 +32,13 @@ namespace deamer::language::type::definition::property::main {
 	 */
 	class Associativity : public Definition
 	{
+	public:
+		std::vector<object::main::ObjectAssociativity*> AssociativityObjects;
 
+		Associativity(std::vector<object::main::ObjectAssociativity*> associativityObjects_);
+		Associativity();
+
+		virtual ~Associativity() = default;
 	};
 }
 

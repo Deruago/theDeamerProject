@@ -18,31 +18,17 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+#include "Deamer/Language/Type/Definition/Property/Main/Associativity.h"
+#include <vector>
 
-namespace deamer::language::type::definition::object {
-	/*! \enum Type
-	 *
-	 *  \brief This enum lists all the different language definition object types.
-	 */
-	enum class Type
-	{
-		Unknown,
-		
-		//Lexicon
-		Terminal,
-		
-		//Grammar
-		NonTerminal,
-		ProductionRule,
+deamer::language::type::definition::property::main::Associativity::Associativity(std::vector<object::main::ObjectAssociativity*> associativityObjects_)
+	:	Definition(Type::Associativity),
+		AssociativityObjects(associativityObjects_)
+{
 
-		//Precedence
-		ObjectPrecedence,
-
-		//Associativity
-		ObjectAssociativity,
-	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+deamer::language::type::definition::property::main::Associativity::Associativity() : Associativity(std::vector<object::main::ObjectAssociativity*>{})
+{
+	
+}

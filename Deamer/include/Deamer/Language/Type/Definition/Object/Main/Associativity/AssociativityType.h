@@ -18,31 +18,21 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_ASSOCIATIVITY_ASSOCIATIVITYTYPE_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_ASSOCIATIVITY_ASSOCIATIVITYTYPE_H
 
-namespace deamer::language::type::definition::object {
-	/*! \enum Type
+namespace deamer::language::type::definition::object::main {
+	
+	/*! \enum AssociativityType
 	 *
-	 *  \brief This enum lists all the different language definition object types.
+	 *  Terminal symbol, used in lexicon definitions.
 	 */
-	enum class Type
+	enum class AssociativityType
 	{
-		Unknown,
-		
-		//Lexicon
-		Terminal,
-		
-		//Grammar
-		NonTerminal,
-		ProductionRule,
-
-		//Precedence
-		ObjectPrecedence,
-
-		//Associativity
-		ObjectAssociativity,
+		left,
+		right,
+		any,
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_ASSOCIATIVITY_ASSOCIATIVITYTYPE_H
