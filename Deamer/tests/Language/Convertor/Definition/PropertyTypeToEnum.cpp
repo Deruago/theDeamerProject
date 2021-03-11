@@ -22,7 +22,7 @@ TEST_F(TestPropertyTypeToEnum, ConvertTypeToEnum_CorrectEnumIsReturned)
 	EXPECT_EQ(Type::Colorization,		PropertyTypeToEnum<Colorization>::value);
 	EXPECT_EQ(Type::Documentation,		PropertyTypeToEnum<Documentation>::value);
 	EXPECT_EQ(Type::Formatting,			PropertyTypeToEnum<Formatting>::value);
-	EXPECT_EQ(Type::Precendence,		PropertyTypeToEnum<Precendence>::value);
+	EXPECT_EQ(Type::Precedence,			PropertyTypeToEnum<Precedence>::value);
 	EXPECT_EQ(Type::Lexicon,			PropertyTypeToEnum<Lexicon>::value);
 	EXPECT_EQ(Type::Grammar,			PropertyTypeToEnum<Grammar>::value);
 	EXPECT_EQ(Type::Semantic,			PropertyTypeToEnum<Semantic>::value);
