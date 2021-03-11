@@ -8,6 +8,7 @@
 #include <Deamer/Type/Memory/SafeReserve.h>
 
 #include "Deamer/Language/Generator/Definition/Property/Standard/Main/Precedence.h"
+#include "Deamer/Language/Generator/Definition/Property/Standard/Main/Associativity.h"
 
 class LanguageDefinition;
 
@@ -47,7 +48,13 @@ public:
 	GeneratePrecedence(LanguageDefinition* lang);
 };
 
-class LanguageDefinition : public deamer::language::generator::definition::Language<LanguageDefinition, GenerateLexicon, GenerateGrammar, GeneratePrecedence>, public GenerateLexicon, public GenerateGrammar, public GeneratePrecedence
+class GenerateAssociativity : public deamer::language::generator::definition::property::standard::Associativity<LanguageDefinition>
+{
+public:
+	GenerateAssociativity(LanguageDefinition* lang);
+};
+
+class LanguageDefinition : public deamer::language::generator::definition::Language<LanguageDefinition, GenerateLexicon, GenerateGrammar, GeneratePrecedence, GenerateAssociativity>, public GenerateLexicon, public GenerateGrammar, public GeneratePrecedence, public GenerateAssociativity
 {
 public:
 	int a = 0;

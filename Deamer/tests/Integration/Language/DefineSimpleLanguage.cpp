@@ -52,7 +52,11 @@ GeneratePrecedence::GeneratePrecedence(LanguageDefinition* lang) : Precedence(la
 {
 }
 
-LanguageDefinition::LanguageDefinition() : GenerateLexicon(this), GenerateGrammar(this), GeneratePrecedence(this)
+GenerateAssociativity::GenerateAssociativity(LanguageDefinition* lang) : Associativity(lang)
+{
+}
+
+LanguageDefinition::LanguageDefinition() : GenerateLexicon(this), GenerateGrammar(this), GeneratePrecedence(this), GenerateAssociativity(this)
 {
 }
 
@@ -195,6 +199,33 @@ TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_Correctly
 	EXPECT_EQ(0, precedences[1]->Precedence);
 	EXPECT_EQ(0, precedences[2]->Precedence);
 	EXPECT_EQ(0, precedences[3]->Precedence);
+
+	delete languageDefinition;
+}
+
+TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_CorrectlyGeneratesDefaultAssociativity)
+{
+	auto language = LanguageDefinition{};
+	auto* languageDefinition = language.GenerateLanguage();
+
+	const auto referenceLexicon = PropertyDefinition<Type::Lexicon>(*languageDefinition);
+	auto terminals = referenceLexicon.GetDefinition<Type::Lexicon>().Terminals;
+
+	const auto referencePrecedence = PropertyDefinition<Type::Associativity>(*languageDefinition);
+	const auto& associativities = referencePrecedence.GetDefinition<Type::Associativity>().AssociativityObjects;
+
+	EXPECT_EQ(4, terminals.size());
+	EXPECT_EQ(4, associativities.size());
+
+	EXPECT_TRUE(associativities[0]->Object == terminals[0]);
+	EXPECT_TRUE(associativities[1]->Object == terminals[1]);
+	EXPECT_TRUE(associativities[2]->Object == terminals[2]);
+	EXPECT_TRUE(associativities[3]->Object == terminals[3]);
+	
+	EXPECT_EQ(AssociativityType::any, associativities[0]->Associativity);
+	EXPECT_EQ(AssociativityType::any, associativities[1]->Associativity);
+	EXPECT_EQ(AssociativityType::any, associativities[2]->Associativity);
+	EXPECT_EQ(AssociativityType::any, associativities[3]->Associativity);
 
 	delete languageDefinition;
 }
