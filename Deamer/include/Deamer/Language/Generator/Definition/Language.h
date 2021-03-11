@@ -23,103 +23,134 @@
 
 #include "Deamer/Language/Generator/Definition/Base.h"
 #include "Deamer/Language/Type/Definition/Language.h"
-#include "Deamer/Language/Generator/Definition/Property/Base.h"
-#include <map>
+#include "Deamer/Language/Generator/Definition/Property/User/BaseAPI.h"
+#include "Deamer/Language/Generator/Definition/Property/Standard/BaseAPI.h"
+#include "Deamer/Language/Validator/Generator/IsGeneratorSequenceGeneratable.h"
 
 namespace deamer::language::generator::definition
 {
+	/*!	\class Language
+	 *
+	 *	\brief Used to generate Language Definitions with.
+	 *
+	 *	\details Given a set of property generators, it automatically generates the language definition.
+	 *
+	 *	\tparam Derived Your language class which is a subclass of this class.
+	 *
+	 *	\tparam PropertyGenerators A set of PropertyGenerators used in your language.
+	 */
 	template<typename Derived, typename... PropertyGenerators>
-	class Language : deamer::language::generator::definition::Base
+	class Language : public deamer::language::generator::definition::Base
 	{
-	private:
-		std::map<type::definition::property::Type, type::definition::property::Definition*> definitions;
-		std::map<type::definition::property::Type, std::vector<type::definition::object::Base*>> objects;
-
-		std::vector<type::definition::property::Definition*> GetDefinitions() const
-		{
-			std::vector<type::definition::property::Definition*> allDefinitions;
-			for(const auto element : definitions)
-			{
-				auto* definition = element.second;
-				allDefinitions.push_back(definition);
-			}
-
-			return allDefinitions;
-		}
-		
-		std::vector<type::definition::object::Base*> GetObjects() const
-		{
-			std::vector<type::definition::object::Base*> allObjects;
-			for(const auto& element : objects)
-			{
-				for (auto* object : element.second)
-				{
-					allObjects.push_back(object);
-				}
-			}
-
-			return allObjects;
-		}
 	public:
 		Language() = default;
 		virtual ~Language() = default;
 	public:
-		bool DefinitionAlreadyHasADefinition(type::definition::property::Type type)
-		{
-			return definitions[type] != nullptr;
-		}
 
-		virtual void ReplaceDefinition(type::definition::property::Type type, type::definition::property::Definition* const definition)
-		{
-			delete definitions[type];
-			
-			definitions[type] = definition;
-		}
-
-		virtual void ReplaceObjects(type::definition::property::Type type, const std::vector<type::definition::object::Base*>& newObjects)
-		{
-			objects[type] = newObjects;
-		}
-
-		virtual void RegisterDefinition(const std::vector<type::definition::object::Base*>& newObjects, type::definition::property::Definition* const newDefinition)
-		{
-			const type::definition::property::Type type = newDefinition->GetType();
-			if(DefinitionAlreadyHasADefinition(type))
-			{
-
-				ReplaceDefinition(type, newDefinition);
-				ReplaceObjects(type, newObjects);
-			}
-
-			definitions[type] = newDefinition;
-			objects[type] = newObjects;
-		}
-
-		virtual void RegisterDefinition(property::BaseAPI* propertyGenerator)
-		{
-			const auto allObjects = propertyGenerator->GetAllObjects();
-			auto* definition = propertyGenerator->Generate();
-			RegisterDefinition(allObjects, definition);
-		}
-		
+		/*!	\fn GenerateLanguage
+		 *
+		 *	\brief Generates a language definition.
+		 */
 		[[nodiscard]] virtual type::definition::Language* GenerateLanguage()
 		{
-			GeneratePropertyDefinitions<PropertyGenerators...>();
+			GeneratePropertyDefinitions<>::template Generate<PropertyGenerators...>(this);
 			const auto allDefinitions = GetDefinitions();
 			const auto allObjects = GetObjects();
 			return new type::definition::Language(allDefinitions, allObjects);
 		}
-
-		template<typename PropertyGenerator_, typename ...PropertyGenerators_>
-		void GeneratePropertyDefinitions()
+		
+		/*!	\class GeneratePropertyDefinitions
+		 *
+		 *	\brief This class generates the given property generators in correct order.
+		 *
+		 *	\details This class can receive a set of property generators.
+		 *	It will automatically resolve dependency conflicts between generators.
+		 *	And automatically generate the generators.
+		 *
+		 *	e.g.: [grammar, default_precedence, lexicon] will be executed in the order:
+		 *	[grammar, lexicon, default_precedence]
+		 *
+		 *	It uses 2 typename packs to do its job.
+		 *
+		 *	\tparam FinishedGenerators The current FinishedGenerators.
+		 */
+		template<typename... FinishedGenerators>
+		class GeneratePropertyDefinitions
 		{
-			static_cast<Derived*>(this)->PropertyGenerator_::RegisterResultToLanguageDefinition();
-
-			if constexpr(sizeof...(PropertyGenerators_) > 0)
+		private:
+			/*!	\property sequenceIsValid
+			 *
+			 *	\brief When called checks whether the finished generators are enough to generate the current generator.
+			 *
+			 *	\tparam CurrentGenerator The current generator, which one wants to check the dependencies of.
+			 */
+			template<typename CurrentGenerator>
+			static constexpr bool sequenceIsValid = validator::generator::IsGeneratorSequenceGeneratable<FinishedGenerators..., CurrentGenerator>::value;
+		public:
+			/*!	\fn Generate
+			 *
+			 *	\brief Given a set of UnfinishedGenerators correctly call generators in order.
+			 *
+			 *	\details Automatically generates a set of UnfinishedGenerators.
+			 *	If the generators have a dependency conflict in the way they are represented,
+			 *	this function automatically resolves the conflict.
+			 *
+			 *	It works by checking in each iteration if the current generator can be generated.
+			 *	If it can be generated, we will continue to the next generator, if not we will add it at the end of the generator pack.
+			 *	We will continue this, until everything is generated.
+			 *
+			 *	This method allows us to automatically resolve dependency conflicts.
+			 *
+			 *	\tparam CurrentGenerator The generator currently checked.
+			 *
+			 *	\tparam UnfinishedGenerators Generators that still need to be generated.
+			 */
+			template<typename CurrentGenerator, typename... UnfinishedGenerators>
+			static constexpr void Generate(Language* language)
 			{
-				GeneratePropertyDefinitions<PropertyGenerators_...>();				
+				if constexpr (!CurrentGenerator::IsDefaultGenerator)
+				{
+					FinishGenerator<CurrentGenerator>(language);
+					if constexpr (sizeof...(UnfinishedGenerators) > 0)
+					{
+						GeneratePropertyDefinitions<FinishedGenerators..., CurrentGenerator>::template Generate<UnfinishedGenerators...>(language);
+					}
+				}
+				else
+				{
+					if constexpr (sequenceIsValid<CurrentGenerator>)
+					{
+						FinishGenerator<CurrentGenerator>(language);
+						if constexpr (sizeof...(UnfinishedGenerators) > 0)
+						{
+							GeneratePropertyDefinitions<FinishedGenerators..., CurrentGenerator>::template Generate<UnfinishedGenerators...>(language);
+						}
+					}
+					else
+					{
+						if constexpr (sizeof...(UnfinishedGenerators) > 0)
+						{
+							GeneratePropertyDefinitions<FinishedGenerators...>::template Generate<UnfinishedGenerators..., CurrentGenerator>(language);
+						}
+					}
+				}
 			}
-		}
+
+			/*!	\fn FinishGenerator
+			 *
+			 *	\brief Finishes a generator.
+			 *
+			 *	\details Finishes a generator.
+			 *	It correctly calls each stage of the generator, until it is fully generated (finished).
+			 *	
+			 *	\tparam Generator The generator that we can finish.
+			 */
+			template<typename Generator>
+			static void FinishGenerator(Language* language)
+			{
+				static_cast<Derived*>(language)->Generator::RegisterResultToLanguageDefinition();
+			}
+		};
 	};
 }
 

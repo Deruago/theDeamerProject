@@ -18,57 +18,66 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_BASE_H
-#define DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_BASE_H
+#ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_TEMPLATEBASEGENERATOR_H
+#define DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_TEMPLATEBASEGENERATOR_H
 
-#include "Deamer/Language/Generator/Definition/Property/BaseAPI.h"
-#include "Deamer/Language/Type/Definition/Object/Base.h"
-#include "Deamer/Language/Generator/Definition/Base.h"
-#include "Deamer/Language/Convertor/Definition/ObjectTypeToEnum.h"
-#include "Deamer/Type/Memory/SafeReserve.h"
-#include "Deamer/Type/Memory/Reserve.h"
 #include "Deamer/Language/Convertor/Definition/ObjectEnumToType.h"
+#include "Deamer/Language/Generator/Definition/Property/BaseGenerator.h"
 #include "Deamer/Language/Validator/Definition/GetObjectEnumsFromPropertyType.h"
-#include "Deamer/Language/Type/Definition/Object/Type.h"
-#include <map>
-#include <vector>
+#include "Deamer/Language/Convertor/Definition/ObjectTypeToEnum.h"
+#include "Deamer/Language/Convertor/Definition/PropertyTypeToEnum.h"
+#include "Deamer/Language/Reference/LanguageGenerator.h"
+#include "Deamer/Type/Memory/Reserve.h"
+#include "Deamer/Type/Memory/SafeReserve.h"
 
 namespace deamer::language::generator::definition::property
 {
-	/*!	\class Base
+	/*!	\class TemplateBaseGenerator
 	 *
-	 *	\brief The base class of all property definition generators
+	 *	\brief In this class all base logic is kept that require templates.
 	 *
-	 *	\details This base class contains logic to automatically handle the generation of property definitions.
-	 *	It contains API's to add objects, get objects, and generate the actual definition.
-	 *	All code can however be overridden allowing the user to specialize different stages.
+	 *	\tparam LanguageDefinitionType The language that is generated.
 	 *
-	 *	Sub classes contain standard implementations.
+	 *	\tparam PropertyType The target property definition
 	 *
-	 *	\tparam LanguageDefinitionType Used to specify the language definition class used to generate a specific language.
-	 *
-	 *	\tparam PropertyType Used to deduce the allowed Object Types for the property definition.
+	 *	\tparam Dependencies The dependencies this property generator has.
+	 *	Adding new dependencies may change the generation sequence.
 	 */
-	template<typename LanguageDefinitionType, typename PropertyType>
-	class Base : BaseAPI
+	template<typename LanguageDefinitionType, typename PropertyType, typename... Dependencies>
+	class TemplateBaseGenerator : public BaseGenerator
 	{
-	private:
+	protected:
 		constexpr static auto objectTypes = validator::definition::GetObjectEnumsFromPropertyType<PropertyType>::value;
 	public:
+		using TargetPropertyDefinition_t = PropertyType;
+
 		LanguageDefinitionType* const Language;
 	public:
-		Base(LanguageDefinitionType* const language_)
+		TemplateBaseGenerator(LanguageDefinitionType* const language_)
 			:	Language(language_)
 		{
-			static_assert(std::is_base_of<definition::Base, LanguageDefinitionType>::value, "Given Language definition type is not a derived class of a Language generator!");
 		}
-		~Base() override = default;
 		
+		~TemplateBaseGenerator() override = default;
+
+		/*!	\fn GetLanguageReference
+		 *
+		 *	\brief Returns a language reference to the language generator.
+		 */
+		reference::LanguageGenerator GetLanguageReference() const
+		{
+			return reference::LanguageGenerator(*Language);
+		}
 	public:
+		static constexpr bool GeneratorHasDependencies()
+		{
+			return sizeof...(Dependencies) != 0;
+		}
+
 		template<const type::definition::object::Type type>
 		[[nodiscard]] constexpr static bool IsObjectUsed()
 		{
-			for(const auto type_ : objectTypes)
+			for (const auto type_ : objectTypes)
 			{
 				if (type_ == type)
 				{
@@ -92,7 +101,7 @@ namespace deamer::language::generator::definition::property
 			}
 			AddObjectToInternalStorage(enumValue, t.Pointer());
 		}
-		
+
 		/*! \fn AddObject
 		 *
 		 *	\brief Add a specific object, to the internal storage.
@@ -137,10 +146,10 @@ namespace deamer::language::generator::definition::property
 			{
 				return {};
 			}
-			
+
 			std::vector<type::definition::object::Base*> a = bases[object];
 			std::vector<ObjectType> newObjectVector;
-			for(auto* objectPointer : a)
+			for (auto* objectPointer : a)
 			{
 				newObjectVector.push_back(static_cast<ObjectType>(objectPointer));
 			}
@@ -148,6 +157,15 @@ namespace deamer::language::generator::definition::property
 			return newObjectVector;
 		}
 
+		/*!	\fn TargetedPropertyDefinition
+		 *
+		 *	\brief Returns the generated property definition.
+		 */
+		type::definition::property::Type TargetedPropertyDefinition() const override
+		{
+			return convertor::definition::PropertyTypeToEnum<PropertyType>::value;
+		}
+		
 		/*!	\fn RegisterResultToLanguageDefinition
 		 *
 		 *	\brief Registers the generated property definition to the language generator.
@@ -159,4 +177,4 @@ namespace deamer::language::generator::definition::property
 	};
 }
 
-#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_BASE_H
+#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_TEMPLATEBASEGENERATOR_H
