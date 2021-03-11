@@ -18,31 +18,28 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_OBJECTPRECEDENCE_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_OBJECTPRECEDENCE_H
 
-namespace deamer::language::type::definition::property {
-	/*! \enum Type
+#include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Type/Memory/SafeReserve.h"
+
+namespace deamer::language::type::definition::object::main {
+	/*! \class ObjectPrecedence
 	 *
-	 *  \brief Describes the different property definitions available.
+	 *  Terminal symbol, used in lexicon definitions.
 	 */
-	enum class Type
+	class ObjectPrecedence : public Base
 	{
-		Unknown = 0,
-		Lexicon,
-		Grammar,
-		Semantic,
+		friend deamer::type::SafeReserve<ObjectPrecedence>;
+	public:
+		object::Base* Object;
+		int Precedence;
 		
-		Associativity,
-		Precedence,
-		
-		AstOptimization,
-		AstTranslation,
-
-		Colorization,
-		Formatting,
-		Documentation,
+		ObjectPrecedence(object::Base* const object_, const int precedence_);
+	private:
+		ObjectPrecedence();
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_OBJECTPRECEDENCE_H

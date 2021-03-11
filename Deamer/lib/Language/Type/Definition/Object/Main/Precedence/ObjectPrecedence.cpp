@@ -18,20 +18,16 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_PRECENDENCE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_PRECENDENCE_H
+#include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
 
-#include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
-
-namespace deamer::language::type::definition::property::main {
-	/*! \class Precendence
-	 *
-	 *  Language Property Definition of the precendence, used to define the precendence of symbols in language x.
-	 */
-	class Precendence : public Definition
-	{
-
-	};
+deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence(object::Base* const object_,
+	const int precedence_)
+	:	Base(object::Type::ObjectPrecedence),
+		Object(object_),
+		Precedence(precedence_)
+{
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_PRECENDENCE_H
+deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence() : ObjectPrecedence(nullptr, -1)
+{
+}

@@ -36,6 +36,9 @@ namespace deamer::language::type::definition::object {
 		//Grammar
 		NonTerminal,
 		ProductionRule,
+
+		//Precedence
+		ObjectPrecedence,
 	};
 }
 

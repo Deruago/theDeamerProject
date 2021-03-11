@@ -18,31 +18,29 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_PRECEDENCE_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_PRECEDENCE_H
 
-namespace deamer::language::type::definition::property {
-	/*! \enum Type
+#include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
+#include <vector>
+
+namespace deamer::language::type::definition::property::main {
+	/*! \class Precedence
 	 *
-	 *  \brief Describes the different property definitions available.
+	 *  Language Property Definition of the Precedence, used to define the Precedence of symbols in language x.
 	 */
-	enum class Type
+	class Precedence : public Definition
 	{
-		Unknown = 0,
-		Lexicon,
-		Grammar,
-		Semantic,
+	public:
+		std::vector<object::main::ObjectPrecedence*> PrecedenceObjects;
 		
-		Associativity,
-		Precedence,
+		Precedence(std::vector<object::main::ObjectPrecedence*> precedenceObjects_);
+		Precedence();
 		
-		AstOptimization,
-		AstTranslation,
-
-		Colorization,
-		Formatting,
-		Documentation,
+		virtual ~Precedence() = default;
+	private:
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_PRECEDENCE_H
