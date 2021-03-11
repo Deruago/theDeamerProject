@@ -30,7 +30,7 @@
 #include "Deamer/Language/Type/Definition/Property/Main/Formatting.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Precenence.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Semantic.h"
 
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
@@ -86,6 +86,17 @@ namespace deamer::language::validator::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Grammar;
 		using type = type::definition::property::main::Grammar;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ObjectPrecedence>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Precedence;
+		using type = type::definition::property::main::Precedence;
 	};
 }
 

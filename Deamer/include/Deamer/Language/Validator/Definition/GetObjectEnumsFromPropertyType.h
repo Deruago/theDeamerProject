@@ -24,6 +24,7 @@
 #include "Deamer/Language/Type/Definition/Object/Type.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 
 namespace deamer::language::validator::definition
 {
@@ -52,6 +53,14 @@ namespace deamer::language::validator::definition
 			type::definition::object::Type::ProductionRule
 		};
 		using type = type::definition::property::main::Lexicon;
+	};
+
+	template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Precedence>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::ObjectPrecedence };
+		using type = type::definition::property::main::Precedence;
 	};
 }
 
