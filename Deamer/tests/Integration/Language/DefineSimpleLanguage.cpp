@@ -48,7 +48,11 @@ GenerateGrammar::GenerateGrammar(LanguageDefinition* lang) : Grammar(lang)
 	AddObject(stmt_STRING);
 }
 
-LanguageDefinition::LanguageDefinition() : GenerateLexicon(this), GenerateGrammar(this)
+GeneratePrecedence::GeneratePrecedence(LanguageDefinition* lang) : Precedence(lang)
+{
+}
+
+LanguageDefinition::LanguageDefinition() : GenerateLexicon(this), GenerateGrammar(this), GeneratePrecedence(this)
 {
 }
 
@@ -168,6 +172,33 @@ TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_Correctly
 	delete languageDefinition;
 }
 
+TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_CorrectlyGeneratesDefaultPrecedence)
+{
+	auto language = LanguageDefinition{};
+	auto* languageDefinition = language.GenerateLanguage();
+
+	const auto referenceLexicon = PropertyDefinition<Type::Lexicon>(*languageDefinition);
+	auto terminals = referenceLexicon.GetDefinition<Type::Lexicon>().Terminals;
+
+	const auto referencePrecedence = PropertyDefinition<Type::Precedence>(*languageDefinition);
+	auto precedences = referencePrecedence.GetDefinition<Type::Precedence>().PrecedenceObjects;
+
+	EXPECT_EQ(4, terminals.size());
+	EXPECT_EQ(4, precedences.size());
+
+	EXPECT_TRUE(precedences[0]->Object == terminals[0]);
+	EXPECT_TRUE(precedences[1]->Object == terminals[1]);
+	EXPECT_TRUE(precedences[2]->Object == terminals[2]);
+	EXPECT_TRUE(precedences[3]->Object == terminals[3]);
+
+	EXPECT_EQ(0, precedences[0]->Precedence);
+	EXPECT_EQ(0, precedences[1]->Precedence);
+	EXPECT_EQ(0, precedences[2]->Precedence);
+	EXPECT_EQ(0, precedences[3]->Precedence);
+
+	delete languageDefinition;
+}
+
 TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_CorrectlyGeneratesGrammar)
 {
 	auto language = LanguageDefinition{};
@@ -201,4 +232,22 @@ TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_Correctly
 	}
 
 	delete languageDefinition;
+}
+
+TEST_F(IntegrationTestDefineSimpleLanguage, PrecedenceGenerator_DependenciesAreCovered_ShouldReturnTrue)
+{
+	static constexpr bool actual = GeneratePrecedence::InSetOfGeneratorsAreDependenciesCovered<GenerateLexicon, GenerateGrammar, GeneratePrecedence>();
+	EXPECT_TRUE(actual);
+}
+
+TEST_F(IntegrationTestDefineSimpleLanguage, PrecedenceGenerator_DependenciesAreNotCovered_ShouldReturnFalse)
+{
+	static constexpr bool actual = GeneratePrecedence::InSetOfGeneratorsAreDependenciesCovered<GenerateGrammar, GeneratePrecedence>();
+	EXPECT_FALSE(actual);
+}
+
+TEST_F(IntegrationTestDefineSimpleLanguage, PrecedenceGenerator_DependenciesAreNotBeforeThisTypeCovered_ShouldReturnFalse)
+{
+	static constexpr bool actual = GeneratePrecedence::InSetOfGeneratorsAreDependenciesCovered<GeneratePrecedence, GenerateLexicon>();
+	EXPECT_FALSE(actual);
 }

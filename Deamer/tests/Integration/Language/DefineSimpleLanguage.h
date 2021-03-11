@@ -3,13 +3,15 @@
 
 #include "Deamer/Language/Generator/Definition/Language.h"
 #include <Deamer/Language/Reference/PropertyDefinition.h>
-#include "Deamer/Language/Generator/Definition/Property/Grammar.h"
-#include <Deamer/Language/Generator/Definition/Property/Lexicon.h>
+#include "Deamer/Language/Generator/Definition/Property/User/Main/Grammar.h"
+#include <Deamer/Language/Generator/Definition/Property/User/Main/Lexicon.h>
 #include <Deamer/Type/Memory/SafeReserve.h>
+
+#include "Deamer/Language/Generator/Definition/Property/Standard/Main/Precedence.h"
 
 class LanguageDefinition;
 
-class GenerateLexicon : public deamer::language::generator::definition::property::Lexicon<LanguageDefinition>
+class GenerateLexicon : public deamer::language::generator::definition::property::user::Lexicon<LanguageDefinition>
 {
 public:
 	const deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal> ESCAPE_CHARS;
@@ -21,7 +23,7 @@ public:
 	GenerateLexicon(LanguageDefinition* lang);
 };
 
-class GenerateGrammar : public deamer::language::generator::definition::property::Grammar<LanguageDefinition>
+class GenerateGrammar : public deamer::language::generator::definition::property::user::Grammar<LanguageDefinition>
 {
 public:
 	const deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal> prog;
@@ -39,7 +41,13 @@ public:
 	GenerateGrammar(LanguageDefinition* lang);
 };
 
-class LanguageDefinition : public deamer::language::generator::definition::Language<LanguageDefinition, GenerateLexicon, GenerateGrammar>, public GenerateLexicon, public GenerateGrammar
+class GeneratePrecedence : public deamer::language::generator::definition::property::standard::Precedence<LanguageDefinition>
+{
+public:
+	GeneratePrecedence(LanguageDefinition* lang);
+};
+
+class LanguageDefinition : public deamer::language::generator::definition::Language<LanguageDefinition, GenerateLexicon, GenerateGrammar, GeneratePrecedence>, public GenerateLexicon, public GenerateGrammar, public GeneratePrecedence
 {
 public:
 	int a = 0;
