@@ -18,13 +18,13 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_LEXICON_H
-#define DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_LEXICON_H
+#ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_LEXICON_H
+#define DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_LEXICON_H
 
-#include "Deamer/Language/Generator/Definition/Property/Base.h"
+#include "Deamer/Language/Generator/Definition/Property/User/Base.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
 
-namespace deamer::language::generator::definition::property
+namespace deamer::language::generator::definition::property::user
 {
 	/*!	\class Lexicon
 	 *
@@ -47,11 +47,11 @@ namespace deamer::language::generator::definition::property
 		 *	\brief Generates a lexicon property definition.
 		 * 
 		 */
-		[[nodiscard]] type::definition::property::Definition* Generate() override
+		void GenerateDefinition() override
 		{
-			return new type::definition::property::main::Lexicon(Base<LanguageDefinitionType, type::definition::property::main::Lexicon>::template GetObjects<type::definition::object::Type::Terminal>());
+			this->generatedDefinition = new type::definition::property::main::Lexicon(Base<LanguageDefinitionType, type::definition::property::main::Lexicon>::template GetObjects<type::definition::object::Type::Terminal>());
 		}
 	};
 }
 
-#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_LEXICON_H
+#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_LEXICON_H
