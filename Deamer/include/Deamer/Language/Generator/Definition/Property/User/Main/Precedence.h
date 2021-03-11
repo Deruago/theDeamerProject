@@ -44,12 +44,12 @@ namespace deamer::language::generator::definition::property::user
 
 		/*!	\fn Generate
 		 *
-		 *	\brief Generates a lexicon property definition.
+		 *	\brief Generates a precedence property definition.
 		 *
 		 */
 		void GenerateDefinition() override
 		{
-			this->generatedDefinition = new Precedence(Base<LanguageDefinitionType, type::definition::property::main::Lexicon>::template GetObjects<type::definition::object::Type::ObjectPrecedence>());
+			this->generatedDefinition = new Precedence(Base<LanguageDefinitionType, type::definition::property::main::Precedence>::template GetObjects<type::definition::object::Type::ObjectPrecedence>());
 		}
 	};
 }

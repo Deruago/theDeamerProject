@@ -18,16 +18,17 @@
   * For more information go to: https://github.com/Deruago/theDeamerProject
   */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_OBJECTPRECEDENCE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_OBJECTPRECEDENCE_H
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_PRECEDENCE_OBJECTPRECEDENCE_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_PRECEDENCE_OBJECTPRECEDENCE_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
 
 namespace deamer::language::type::definition::object::main {
+	
 	/*! \class ObjectPrecedence
 	 *
-	 *  Terminal symbol, used in lexicon definitions.
+	 *  \brief This object adds precedence to a LDO
 	 */
 	class ObjectPrecedence : public Base
 	{
@@ -42,4 +43,4 @@ namespace deamer::language::type::definition::object::main {
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_OBJECTPRECEDENCE_H
+#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_PRECEDENCE_OBJECTPRECEDENCE_H
