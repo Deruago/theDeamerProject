@@ -30,7 +30,7 @@
 #include "Deamer/Language/Type/Definition/Property/Main/Formatting.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Precenence.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Semantic.h"
 
 namespace deamer::language::convertor::definition
@@ -88,11 +88,11 @@ namespace deamer::language::convertor::definition
 	 *	\see deamer::language::convertor::definition::PropertyEnumToType
 	 */
 	template<>
-	class PropertyEnumToType<type::definition::property::Type::Precendence>
+	class PropertyEnumToType<type::definition::property::Type::Precedence>
 	{
 	public:
-		constexpr static auto value = type::definition::property::Type::Precendence;
-		using type = type::definition::property::main::Precendence;
+		constexpr static auto value = type::definition::property::Type::Precedence;
+		using type = type::definition::property::main::Precedence;
 	};
 
 	/*!

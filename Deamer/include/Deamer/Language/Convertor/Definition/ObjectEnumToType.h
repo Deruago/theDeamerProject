@@ -25,6 +25,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
 
 namespace deamer::language::convertor::definition
 {
@@ -75,6 +76,17 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::object::Type::ProductionRule;
 		using type = type::definition::object::main::ProductionRule;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ObjectPrecedence>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ObjectPrecedence;
+		using type = type::definition::object::main::ObjectPrecedence;
 	};
 
 	template<type::definition::object::Type T>
