@@ -1,0 +1,47 @@
+Language: Cpp
+Standard: c++17
+
+IndentWidth: 4
+AccessModifierOffset: -4
+MaxEmptyLinesToKeep: 1
+PointerAlignment: Left
+
+
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: true
+AlwaysBreakTemplateDeclarations: Yes
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+ AfterCaseLabel: false
+ AfterEnum: true
+ AfterStruct: true
+ AfterClass: true
+ AfterNamespace: true
+ SplitEmptyRecord: true
+ SplitEmptyNamespace: true
+ AfterControlStatement: Always
+ BeforeElse: true
+ AfterControlStatement: Always
+ AfterFunction: true
+
+BreakConstructorInitializers: BeforeColon
+
+CompactNamespaces: true
+
+IncludeBlocks: Merge
+
+IndentPPDirectives: None
+
+NamespaceIndentation: All
+
+SortUsingDeclarations: true
+
+AlignEscapedNewlines: Left
+
+FixNamespaceComments: false
+
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceBeforeSquareBrackets: false
+SpacesInCStyleCastParentheses: false
