@@ -1,10 +1,18 @@
+# This file contains the formatting used in DeamerProject
+# Latest edit: 18/03/2021 by Thimo Bohmer
+
 Language: Cpp
 Standard: c++17
 
+ColumnLimit: 100
+TabWidth: 4
 IndentWidth: 4
 AccessModifierOffset: -4
 MaxEmptyLinesToKeep: 1
 PointerAlignment: Left
+
+UseCRLF: false
+UseTab: true
 
 
 AlwaysBreakAfterReturnType: None
@@ -19,12 +27,14 @@ BraceWrapping:
  AfterClass: true
  AfterNamespace: true
  SplitEmptyRecord: true
+ SplitEmptyFunction: true
  SplitEmptyNamespace: true
  AfterControlStatement: Always
  BeforeElse: true
  AfterControlStatement: Always
  AfterFunction: true
 
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
 BreakConstructorInitializers: BeforeColon
 
 CompactNamespaces: true
@@ -45,3 +55,13 @@ SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements
 SpaceBeforeSquareBrackets: false
 SpacesInCStyleCastParentheses: false
+SpaceAfterTemplateKeyword: false
+SpaceBeforeInheritanceColon: true
+SpaceAfterLogicalNot: false
+SpaceBeforeRangeBasedForLoopColon: true
+
+AllowAllConstructorInitializersOnNextLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+KeepEmptyLinesAtTheStartOfBlocks: false
