@@ -1,7 +1,6 @@
 #include "DefineSimpleLanguage.h"
 #include <gtest/gtest.h>
 
-
 using Type = deamer::language::type::definition::property::Type;
 using namespace deamer::language::reference;
 using namespace deamer::language::type::definition::object::main;
@@ -11,7 +10,6 @@ class IntegrationTestDefineSimpleLanguage : public testing::Test
 protected:
 	IntegrationTestDefineSimpleLanguage() = default;
 	virtual ~IntegrationTestDefineSimpleLanguage() = default;
-
 };
 
 GenerateLexicon::GenerateLexicon(LanguageDefinition* lang) : Lexicon(lang)
@@ -29,22 +27,22 @@ GenerateLexicon::GenerateLexicon(LanguageDefinition* lang) : Lexicon(lang)
 
 GenerateGrammar::GenerateGrammar(LanguageDefinition* lang) : Grammar(lang)
 {
-	prog.Set(NonTerminal("prog", { prog_stmts.Pointer() }));
+	prog.Set(NonTerminal("prog", {prog_stmts.Pointer()}));
 	AddObject(prog);
-	stmts.Set(NonTerminal("stmts", { stmts_stmt_stmts.Pointer(), stmts_empty.Pointer() }));
+	stmts.Set(NonTerminal("stmts", {stmts_stmt_stmts.Pointer(), stmts_empty.Pointer()}));
 	AddObject(stmts);
-	stmt.Set(NonTerminal("stmt", { stmt_VARNAME.Pointer(), stmt_STRING.Pointer() }));
+	stmt.Set(NonTerminal("stmt", {stmt_VARNAME.Pointer(), stmt_STRING.Pointer()}));
 	AddObject(stmt);
 
-	prog_stmts.Set(ProductionRule({ stmts.Pointer() }));
+	prog_stmts.Set(ProductionRule({stmts.Pointer()}));
 	AddObject(prog_stmts);
-	stmts_stmt_stmts.Set(ProductionRule({ stmt.Pointer(), stmts.Pointer() }));
+	stmts_stmt_stmts.Set(ProductionRule({stmt.Pointer(), stmts.Pointer()}));
 	AddObject(stmts_stmt_stmts);
 	stmts_empty.Set(ProductionRule());
 	AddObject(stmts_empty);
-	stmt_VARNAME.Set(ProductionRule({ Language->VARNAME.Pointer() }));
+	stmt_VARNAME.Set(ProductionRule({Language->VARNAME.Pointer()}));
 	AddObject(stmt_VARNAME);
-	stmt_STRING.Set(ProductionRule({ Language->STRING.Pointer() }));
+	stmt_STRING.Set(ProductionRule({Language->STRING.Pointer()}));
 	AddObject(stmt_STRING);
 }
 
@@ -56,10 +54,13 @@ GenerateAssociativity::GenerateAssociativity(LanguageDefinition* lang) : Associa
 {
 }
 
-LanguageDefinition::LanguageDefinition() : GenerateLexicon(this), GenerateGrammar(this), GeneratePrecedence(this), GenerateAssociativity(this)
+LanguageDefinition::LanguageDefinition()
+	: GenerateLexicon(this),
+	  GenerateGrammar(this),
+	  GeneratePrecedence(this),
+	  GenerateAssociativity(this)
 {
 }
-
 
 TEST_F(IntegrationTestDefineSimpleLanguage, CreateLexicon)
 {
@@ -105,18 +106,21 @@ TEST_F(IntegrationTestDefineSimpleLanguage, CreateGrammar)
 	EXPECT_EQ("prog", grammar.prog->Name);
 	EXPECT_EQ("stmts", grammar.stmts->Name);
 	EXPECT_EQ("stmt", grammar.stmt->Name);
-	EXPECT_EQ(std::vector<ProductionRule*>{ grammar.prog_stmts.Pointer() }, grammar.prog->ProductionRules);
-	
-	const auto stmts_production = std::vector<ProductionRule*>{ grammar.stmts_stmt_stmts.Pointer(), grammar.stmts_empty.Pointer() };
+	EXPECT_EQ(std::vector<ProductionRule*>{grammar.prog_stmts.Pointer()},
+			  grammar.prog->ProductionRules);
+
+	const auto stmts_production = std::vector<ProductionRule*>{grammar.stmts_stmt_stmts.Pointer(),
+															   grammar.stmts_empty.Pointer()};
 	EXPECT_EQ(stmts_production, grammar.stmts->ProductionRules);
 
-	const auto stmt_production = std::vector<ProductionRule*>{ grammar.stmt_VARNAME.Pointer(), grammar.stmt_STRING.Pointer() };
+	const auto stmt_production =
+		std::vector<ProductionRule*>{grammar.stmt_VARNAME.Pointer(), grammar.stmt_STRING.Pointer()};
 	EXPECT_EQ(stmt_production, grammar.stmt->ProductionRules);
 
 	delete grammar.prog.Pointer();
 	delete grammar.stmts.Pointer();
 	delete grammar.stmt.Pointer();
-	
+
 	delete grammar.prog_stmts.Pointer();
 	delete grammar.stmts_stmt_stmts.Pointer();
 	delete grammar.stmts_empty.Pointer();
@@ -176,7 +180,8 @@ TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_Correctly
 	delete languageDefinition;
 }
 
-TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_CorrectlyGeneratesDefaultPrecedence)
+TEST_F(IntegrationTestDefineSimpleLanguage,
+	   GenerateLanguageDefinition_CorrectlyGeneratesDefaultPrecedence)
 {
 	auto language = LanguageDefinition{};
 	auto* languageDefinition = language.GenerateLanguage();
@@ -203,7 +208,8 @@ TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_Correctly
 	delete languageDefinition;
 }
 
-TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_CorrectlyGeneratesDefaultAssociativity)
+TEST_F(IntegrationTestDefineSimpleLanguage,
+	   GenerateLanguageDefinition_CorrectlyGeneratesDefaultAssociativity)
 {
 	auto language = LanguageDefinition{};
 	auto* languageDefinition = language.GenerateLanguage();
@@ -212,7 +218,8 @@ TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_Correctly
 	auto terminals = referenceLexicon.GetDefinition<Type::Lexicon>().Terminals;
 
 	const auto referencePrecedence = PropertyDefinition<Type::Associativity>(*languageDefinition);
-	const auto& associativities = referencePrecedence.GetDefinition<Type::Associativity>().AssociativityObjects;
+	const auto& associativities =
+		referencePrecedence.GetDefinition<Type::Associativity>().AssociativityObjects;
 
 	EXPECT_EQ(4, terminals.size());
 	EXPECT_EQ(4, associativities.size());
@@ -221,7 +228,7 @@ TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_Correctly
 	EXPECT_TRUE(associativities[1]->Object == terminals[1]);
 	EXPECT_TRUE(associativities[2]->Object == terminals[2]);
 	EXPECT_TRUE(associativities[3]->Object == terminals[3]);
-	
+
 	EXPECT_EQ(AssociativityType::any, associativities[0]->Associativity);
 	EXPECT_EQ(AssociativityType::any, associativities[1]->Associativity);
 	EXPECT_EQ(AssociativityType::any, associativities[2]->Associativity);
@@ -265,20 +272,28 @@ TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_Correctly
 	delete languageDefinition;
 }
 
-TEST_F(IntegrationTestDefineSimpleLanguage, PrecedenceGenerator_DependenciesAreCovered_ShouldReturnTrue)
+TEST_F(IntegrationTestDefineSimpleLanguage,
+	   PrecedenceGenerator_DependenciesAreCovered_ShouldReturnTrue)
 {
-	static constexpr bool actual = GeneratePrecedence::InSetOfGeneratorsAreDependenciesCovered<GenerateLexicon, GenerateGrammar, GeneratePrecedence>();
+	static constexpr bool actual = GeneratePrecedence::InSetOfGeneratorsAreDependenciesCovered<
+		GenerateLexicon, GenerateGrammar, GeneratePrecedence>();
 	EXPECT_TRUE(actual);
 }
 
-TEST_F(IntegrationTestDefineSimpleLanguage, PrecedenceGenerator_DependenciesAreNotCovered_ShouldReturnFalse)
+TEST_F(IntegrationTestDefineSimpleLanguage,
+	   PrecedenceGenerator_DependenciesAreNotCovered_ShouldReturnFalse)
 {
-	static constexpr bool actual = GeneratePrecedence::InSetOfGeneratorsAreDependenciesCovered<GenerateGrammar, GeneratePrecedence>();
+	static constexpr bool actual =
+		GeneratePrecedence::InSetOfGeneratorsAreDependenciesCovered<GenerateGrammar,
+																	GeneratePrecedence>();
 	EXPECT_FALSE(actual);
 }
 
-TEST_F(IntegrationTestDefineSimpleLanguage, PrecedenceGenerator_DependenciesAreNotBeforeThisTypeCovered_ShouldReturnFalse)
+TEST_F(IntegrationTestDefineSimpleLanguage,
+	   PrecedenceGenerator_DependenciesAreNotBeforeThisTypeCovered_ShouldReturnFalse)
 {
-	static constexpr bool actual = GeneratePrecedence::InSetOfGeneratorsAreDependenciesCovered<GeneratePrecedence, GenerateLexicon>();
+	static constexpr bool actual =
+		GeneratePrecedence::InSetOfGeneratorsAreDependenciesCovered<GeneratePrecedence,
+																	GenerateLexicon>();
 	EXPECT_FALSE(actual);
 }

@@ -13,18 +13,19 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_COMPILER_GENERATOR_COMPILER_H
 #define DEAMER_COMPILER_GENERATOR_COMPILER_H
 
+#include "Deamer/File/Compiler/Output.h"
 #include "Deamer/Language/Type/Definition/Language.h"
 
-namespace deamer::compiler::generator {
-
+namespace deamer::compiler::generator
+{
 	/*!	\class Compiler
 	 *
 	 *	\brief This class is used to generate compiler.
@@ -40,6 +41,7 @@ namespace deamer::compiler::generator {
 	private:
 		LanguageGenerator* languageGenerator;
 		language::type::definition::Language* LanguageDefinition;
+
 	public:
 		/*!	\fn Compiler(LanguageGenerator* languageGenerator)
 		 *
@@ -48,8 +50,8 @@ namespace deamer::compiler::generator {
 		 *	\note The LD gets immediately generated together with the LD generator.
 		 */
 		Compiler()
-			:	languageGenerator(new LanguageGenerator()),
-				LanguageDefinition(languageGenerator->GenerateLanguage())
+			: languageGenerator(new LanguageGenerator()),
+			  LanguageDefinition(languageGenerator->GenerateLanguage())
 		{
 		}
 
@@ -59,8 +61,8 @@ namespace deamer::compiler::generator {
 		 *	when there is no default constructor.
 		 */
 		Compiler(LanguageGenerator* languageGenerator)
-			:	languageGenerator(languageGenerator),
-				LanguageDefinition(languageGenerator->GenerateLanguage())
+			: languageGenerator(languageGenerator),
+			  LanguageDefinition(languageGenerator->GenerateLanguage())
 		{
 		}
 
@@ -69,8 +71,16 @@ namespace deamer::compiler::generator {
 			delete languageGenerator;
 			delete LanguageDefinition;
 		}
+
 	public:
-		virtual void Generate() = 0;
+		/*!	\fn Generate
+		 *
+		 *	\brief This function is used to generate compiler
+		 *
+		 *	\details The user is required to override this function,
+		 *	and give in his own set of generation instructions.
+		 */
+		virtual deamer::file::compiler::Output Generate() = 0;
 
 		/*!	\fn GetLanguageGeneration
 		 *
@@ -92,4 +102,4 @@ namespace deamer::compiler::generator {
 	};
 }
 
-#endif //DEAMER_COMPILER_GENERATOR_COMPILER_H
+#endif // DEAMER_COMPILER_GENERATOR_COMPILER_H

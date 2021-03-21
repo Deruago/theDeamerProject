@@ -13,20 +13,20 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_TEMPLATEBASEGENERATOR_H
 #define DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_TEMPLATEBASEGENERATOR_H
 
 #include "Deamer/Language/Convertor/Definition/ObjectEnumToType.h"
-#include "Deamer/Language/Generator/Definition/Property/BaseGenerator.h"
-#include "Deamer/Language/Validator/Definition/GetObjectEnumsFromPropertyType.h"
 #include "Deamer/Language/Convertor/Definition/ObjectTypeToEnum.h"
 #include "Deamer/Language/Convertor/Definition/PropertyTypeToEnum.h"
+#include "Deamer/Language/Generator/Definition/Property/BaseGenerator.h"
 #include "Deamer/Language/Reference/LanguageGenerator.h"
+#include "Deamer/Language/Validator/Definition/GetObjectEnumsFromPropertyType.h"
 #include "Deamer/Type/Memory/Reserve.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
 
@@ -47,17 +47,19 @@ namespace deamer::language::generator::definition::property
 	class TemplateBaseGenerator : public BaseGenerator
 	{
 	protected:
-		constexpr static auto objectTypes = validator::definition::GetObjectEnumsFromPropertyType<PropertyType>::value;
+		constexpr static auto objectTypes =
+			validator::definition::GetObjectEnumsFromPropertyType<PropertyType>::value;
+
 	public:
 		using TargetPropertyDefinition_t = PropertyType;
 
 		LanguageDefinitionType* const Language;
+
 	public:
-		TemplateBaseGenerator(LanguageDefinitionType* const language_)
-			:	Language(language_)
+		TemplateBaseGenerator(LanguageDefinitionType* const language_) : Language(language_)
 		{
 		}
-		
+
 		~TemplateBaseGenerator() override = default;
 
 		/*!	\fn GetLanguageReference
@@ -68,6 +70,7 @@ namespace deamer::language::generator::definition::property
 		{
 			return reference::LanguageGenerator(*Language);
 		}
+
 	public:
 		static constexpr bool GeneratorHasDependencies()
 		{
@@ -91,7 +94,7 @@ namespace deamer::language::generator::definition::property
 		 *
 		 *	\brief Add a specific object, to the internal storage.
 		 */
-		template <typename T>
+		template<typename T>
 		void AddObject(const deamer::type::SafeReserve<T>& t)
 		{
 			constexpr static auto enumValue = convertor::definition::ObjectTypeToEnum<T>::value;
@@ -106,7 +109,7 @@ namespace deamer::language::generator::definition::property
 		 *
 		 *	\brief Add a specific object, to the internal storage.
 		 */
-		template <typename T>
+		template<typename T>
 		void AddObject(const deamer::type::Reserve<T>& t)
 		{
 			constexpr static auto enumValue = convertor::definition::ObjectTypeToEnum<T>::value;
@@ -121,7 +124,7 @@ namespace deamer::language::generator::definition::property
 		 *
 		 *	\brief Add a specific object, to the internal storage.
 		 */
-		template <typename T>
+		template<typename T>
 		void AddObject(T* const t)
 		{
 			constexpr static auto enumValue = convertor::definition::ObjectTypeToEnum<T>::value;
@@ -136,7 +139,8 @@ namespace deamer::language::generator::definition::property
 		 *
 		 *	\brief Get the objects of a specific type.
 		 *
-		 *	\details Goes through the object map, and returns the vector with pointer to each given object.
+		 *	\details Goes through the object map, and returns the vector with pointer to each given
+		 *object.
 		 */
 		template<type::definition::object::Type object>
 		std::vector<convertor::definition::ObjectEnumToType_t<object>*> GetObjects()
@@ -157,6 +161,34 @@ namespace deamer::language::generator::definition::property
 			return newObjectVector;
 		}
 
+		/*! \fn GetObjects
+		 *
+		 *	\brief Get the objects of a specific type.
+		 *
+		 *	\details Goes through the object map, and returns the vector with pointer to each given
+		 *object.
+		 */
+		template<type::definition::object::Type object>
+		convertor::definition::ObjectEnumToType_t<object>* GetObject()
+		{
+			using ObjectType = convertor::definition::ObjectEnumToType_t<object>;
+			if (!IsObjectUsed<object>())
+			{
+				return nullptr;
+			}
+
+			const std::vector<type::definition::object::Base*> a = bases[object];
+			if (a.empty())
+			{
+				return nullptr;
+			}
+			else
+			{
+				const auto element = a[0];
+				return static_cast<ObjectType*>(element);
+			}
+		}
+
 		/*!	\fn TargetedPropertyDefinition
 		 *
 		 *	\brief Returns the generated property definition.
@@ -165,7 +197,7 @@ namespace deamer::language::generator::definition::property
 		{
 			return convertor::definition::PropertyTypeToEnum<PropertyType>::value;
 		}
-		
+
 		/*!	\fn RegisterResultToLanguageDefinition
 		 *
 		 *	\brief Registers the generated property definition to the language generator.
@@ -177,4 +209,4 @@ namespace deamer::language::generator::definition::property
 	};
 }
 
-#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_TEMPLATEBASEGENERATOR_H
+#endif // DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_TEMPLATEBASEGENERATOR_H
