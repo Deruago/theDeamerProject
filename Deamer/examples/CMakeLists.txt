@@ -11,3 +11,4 @@ function(create_example EXAMPLE_NAME)
 endfunction()
 
 add_subdirectory(SimpleLang)
+add_subdirectory(SimpleLang2)
