@@ -13,20 +13,24 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_CONVERTOR_DEFINITION_OBJECTENUMTOTYPE_H
 #define DEAMER_LANGUAGE_CONVERTOR_DEFINITION_OBJECTENUMTOTYPE_H
 
-#include "Deamer/Language/Type/Definition/Object/Type.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Associativity/ObjectAssociativity.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/GeneratorArgument.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Identity/Name.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Associativity/ObjectAssociativity.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
+#include "Deamer/Language/Type/Definition/Object/Type.h"
 
 namespace deamer::language::convertor::definition
 {
@@ -101,8 +105,52 @@ namespace deamer::language::convertor::definition
 		using type = type::definition::object::main::ObjectAssociativity;
 	};
 
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::Generate>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::Generate;
+		using type = type::definition::object::main::Generate;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::GenerateArgument>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::GenerateArgument;
+		using type = type::definition::object::main::GenerateArgument;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::Integrate>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::Integrate;
+		using type = type::definition::object::main::Integrate;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::Name>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::Name;
+		using type = type::definition::object::main::Name;
+	};
+
 	template<type::definition::object::Type T>
 	using ObjectEnumToType_t = typename ObjectEnumToType<T>::type;
 }
 
-#endif //DEAMER_LANGUAGE_CONVERTOR_DEFINITION_OBJECTENUMTOTYPE_H
+#endif // DEAMER_LANGUAGE_CONVERTOR_DEFINITION_OBJECTENUMTOTYPE_H

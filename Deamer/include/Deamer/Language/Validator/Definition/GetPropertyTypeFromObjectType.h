@@ -13,29 +13,27 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_VALIDATOR_DEFINITION_GETPROPERTYTYPEFROMOBJECTTYPE_H
 #define DEAMER_LANGUAGE_VALIDATOR_DEFINITION_GETPROPERTYTYPEFROMOBJECTTYPE_H
 
-#include "Deamer/Language/Type/Definition/Property/Type.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Associativity.h"
 #include "Deamer/Language/Type/Definition/Property/Main/AstOptimization.h"
 #include "Deamer/Language/Type/Definition/Property/Main/AstTranslation.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Colorization.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Documentation.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Formatting.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Generation.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Identity.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Semantic.h"
-
-#include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
+#include "Deamer/Language/Type/Definition/Property/Type.h"
 
 namespace deamer::language::validator::definition
 {
@@ -54,7 +52,7 @@ namespace deamer::language::validator::definition
 		constexpr static auto value = type::definition::property::Type::Unknown;
 		using type = void;
 	};
-	
+
 	/*!
 	 *	\see GetPropertyTypeFromObjectType
 	 */
@@ -109,6 +107,50 @@ namespace deamer::language::validator::definition
 		constexpr static auto value = type::definition::property::Type::Associativity;
 		using type = type::definition::property::main::Associativity;
 	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::Generate>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Generation;
+		using type = type::definition::property::main::Generation;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::GenerateArgument>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Generation;
+		using type = type::definition::property::main::Generation;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::Integrate>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Generation;
+		using type = type::definition::property::main::Generation;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::Name>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Identity;
+		using type = type::definition::property::main::Identity;
+	};
 }
 
-#endif //DEAMER_LANGUAGE_VALIDATOR_DEFINITION_GETPROPERTYTYPEFROMOBJECTTYPE_H
+#endif // DEAMER_LANGUAGE_VALIDATOR_DEFINITION_GETPROPERTYTYPEFROMOBJECTTYPE_H

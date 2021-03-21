@@ -13,15 +13,16 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
 
-namespace deamer::language::type::definition::object {
+namespace deamer::language::type::definition::object
+{
 	/*! \enum Type
 	 *
 	 *  \brief This enum lists all the different language definition object types.
@@ -29,20 +30,28 @@ namespace deamer::language::type::definition::object {
 	enum class Type
 	{
 		Unknown,
-		
-		//Lexicon
+
+		// Lexicon
 		Terminal,
-		
-		//Grammar
+
+		// Grammar
 		NonTerminal,
 		ProductionRule,
 
-		//Precedence
+		// Precedence
 		ObjectPrecedence,
 
-		//Associativity
+		// Associativity
 		ObjectAssociativity,
+
+		// Generate
+		Generate,
+		GenerateArgument,
+		Integrate,
+
+		// Identity
+		Name,
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
