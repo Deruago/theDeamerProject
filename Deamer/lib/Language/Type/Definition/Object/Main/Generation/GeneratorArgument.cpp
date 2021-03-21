@@ -18,34 +18,24 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/GeneratorArgument.h"
+#include <utility>
 
-namespace deamer::language::type::definition::property
+deamer::language::type::definition::object::main::GenerateArgument::GenerateArgument(
+	deamer::tool::type::Tool generator_, std::string argument_)
+	: Base(Type::GenerateArgument),
+	  Generator(generator_),
+	  Argument(std::move(argument_))
 {
-	/*! \enum Type
-	 *
-	 *  \brief Describes the different property definitions available.
-	 */
-	enum class Type
-	{
-		Unknown = 0,
-		Lexicon,
-		Grammar,
-		Semantic,
-
-		Associativity,
-		Precedence,
-
-		AstOptimization,
-		AstTranslation,
-
-		Colorization,
-		Formatting,
-		Documentation,
-		Generation,
-		Identity,
-	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+bool deamer::language::type::definition::object::main::GenerateArgument::operator==(
+	const GenerateArgument& rhs) const
+{
+	return this->Generator == rhs.Generator && this->Argument == rhs.Argument;
+}
+
+deamer::language::type::definition::object::main::GenerateArgument::GenerateArgument()
+	: GenerateArgument(tool::type::Tool::Unknown, "")
+{
+}

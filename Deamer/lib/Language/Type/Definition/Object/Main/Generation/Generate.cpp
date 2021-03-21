@@ -18,34 +18,16 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
 
-namespace deamer::language::type::definition::property
+deamer::language::type::definition::object::main::Generate::Generate(
+	deamer::tool::type::Tool generator_)
+	: Base(Type::Generate),
+	  Generator(generator_)
 {
-	/*! \enum Type
-	 *
-	 *  \brief Describes the different property definitions available.
-	 */
-	enum class Type
-	{
-		Unknown = 0,
-		Lexicon,
-		Grammar,
-		Semantic,
-
-		Associativity,
-		Precedence,
-
-		AstOptimization,
-		AstTranslation,
-
-		Colorization,
-		Formatting,
-		Documentation,
-		Generation,
-		Identity,
-	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+deamer::language::type::definition::object::main::Generate::Generate()
+	: Generate(tool::type::Tool::Unknown)
+{
+}

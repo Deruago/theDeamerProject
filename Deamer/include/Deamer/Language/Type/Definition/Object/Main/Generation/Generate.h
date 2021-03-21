@@ -18,34 +18,33 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#ifndef DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATE_H
+#define DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATE_H
 
-namespace deamer::language::type::definition::property
+#include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Tool/Type/Tool.h"
+#include "Deamer/Type/Memory/SafeReserve.h"
+
+namespace deamer::language::type::definition::object::main
 {
-	/*! \enum Type
+	/*! \class Generate
 	 *
-	 *  \brief Describes the different property definitions available.
+	 *  This object is used to specify which generators should be generated.
 	 */
-	enum class Type
+	class Generate : public Base
 	{
-		Unknown = 0,
-		Lexicon,
-		Grammar,
-		Semantic,
+	private:
+		friend deamer::type::SafeReserve<Generate>;
 
-		Associativity,
-		Precedence,
+	public:
+		deamer::tool::type::Tool Generator;
 
-		AstOptimization,
-		AstTranslation,
+	public:
+		Generate(deamer::tool::type::Tool generator_);
 
-		Colorization,
-		Formatting,
-		Documentation,
-		Generation,
-		Identity,
+	private:
+		Generate();
 	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#endif // DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATE_H

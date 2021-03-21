@@ -18,34 +18,24 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
 
-namespace deamer::language::type::definition::property
+deamer::language::type::definition::object::main::Integrate::Integrate(
+	deamer::tool::type::Tool source_, deamer::tool::type::Tool target_)
+	: Base(Type::Integrate),
+	  SourceGenerator(source_),
+	  TargetGenerator(target_)
 {
-	/*! \enum Type
-	 *
-	 *  \brief Describes the different property definitions available.
-	 */
-	enum class Type
-	{
-		Unknown = 0,
-		Lexicon,
-		Grammar,
-		Semantic,
-
-		Associativity,
-		Precedence,
-
-		AstOptimization,
-		AstTranslation,
-
-		Colorization,
-		Formatting,
-		Documentation,
-		Generation,
-		Identity,
-	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+bool deamer::language::type::definition::object::main::Integrate::operator==(
+	const Integrate& rhs) const
+{
+	return this->SourceGenerator == rhs.SourceGenerator &&
+		   this->TargetGenerator == rhs.TargetGenerator;
+}
+
+deamer::language::type::definition::object::main::Integrate::Integrate()
+	: Integrate(tool::type::Tool::Unknown, tool::type::Tool::Unknown)
+{
+}

@@ -13,28 +13,50 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_GENERATION_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_GENERATION_H
 
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/GeneratorArgument.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
+#include <vector>
 
-namespace deamer::language::type::definition::property::main {
+namespace deamer::language::type::definition::property::main
+{
 	/*! \class Generation
 	 *
 	 *  \brief This language property definition, defines how to generate the language.
 	 *
 	 *  \details This LPD is part of a set of "special" LPD's, these LPD's are always available.
-	 *  Generation contains several data about what should be generated, from default tools to other ecosystem data.
+	 *  Generation contains several data about what should be generated, from default tools to other
+	 * ecosystem data.
 	 */
 	class Generation final : public Definition
 	{
 	public:
+		// std::vector<object::main::Stages*> stages;
+
+		std::vector<object::main::Generate*> generateStatements;
+		std::vector<object::main::GenerateArgument*> generateArguments;
+		std::vector<object::main::Integrate*> integrateStatements;
+
+	public:
+		Generation(std::vector<object::main::Generate*> generateStatements_,
+				   std::vector<object::main::GenerateArgument*> generateArguments_,
+				   std::vector<object::main::Integrate*> integrateStatements_);
+
+		~Generation() = default;
+
+	public:
+		bool IsIntegrationSet(const object::main::Integrate& integrate) const;
+		bool IsArgumentSet(const object::main::GenerateArgument& generateArgument) const;
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_GENERATION_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_GENERATION_H

@@ -18,34 +18,31 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#ifndef DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_INTEGRATE_H
+#define DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_STAGE_H
 
-namespace deamer::language::type::definition::property
+#include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Tool/Type/Tool.h"
+#include "Deamer/Type/Memory/SafeReserve.h"
+
+namespace deamer::language::type::definition::object::main
 {
-	/*! \enum Type
+	/*! \class Stage
 	 *
-	 *  \brief Describes the different property definitions available.
+	 *  This object is used to specify which stages should be generated.
 	 */
-	enum class Type
+	class Stage : public Base
 	{
-		Unknown = 0,
-		Lexicon,
-		Grammar,
-		Semantic,
+	private:
+		friend deamer::type::SafeReserve<Stage>;
 
-		Associativity,
-		Precedence,
+	public:
+	public:
+		// Stage();
 
-		AstOptimization,
-		AstTranslation,
-
-		Colorization,
-		Formatting,
-		Documentation,
-		Generation,
-		Identity,
+	private:
+		Stage();
 	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#endif // DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_INTEGRATE_H
