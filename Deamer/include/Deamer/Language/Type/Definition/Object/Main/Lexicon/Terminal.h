@@ -13,31 +13,36 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_TERMINAL_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_TERMINAL_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Lexicon/SpecialType.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
 
-namespace deamer::language::type::definition::object::main {
+namespace deamer::language::type::definition::object::main
+{
 	/*! \class Terminal
 	 *
 	 *  Terminal symbol, used in lexicon definitions.
 	 */
 	class Terminal : public Base
 	{
-	friend deamer::type::SafeReserve<Terminal>;
+		friend deamer::type::SafeReserve<Terminal>;
+
 	public:
 		std::string Name;
 		std::string Regex;
-		
-		Terminal(std::string name_, std::string regex_);
+		SpecialType Special;
+
+		Terminal(std::string name_, std::string regex_,
+				 SpecialType special_ = SpecialType::Standard);
 
 		Terminal(const Terminal& terminal);
 		Terminal(Terminal&& terminal) noexcept;
@@ -46,9 +51,10 @@ namespace deamer::language::type::definition::object::main {
 		Terminal& operator=(Terminal&& terminal) noexcept;
 
 		~Terminal() = default;
+
 	private:
 		Terminal();
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_TERMINAL_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_TERMINAL_H

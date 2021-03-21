@@ -18,28 +18,30 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_LEXICON_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_LEXICON_H
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_SPECIALTYPE_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_SPECIALTYPE_H
 
-#include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
-#include <vector>
-
-namespace deamer::language::type::definition::property::main
+namespace deamer::language::type::definition::object::main
 {
-	/*! \class Lexicon
+	/*!	\enum SpecialType
 	 *
-	 *  Language Property Definition of a lexicon, used to define a lexicon for language x.
+	 *	\brief Enumerates all special variants of Terminals, that are available.
 	 */
-	class Lexicon final : public Definition
+	enum class SpecialType
 	{
-	public:
-		std::vector<object::main::Terminal*> Terminals;
+		// A normal terminal
+		Standard = 0,
 
-		Lexicon(std::vector<object::main::Terminal*> terminals_);
+		// Used to specify, if we should remove this terminal,
+		// from the Terminal sequence.
+		Delete = 1,
 
-		virtual ~Lexicon() = default;
+		// Used to specify that its value should be ignored.
+		Ignore = 2,
+
+		// When encountering this terminal, crash the program
+		Crash = 4,
 	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_LEXICON_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_SPECIALTYPE_H

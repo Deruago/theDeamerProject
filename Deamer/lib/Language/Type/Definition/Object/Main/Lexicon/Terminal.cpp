@@ -13,36 +13,40 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
 #include <utility>
 
 deamer::language::type::definition::object::main::Terminal::Terminal(std::string name_,
-                                                                     std::string regex_)
-		:	Base(Type::Terminal),
-			Name(std::move(name_)),
-			Regex(std::move(regex_))
+																	 std::string regex_,
+																	 SpecialType special_)
+	: Base(Type::Terminal),
+	  Name(std::move(name_)),
+	  Regex(std::move(regex_)),
+	  Special(special_)
 {
 }
 
-deamer::language::type::definition::object::main::Terminal::Terminal(const Terminal& terminal) : Terminal()
+deamer::language::type::definition::object::main::Terminal::Terminal(const Terminal& terminal)
+	: Terminal()
 {
 	operator=(terminal);
 }
 
 deamer::language::type::definition::object::main::Terminal::Terminal(Terminal&& terminal) noexcept
-	:	Base(Type::NonTerminal)
+	: Base(Type::NonTerminal)
 {
 	this->Name = std::move(terminal.Name);
 	this->Regex = std::move(terminal.Regex);
+	this->Special = terminal.Special;
 }
 
-deamer::language::type::definition::object::main::Terminal& deamer::language::type::definition::object::main::Terminal::
-operator=(const Terminal& terminal)
+deamer::language::type::definition::object::main::Terminal&
+deamer::language::type::definition::object::main::Terminal::operator=(const Terminal& terminal)
 {
 	if (&terminal == this)
 	{
@@ -51,12 +55,13 @@ operator=(const Terminal& terminal)
 
 	this->Name = terminal.Name;
 	this->Regex = terminal.Regex;
+	this->Special = terminal.Special;
 
 	return *this;
 }
 
-deamer::language::type::definition::object::main::Terminal& deamer::language::type::definition::object::main::Terminal::
-operator=(Terminal&& terminal) noexcept
+deamer::language::type::definition::object::main::Terminal&
+deamer::language::type::definition::object::main::Terminal::operator=(Terminal&& terminal) noexcept
 {
 	if (&terminal == this)
 	{
@@ -65,6 +70,7 @@ operator=(Terminal&& terminal) noexcept
 
 	this->Name = std::move(terminal.Name);
 	this->Regex = std::move(terminal.Regex);
+	this->Special = terminal.Special;
 
 	return *this;
 }
