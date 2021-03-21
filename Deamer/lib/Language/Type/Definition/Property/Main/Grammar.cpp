@@ -13,17 +13,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
 
 deamer::language::type::definition::property::main::Grammar::Grammar(
-	std::vector<object::main::NonTerminal*> nonTerminals_, std::vector<object::main::ProductionRule*> productionRules_)
-		:	Definition(Type::Grammar),
-			NonTerminals(std::move(nonTerminals_)),
-			ProductionRules(std::move(productionRules_))
+	std::vector<object::main::NonTerminal*> nonTerminals_,
+	std::vector<object::main::ProductionRule*> productionRules_)
+	: Definition(Type::Grammar),
+	  NonTerminals(std::move(nonTerminals_)),
+	  ProductionRules(std::move(productionRules_))
 {
 }

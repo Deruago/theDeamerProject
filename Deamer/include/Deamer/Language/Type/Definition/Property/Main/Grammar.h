@@ -13,21 +13,21 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_GRAMMAR_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_GRAMMAR_H
 
-
-#include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
 #include <vector>
 
-namespace deamer::language::type::definition::property::main {
+namespace deamer::language::type::definition::property::main
+{
 	/*! \class Grammar
 	 *
 	 *  Language Property Definition of a grammar, used to define the grammar for language x.
@@ -37,17 +37,12 @@ namespace deamer::language::type::definition::property::main {
 	public:
 		std::vector<object::main::NonTerminal*> NonTerminals;
 		std::vector<object::main::ProductionRule*> ProductionRules;
-		
-		Grammar(std::vector<object::main::NonTerminal*> nonTerminals_, std::vector<object::main::ProductionRule*> productionRules_);
 
-		Grammar(const Grammar& lexicon) = delete;
-		Grammar(Grammar&& lexicon) = delete;
-
-		void operator=(const Grammar& lexicon) = delete;
-		void operator=(Grammar&& lexicon) = delete;
+		Grammar(std::vector<object::main::NonTerminal*> nonTerminals_,
+				std::vector<object::main::ProductionRule*> productionRules_);
 
 		virtual ~Grammar() = default;
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_GRAMMAR_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_GRAMMAR_H
