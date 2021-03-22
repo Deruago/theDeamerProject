@@ -1,3 +1,5 @@
+[![CMake](https://github.com/Deruago/theDeamerProject/actions/workflows/cmake.yml/badge.svg?branch=development)](https://github.com/Deruago/theDeamerProject/actions/workflows/cmake.yml)
+
 # The DeamerProject
 
 This directory and subdirectories contain source code and documentation regarding the DeamerProject. The goal of this readme file is to briefly explain what the "DeamerProject" is.
