@@ -28,7 +28,7 @@ namespace deamer::type {
         using pointer = T*;
         using reference = T&;
 
-        explicit Reserve() noexcept = default;
+        Reserve() = default;
 
         explicit Reserve(const T& t) noexcept
         {
