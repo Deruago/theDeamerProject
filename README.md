@@ -1,5 +1,7 @@
 # The DeamerProject
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7d0b9cec6f6949aba4f5780de32715af)](https://app.codacy.com/gh/Deruago/theDeamerProject?utm_source=github.com&utm_medium=referral&utm_content=Deruago/theDeamerProject&utm_campaign=Badge_Grade_Settings)
+
 This directory and subdirectories contain source code and documentation regarding the DeamerProject. The goal of this readme file is to briefly explain what the "DeamerProject" is.
 
 ## Getting started with the DeamerProject
