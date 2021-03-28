@@ -1,3 +1,5 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d46f28fda6e949578efd991af7c045bd)](https://www.codacy.com/gh/Deruago/theDeamerProject/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Deruago/theDeamerProject&amp;utm_campaign=Badge_Grade)
+
 [![CMake](https://github.com/Deruago/theDeamerProject/actions/workflows/cmake.yml/badge.svg?branch=development)](https://github.com/Deruago/theDeamerProject/actions/workflows/cmake.yml)
 
 # The DeamerProject
