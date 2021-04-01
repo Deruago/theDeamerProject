@@ -37,10 +37,14 @@ namespace deamer::language::type::definition::object::main
 		Delete = 1,
 
 		// Used to specify that its value should be ignored.
+		// And discard the terminal, after production rule deduction
 		Ignore = 2,
 
+		// Used to specify that its value should be ignored (has no value).
+		NoValue = 4,
+
 		// When encountering this terminal, crash the program
-		Crash = 4,
+		Crash = 8,
 	};
 }
 

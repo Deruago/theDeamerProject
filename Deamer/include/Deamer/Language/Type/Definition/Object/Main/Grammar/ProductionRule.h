@@ -13,10 +13,10 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_PRODUCTIONRULE_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_PRODUCTIONRULE_H
@@ -25,7 +25,8 @@
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <vector>
 
-namespace deamer::language::type::definition::object::main {
+namespace deamer::language::type::definition::object::main
+{
 	/*! \class ProductionRule
 	 *
 	 *  ProductionRule, used in grammar definitions.
@@ -34,12 +35,18 @@ namespace deamer::language::type::definition::object::main {
 	{
 	private:
 		friend deamer::type::SafeReserve<ProductionRule>;
+
 	public:
 		std::vector<Base*> Tokens;
+
 		ProductionRule(std::vector<Base*> tokens_);
 		ProductionRule();
+
+	public:
+		bool IsEmpty() const;
+
 	private:
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_PRODUCTIONRULE_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_PRODUCTIONRULE_H

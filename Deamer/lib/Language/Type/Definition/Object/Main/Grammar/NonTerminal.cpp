@@ -13,19 +13,21 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
 #include <utility>
 
-deamer::language::type::definition::object::main::NonTerminal::NonTerminal(std::string name_, std::vector<ProductionRule*> productionRules_)
-	:	Base(Type::NonTerminal),
-		Name(std::move(name_)),
-		ProductionRules(std::move(productionRules_))
+deamer::language::type::definition::object::main::NonTerminal::NonTerminal(
+	std::string name_, std::vector<ProductionRule*> productionRules_)
+	: Base(Type::NonTerminal),
+	  Name(std::move(name_)),
+	  ProductionRules(std::move(productionRules_))
 {
+	references.Add(ProductionRules);
 }
 
 deamer::language::type::definition::object::main::NonTerminal::NonTerminal() : NonTerminal("", {})

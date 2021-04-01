@@ -13,20 +13,28 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
 #include <utility>
 
-deamer::language::type::definition::object::main::ProductionRule::ProductionRule(std::vector<Base*> tokens_)
-	:	Base(Type::ProductionRule),
-		Tokens(std::move(tokens_))
+deamer::language::type::definition::object::main::ProductionRule::ProductionRule(
+	std::vector<Base*> tokens_)
+	: Base(Type::ProductionRule),
+	  Tokens(std::move(tokens_))
+{
+	references.Add(Tokens);
+}
+
+deamer::language::type::definition::object::main::ProductionRule::ProductionRule()
+	: ProductionRule(std::vector<Base*>{})
 {
 }
 
-deamer::language::type::definition::object::main::ProductionRule::ProductionRule() : ProductionRule(std::vector<Base*>{})
+bool deamer::language::type::definition::object::main::ProductionRule::IsEmpty() const
 {
+	return Tokens.empty();
 }

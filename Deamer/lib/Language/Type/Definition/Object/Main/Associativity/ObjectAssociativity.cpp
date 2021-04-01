@@ -13,21 +13,23 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Associativity/ObjectAssociativity.h"
 
-deamer::language::type::definition::object::main::ObjectAssociativity::ObjectAssociativity(object::Base* const object_,
-	const AssociativityType associativity)
-	:	Base(Type::ObjectAssociativity),
-		Object(object_),
-		Associativity(associativity)
+deamer::language::type::definition::object::main::ObjectAssociativity::ObjectAssociativity(
+	object::Base* const object_, const AssociativityType associativity)
+	: Base(Type::ObjectAssociativity),
+	  Object(object_),
+	  Associativity(associativity)
 {
+	references.Add(Object);
 }
 
-deamer::language::type::definition::object::main::ObjectAssociativity::ObjectAssociativity() : ObjectAssociativity(nullptr)
+deamer::language::type::definition::object::main::ObjectAssociativity::ObjectAssociativity()
+	: ObjectAssociativity(nullptr)
 {
 }

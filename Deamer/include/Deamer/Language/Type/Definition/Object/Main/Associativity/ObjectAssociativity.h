@@ -13,19 +13,20 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_ASSOCIATIVITY_OBJECTASSOCIATIVITY_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_ASSOCIATIVITY_OBJECTASSOCIATIVITY_H
 
-#include "Deamer/Language/Type/Definition/Object/Main/Associativity/AssociativityType.h"
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Associativity/AssociativityType.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
 
-namespace deamer::language::type::definition::object::main {
+namespace deamer::language::type::definition::object::main
+{
 	/*! \class ObjectAssociativity
 	 *
 	 *  \brief This object adds Associativity to a LDO
@@ -33,14 +34,17 @@ namespace deamer::language::type::definition::object::main {
 	class ObjectAssociativity : public Base
 	{
 		friend deamer::type::SafeReserve<ObjectAssociativity>;
+
 	public:
 		object::Base* Object;
 		AssociativityType Associativity;
 
-		ObjectAssociativity(object::Base* const object_, const AssociativityType associativity = AssociativityType::any);
+		ObjectAssociativity(object::Base* const object_,
+							const AssociativityType associativity = AssociativityType::any);
+
 	private:
 		ObjectAssociativity();
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_ASSOCIATIVITY_OBJECTASSOCIATIVITY_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_ASSOCIATIVITY_OBJECTASSOCIATIVITY_H

@@ -13,14 +13,32 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Language/Type/Definition/Language.h"
 
 deamer::language::type::definition::object::Base::Base(const object::Type type_)
 {
 	Type_ = type_;
+}
+
+const deamer::type::vector::LDOMultiVector&
+deamer::language::type::definition::object::Base::GetReferences() const
+{
+	return references;
+}
+
+void deamer::language::type::definition::object::Base::Register(Language& language) const
+{
+	for (const auto& SetOfReferences : references)
+	{
+		for (const auto* reference : SetOfReferences.second)
+		{
+			language.cache.Register(this, Type_, reference);
+		}
+	}
 }

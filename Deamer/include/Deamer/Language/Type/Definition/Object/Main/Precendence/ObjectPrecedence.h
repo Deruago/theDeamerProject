@@ -13,10 +13,10 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_PRECEDENCE_OBJECTPRECEDENCE_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_PRECEDENCE_OBJECTPRECEDENCE_H
@@ -24,8 +24,8 @@
 #include "Deamer/Language/Type/Definition/Object/Base.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
 
-namespace deamer::language::type::definition::object::main {
-	
+namespace deamer::language::type::definition::object::main
+{
 	/*! \class ObjectPrecedence
 	 *
 	 *  \brief This object adds precedence to a LDO
@@ -33,14 +33,16 @@ namespace deamer::language::type::definition::object::main {
 	class ObjectPrecedence : public Base
 	{
 		friend deamer::type::SafeReserve<ObjectPrecedence>;
+
 	public:
 		object::Base* Object;
 		int Precedence;
-		
+
 		ObjectPrecedence(object::Base* const object_, const int precedence_);
+
 	private:
 		ObjectPrecedence();
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_PRECEDENCE_OBJECTPRECEDENCE_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_PRECEDENCE_OBJECTPRECEDENCE_H

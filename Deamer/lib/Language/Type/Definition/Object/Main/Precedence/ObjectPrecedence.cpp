@@ -13,21 +13,23 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
 
-deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence(object::Base* const object_,
-	const int precedence_)
-	:	Base(object::Type::ObjectPrecedence),
-		Object(object_),
-		Precedence(precedence_)
+deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence(
+	object::Base* const object_, const int precedence_)
+	: Base(object::Type::ObjectPrecedence),
+	  Object(object_),
+	  Precedence(precedence_)
 {
+	references.Add(Object);
 }
 
-deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence() : ObjectPrecedence(nullptr, -1)
+deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence()
+	: ObjectPrecedence(nullptr, -1)
 {
 }
