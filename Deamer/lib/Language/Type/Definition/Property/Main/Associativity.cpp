@@ -13,22 +13,24 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #include "Deamer/Language/Type/Definition/Property/Main/Associativity.h"
+#include <utility>
 #include <vector>
 
-deamer::language::type::definition::property::main::Associativity::Associativity(std::vector<object::main::ObjectAssociativity*> associativityObjects_)
-	:	Definition(Type::Associativity),
-		AssociativityObjects(associativityObjects_)
+deamer::language::type::definition::property::main::Associativity::Associativity(
+	std::vector<object::main::ObjectAssociativity*> associativityObjects_)
+	: Definition(Type::Associativity),
+	  AssociativityObjects(std::move(associativityObjects_))
 {
-
+	references.Add(AssociativityObjects);
 }
 
-deamer::language::type::definition::property::main::Associativity::Associativity() : Associativity(std::vector<object::main::ObjectAssociativity*>{})
+deamer::language::type::definition::property::main::Associativity::Associativity()
+	: Associativity(std::vector<object::main::ObjectAssociativity*>{})
 {
-	
 }

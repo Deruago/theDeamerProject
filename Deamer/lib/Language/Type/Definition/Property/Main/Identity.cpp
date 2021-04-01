@@ -24,4 +24,5 @@ deamer::language::type::definition::property::main::Identity::Identity(object::m
 	: Definition(Type::Identity),
 	  name(name_)
 {
+	references.Add(name);
 }

@@ -30,6 +30,9 @@ deamer::language::type::definition::property::main::Generation::Generation(
 	  generateArguments(std::move(generateArguments_)),
 	  integrateStatements(std::move(integrateStatements_))
 {
+	references.Add(generateStatements);
+	references.Add(generateArguments);
+	references.Add(integrateStatements);
 }
 
 bool deamer::language::type::definition::property::main::Generation::IsIntegrationSet(

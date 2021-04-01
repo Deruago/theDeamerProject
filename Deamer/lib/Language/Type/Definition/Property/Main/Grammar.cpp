@@ -27,4 +27,6 @@ deamer::language::type::definition::property::main::Grammar::Grammar(
 	  NonTerminals(std::move(nonTerminals_)),
 	  ProductionRules(std::move(productionRules_))
 {
+	references.Add(NonTerminals);
+	references.Add(ProductionRules);
 }

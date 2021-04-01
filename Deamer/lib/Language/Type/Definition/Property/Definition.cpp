@@ -30,3 +30,9 @@ deamer::language::type::definition::property::Definition::GetType() const noexce
 {
 	return Type;
 }
+
+const deamer::type::vector::LDOMultiVector&
+deamer::language::type::definition::property::Definition::GetObjects() const
+{
+	return references;
+}

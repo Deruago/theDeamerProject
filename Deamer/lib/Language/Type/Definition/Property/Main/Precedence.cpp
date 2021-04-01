@@ -13,20 +13,22 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 
 deamer::language::type::definition::property::main::Precedence::Precedence(
 	std::vector<object::main::ObjectPrecedence*> precedenceObjects_)
-		:	Definition(property::Type::Precedence),
-			PrecedenceObjects(std::move(precedenceObjects_))
+	: Definition(property::Type::Precedence),
+	  PrecedenceObjects(std::move(precedenceObjects_))
 {
+	references.Add(PrecedenceObjects);
 }
 
-deamer::language::type::definition::property::main::Precedence::Precedence() : Precedence(std::vector<object::main::ObjectPrecedence*>{})
+deamer::language::type::definition::property::main::Precedence::Precedence()
+	: Precedence(std::vector<object::main::ObjectPrecedence*>{})
 {
 }

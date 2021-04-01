@@ -13,32 +13,39 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_DEFINITION_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_DEFINITION_H
 
 #include "Deamer/Language/Type/Definition/Property/Type.h"
+#include "Deamer/Type/Vector/LDOMultiVector.h"
 
-namespace deamer::language::type::definition::property {
+namespace deamer::language::type::definition::property
+{
 	/*! \class Definition
 	 *
-	 *  \brief A language property definition (LPD), describing part of a language. E.g. the lexicon of a language.
+	 *  \brief A language property definition (LPD), describing part of a language. E.g. the lexicon
+	 * of a language.
 	 */
 	class Definition
 	{
-	private:
+	protected:
+		deamer::type::vector::LDOMultiVector references;
+
 		const property::Type Type;
+
 	public:
 		Definition(const property::Type type_ = property::Type::Unknown);
+		virtual ~Definition() = default;
 
 		property::Type GetType() const noexcept;
 
-		virtual ~Definition() = default;
+		const deamer::type::vector::LDOMultiVector& GetObjects() const;
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_DEFINITION_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_DEFINITION_H
