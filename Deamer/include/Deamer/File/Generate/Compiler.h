@@ -48,6 +48,10 @@ namespace deamer::file::generate
 											  const std::string& pathFromRoot);
 		virtual void GenerateFile(const tool::File& file, const std::string& pathFromRoot);
 
+		virtual void FillDirectory(const tool::Directory& directory,
+								   const std::string& libraryDirectory,
+								   const std::string& directoryPath);
+
 	public:
 		Compiler(const deamer::file::compiler::Output& compilerOutput_);
 		virtual ~Compiler() = default;

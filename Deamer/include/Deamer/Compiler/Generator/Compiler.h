@@ -50,9 +50,20 @@ namespace deamer::compiler::generator
 		 *	\note The LD gets immediately generated together with the LD generator.
 		 */
 		Compiler()
-			: languageGenerator(new LanguageGenerator()),
-			  LanguageDefinition(languageGenerator->GenerateLanguage())
 		{
+			languageGenerator = new LanguageGenerator();
+
+			if (languageGenerator == nullptr)
+			{
+				throw std::runtime_error("languageGenerator is null-pointer!");
+			}
+
+			LanguageDefinition = languageGenerator->GenerateLanguage();
+
+			if (LanguageDefinition == nullptr)
+			{
+				throw std::runtime_error("LanguageDefinition is null-pointer!");
+			}
 		}
 
 		/*!	\fn Compiler(LanguageGenerator* languageGenerator)
@@ -60,10 +71,20 @@ namespace deamer::compiler::generator
 		 *	\brief This overload allows the user to give in a specific language generator,
 		 *	when there is no default constructor.
 		 */
-		Compiler(LanguageGenerator* languageGenerator)
-			: languageGenerator(languageGenerator),
-			  LanguageDefinition(languageGenerator->GenerateLanguage())
+		Compiler(LanguageGenerator* languageGenerator_)
 		{
+			if (languageGenerator_ == nullptr)
+			{
+				std::logic_error("languageGenerator_ is null-pointer");
+			}
+
+			languageGenerator = languageGenerator_;
+			LanguageDefinition = languageGenerator->GenerateLanguage();
+
+			if (LanguageDefinition == nullptr)
+			{
+				throw std::runtime_error("LanguageDefinition is null-pointer!");
+			}
 		}
 
 		virtual ~Compiler()
@@ -88,7 +109,7 @@ namespace deamer::compiler::generator
 		 */
 		LanguageGenerator* GetLanguageGeneration() const
 		{
-			return languageGenerator;
+			return this->languageGenerator;
 		}
 
 		/*!	\fn GetLanguageDefinition
@@ -97,7 +118,7 @@ namespace deamer::compiler::generator
 		 */
 		language::type::definition::Language* GetLanguageDefinition() const
 		{
-			return LanguageDefinition;
+			return this->LanguageDefinition;
 		}
 	};
 }

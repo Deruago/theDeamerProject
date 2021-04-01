@@ -77,18 +77,7 @@ void deamer::file::generate::Compiler::GenerateExternalDirectory(const tool::Dir
 	const auto externalDirectory = pathFromRoot + "extern/";
 	const auto directoryPath = externalDirectory + directory.GetThisDirectory() + '/';
 
-	std::filesystem::create_directory(externalDirectory);
-	std::filesystem::create_directory(directoryPath);
-
-	for (const auto& file : directory.GetFiles())
-	{
-		GenerateFile(file, directoryPath);
-	}
-
-	for (const auto& subDirectory : directory.GetDirectories())
-	{
-		GenerateDirectory(subDirectory, directoryPath);
-	}
+	FillDirectory(directory, externalDirectory, directoryPath);
 }
 
 void deamer::file::generate::Compiler::GenerateLibraryDirectory(const tool::Directory& directory,
@@ -97,18 +86,7 @@ void deamer::file::generate::Compiler::GenerateLibraryDirectory(const tool::Dire
 	const auto libraryDirectory = pathFromRoot + "lib/";
 	const auto directoryPath = libraryDirectory + directory.GetThisDirectory() + '/';
 
-	std::filesystem::create_directory(libraryDirectory);
-	std::filesystem::create_directory(directoryPath);
-
-	for (const auto& file : directory.GetFiles())
-	{
-		GenerateFile(file, directoryPath);
-	}
-
-	for (const auto& subDirectory : directory.GetDirectories())
-	{
-		GenerateDirectory(subDirectory, directoryPath);
-	}
+	FillDirectory(directory, libraryDirectory, directoryPath);
 }
 
 void deamer::file::generate::Compiler::GenerateIncludeDirectory(const tool::Directory& directory,
@@ -117,18 +95,7 @@ void deamer::file::generate::Compiler::GenerateIncludeDirectory(const tool::Dire
 	const auto includeDirectory = pathFromRoot + "include/";
 	const auto directoryPath = includeDirectory + directory.GetThisDirectory() + '/';
 
-	std::filesystem::create_directory(includeDirectory);
-	std::filesystem::create_directory(directoryPath);
-
-	for (const auto& file : directory.GetFiles())
-	{
-		GenerateFile(file, directoryPath);
-	}
-
-	for (const auto& subDirectory : directory.GetDirectories())
-	{
-		GenerateDirectory(subDirectory, directoryPath);
-	}
+	FillDirectory(directory, includeDirectory, directoryPath);
 }
 
 void deamer::file::generate::Compiler::GenerateFile(const tool::File& file,
@@ -142,4 +109,22 @@ void deamer::file::generate::Compiler::GenerateFile(const tool::File& file,
 	outputFile << file.FileContent();
 
 	outputFile.close();
+}
+
+void deamer::file::generate::Compiler::FillDirectory(const deamer::file::tool::Directory& directory,
+													 const std::string& libraryDirectory,
+													 const std::string& directoryPath)
+{
+	std::filesystem::create_directory(libraryDirectory);
+	std::filesystem::create_directory(directoryPath);
+
+	for (const auto& file : directory.GetFiles())
+	{
+		GenerateFile(file, directoryPath);
+	}
+
+	for (const auto& subDirectory : directory.GetDirectories())
+	{
+		GenerateDirectory(subDirectory, directoryPath);
+	}
 }
