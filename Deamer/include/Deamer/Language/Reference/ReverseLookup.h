@@ -49,8 +49,7 @@ namespace deamer::language::reference
 			{
 				throw std::logic_error("Reference was null-pointer");
 			}
-			std::cout << (unsigned)T_lookup_enum << " "
-					  << (unsigned)T_propertyDefinition_enum_of_lookup << " \n";
+
 			languageCache = language_reference->GetLanguageCache();
 		}
 		~ReverseLookup() = default;
@@ -67,16 +66,22 @@ namespace deamer::language::reference
 		 *	the object to the primary cache.
 		 */
 		template<typename T_source>
-		ReverseLookupResult<T_lookup> Get(T_source source) const
+		ReverseLookupResult<T_lookup> Get(T_source* source) const
 		{
+			if (source == nullptr)
+			{
+				return ReverseLookupResult<T_lookup>(false, CacheLocation::None);
+			}
+
 			if (!language_reference->IsDefinitionAvailable(T_propertyDefinition_enum_of_lookup))
 			{
-				return ReverseLookupResult<T_lookup>(false);
+				return ReverseLookupResult<T_lookup>(false, CacheLocation::None);
 			}
 
 			auto primaryCacheResult = GetFromPrimaryCache(source);
 			if (primaryCacheResult.Success())
 			{
+				std::cout << "Primary cache\n";
 				return primaryCacheResult;
 			}
 
@@ -87,11 +92,11 @@ namespace deamer::language::reference
 				return directLPDResult;
 			}
 
-			return ReverseLookupResult<T_lookup>(false);
+			return ReverseLookupResult<T_lookup>(false, CacheLocation::None);
 		}
 
 		template<typename T_source>
-		ReverseLookupResult<T_lookup> GetFromPrimaryCache(T_source source) const
+		ReverseLookupResult<T_lookup> GetFromPrimaryCache(T_source* source) const
 		{
 			const auto cacheResult = languageCache->Get(source, T_lookup_enum);
 
@@ -102,14 +107,14 @@ namespace deamer::language::reference
 				{
 					newCache.push_back(static_cast<const T_lookup*>(object));
 				}
-				return ReverseLookupResult<T_lookup>(true, newCache);
+				return ReverseLookupResult<T_lookup>(true, CacheLocation::Primary, newCache);
 			}
 
-			return ReverseLookupResult<T_lookup>(false);
+			return ReverseLookupResult<T_lookup>(false, CacheLocation::None);
 		}
 
 		template<typename T_source>
-		ReverseLookupResult<T_lookup> GetFromDirectLPD(T_source source,
+		ReverseLookupResult<T_lookup> GetFromDirectLPD(T_source* source,
 													   bool cacheResult = true) const
 		{
 			const type::definition::property::Definition* definitionWithObject;
@@ -119,7 +124,7 @@ namespace deamer::language::reference
 					T_propertyDefinition_enum_of_lookup);
 			} catch ([[maybe_unused]] exception::RequestedPropertyDefinitionNotFound& ex)
 			{
-				return ReverseLookupResult<T_lookup>(false);
+				return ReverseLookupResult<T_lookup>(false, CacheLocation::None);
 			}
 
 			bool found = false;
@@ -133,9 +138,9 @@ namespace deamer::language::reference
 
 				for (const auto* reference : SetOfReferences.second)
 				{
-					found = true;
 					if (reference->GetReferences().Contains(source))
 					{
+						found = true;
 						if (cacheResult)
 							languageCache->Register(reference, T_lookup_enum, source);
 
@@ -144,11 +149,18 @@ namespace deamer::language::reference
 				}
 			}
 
-			return ReverseLookupResult<T_lookup>(found, foundObjects);
+			if (found)
+			{
+				return ReverseLookupResult<T_lookup>(true, CacheLocation::Secondary, foundObjects);
+			}
+			else
+			{
+				return ReverseLookupResult<T_lookup>(false, CacheLocation::None);
+			}
 		}
 
 		template<typename T_source>
-		ReverseLookupResult<T_lookup> GetFromDirectLPD_DontCache(T_source source) const
+		ReverseLookupResult<T_lookup> GetFromDirectLPD_DontCache(T_source* source) const
 		{
 			return GetFromDirectLPD<T_source>(source, false);
 		}

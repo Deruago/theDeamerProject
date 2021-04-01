@@ -25,33 +25,51 @@
 
 namespace deamer::language::reference
 {
+	/*!	\enum CacheLocation
+	 *
+	 *	\brief Used to specify where the result has been found.
+	 */
+	enum class CacheLocation
+	{
+		Unknown = 0,
+		None,
+		Primary,
+		Secondary,
+	};
+
 	template<typename T_lookup>
 	class ReverseLookupResult
 	{
 	private:
 		bool reverseLookupSuccess;
+		CacheLocation cacheLocation;
 		std::vector<const T_lookup*> results;
 
 	public:
-		ReverseLookupResult(bool reverseLookupSuccess_, std::vector<const T_lookup*> results_)
+		ReverseLookupResult(bool reverseLookupSuccess_, CacheLocation cacheLocation_,
+							std::vector<const T_lookup*> results_)
 			: reverseLookupSuccess(reverseLookupSuccess_),
+			  cacheLocation(cacheLocation_),
 			  results(std::move(results_))
 		{
 		}
 
-		ReverseLookupResult(bool reverseLookupSuccess_)
-			: reverseLookupSuccess(reverseLookupSuccess_)
+		ReverseLookupResult(bool reverseLookupSuccess_, CacheLocation cacheLocation_)
+			: reverseLookupSuccess(reverseLookupSuccess_),
+			  cacheLocation(cacheLocation_)
 		{
 		}
 
 		ReverseLookupResult(const ReverseLookupResult& rhs)
 		{
 			reverseLookupSuccess = rhs.reverseLookupSuccess;
+			cacheLocation = rhs.cacheLocation;
 			results = rhs.results;
 		}
 		ReverseLookupResult(ReverseLookupResult&& rhs) noexcept
 		{
 			reverseLookupSuccess = rhs.reverseLookupSuccess;
+			cacheLocation = rhs.cacheLocation;
 			results = std::move(rhs.results);
 		}
 
@@ -61,6 +79,11 @@ namespace deamer::language::reference
 		bool Success() const
 		{
 			return reverseLookupSuccess;
+		}
+
+		bool Fail() const
+		{
+			return !Success();
 		}
 
 		bool IsEmpty() const noexcept
@@ -81,6 +104,21 @@ namespace deamer::language::reference
 		size_t Size() const
 		{
 			return results.size();
+		}
+
+		bool IsPrimaryCache() const
+		{
+			return cacheLocation == CacheLocation::Primary;
+		}
+
+		bool IsSecondaryCache() const
+		{
+			return cacheLocation == CacheLocation::Secondary;
+		}
+
+		CacheLocation GetCacheLocation() const
+		{
+			return cacheLocation;
 		}
 	};
 }

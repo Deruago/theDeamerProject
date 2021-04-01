@@ -29,9 +29,9 @@ deamer::parser::type::bison::TokenDeclarationSection::TokenDeclarationSection(
 }
 
 void deamer::parser::type::bison::TokenDeclarationSection::AddTerminal(
-	const language::type::definition::object::main::Terminal& terminal)
+	const language::type::definition::object::main::Terminal* terminal)
 {
-	precedenceSection.AddTerminal(terminal);
+	precedenceSection.AddTerminal(*terminal);
 	terminalDeclarations.emplace_back(reference, terminal);
 }
 

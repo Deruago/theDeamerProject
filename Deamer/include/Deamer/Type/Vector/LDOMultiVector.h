@@ -3,6 +3,7 @@
 
 #include "Deamer/Language/Convertor/Definition/ObjectTypeToEnum.h"
 #include "Deamer/Language/Type/Definition/Object/Type.h"
+#include <iostream>
 #include <map>
 #include <set>
 #include <vector>
@@ -29,8 +30,10 @@ namespace deamer::type::vector
 		template<typename T>
 		const std::set<const language::type::definition::object::Base*>& GetBase() const
 		{
-			const auto& foundObjects =
-				references[language::convertor::definition::ObjectTypeToEnum<T>::value];
+			constexpr static auto enumValue =
+				language::convertor::definition::ObjectTypeToEnum<T>::value;
+
+			const auto& foundObjects = references[enumValue];
 
 			return foundObjects;
 		}
@@ -89,10 +92,12 @@ namespace deamer::type::vector
 		template<typename T>
 		bool Contains(T* reference) const
 		{
+			using strippedType = std::remove_cv_t<T>*;
+			auto* reference_stripped = (strippedType)reference;
 			const auto& localReferences = GetBase<T>();
 
 			// if it contains reference to "reference", the count is > 0
-			return localReferences.count(reference) > 0;
+			return localReferences.count(reference_stripped) > 0;
 		}
 	};
 }

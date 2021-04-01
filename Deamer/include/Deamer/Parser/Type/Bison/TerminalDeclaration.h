@@ -30,11 +30,11 @@ namespace deamer::parser::type::bison
 	{
 	private:
 		const generator::bison::Bison::ReferenceType reference;
-		const language::type::definition::object::main::Terminal& terminal;
+		const language::type::definition::object::main::Terminal* terminal;
 
 	public:
 		TerminalDeclaration(const generator::bison::Bison::ReferenceType reference_,
-							const language::type::definition::object::main::Terminal& terminal_);
+							const language::type::definition::object::main::Terminal* terminal_);
 		virtual ~TerminalDeclaration() override = default;
 
 	public:

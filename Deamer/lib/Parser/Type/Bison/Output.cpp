@@ -33,7 +33,7 @@ deamer::parser::type::bison::Output::Output(const generator::bison::Bison::Refer
 void deamer::parser::type::bison::Output::AddTerminal(
 	const language::type::definition::object::main::Terminal* terminal)
 {
-	tokenDeclarationSection.AddTerminal(*terminal);
+	tokenDeclarationSection.AddTerminal(terminal);
 	unionSection.AddTerminal(*terminal);
 }
 

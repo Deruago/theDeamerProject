@@ -55,6 +55,21 @@ namespace deamer::language::convertor::definition
 		using type = void;
 	};
 
+	template<typename T>
+	class ObjectTypeToEnum<const T> : public ObjectTypeToEnum<T>
+	{
+	};
+
+	template<typename T>
+	class ObjectTypeToEnum<volatile T> : public ObjectTypeToEnum<T>
+	{
+	};
+
+	template<typename T>
+	class ObjectTypeToEnum<const volatile T> : public ObjectTypeToEnum<T>
+	{
+	};
+
 	/*!
 	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
 	 */

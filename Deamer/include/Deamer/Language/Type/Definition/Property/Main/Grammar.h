@@ -42,6 +42,9 @@ namespace deamer::language::type::definition::property::main
 				std::vector<object::main::ProductionRule*> productionRules_);
 
 		virtual ~Grammar() = default;
+
+	public:
+		const object::main::NonTerminal* GetNonTerminal(const std::string& nonTerminalName) const;
 	};
 }
 

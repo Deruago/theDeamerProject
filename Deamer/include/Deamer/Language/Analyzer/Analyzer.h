@@ -39,7 +39,6 @@ namespace deamer::language::analyzer
 		Analyzer(const reference::PropertyDefinitionBase* reference, const LDO_type* ldo)
 			: ldoAnalyzer(reference, ldo)
 		{
-			std::cout << reference << " " << reference->GetLanguageCache() << "\n";
 		}
 
 		~Analyzer() = default;

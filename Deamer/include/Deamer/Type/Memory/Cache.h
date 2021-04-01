@@ -9,7 +9,7 @@ namespace deamer::type::memory
 	class Cache
 	{
 	private:
-		std::map<const T*, std::map<T_enum, std::set<const T*>>> localCache;
+		std::map<T*, std::map<T_enum, std::set<const T*>>> localCache;
 
 	public:
 		Cache() = default;
@@ -25,17 +25,48 @@ namespace deamer::type::memory
 		template<typename T_register>
 		void Register(T_register* registerObject, T_enum registerEnumValue, const T* targetObject)
 		{
-			localCache[targetObject][registerEnumValue].insert(registerObject);
+			auto* targetObject_stripped = (T*)targetObject;
+			localCache[targetObject_stripped][registerEnumValue].insert(registerObject);
+		}
+
+		template<typename T_register>
+		void Register(T_register* registerObject, T_enum registerEnumValue,
+					  volatile T* targetObject)
+		{
+			auto* targetObject_stripped = (T*)targetObject;
+			localCache[targetObject_stripped][registerEnumValue].insert(registerObject);
+		}
+
+		template<typename T_register>
+		void Register(T_register* registerObject, T_enum registerEnumValue,
+					  const volatile T* targetObject)
+		{
+			auto* targetObject_stripped = (T*)targetObject;
+			localCache[targetObject_stripped][registerEnumValue].insert(registerObject);
 		}
 
 		const std::set<const T*>& Get(T* sourceObject, T_enum targetObjects)
 		{
-			return localCache[sourceObject][targetObjects];
+			auto* sourceObject_stripped = (std::remove_cv_t<T>*)sourceObject;
+			return localCache[sourceObject_stripped][targetObjects];
 		}
 
 		const std::set<const T*>& Get(const T* sourceObject, T_enum targetObjects)
 		{
-			return localCache[sourceObject][targetObjects];
+			auto* sourceObject_stripped = (std::remove_cv_t<T>*)sourceObject;
+			return localCache[sourceObject_stripped][targetObjects];
+		}
+
+		const std::set<const T*>& Get(volatile T* sourceObject, T_enum targetObjects)
+		{
+			auto* sourceObject_stripped = (std::remove_cv_t<T>*)sourceObject;
+			return localCache[sourceObject_stripped][targetObjects];
+		}
+
+		const std::set<const T*>& Get(const volatile T* sourceObject, T_enum targetObjects)
+		{
+			auto* sourceObject_stripped = (std::remove_cv_t<T>*)sourceObject;
+			return localCache[sourceObject_stripped][targetObjects];
 		}
 
 		void Clear()
