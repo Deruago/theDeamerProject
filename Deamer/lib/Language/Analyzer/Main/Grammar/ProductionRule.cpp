@@ -29,6 +29,10 @@ deamer::language::analyzer::main::ProductionRule::ProductionRule(
 	: Base(reference_),
 	  productionRule(productionRule_)
 {
+	if (productionRule == nullptr)
+	{
+		throw std::logic_error("productionRule_ was null-pointer");
+	}
 }
 
 bool deamer::language::analyzer::main::ProductionRule::IsDirectRecursive() const
@@ -38,13 +42,12 @@ bool deamer::language::analyzer::main::ProductionRule::IsDirectRecursive() const
 
 	const auto result = reverseLookup.Get(productionRule);
 
-	if (!result.Success() || result.IsEmpty())
+	if (result.Fail() || result.IsEmpty())
 	{
 		return false;
 	}
 
 	return IsDirectRecursive(result.GetObject());
-	return false;
 }
 
 bool deamer::language::analyzer::main::ProductionRule::IsDirectRecursive(
