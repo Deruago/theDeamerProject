@@ -13,16 +13,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_BASEGENERATOR_H
 #define DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_BASEGENERATOR_H
 
 #include "Deamer/Language/Convertor/Definition/ObjectTypeToEnum.h"
 #include "Deamer/Language/Type/Definition/Property/Definition.h"
+#include <map>
+#include <vector>
 
 namespace deamer::language::generator::definition::property
 {
@@ -36,20 +38,25 @@ namespace deamer::language::generator::definition::property
 	class BaseGenerator
 	{
 	protected:
-		std::map<type::definition::object::Type, std::vector<type::definition::object::Base*>> bases;
+		std::map<type::definition::object::Type, std::vector<type::definition::object::Base*>>
+			bases;
 		type::definition::property::Definition* generatedDefinition = nullptr;
+
 	protected:
 		/*!	\fn AddObjectToInternalStorage
 		 *
 		 *	\brief Adds a object to the internal storage.
 		 */
-		virtual void AddObjectToInternalStorage(const type::definition::object::Type enumValue, type::definition::object::Base* const objectPointer)
+		virtual void AddObjectToInternalStorage(const type::definition::object::Type enumValue,
+												type::definition::object::Base* const objectPointer)
 		{
 			bases[enumValue].push_back(objectPointer);
 		}
+
 	public:
 		BaseGenerator() = default;
 		virtual ~BaseGenerator() = default;
+
 	public:
 		/*!	\fn RegisterResultToLanguageDefinition
 		 *
@@ -61,10 +68,13 @@ namespace deamer::language::generator::definition::property
 		 *
 		 *	\brief This function will generate all objects.
 		 *
-		 *	\note This should only be used whenever the objects cannot be determined at construction time.
+		 *	\note This should only be used whenever the objects cannot be determined at construction
+		 *time.
 		 */
-		virtual void GenerateObjects() {}
-		
+		virtual void GenerateObjects()
+		{
+		}
+
 		/*!	\fn GetAllObjects
 		 *
 		 *	\brief Returns a vector with all the objects added to the property definition generator.
@@ -87,8 +97,10 @@ namespace deamer::language::generator::definition::property
 		 *
 		 *	\brief This function is used to cache objects. To add reverse lookup capabilities.
 		 */
-		virtual void CacheObjects() {}
-		
+		virtual void CacheObjects()
+		{
+		}
+
 		/*! \fn Generate
 		 *
 		 *	\brief This will generate a property definition.
@@ -105,14 +117,18 @@ namespace deamer::language::generator::definition::property
 		 *
 		 *	\brief This function is called to threat-analyze the generated definition.
 		 */
-		virtual void ThreatAnalyzeDefinition() {}
+		virtual void ThreatAnalyzeDefinition()
+		{
+		}
 
 		/*!	\fn OptimizeDefinition
 		 *
 		 *	\brief This function is called to optimize the generated definition.
 		 */
-		virtual void OptimizeDefinition() {}
-		
+		virtual void OptimizeDefinition()
+		{
+		}
+
 	public:
 		/*!	\fn TargetedPropertyDefinition
 		 *
@@ -125,4 +141,4 @@ namespace deamer::language::generator::definition::property
 	};
 }
 
-#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_BASEGENERATOR_H
+#endif // DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_BASEGENERATOR_H

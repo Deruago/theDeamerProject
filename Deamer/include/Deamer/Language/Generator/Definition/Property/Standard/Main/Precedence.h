@@ -13,50 +13,64 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_STANDARD_MAIN_PRECEDENCE_H
 #define DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_STANDARD_MAIN_PRECEDENCE_H
 
+#include "Deamer/Language/Generator/Definition/Property/Standard/Base.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
-#include "Deamer/Language/Generator/Definition/Property/Standard/Base.h"
 
 namespace deamer::language::generator::definition::property::standard
 {
 	template<typename LanguageDefinitionType>
-	class Precedence : public Base<LanguageDefinitionType, type::definition::property::main::Precedence, type::definition::property::main::Lexicon>
+	class Precedence
+		: public Base<LanguageDefinitionType, type::definition::property::main::Precedence,
+					  type::definition::property::main::Lexicon>
 	{
 	public:
-		Precedence(LanguageDefinitionType* language_) : standard::Base<LanguageDefinitionType, type::definition::property::main::Precedence, type::definition::property::main::Lexicon>(language_) {}
+		Precedence(LanguageDefinitionType* language_)
+			: standard::Base<LanguageDefinitionType, type::definition::property::main::Precedence,
+							 type::definition::property::main::Lexicon>(language_)
+		{
+		}
 		~Precedence() override = default;
 
 		void GenerateObjects() override
 		{
-			const auto& Lexicon = this->GetLanguageReference().template GetDefinition<type::definition::property::Type::Lexicon>();
+			const auto& Lexicon =
+				this->GetLanguageReference()
+					.template GetDefinition<type::definition::property::Type::Lexicon>();
 
 			for (auto* terminal : Lexicon.Terminals)
 			{
-				auto* const newObject = new type::definition::object::main::ObjectPrecedence(terminal, 0);
+				auto* const newObject =
+					new type::definition::object::main::ObjectPrecedence(terminal, 0);
 				this->AddObject(newObject);
 			}
 		}
-		
+
 		/*!	\fn Generate
 		 *
 		 *	\brief Generates a default precedence property definition.
 		 *
-		 *	\details The default precedence definition exists of a set of precedences which are all the same (0).
+		 *	\details The default precedence definition exists of a set of precedences which are all
+		 *the same (0).
 		 */
 		void GenerateDefinition() override
 		{
-			auto ObjectPrecedences = Base<LanguageDefinitionType, type::definition::property::main::Precedence, type::definition::property::main::Lexicon>::template GetObjects<type::definition::object::Type::ObjectPrecedence>();
-			this->generatedDefinition = new type::definition::property::main::Precedence(ObjectPrecedences);
+			auto ObjectPrecedences =
+				Base<LanguageDefinitionType, type::definition::property::main::Precedence,
+					 type::definition::property::main::Lexicon>::
+					template GetObjects<type::definition::object::Type::ObjectPrecedence>();
+			this->generatedDefinition =
+				new type::definition::property::main::Precedence(ObjectPrecedences);
 		}
 	};
 }
 
-#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_STANDARD_MAIN_PRECEDENCE_H
+#endif // DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_STANDARD_MAIN_PRECEDENCE_H
