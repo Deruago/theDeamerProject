@@ -22,7 +22,6 @@
 #define DEAMER_LANGUAGE_REFERENCE_PROPERTYDEFINITION_H
 
 #include "Deamer/Language/Convertor/Definition/PropertyEnumToType.h"
-#include "Deamer/Language/Convertor/Definition/PropertyTypeToEnum.h"
 #include "Deamer/Language/Exception/RequestedPropertyDefinitionNotFound.h"
 #include "Deamer/Language/Type/Definition/Language.h"
 #include "Deamer/Language/Type/Definition/Property/Type.h"
@@ -31,6 +30,42 @@
 
 namespace deamer::language::reference
 {
+	class PropertyDefinitionBase
+	{
+	protected:
+		const type::definition::Language* const Language = nullptr;
+
+	public:
+		PropertyDefinitionBase() = default;
+		PropertyDefinitionBase(const type::definition::Language* language_) : Language(language_)
+		{
+			if (Language == nullptr)
+			{
+				throw std::logic_error("language_ was null-pointer");
+			}
+		}
+
+		virtual ~PropertyDefinitionBase() = default;
+
+		virtual bool IsDefinitionRequested(
+			const type::definition::property::Definition* const definition) const noexcept = 0;
+
+		virtual const type::definition::property::Definition*
+		GetBasePropertyDefinition(const type::definition::property::Type type_) const = 0;
+
+		virtual bool IsDefinitionAvailable(type::definition::property::Type type) const = 0;
+
+		deamer::type::memory::Cache<type::definition::object::Base, type::definition::object::Type>*
+		GetLanguageCache() const
+		{
+			if (Language == nullptr)
+			{
+				throw std::logic_error("language_ was null-pointer");
+			}
+			return &Language->cache;
+		}
+	};
+
 	/*! \class PropertyDefinition
 	 *
 	 *	\brief This class is used to reference a property definition in a Language definition.
@@ -42,14 +77,14 @@ namespace deamer::language::reference
 	 *	\note The references are all const and can thus not be modified.
 	 */
 	template<const type::definition::property::Type... types>
-	class PropertyDefinition
+	class PropertyDefinition : public PropertyDefinitionBase
 	{
 	private:
 		[[nodiscard]] std::vector<const type::definition::property::Definition*>
-		GetPropertyDefinitions(const type::definition::Language& language) const
+		GetPropertyDefinitions(const type::definition::Language* language) const
 		{
 			std::vector<const type::definition::property::Definition*> propertyDefinitions;
-			for (auto* propertyDefinition : language.propertyDefinitions)
+			for (auto* propertyDefinition : language->propertyDefinitions)
 			{
 				if (IsDefinitionRequested(propertyDefinition))
 				{
@@ -59,7 +94,6 @@ namespace deamer::language::reference
 
 			return propertyDefinitions;
 		}
-		const type::definition::Language* const Language;
 
 	public:
 		constexpr static auto totalRequestedTypes = sizeof...(types);
@@ -70,43 +104,31 @@ namespace deamer::language::reference
 		};
 		const std::vector<const type::definition::property::Definition*> requestedDefinitions;
 
-		PropertyDefinition(const type::definition::Language& language)
-			: Language(&language),
+		PropertyDefinition(const type::definition::Language* language)
+			: PropertyDefinitionBase(language),
 			  requestedDefinitions(GetPropertyDefinitions(language))
 		{
 		}
 
-		PropertyDefinition(const type::definition::Language* language)
-			: Language(language),
-			  requestedDefinitions(GetPropertyDefinitions(*language))
-		{
-		}
-
 		PropertyDefinition(const PropertyDefinition& propertyDefinition)
-			: Language(propertyDefinition.Language),
+			: PropertyDefinitionBase(propertyDefinition.Language),
 			  requestedDefinitions(propertyDefinition.requestedDefinitions)
 		{
 		}
 
-		PropertyDefinition(PropertyDefinition&& propertyDefinition) noexcept
-			: Language(std::move(propertyDefinition.Language)),
-			  requestedDefinitions(std::move(propertyDefinition.requestedDefinitions))
-		{
-		}
-
-		~PropertyDefinition() = default;
+		~PropertyDefinition() override = default;
 
 		PropertyDefinition& operator=(const PropertyDefinition& propertyDefinition) = delete;
 		PropertyDefinition& operator=(PropertyDefinition&& propertyDefinition) noexcept = delete;
 
-		/*! \fn
+		/*! \fn IsDefinitionRequested
 		 *
 		 *	\brief This function is used to check if a specific definition is requested.
 		 *
 		 *	\details It checks this by asking a pointer to the definition.
 		 */
 		bool IsDefinitionRequested(
-			const type::definition::property::Definition* const definition) const noexcept
+			const type::definition::property::Definition* const definition) const noexcept override
 		{
 			for (auto requestedElement : requestedTypes)
 			{
@@ -133,22 +155,31 @@ namespace deamer::language::reference
 		 *	\note It will throw an exception::RequestedPropertyDefinitionNotFound whenever it cannot
 		 *find the requested definition.
 		 */
-		template<type::definition::property::Type type>
+		template<const type::definition::property::Type type>
 		const convertor::definition::PropertyEnumToType_t<type>& GetDefinition() const
+		{
+			using RequestedLPDPointer =
+				const convertor::definition::PropertyEnumToType_t<type>* const;
+
+			const auto* definition = GetBasePropertyDefinition(type);
+
+			return *static_cast<RequestedLPDPointer>(definition);
+		}
+
+		const type::definition::property::Definition*
+		GetBasePropertyDefinition(const type::definition::property::Type type_) const override
 		{
 			for (const auto* definition : requestedDefinitions)
 			{
-				if (definition->GetType() == type)
+				if (definition->GetType() == type_)
 				{
-					using RequestedLPDPointer =
-						const convertor::definition::PropertyEnumToType_t<type>* const;
-					return *static_cast<RequestedLPDPointer>(definition);
+					return definition;
 				}
 			}
 			throw exception::RequestedPropertyDefinitionNotFound{};
 		}
 
-		bool IsDefinitionAvailable(type::definition::property::Type type) const
+		bool IsDefinitionAvailable(type::definition::property::Type type) const override
 		{
 			for (const auto* definition : requestedDefinitions)
 			{
