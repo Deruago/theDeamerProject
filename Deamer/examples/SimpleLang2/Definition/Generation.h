@@ -22,9 +22,19 @@ namespace simplelang
 			integrateLexerAndDeamerAST;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Integrate>
 			integrateParserAndDeamerAST;
+
 		deamer::type::SafeReserve<
 			deamer::language::type::definition::object::main::GenerateArgument>
 			lexerDebug;
+		deamer::type::SafeReserve<
+			deamer::language::type::definition::object::main::GenerateArgument>
+			grammarDebug;
+		deamer::type::SafeReserve<
+			deamer::language::type::definition::object::main::GenerateArgument>
+			grammarDeclareDeletedTerminals;
+		deamer::type::SafeReserve<
+			deamer::language::type::definition::object::main::GenerateArgument>
+			grammarVector;
 
 	public:
 		Generation(simplelang::Language* language)
@@ -47,15 +57,25 @@ namespace simplelang
 
 			lexerDebug.Set(deamer::language::type::definition::object::main::GenerateArgument(
 				deamer::tool::type::Tool::Flex, "Debug"));
+			grammarDebug.Set(deamer::language::type::definition::object::main::GenerateArgument(
+				deamer::tool::type::Tool::Bison, "Debug"));
+			grammarDeclareDeletedTerminals.Set(
+				deamer::language::type::definition::object::main::GenerateArgument(
+					deamer::tool::type::Tool::Bison, "Declare-deleted-terminals"));
+			grammarVector.Set(deamer::language::type::definition::object::main::GenerateArgument(
+				deamer::tool::type::Tool::Bison, "Vector"));
 
 			AddObject(generateLexer);
 			AddObject(generateParser);
 
-			// AddObject(integrateLexerAndParser);
+			AddObject(integrateLexerAndParser);
 			AddObject(integrateLexerAndDeamerAST);
 			AddObject(integrateParserAndDeamerAST);
 
 			AddObject(lexerDebug);
+			AddObject(grammarDebug);
+			AddObject(grammarDeclareDeletedTerminals);
+			AddObject(grammarVector);
 		}
 		~Generation() override = default;
 	};

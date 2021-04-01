@@ -3,6 +3,7 @@
 
 #include "Deamer/Compiler/Generator/Compiler.h"
 #include "Deamer/Lexer/Generator/Flex/Flex.h"
+#include "Deamer/Parser/Generator/Bison/Bison.h"
 #include "Language.h"
 
 namespace simplelang
@@ -13,12 +14,16 @@ namespace simplelang
 		CompilerGenerator() : Compiler()
 		{
 		}
+
 		deamer::file::compiler::Output Generate() override
 		{
 			deamer::file::compiler::Output output(GetLanguageDefinition());
 
 			deamer::lexer::generator::flex::Flex flex(GetLanguageDefinition());
+			deamer::parser::generator::bison::Bison bison(GetLanguageDefinition());
+
 			output.AddLanguageToolOutput(flex.Generate());
+			output.AddLanguageToolOutput(bison.Generate());
 
 			return output;
 		}
