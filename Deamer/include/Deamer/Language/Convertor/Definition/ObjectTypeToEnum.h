@@ -21,16 +21,20 @@
 #ifndef DEAMER_LANGUAGE_CONVERTOR_DEFINITION_OBJECTTYPETOENUM_H
 #define DEAMER_LANGUAGE_CONVERTOR_DEFINITION_OBJECTTYPETOENUM_H
 
-#include "Deamer/Language/Type/Definition/Object/Main/Associativity/ObjectAssociativity.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Generation/GeneratorArgument.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Identity/Name.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
 #include "Deamer/Language/Type/Definition/Object/Type.h"
+
+namespace deamer::language::type::definition::object::main
+{
+	class ObjectAssociativity;
+	class Generate;
+	class GenerateArgument;
+	class Integrate;
+	class NonTerminal;
+	class ProductionRule;
+	class Name;
+	class Terminal;
+	class ObjectPrecedence;
+}
 
 namespace deamer::language::convertor::definition
 {
@@ -46,7 +50,8 @@ namespace deamer::language::convertor::definition
 	class ObjectTypeToEnum
 	{
 	public:
-		constexpr static auto value = type::definition::object::Type::Unknown;
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Unknown;
 		using type = void;
 	};
 
@@ -57,7 +62,8 @@ namespace deamer::language::convertor::definition
 	class ObjectTypeToEnum<type::definition::object::main::Terminal>
 	{
 	public:
-		constexpr static auto value = type::definition::object::Type::Terminal;
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Terminal;
 		using type = type::definition::object::main::Terminal;
 	};
 
@@ -68,7 +74,8 @@ namespace deamer::language::convertor::definition
 	class ObjectTypeToEnum<type::definition::object::main::NonTerminal>
 	{
 	public:
-		constexpr static auto value = type::definition::object::Type::NonTerminal;
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::NonTerminal;
 		using type = type::definition::object::main::NonTerminal;
 	};
 
@@ -79,7 +86,8 @@ namespace deamer::language::convertor::definition
 	class ObjectTypeToEnum<type::definition::object::main::ProductionRule>
 	{
 	public:
-		constexpr static auto value = type::definition::object::Type::ProductionRule;
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ProductionRule;
 		using type = type::definition::object::main::ProductionRule;
 	};
 
@@ -90,7 +98,8 @@ namespace deamer::language::convertor::definition
 	class ObjectTypeToEnum<type::definition::object::main::ObjectPrecedence>
 	{
 	public:
-		constexpr static auto value = type::definition::object::Type::ObjectPrecedence;
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ObjectPrecedence;
 		using type = type::definition::object::main::ObjectPrecedence;
 	};
 
@@ -101,7 +110,8 @@ namespace deamer::language::convertor::definition
 	class ObjectTypeToEnum<type::definition::object::main::ObjectAssociativity>
 	{
 	public:
-		constexpr static auto value = type::definition::object::Type::ObjectAssociativity;
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ObjectAssociativity;
 		using type = type::definition::object::main::ObjectAssociativity;
 	};
 
@@ -112,7 +122,8 @@ namespace deamer::language::convertor::definition
 	class ObjectTypeToEnum<type::definition::object::main::Generate>
 	{
 	public:
-		constexpr static auto value = type::definition::object::Type::Generate;
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Generate;
 		using type = type::definition::object::main::Generate;
 	};
 
@@ -123,7 +134,8 @@ namespace deamer::language::convertor::definition
 	class ObjectTypeToEnum<type::definition::object::main::GenerateArgument>
 	{
 	public:
-		constexpr static auto value = type::definition::object::Type::GenerateArgument;
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::GenerateArgument;
 		using type = type::definition::object::main::GenerateArgument;
 	};
 
@@ -134,7 +146,8 @@ namespace deamer::language::convertor::definition
 	class ObjectTypeToEnum<type::definition::object::main::Integrate>
 	{
 	public:
-		constexpr static auto value = type::definition::object::Type::Integrate;
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Integrate;
 		using type = type::definition::object::main::Integrate;
 	};
 
@@ -145,7 +158,8 @@ namespace deamer::language::convertor::definition
 	class ObjectTypeToEnum<type::definition::object::main::Name>
 	{
 	public:
-		constexpr static auto value = type::definition::object::Type::Name;
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Name;
 		using type = type::definition::object::main::Name;
 	};
 }
