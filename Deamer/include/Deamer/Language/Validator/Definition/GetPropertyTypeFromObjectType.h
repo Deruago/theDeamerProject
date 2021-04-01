@@ -21,19 +21,36 @@
 #ifndef DEAMER_LANGUAGE_VALIDATOR_DEFINITION_GETPROPERTYTYPEFROMOBJECTTYPE_H
 #define DEAMER_LANGUAGE_VALIDATOR_DEFINITION_GETPROPERTYTYPEFROMOBJECTTYPE_H
 
-#include "Deamer/Language/Type/Definition/Property/Main/Associativity.h"
-#include "Deamer/Language/Type/Definition/Property/Main/AstOptimization.h"
-#include "Deamer/Language/Type/Definition/Property/Main/AstTranslation.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Colorization.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Documentation.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Formatting.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Generation.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Identity.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
-#include "Deamer/Language/Type/Definition/Property/Main/Semantic.h"
 #include "Deamer/Language/Type/Definition/Property/Type.h"
+
+namespace deamer::language::type::definition::object::main
+{
+	class ObjectAssociativity;
+	class Generate;
+	class GenerateArgument;
+	class Integrate;
+	class NonTerminal;
+	class ProductionRule;
+	class Name;
+	class Terminal;
+	class ObjectPrecedence;
+}
+
+namespace deamer::language::type::definition::property::main
+{
+	class Associativity;
+	class AstOptimization;
+	class AstTranslation;
+	class Colorization;
+	class Documentation;
+	class Formatting;
+	class Generation;
+	class Grammar;
+	class Identity;
+	class Lexicon;
+	class Precedence;
+	class Semantic;
+}
 
 namespace deamer::language::validator::definition
 {
