@@ -22,6 +22,7 @@
 #define DEAMER_LANGUAGE_ANALYZER_MAIN_GRAMMAR_NONTERMINAL_H
 
 #include "Deamer/Language/Analyzer/Main/Base.h"
+#include "Deamer/Language/Reference/LDO.h"
 
 namespace deamer::language::analyzer::main
 {
@@ -32,12 +33,13 @@ namespace deamer::language::analyzer::main
 	class NonTerminal : public Base
 	{
 	private:
-		const deamer::language::type::definition::object::main::NonTerminal* const nonTerminal;
+		reference::LDO<deamer::language::type::definition::object::main::NonTerminal> nonTerminal;
 
 	public:
 		NonTerminal(
 			const reference::PropertyDefinitionBase* reference_,
-			const deamer::language::type::definition::object::main::NonTerminal* nonTerminal_);
+			reference::LDO<deamer::language::type::definition::object::main::NonTerminal, true>
+				nonTerminal_);
 		~NonTerminal() override = default;
 
 	public:
@@ -68,9 +70,10 @@ namespace deamer::language::analyzer::main
 	private:
 		bool IsRecursiveImplementation(
 			const size_t currentDepth, const size_t maxDepth, const bool infinite,
-			const deamer::language::type::definition::object::main::NonTerminal* const
+			reference::LDO<deamer::language::type::definition::object::main::NonTerminal>
 				currentNonTerminal,
-			std::set<const type::definition::object::main::NonTerminal*> currentVisited = {}) const;
+			std::set<reference::LDO<deamer::language::type::definition::object::main::NonTerminal>>
+				currentVisited = {}) const;
 	};
 }
 

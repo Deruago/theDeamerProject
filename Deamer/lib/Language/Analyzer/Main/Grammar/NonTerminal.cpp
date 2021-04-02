@@ -22,7 +22,8 @@
 
 deamer::language::analyzer::main::NonTerminal::NonTerminal(
 	const reference::PropertyDefinitionBase* reference_,
-	const deamer::language::type::definition::object::main::NonTerminal* nonTerminal_)
+	const reference::LDO<deamer::language::type::definition::object::main::NonTerminal, true>
+		nonTerminal_)
 	: Base(reference_),
 	  nonTerminal(nonTerminal_)
 {
@@ -46,8 +47,10 @@ bool deamer::language::analyzer::main::NonTerminal::IsEventuallyRecursive(const 
 
 bool deamer::language::analyzer::main::NonTerminal::IsRecursiveImplementation(
 	const size_t currentDepth, const size_t maxDepth, const bool infinite,
-	const type::definition::object::main::NonTerminal* const currentNonTerminal,
-	std::set<const type::definition::object::main::NonTerminal*> currentVisited) const
+	reference::LDO<deamer::language::type::definition::object::main::NonTerminal>
+		currentNonTerminal,
+	std::set<reference::LDO<deamer::language::type::definition::object::main::NonTerminal>>
+		currentVisited) const
 {
 	for (const auto* const productionRule : currentNonTerminal->ProductionRules)
 	{
@@ -67,26 +70,23 @@ bool deamer::language::analyzer::main::NonTerminal::IsRecursiveImplementation(
 
 	for (const auto* const productionRule : currentNonTerminal->ProductionRules)
 	{
-		for (const auto* const ldo : productionRule->Tokens)
+		for (reference::LDO<type::definition::object::main::NonTerminal> ldo :
+			 productionRule->Tokens)
 		{
 			if (ldo == nonTerminal)
 			{
 				return true;
 			}
 
-			const auto* const ldo_downcast =
-				static_cast<const type::definition::object::main::NonTerminal* const>(ldo);
-
-			if (ldo->Type_ != type::definition::object::Type::NonTerminal ||
-				currentVisited.count(ldo_downcast) > 0)
+			if (ldo.IsBaseTypeValid() || currentVisited.count(ldo) > 0)
 			{
 				continue;
 			}
 
-			currentVisited.insert(ldo_downcast);
+			currentVisited.insert(ldo);
 
 			const bool isRecursive = IsRecursiveImplementation(currentDepth + 1, maxDepth, infinite,
-															   ldo_downcast, currentVisited);
+															   ldo, currentVisited);
 
 			if (isRecursive)
 			{

@@ -25,14 +25,11 @@
 
 deamer::language::analyzer::main::ProductionRule::ProductionRule(
 	const reference::PropertyDefinitionBase* reference_,
-	const deamer::language::type::definition::object::main::ProductionRule* productionRule_)
+	reference::LDO<deamer::language::type::definition::object::main::ProductionRule, true>
+		productionRule_)
 	: Base(reference_),
 	  productionRule(productionRule_)
 {
-	if (productionRule == nullptr)
-	{
-		throw std::logic_error("productionRule_ was null-pointer");
-	}
 }
 
 bool deamer::language::analyzer::main::ProductionRule::IsDirectRecursive() const
@@ -40,7 +37,7 @@ bool deamer::language::analyzer::main::ProductionRule::IsDirectRecursive() const
 	const reference::ReverseLookup<type::definition::object::main::NonTerminal> reverseLookup(
 		language_reference);
 
-	const auto result = reverseLookup.Get(productionRule);
+	const auto result = reverseLookup.Get(productionRule.Get());
 
 	if (result.Fail() || result.IsEmpty())
 	{
@@ -51,9 +48,9 @@ bool deamer::language::analyzer::main::ProductionRule::IsDirectRecursive() const
 }
 
 bool deamer::language::analyzer::main::ProductionRule::IsDirectRecursive(
-	const type::definition::object::main::NonTerminal* nonTerminal) const
+	reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const
 {
-	for (const auto* const ldo : productionRule->Tokens)
+	for (reference::LDO<type::definition::object::main::NonTerminal> ldo : productionRule->Tokens)
 	{
 		if (ldo == nonTerminal)
 		{
@@ -68,7 +65,8 @@ size_t deamer::language::analyzer::main::ProductionRule::GetDirectRecursionPoint
 {
 	const reference::ReverseLookup<type::definition::object::main::NonTerminal> reverseLookup(
 		language_reference);
-	const auto& result = reverseLookup.Get(productionRule);
+
+	const auto& result = reverseLookup.Get(productionRule.Get());
 
 	if (!result.Success() || result.IsEmpty())
 	{
@@ -79,11 +77,11 @@ size_t deamer::language::analyzer::main::ProductionRule::GetDirectRecursionPoint
 }
 
 size_t deamer::language::analyzer::main::ProductionRule::GetDirectRecursionPoint(
-	const type::definition::object::main::NonTerminal* nonTerminal) const
+	reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const
 {
 	size_t i = 0;
 
-	for (const auto* const ldo : productionRule->Tokens)
+	for (reference::LDO<type::definition::object::main::NonTerminal> ldo : productionRule->Tokens)
 	{
 		if (ldo == nonTerminal)
 		{

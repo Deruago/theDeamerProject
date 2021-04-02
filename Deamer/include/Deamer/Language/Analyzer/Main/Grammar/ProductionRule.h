@@ -22,25 +22,27 @@
 #define DEAMER_LANGUAGE_ANALYZER_MAIN_GRAMMAR_PRODUCTIONRULE_H
 
 #include "Deamer/Language/Analyzer/Main/Base.h"
+#include "Deamer/Language/Reference/LDO.h"
 
 namespace deamer::language::analyzer::main
 {
 	class ProductionRule : public Base
 	{
 	private:
-		const deamer::language::type::definition::object::main::ProductionRule* const
+		reference::LDO<deamer::language::type::definition::object::main::ProductionRule>
 			productionRule;
 
 	public:
-		ProductionRule(const reference::PropertyDefinitionBase* reference_,
-					   const deamer::language::type::definition::object::main::ProductionRule*
-						   productionRule_);
+		ProductionRule(
+			const reference::PropertyDefinitionBase* reference_,
+			reference::LDO<deamer::language::type::definition::object::main::ProductionRule, true>
+				productionRule_);
 		~ProductionRule() override = default;
 
 	public:
 		bool IsDirectRecursive() const;
-		bool
-		IsDirectRecursive(const type::definition::object::main::NonTerminal* nonTerminal) const;
+		bool IsDirectRecursive(
+			reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const;
 
 		/*!	\fn GetDirectRecursionPoint
 		 *
@@ -53,7 +55,7 @@ namespace deamer::language::analyzer::main
 		 *	\brief Returns the index it is recursive for the given nonterminal.
 		 */
 		size_t GetDirectRecursionPoint(
-			const type::definition::object::main::NonTerminal* nonTerminal) const;
+			reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const;
 
 	private:
 	};

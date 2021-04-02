@@ -119,7 +119,8 @@ TEST_F(TestProductionRule, IsRecursive_RecursiveProductionRule_NullptrNonTermina
 		deamer::language::type::definition::object::main::ProductionRule>
 		analyzer(&reference, productionRule);
 
-	const bool isRecursive = analyzer->IsDirectRecursive(nullptr);
+	const bool isRecursive = analyzer->IsDirectRecursive(
+		static_cast<const deamer::language::type::definition::object::main::NonTerminal*>(nullptr));
 
 	EXPECT_FALSE(isRecursive);
 }
@@ -136,7 +137,8 @@ TEST_F(TestProductionRule,
 		deamer::language::type::definition::object::main::ProductionRule>
 		analyzer(&reference, productionRule);
 
-	const bool isRecursive = analyzer->IsDirectRecursive(nullptr);
+	const bool isRecursive = analyzer->IsDirectRecursive(
+		static_cast<const deamer::language::type::definition::object::main::NonTerminal*>(nullptr));
 
 	EXPECT_FALSE(isRecursive);
 }
