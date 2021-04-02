@@ -27,3 +27,17 @@ deamer::language::type::definition::property::main::Lexicon::Lexicon(
 {
 	references.Add(Terminals);
 }
+
+const deamer::language::type::definition::object::main::Terminal* deamer::language::type::definition::property::main::
+Lexicon::GetTerminal(const std::string& terminalName) const
+{
+	for (const auto* const terminal : Terminals)
+	{
+		if (terminal->Name == terminalName)
+		{
+			return terminal;
+		}
+	}
+
+	return nullptr;
+}

@@ -39,6 +39,8 @@ namespace deamer::language::type::definition::property::main
 		Lexicon(std::vector<object::main::Terminal*> terminals_);
 
 		virtual ~Lexicon() = default;
+
+		const object::main::Terminal* GetTerminal(const std::string& terminalName) const;
 	};
 }
 
