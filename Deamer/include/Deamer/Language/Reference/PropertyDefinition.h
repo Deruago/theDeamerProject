@@ -37,7 +37,8 @@ namespace deamer::language::reference
 
 	public:
 		PropertyDefinitionBase() = default;
-		PropertyDefinitionBase(const type::definition::Language* language_) : Language(language_)
+		PropertyDefinitionBase(const type::definition::Language* const language_)
+			: Language(language_)
 		{
 			if (Language == nullptr)
 			{
@@ -81,7 +82,7 @@ namespace deamer::language::reference
 	{
 	private:
 		[[nodiscard]] std::vector<const type::definition::property::Definition*>
-		GetPropertyDefinitions(const type::definition::Language* language) const
+		GetPropertyDefinitions(const type::definition::Language* const language) const
 		{
 			std::vector<const type::definition::property::Definition*> propertyDefinitions;
 			for (auto* propertyDefinition : language->propertyDefinitions)
@@ -104,7 +105,7 @@ namespace deamer::language::reference
 		};
 		const std::vector<const type::definition::property::Definition*> requestedDefinitions;
 
-		PropertyDefinition(const type::definition::Language* language)
+		PropertyDefinition(const type::definition::Language* const language)
 			: PropertyDefinitionBase(language),
 			  requestedDefinitions(GetPropertyDefinitions(language))
 		{
