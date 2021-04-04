@@ -28,6 +28,9 @@ namespace simplelang
 			lexerDebug;
 		deamer::type::SafeReserve<
 			deamer::language::type::definition::object::main::GenerateArgument>
+			lexerOutputTerminalObjects;
+		deamer::type::SafeReserve<
+			deamer::language::type::definition::object::main::GenerateArgument>
 			grammarDebug;
 		deamer::type::SafeReserve<
 			deamer::language::type::definition::object::main::GenerateArgument>
@@ -51,19 +54,22 @@ namespace simplelang
 			integrateLexerAndDeamerAST.Set(
 				deamer::language::type::definition::object::main::Integrate(
 					deamer::tool::type::Tool::Flex, deamer::tool::type::Tool::DeamerAST));
-			integrateParserAndDeamerAST.Set(
+			/*integrateParserAndDeamerAST.Set(
 				deamer::language::type::definition::object::main::Integrate(
-					deamer::tool::type::Tool::Bison, deamer::tool::type::Tool::DeamerAST));
+					deamer::tool::type::Tool::Bison, deamer::tool::type::Tool::DeamerAST));*/
 
 			lexerDebug.Set(deamer::language::type::definition::object::main::GenerateArgument(
 				deamer::tool::type::Tool::Flex, "Debug"));
+			lexerOutputTerminalObjects.Set(
+				deamer::language::type::definition::object::main::GenerateArgument(
+					deamer::tool::type::Tool::Flex, "Output-terminal-objects"));
 			grammarDebug.Set(deamer::language::type::definition::object::main::GenerateArgument(
 				deamer::tool::type::Tool::Bison, "Debug"));
 			grammarDeclareDeletedTerminals.Set(
 				deamer::language::type::definition::object::main::GenerateArgument(
 					deamer::tool::type::Tool::Bison, "Declare-deleted-terminals"));
-			grammarVector.Set(deamer::language::type::definition::object::main::GenerateArgument(
-				deamer::tool::type::Tool::Bison, "Vector"));
+			/*grammarVector.Set(deamer::language::type::definition::object::main::GenerateArgument(
+				deamer::tool::type::Tool::Bison, "Vector"));*/
 
 			AddObject(generateLexer);
 			AddObject(generateParser);
@@ -73,6 +79,7 @@ namespace simplelang
 			AddObject(integrateParserAndDeamerAST);
 
 			AddObject(lexerDebug);
+			AddObject(lexerOutputTerminalObjects);
 			AddObject(grammarDebug);
 			AddObject(grammarDeclareDeletedTerminals);
 			AddObject(grammarVector);
