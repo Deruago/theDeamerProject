@@ -49,10 +49,12 @@ namespace deamer::parser::type::bison
 		~Output() = default;
 
 	public:
-		void AddTerminal(const language::type::definition::object::main::Terminal* terminal);
+		void AddTerminal(
+			language::reference::LDO<language::type::definition::object::main::Terminal> terminal);
 
-		void
-		AddNonTerminal(const language::type::definition::object::main::NonTerminal* nonTerminal);
+		void AddNonTerminal(
+			language::reference::LDO<language::type::definition::object::main::NonTerminal>
+				nonTerminal);
 
 		std::string Generate() const;
 	};

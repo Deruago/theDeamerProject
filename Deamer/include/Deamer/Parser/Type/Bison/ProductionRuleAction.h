@@ -32,8 +32,9 @@ namespace deamer::parser::type::bison
 	private:
 		const generator::bison::Bison::ReferenceType reference;
 
-		const language::type::definition::object::main::NonTerminal* nonTerminal;
-		const language::type::definition::object::main::ProductionRule* productionRule;
+		language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal;
+		language::reference::LDO<language::type::definition::object::main::ProductionRule>
+			productionRule;
 
 		language::analyzer::Analyzer<language::type::definition::object::main::NonTerminal>
 			nonterminalAnalyzer;
@@ -43,8 +44,10 @@ namespace deamer::parser::type::bison
 	public:
 		ProductionRuleAction(
 			const generator::bison::Bison::ReferenceType reference_,
-			const language::type::definition::object::main::NonTerminal* nonTerminal_,
-			const language::type::definition::object::main::ProductionRule* productionRule_);
+			language::reference::LDO<language::type::definition::object::main::NonTerminal>
+				nonTerminal_,
+			language::reference::LDO<language::type::definition::object::main::ProductionRule>
+				productionRule_);
 		virtual ~ProductionRuleAction() override = default;
 
 	public:
@@ -60,9 +63,6 @@ namespace deamer::parser::type::bison
 		std::vector<std::string> GetSequenceOfValidArguments() const;
 		std::string ObjectArgumentList() const;
 		std::string ConstructObject() const;
-
-		bool IsTokenUsed(const language::type::definition::object::main::NonTerminal& ldo) const;
-		bool IsTokenUsed(const language::type::definition::object::main::Terminal& ldo) const;
 	};
 }
 

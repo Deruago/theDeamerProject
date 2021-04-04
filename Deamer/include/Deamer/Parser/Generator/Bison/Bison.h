@@ -37,6 +37,7 @@ namespace deamer::parser::generator::bison
 
 	private:
 		const ReferenceType reference;
+		const std::string name;
 
 	public:
 		Bison(ReferenceType reference_);
@@ -44,6 +45,9 @@ namespace deamer::parser::generator::bison
 
 	public:
 		deamer::file::tool::Output Generate() override;
+
+	private:
+		std::string bisonParserFile() const;
 	};
 }
 

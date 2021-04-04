@@ -30,6 +30,7 @@ namespace deamer::language::type::definition::object
 	enum class Type
 	{
 		Unknown,
+		Base,
 
 		// Lexicon
 		Terminal,

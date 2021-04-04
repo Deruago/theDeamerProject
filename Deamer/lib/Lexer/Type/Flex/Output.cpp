@@ -22,7 +22,8 @@
 
 deamer::lexer::type::flex::Output::Output(const generator::flex::Flex::ReferenceType reference_)
 	: reference(reference_),
-	  mainSection(MainSection(reference))
+	  mainSection(MainSection(reference)),
+	  includeSection(reference)
 {
 }
 

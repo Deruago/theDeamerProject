@@ -32,6 +32,7 @@ namespace deamer::lexer::type::flex
 		using ReferenceType = deamer::lexer::generator::flex::Flex::ReferenceType;
 
 		const ReferenceType reference;
+		const std::string name;
 
 	public:
 		MainSection(const ReferenceType reference_);
@@ -39,6 +40,12 @@ namespace deamer::lexer::type::flex
 
 	public:
 		std::string Generate() const override;
+
+	private:
+		std::string AddStore() const;
+		std::string AddClear() const;
+		std::string AddDeamerLexer() const;
+		std::string CreateMain() const;
 	};
 }
 

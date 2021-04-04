@@ -32,14 +32,14 @@ namespace deamer::parser::type::bison
 	private:
 		const generator::bison::Bison::ReferenceType reference;
 		std::vector<ProductionRuleDeclaration> productionRules;
-		const language::type::definition::object::main::NonTerminal* nonTerminal;
+		language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal;
 
 		std::string generateProductionRules() const;
 
 	public:
 		NonTerminalImplementation(
 			const generator::bison::Bison::ReferenceType reference_,
-			const language::type::definition::object::main::NonTerminal* nonTerminal_);
+			language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal_);
 		virtual ~NonTerminalImplementation() override = default;
 
 	public:

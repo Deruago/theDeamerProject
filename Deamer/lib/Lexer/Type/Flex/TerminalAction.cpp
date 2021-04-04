@@ -23,13 +23,15 @@
 deamer::lexer::type::flex::TerminalAction::TerminalAction(
 	const language::type::definition::object::main::Terminal& terminal_,
 	const ReferenceType reference_)
-	: Data(terminal_, reference_)
+	: Data(terminal_, reference_),
+	  terminalAnalyzer(&reference, &terminal)
 {
 }
 
 std::string deamer::lexer::type::flex::TerminalAction::Generate() const
 {
-	return braces(terminal.Name) + '\t' + braces(GetDebug() + GetAction()) + '\n';
+	return braces(terminal.Name) + '\t' + braces(GetDebug() + OptionalAction() + OptionalReturn()) +
+		   '\n';
 }
 
 std::string deamer::lexer::type::flex::TerminalAction::GetDebug() const
@@ -44,22 +46,20 @@ std::string deamer::lexer::type::flex::TerminalAction::GetDebug() const
 
 std::string deamer::lexer::type::flex::TerminalAction::GetAction() const
 {
-	if (generation.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison}))
+	if (generation.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison}) ||
+		generation.IsArgumentSet({tool::type::Tool::Flex, "Output-terminal-objects"}))
 	{
 		switch (terminal.Special)
 		{
 		case language::type::definition::object::main::SpecialType::Standard:
 			return identity.name->value +
-				   "val.Terminal = new deamer::external::lexer::TerminalObject(yyval, " +
-				   identity.name->value +
-				   "lineno"
-				   ");";
+				   "lval.Terminal = new deamer::external::cpp::lexer::TerminalObject(yyval, "
+				   "yylineno);";
 		case language::type::definition::object::main::SpecialType::Ignore:
+		case language::type::definition::object::main::SpecialType::NoValue:
 			return identity.name->value +
-				   "val.Terminal = new deamer::external::lexer::TerminalObject(\"\", " +
-				   identity.name->value +
-				   "lineno"
-				   ");";
+				   "lval.Terminal = new deamer::external::cpp::lexer::TerminalObject(\"\", "
+				   "yylineno);";
 		case language::type::definition::object::main::SpecialType::Delete:
 			return "";
 		case language::type::definition::object::main::SpecialType::Crash:
@@ -73,8 +73,57 @@ std::string deamer::lexer::type::flex::TerminalAction::GetAction() const
 	case language::type::definition::object::main::SpecialType::Standard:
 	case language::type::definition::object::main::SpecialType::Delete:
 	case language::type::definition::object::main::SpecialType::Ignore:
+	case language::type::definition::object::main::SpecialType::NoValue:
 		return "";
 	}
 
 	return "";
+}
+
+std::string deamer::lexer::type::flex::TerminalAction::OptionalAction() const
+{
+	switch (terminal.Special)
+	{
+	case language::type::definition::object::main::SpecialType::Standard:
+		return "if (local_store) store(new deamer::external::cpp::lexer::TerminalObject(yyval, "
+			   "yylineno));"
+			   "else " +
+			   GetAction() + ';';
+	case language::type::definition::object::main::SpecialType::Ignore:
+	case language::type::definition::object::main::SpecialType::NoValue:
+		return "if (local_store) store(new deamer::external::cpp::lexer::TerminalObject(\"\", "
+			   "yylineno));"
+			   "else " +
+			   GetAction() + ';';
+	case language::type::definition::object::main::SpecialType::Delete:
+		return "";
+	case language::type::definition::object::main::SpecialType::Crash:
+		return "";
+	}
+
+	return "";
+}
+
+std::string deamer::lexer::type::flex::TerminalAction::ReturnValue() const
+{
+	if (generation.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison}))
+	{
+		switch (terminal.Special)
+		{
+		case language::type::definition::object::main::SpecialType::Standard:
+		case language::type::definition::object::main::SpecialType::Ignore:
+		case language::type::definition::object::main::SpecialType::NoValue:
+			return "return " + parenthesis(terminal.Name) + ";";
+		case language::type::definition::object::main::SpecialType::Delete:
+		case language::type::definition::object::main::SpecialType::Crash:
+			return "";
+		}
+	}
+
+	return "";
+}
+
+std::string deamer::lexer::type::flex::TerminalAction::OptionalReturn() const
+{
+	return "if (!local_store) " + ReturnValue() + ";";
 }

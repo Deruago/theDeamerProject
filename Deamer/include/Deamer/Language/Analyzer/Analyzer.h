@@ -36,7 +36,7 @@ namespace deamer::language::analyzer
 		LDO_Analyzer ldoAnalyzer;
 
 	public:
-		Analyzer(const reference::PropertyDefinitionBase* reference, const LDO_type* ldo)
+		Analyzer(const reference::PropertyDefinitionBase* reference, reference::LDO<LDO_type> ldo)
 			: ldoAnalyzer(reference, ldo)
 		{
 		}

@@ -22,6 +22,7 @@
 #define DEAMER_PARSER_TYPE_BISON_TERMINALDECLARATION_H
 
 #include "Deamer/File/Tool/Data.h"
+#include "Deamer/Language/Reference/LDO.h"
 #include "Deamer/Parser/Generator/Bison/Bison.h"
 
 namespace deamer::parser::type::bison
@@ -30,11 +31,12 @@ namespace deamer::parser::type::bison
 	{
 	private:
 		const generator::bison::Bison::ReferenceType reference;
-		const language::type::definition::object::main::Terminal* terminal;
+		language::reference::LDO<language::type::definition::object::main::Terminal> terminal;
 
 	public:
-		TerminalDeclaration(const generator::bison::Bison::ReferenceType reference_,
-							const language::type::definition::object::main::Terminal* terminal_);
+		TerminalDeclaration(
+			const generator::bison::Bison::ReferenceType reference_,
+			language::reference::LDO<language::type::definition::object::main::Terminal> terminal_);
 		virtual ~TerminalDeclaration() override = default;
 
 	public:

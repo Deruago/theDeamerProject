@@ -27,7 +27,8 @@ using namespace deamer::language::type::definition::property;
 
 deamer::lexer::generator::flex::Flex::Flex(ReferenceType reference_)
 	: Base(tool::type::Tool::Flex),
-	  reference(std::move(reference_))
+	  reference(reference_),
+	  name(reference.GetDefinition<Type::Identity>().name->value)
 {
 }
 
@@ -35,6 +36,8 @@ deamer::file::tool::Output deamer::lexer::generator::flex::Flex::Generate()
 {
 	const auto Identity = reference.GetDefinition<Type::Identity>();
 	const auto Lexicon = reference.GetDefinition<Type::Lexicon>();
+	file::tool::Output output("Flex");
+
 	type::flex::Output flexFileData(reference);
 
 	for (auto* const terminal : Lexicon.Terminals)
@@ -44,11 +47,43 @@ deamer::file::tool::Output deamer::lexer::generator::flex::Flex::Generate()
 
 	std::cout << flexFileData.Generate() << std::endl;
 
-	const std::string fileName = Identity.name->value + "_lexer";
+	const std::string fileName = name + "_lexer";
 	const file::tool::File flexFile(fileName, "l", flexFileData.Generate());
-	file::tool::Output output("Flex");
-
+	const file::tool::File DeamerLexer_Header("Lexer", "h", GenerateDeamerLexer_HeaderFile());
 	output.AddFileToExternal(flexFile);
+	output.AddFileToExternal(DeamerLexer_Header);
 
 	return output;
+}
+
+std::string deamer::lexer::generator::flex::Flex::GenerateDeamerLexer_HeaderFile() const
+{
+	return "#ifndef " + name + "_FLEX_LEXER_H\n" + "#define " + name + "_FLEX_LEXER_H\n" +
+		   "\n"
+		   "#include <Deamer/External/Cpp/Lexer/Interface/Lexer.h>\n"
+		   "\n"
+		   "namespace " +
+		   name +
+		   " { namespace lexer {\n"
+		   "\n"
+		   "\tclass Lexer : public deamer::external::cpp::lexer::Lexer\n"
+		   "\t{\n"
+		   "\tpublic:\n"
+		   "\t\tLexer() = default;\n"
+		   "\t\t~Lexer() override = default;\n"
+		   "\tpublic:\n"
+		   "\t\tstd::vector<const deamer::external::cpp::lexer::TerminalObject*> Tokenize(const "
+		   "std::string& "
+		   "text) const override;\n"
+		   "\t};\n"
+		   "\n"
+		   "}}\n"
+		   "\n"
+		   "#endif // " +
+		   name + "_FLEX_LEXER_H\n";
+}
+
+std::string deamer::lexer::generator::flex::Flex::GenerateDeamerLexer_SourceFile() const
+{
+	return "";
 }

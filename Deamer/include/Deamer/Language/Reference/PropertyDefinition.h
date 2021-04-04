@@ -33,6 +33,10 @@ namespace deamer::language::reference
 	class PropertyDefinitionBase
 	{
 	protected:
+		template<typename, bool>
+		friend class LDO;
+
+	protected:
 		const type::definition::Language* const Language = nullptr;
 
 	public:
@@ -64,6 +68,12 @@ namespace deamer::language::reference
 				throw std::logic_error("language_ was null-pointer");
 			}
 			return &Language->cache;
+		}
+
+	protected:
+		const type::definition::Language* GetLanguage() const
+		{
+			return this->Language;
 		}
 	};
 

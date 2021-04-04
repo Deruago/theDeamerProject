@@ -23,6 +23,11 @@
 
 #include "Deamer/Language/Type/Definition/Object/Type.h"
 
+namespace deamer::language::type::definition::object
+{
+	class Base;
+}
+
 namespace deamer::language::type::definition::object::main
 {
 	class ObjectAssociativity;
@@ -176,6 +181,18 @@ namespace deamer::language::convertor::definition
 		constexpr static type::definition::object::Type value =
 			type::definition::object::Type::Name;
 		using type = type::definition::object::main::Name;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::Base>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Base;
+		using type = type::definition::object::Base;
 	};
 }
 

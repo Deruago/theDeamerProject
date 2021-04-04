@@ -21,6 +21,7 @@
 #ifndef DEAMER_LEXER_TYPE_FILE_FLEX_TERMINALACTION_H
 #define DEAMER_LEXER_TYPE_FILE_FLEX_TERMINALACTION_H
 
+#include "Deamer/Language/Analyzer/Analyzer.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
 #include "Deamer/Lexer/Type/Flex/Data.h"
 
@@ -31,6 +32,10 @@ namespace deamer::lexer::type::flex
 	private:
 		std::string GetDebug() const;
 		std::string GetAction() const;
+		std::string OptionalAction() const;
+
+		language::analyzer::Analyzer<language::type::definition::object::main::Terminal>
+			terminalAnalyzer;
 
 	public:
 		TerminalAction(const language::type::definition::object::main::Terminal& terminal_,
@@ -38,6 +43,8 @@ namespace deamer::lexer::type::flex
 		~TerminalAction() override = default;
 
 	public:
+		std::string ReturnValue() const;
+		std::string OptionalReturn() const;
 		std::string Generate() const override;
 	};
 }

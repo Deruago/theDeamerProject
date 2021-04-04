@@ -31,23 +31,23 @@ deamer::parser::type::bison::Output::Output(const generator::bison::Bison::Refer
 }
 
 void deamer::parser::type::bison::Output::AddTerminal(
-	const language::type::definition::object::main::Terminal* terminal)
+	language::reference::LDO<language::type::definition::object::main::Terminal> terminal)
 {
 	tokenDeclarationSection.AddTerminal(terminal);
-	unionSection.AddTerminal(*terminal);
+	unionSection.AddTerminal(terminal);
 }
 
 void deamer::parser::type::bison::Output::AddNonTerminal(
-	const language::type::definition::object::main::NonTerminal* nonTerminal)
+	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal)
 {
-	tokenDeclarationSection.AddNonterminal(*nonTerminal);
-	unionSection.AddNonterminal(*nonTerminal);
+	tokenDeclarationSection.AddNonterminal(nonTerminal);
+	unionSection.AddNonterminal(nonTerminal);
 	productionRuleSection.AddNonTerminal(nonTerminal);
 }
 
 std::string deamer::parser::type::bison::Output::Generate() const
 {
-	return includeSection.Generate() + tokenDeclarationSection.Generate() +
-		   unionSection.Generate() + "\n%%\n" + productionRuleSection.Generate() + "\n%%\n" +
+	return includeSection.Generate() + "\n" + tokenDeclarationSection.Generate() +
+		   unionSection.Generate() + "\n%%\n\n" + productionRuleSection.Generate() + "\n%%\n\n" +
 		   actionSection.Generate();
 }

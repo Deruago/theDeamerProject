@@ -21,7 +21,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
 
 deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence(
-	object::Base* const object_, const int precedence_)
+	const object::Base* const object_, const int precedence_)
 	: Base(object::Type::ObjectPrecedence),
 	  Object(object_),
 	  Precedence(precedence_)

@@ -32,8 +32,9 @@ namespace deamer::parser::type::bison
 	private:
 		const generator::bison::Bison::ReferenceType reference;
 
-		const language::type::definition::object::main::NonTerminal* nonTerminal;
-		const language::type::definition::object::main::ProductionRule* productionRule;
+		language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal;
+		language::reference::LDO<language::type::definition::object::main::ProductionRule>
+			productionRule;
 
 		ProductionRuleAction action;
 
@@ -42,8 +43,10 @@ namespace deamer::parser::type::bison
 	public:
 		ProductionRuleDeclaration(
 			const generator::bison::Bison::ReferenceType reference_,
-			const language::type::definition::object::main::NonTerminal* nonTerminal_,
-			const language::type::definition::object::main::ProductionRule* productionRule_,
+			language::reference::LDO<language::type::definition::object::main::NonTerminal>
+				nonTerminal_,
+			language::reference::LDO<language::type::definition::object::main::ProductionRule>
+				productionRule_,
 			const bool isFirstProductionRule_);
 		virtual ~ProductionRuleDeclaration() override = default;
 

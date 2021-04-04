@@ -22,18 +22,28 @@
 #define DEAMER_LEXER_TYPE_FILE_FLEX_INCLUDESECTION_H
 
 #include "Deamer/File/Tool/Data.h"
+#include "Deamer/Lexer/Generator/Flex/Flex.h"
 
 namespace deamer::lexer::type::flex
 {
 	class IncludeSection : public file::tool::Data
 	{
 	private:
+		using ReferenceType = deamer::lexer::generator::flex::Flex::ReferenceType;
+		ReferenceType reference;
+		const std::string name;
+
 	public:
-		IncludeSection() = default;
+		IncludeSection(ReferenceType reference_);
 		~IncludeSection() override = default;
 
 	public:
 		std::string Generate() const override;
+
+	private:
+		std::string ParserInclude() const;
+		std::string ParserMacroRedefine() const;
+		std::string RedefineMacros() const;
 	};
 }
 

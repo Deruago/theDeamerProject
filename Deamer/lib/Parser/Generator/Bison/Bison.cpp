@@ -23,7 +23,9 @@
 
 deamer::parser::generator::bison::Bison::Bison(const ReferenceType reference_)
 	: Base(tool::type::Tool::Bison),
-	  reference(reference_)
+	  reference(reference_),
+	  name(reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			   .name->value)
 {
 }
 
@@ -36,18 +38,59 @@ deamer::file::tool::Output deamer::parser::generator::bison::Bison::Generate()
 		reference.GetDefinition<language::type::definition::property::Type::Lexicon>();
 	const auto& grammar =
 		reference.GetDefinition<language::type::definition::property::Type::Grammar>();
+	const auto& identity =
+		reference.GetDefinition<language::type::definition::property::Type::Identity>();
 
-	for (const auto* const terminal : lexicon.Terminals)
+	for (language::reference::LDO<language::type::definition::object::main::Terminal> terminal :
+		 lexicon.Terminals)
 	{
 		bisonFileData.AddTerminal(terminal);
 	}
 
-	for (const auto* const nonTerminal : grammar.NonTerminals)
+	for (language::reference::LDO<language::type::definition::object::main::NonTerminal>
+			 nonTerminal : grammar.NonTerminals)
 	{
 		bisonFileData.AddNonTerminal(nonTerminal);
 	}
 
-	std::cout << bisonFileData.Generate() << std::endl;
+	std::cout << bisonFileData.Generate() << '\n';
+
+	const std::string fileName = identity.name->value + "_parser";
+	const file::tool::File bisonFile(fileName, "y", bisonFileData.Generate());
+	const file::tool::File bisonParser("Parser", "h", bisonParserFile());
+
+	output.AddFileToExternal(bisonFile);
+	output.AddFileToExternal(bisonParser);
 
 	return output;
+}
+
+std::string deamer::parser::generator::bison::Bison::bisonParserFile() const
+{
+	return "#ifndef " + name +
+		   "_BISON_PARSER_H\n"
+		   "#define " +
+		   name +
+		   "_BISON_PARSER_H\n"
+		   "\n"
+		   "#include <Deamer/External/Cpp/Parser/Interface/Parser.h>\n"
+		   "\n"
+		   "namespace " +
+		   name +
+		   "{ namespace parser {\n"
+		   "\n"
+		   "\t class Parser : public deamer::external::cpp::parser::Parser\n"
+		   "\t{\n"
+		   "\tpublic:\n"
+		   "\t\tParser() = default;\n"
+		   "\t\t~Parser() override = default;\n"
+		   "\n"
+		   "\tpublic:\n"
+		   "\t\tdeamer::external::cpp::ast::Tree* Parse(const std::string& text) const override;\n"
+		   "\t};\n"
+		   "\n"
+		   "}}\n"
+		   "\n"
+		   "#endif // " +
+		   name + "_BISON_PARSER_H\n";
 }

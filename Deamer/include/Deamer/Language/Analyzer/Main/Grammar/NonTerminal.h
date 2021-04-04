@@ -67,6 +67,8 @@ namespace deamer::language::analyzer::main
 		 */
 		bool IsEventuallyRecursive(const size_t depth) const;
 
+		bool DoesNonTerminalHaveValue() const;
+
 	private:
 		bool IsRecursiveImplementation(
 			const size_t currentDepth, const size_t maxDepth, const bool infinite,

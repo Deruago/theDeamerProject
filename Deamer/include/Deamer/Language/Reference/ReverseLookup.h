@@ -22,6 +22,7 @@
 #define DEAMER_LANGUAGE_REFERENCE_REVERSELOOKUP_H
 
 #include "Deamer/Language/Convertor/Definition/ObjectTypeToEnum.h"
+#include "Deamer/Language/Reference/LDO.h"
 #include "Deamer/Language/Reference/PropertyDefinition.h"
 #include "Deamer/Language/Reference/ReverseLookupResult.h"
 #include "Deamer/Language/Validator/Definition/GetPropertyTypeFromObjectType.h"
@@ -66,7 +67,7 @@ namespace deamer::language::reference
 		 *	the object to the primary cache.
 		 */
 		template<typename T_source>
-		ReverseLookupResult<T_lookup> Get(T_source* source) const
+		ReverseLookupResult<T_lookup> Get(T_source source) const
 		{
 			if (source == nullptr)
 			{
@@ -81,14 +82,12 @@ namespace deamer::language::reference
 			auto primaryCacheResult = GetFromPrimaryCache(source);
 			if (primaryCacheResult.Success())
 			{
-				std::cout << "Primary cache\n";
 				return primaryCacheResult;
 			}
 
 			auto directLPDResult = GetFromDirectLPD(source);
 			if (directLPDResult.Success())
 			{
-				std::cout << "Second cache\n";
 				return directLPDResult;
 			}
 
@@ -96,13 +95,13 @@ namespace deamer::language::reference
 		}
 
 		template<typename T_source>
-		ReverseLookupResult<T_lookup> GetFromPrimaryCache(T_source* source) const
+		ReverseLookupResult<T_lookup> GetFromPrimaryCache(T_source source) const
 		{
 			const auto cacheResult = languageCache->Get(source, T_lookup_enum);
 
 			if (!cacheResult.empty())
 			{
-				std::vector<const T_lookup*> newCache;
+				std::vector<LDO<T_lookup>> newCache;
 				for (const auto* object : cacheResult)
 				{
 					newCache.push_back(static_cast<const T_lookup*>(object));
@@ -114,7 +113,7 @@ namespace deamer::language::reference
 		}
 
 		template<typename T_source>
-		ReverseLookupResult<T_lookup> GetFromDirectLPD(T_source* source,
+		ReverseLookupResult<T_lookup> GetFromDirectLPD(T_source source,
 													   bool cacheResult = true) const
 		{
 			const type::definition::property::Definition* definitionWithObject;
@@ -128,10 +127,13 @@ namespace deamer::language::reference
 			}
 
 			bool found = false;
-			std::vector<const T_lookup*> foundObjects;
+			std::vector<LDO<T_lookup>> foundObjects;
 			for (const auto& SetOfReferences : definitionWithObject->GetObjects())
 			{
-				if (SetOfReferences.first != T_lookup_enum)
+				// Base counts for generic storage for LDO's. We should thus always
+				// check the Base out.
+				if (SetOfReferences.first != T_lookup_enum &&
+					SetOfReferences.first != type::definition::object::Type::Base)
 				{
 					continue;
 				}
@@ -160,9 +162,39 @@ namespace deamer::language::reference
 		}
 
 		template<typename T_source>
-		ReverseLookupResult<T_lookup> GetFromDirectLPD_DontCache(T_source* source) const
+		ReverseLookupResult<T_lookup> GetFromDirectLPD_DontCache(T_source source) const
 		{
 			return GetFromDirectLPD<T_source>(source, false);
+		}
+
+		template<typename T_source>
+		ReverseLookupResult<T_lookup> Get(LDO<T_source, false> source) const
+		{
+			if (!source.Verify(language_reference))
+			{
+				return ReverseLookupResult<T_lookup>(false, CacheLocation::None);
+			}
+
+			return Get(source.Get());
+		}
+
+		template<typename T_source>
+		ReverseLookupResult<T_lookup> GetFromPrimaryCache(LDO<T_source, false> source) const
+		{
+			return GetFromPrimaryCache(source.Get());
+		}
+
+		template<typename T_source>
+		ReverseLookupResult<T_lookup> GetFromDirectLPD(LDO<T_source, false> source,
+													   bool cacheResult = true) const
+		{
+			return GetFromDirectLPD(source.Get(), cacheResult);
+		}
+
+		template<typename T_source>
+		ReverseLookupResult<T_lookup> GetFromDirectLPD_DontCache(LDO<T_source, false> source) const
+		{
+			return GetFromDirectLPD(source.Get(), false);
 		}
 	};
 }

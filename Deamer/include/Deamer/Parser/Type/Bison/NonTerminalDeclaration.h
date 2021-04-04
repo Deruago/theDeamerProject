@@ -22,6 +22,7 @@
 #define DEAMER_PARSER_TYPE_BISON_NONTERMINALDECLARATION_H
 
 #include "Deamer/File/Tool/Data.h"
+#include "Deamer/Language/Reference/LDO.h"
 #include "Deamer/Parser/Generator/Bison/Bison.h"
 
 namespace deamer::parser::type::bison
@@ -31,12 +32,13 @@ namespace deamer::parser::type::bison
 	private:
 		const generator::bison::Bison::ReferenceType reference;
 
-		const language::type::definition::object::main::NonTerminal nonTerminal;
+		language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal;
 
 	public:
 		NonTerminalDeclaration(
 			const generator::bison::Bison::ReferenceType reference_,
-			const language::type::definition::object::main::NonTerminal& nonTerminal_);
+			language::reference::LDO<language::type::definition::object::main::NonTerminal>
+				nonTerminal_);
 		~NonTerminalDeclaration() override = default;
 
 	public:

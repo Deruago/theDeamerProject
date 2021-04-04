@@ -22,6 +22,7 @@
 #define DEAMER_PARSER_TYPE_BISON_UIONSECTION_H
 
 #include "Deamer/File/Tool/Data.h"
+#include "Deamer/Language/Reference/LDO.h"
 #include "Deamer/Parser/Generator/Bison/Bison.h"
 
 namespace deamer::parser::type::bison
@@ -31,27 +32,33 @@ namespace deamer::parser::type::bison
 	private:
 		const generator::bison::Bison::ReferenceType reference;
 
-		std::vector<language::type::definition::object::main::Terminal> terminals;
-		std::vector<language::type::definition::object::main::NonTerminal> nonTerminals;
+		std::vector<language::reference::LDO<language::type::definition::object::main::Terminal>>
+			terminals;
+		std::vector<language::reference::LDO<language::type::definition::object::main::NonTerminal>>
+			nonTerminals;
 
 	public:
 		UnionSection(const generator::bison::Bison::ReferenceType reference_);
 		virtual ~UnionSection() override = default;
 
 	public:
-		void AddTerminal(const language::type::definition::object::main::Terminal& terminal);
+		void AddTerminal(
+			language::reference::LDO<language::type::definition::object::main::Terminal> terminal);
 
-		void
-		AddNonterminal(const language::type::definition::object::main::NonTerminal& nonTerminal);
+		void AddNonterminal(
+			language::reference::LDO<language::type::definition::object::main::NonTerminal>
+				nonTerminal);
 		void GenerateASTUnionTypes(std::string& output, const std::string& languageName) const;
 		std::string Generate() const override;
 
 	private:
-		std::string
-		GetObjectFullType(const language::type::definition::object::main::Terminal& terminal) const;
+		std::string GetObjectFullType(
+			language::reference::LDO<language::type::definition::object::main::Terminal> terminal)
+			const;
 
 		std::string GetObjectFullType(
-			const language::type::definition::object::main::NonTerminal& nonTerminal) const;
+			language::reference::LDO<language::type::definition::object::main::NonTerminal>
+				nonTerminal) const;
 	};
 }
 

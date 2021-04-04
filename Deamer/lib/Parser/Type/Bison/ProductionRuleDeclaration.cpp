@@ -22,8 +22,8 @@
 
 deamer::parser::type::bison::ProductionRuleDeclaration::ProductionRuleDeclaration(
 	const generator::bison::Bison::ReferenceType reference_,
-	const language::type::definition::object::main::NonTerminal* nonTerminal_,
-	const language::type::definition::object::main::ProductionRule* productionRule_,
+	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal_,
+	language::reference::LDO<language::type::definition::object::main::ProductionRule> productionRule_,
 	const bool isFirstProductionRule_)
 	: reference(reference_),
 	  nonTerminal(nonTerminal_),

@@ -37,7 +37,7 @@ bool deamer::language::analyzer::main::ProductionRule::IsDirectRecursive() const
 	const reference::ReverseLookup<type::definition::object::main::NonTerminal> reverseLookup(
 		language_reference);
 
-	const auto result = reverseLookup.Get(productionRule.Get());
+	const auto result = reverseLookup.Get(productionRule);
 
 	if (result.Fail() || result.IsEmpty())
 	{
@@ -66,7 +66,7 @@ size_t deamer::language::analyzer::main::ProductionRule::GetDirectRecursionPoint
 	const reference::ReverseLookup<type::definition::object::main::NonTerminal> reverseLookup(
 		language_reference);
 
-	const auto& result = reverseLookup.Get(productionRule.Get());
+	const auto& result = reverseLookup.Get(productionRule);
 
 	if (!result.Success() || result.IsEmpty())
 	{
@@ -91,4 +91,18 @@ size_t deamer::language::analyzer::main::ProductionRule::GetDirectRecursionPoint
 	}
 
 	throw std::logic_error("Production rule is not recursive for given nonterminal.");
+}
+
+bool deamer::language::analyzer::main::ProductionRule::IsNonTerminalOwnerOfThisProductionRule(
+	reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const
+{
+	for (reference::LDO<ProductionRule> productionRule_ : nonTerminal->ProductionRules)
+	{
+		if (productionRule_ == productionRule)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

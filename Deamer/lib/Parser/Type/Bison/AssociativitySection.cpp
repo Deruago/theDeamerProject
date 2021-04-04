@@ -28,12 +28,12 @@ deamer::parser::type::bison::AssociativitySection::AssociativitySection(
 }
 
 void deamer::parser::type::bison::AssociativitySection::AddTerminal(
-	const language::type::definition::object::main::Terminal& terminal)
+	language::reference::LDO<language::type::definition::object::main::Terminal> terminal)
 {
 	const auto& associativity =
 		language::reference::ReverseLookup<
 			language::type::definition::object::main::ObjectAssociativity>(&reference)
-			.Get(&terminal);
+			.Get(terminal);
 	if (associativity.IsEmpty())
 	{
 		return;
@@ -52,11 +52,11 @@ std::string deamer::parser::type::bison::AssociativitySection::Generate() const
 		switch (associativity)
 		{
 		case language::type::definition::object::main::AssociativityType::left: {
-			output += "%left " + terminal.Name + '\n';
+			output += "%left " + terminal->Name + '\n';
 			break;
 		}
 		case language::type::definition::object::main::AssociativityType::right: {
-			output += "%right " + terminal.Name + '\n';
+			output += "%right " + terminal->Name + '\n';
 			break;
 		}
 		case language::type::definition::object::main::AssociativityType::any: {

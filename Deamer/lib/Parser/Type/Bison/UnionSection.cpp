@@ -27,13 +27,13 @@ deamer::parser::type::bison::UnionSection::UnionSection(
 }
 
 void deamer::parser::type::bison::UnionSection::AddTerminal(
-	const language::type::definition::object::main::Terminal& terminal)
+	language::reference::LDO<language::type::definition::object::main::Terminal> terminal)
 {
 	terminals.emplace_back(terminal);
 }
 
 void deamer::parser::type::bison::UnionSection::AddNonterminal(
-	const language::type::definition::object::main::NonTerminal& nonTerminal)
+	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal)
 {
 	nonTerminals.emplace_back(nonTerminal);
 }
@@ -45,6 +45,8 @@ void deamer::parser::type::bison::UnionSection::GenerateASTUnionTypes(
 		reference.GetDefinition<language::type::definition::property::Type::Generation>()
 			.IsIntegrationSet({tool::type::Tool::Bison, tool::type::Tool::DeamerAST});
 
+	output += "\tconst deamer::external::cpp::lexer::TerminalObject* Terminal;\n";
+
 	if (!ASTintegrate)
 	{
 		return;
@@ -52,14 +54,16 @@ void deamer::parser::type::bison::UnionSection::GenerateASTUnionTypes(
 
 	for (const auto& terminal : terminals)
 	{
-		output += "\t" + GetObjectFullType(terminal) + languageName + "_" + terminal.Name + ";\n";
+		output += "\t" + GetObjectFullType(terminal) + languageName + "_" + terminal->Name + ";\n";
 	}
 
 	for (const auto& nonTerminal : nonTerminals)
 	{
 		output +=
-			"\t" + GetObjectFullType(nonTerminal) + languageName + "_" + nonTerminal.Name + ";\n";
+			"\t" + GetObjectFullType(nonTerminal) + languageName + "_" + nonTerminal->Name + ";\n";
 	}
+
+	return;
 }
 
 std::string deamer::parser::type::bison::UnionSection::Generate() const
@@ -78,18 +82,19 @@ std::string deamer::parser::type::bison::UnionSection::Generate() const
 }
 
 std::string deamer::parser::type::bison::UnionSection::GetObjectFullType(
-	const language::type::definition::object::main::Terminal& terminal) const
+	language::reference::LDO<language::type::definition::object::main::Terminal> terminal) const
 {
 	const auto& languageName =
 		reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
 
-	return languageName + "::ast::" + terminal.Name + "* ";
+	return languageName + "::ast::" + terminal->Name + "* ";
 }
 std::string deamer::parser::type::bison::UnionSection::GetObjectFullType(
-	const language::type::definition::object::main::NonTerminal& nonTerminal) const
+	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal)
+	const
 {
 	const auto& languageName =
 		reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
 
-	return languageName + "::ast::" + nonTerminal.Name + "* ";
+	return languageName + "::ast::" + nonTerminal->Name + "* ";
 }

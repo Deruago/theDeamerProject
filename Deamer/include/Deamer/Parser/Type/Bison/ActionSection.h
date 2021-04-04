@@ -30,6 +30,7 @@ namespace deamer::parser::type::bison
 	{
 	private:
 		const generator::bison::Bison::ReferenceType reference;
+		const std::string name;
 
 	public:
 		ActionSection(const generator::bison::Bison::ReferenceType reference_);
@@ -37,6 +38,11 @@ namespace deamer::parser::type::bison
 
 	public:
 		std::string Generate() const override;
+
+	private:
+		std::string LanguageError() const;
+		std::string LanguageParser() const;
+		std::string DebugMain() const;
 	};
 }
 

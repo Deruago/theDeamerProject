@@ -30,6 +30,7 @@ namespace deamer::parser::type::bison
 	{
 	private:
 		const generator::bison::Bison::ReferenceType reference;
+		const std::string name;
 
 	public:
 		IncludeSection(const generator::bison::Bison::ReferenceType reference_);
@@ -37,6 +38,13 @@ namespace deamer::parser::type::bison
 
 	public:
 		std::string Generate() const override;
+		std::string DefaultIncludes() const;
+
+	private:
+		std::string AstIncludes() const;
+		std::string Includes() const;
+		std::string MacroDefine() const;
+		std::string FunctionPrototypes() const;
 	};
 }
 

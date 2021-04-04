@@ -25,13 +25,14 @@
 
 deamer::parser::type::bison::ProductionRuleAction::ProductionRuleAction(
 	const generator::bison::Bison::ReferenceType reference_,
-	const language::type::definition::object::main::NonTerminal* nonTerminal_,
-	const language::type::definition::object::main::ProductionRule* productionRule_)
+	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal_,
+	language::reference::LDO<language::type::definition::object::main::ProductionRule>
+		productionRule_)
 	: reference(reference_),
 	  nonTerminal(nonTerminal_),
 	  productionRule(productionRule_),
-	  nonterminalAnalyzer(&this->reference, this->nonTerminal),
-	  productionRuleAnalyzer(&this->reference, this->productionRule)
+	  nonterminalAnalyzer(&reference, nonTerminal),
+	  productionRuleAnalyzer(&reference, productionRule)
 {
 }
 
@@ -65,6 +66,10 @@ std::string deamer::parser::type::bison::ProductionRuleAction::ObjectFullName() 
 
 std::string deamer::parser::type::bison::ProductionRuleAction::AssignObject() const
 {
+	const bool ast =
+		reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsIntegrationSet({tool::type::Tool::Bison, tool::type::Tool::DeamerAST});
+
 	const bool vector =
 		reference.GetDefinition<language::type::definition::property::Type::Generation>()
 			.IsArgumentSet({tool::type::Tool::Bison, "Vector"});
@@ -73,21 +78,12 @@ std::string deamer::parser::type::bison::ProductionRuleAction::AssignObject() co
 		deamer::language::type::definition::object::main::NonTerminal>
 		reverseLookup(&reference);
 
-	std::cout << "Required reference: " << productionRule << " Non terminal production rules: ";
-
-	for (auto* reference : nonTerminal->GetReferences()
-							   .Get<language::type::definition::object::main::ProductionRule>())
-	{
-		std::cout << reference << " ";
-	}
-	std::cout << " Contains: " << nonTerminal->GetReferences().Contains(productionRule);
-	std::cout << " Count: "
-			  << nonTerminal->GetReferences()
-					 .GetBase<language::type::definition::object::main::ProductionRule>()
-					 .count(productionRule);
-	std::cout << '\n';
-
 	const auto result = reverseLookup.Get(productionRule);
+
+	if (!ast)
+	{
+		return "";
+	}
 
 	if (vector)
 	{
@@ -126,6 +122,10 @@ std::string deamer::parser::type::bison::ProductionRuleAction::ObjectFullName(
 std::vector<std::string>
 deamer::parser::type::bison::ProductionRuleAction::GetSequenceOfValidArguments() const
 {
+	const bool vector =
+		reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsArgumentSet({tool::type::Tool::Bison, "Vector"});
+
 	std::vector<std::string> arguments;
 	size_t i = 1;
 	for (auto* ldo : productionRule->Tokens)
@@ -134,15 +134,23 @@ deamer::parser::type::bison::ProductionRuleAction::GetSequenceOfValidArguments()
 		switch (ldo->Type_)
 		{
 		case language::type::definition::object::Type::NonTerminal: {
-			if (IsTokenUsed(
-					*static_cast<language::type::definition::object::main::NonTerminal*>(ldo)))
+			if (nonterminalAnalyzer->DoesNonTerminalHaveValue())
 			{
+				if (vector && productionRuleAnalyzer->IsNonTerminalOwnerOfThisProductionRule(ldo))
+				{
+					break;
+				}
+
 				arguments.push_back(currentArgumentIndex);
 			}
 			break;
 		}
 		case language::type::definition::object::Type::Terminal: {
-			if (IsTokenUsed(*static_cast<language::type::definition::object::main::Terminal*>(ldo)))
+			const auto terminalAnalyzer =
+				language::analyzer::Analyzer<language::type::definition::object::main::Terminal>(
+					&reference, ldo);
+
+			if (terminalAnalyzer->DoesTerminalHaveValue())
 			{
 				// language::ast::terminal($index)
 				arguments.push_back(
@@ -192,31 +200,13 @@ std::string deamer::parser::type::bison::ProductionRuleAction::ConstructObject()
 		return "";
 	}
 
-	if (integrateAST)
+	if (!integrateAST)
 	{
-		return "\t\t"
-			   "auto* const newNode = "
-			   "new " +
-			   ObjectFullName() + ObjectArgumentList() + ";\n";
+		return "";
 	}
 
-	return "";
-}
-
-bool deamer::parser::type::bison::ProductionRuleAction::IsTokenUsed(
-	const language::type::definition::object::main::NonTerminal& ldo) const
-{
-	return true;
-}
-
-bool deamer::parser::type::bison::ProductionRuleAction::IsTokenUsed(
-	const language::type::definition::object::main::Terminal& ldo) const
-{
-	if (ldo.Special == language::type::definition::object::main::SpecialType::Standard ||
-		ldo.Special == language::type::definition::object::main::SpecialType::NoValue)
-	{
-		return true;
-	}
-
-	return false;
+	return "\t\t"
+		   "auto* const newNode = "
+		   "new " +
+		   ObjectFullName() + ObjectArgumentList() + ";\n";
 }

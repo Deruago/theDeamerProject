@@ -22,7 +22,7 @@
 
 deamer::parser::type::bison::NonTerminalImplementation::NonTerminalImplementation(
 	const generator::bison::Bison::ReferenceType reference_,
-	const language::type::definition::object::main::NonTerminal* nonTerminal_)
+	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal_)
 	: reference(reference_),
 	  nonTerminal(nonTerminal_)
 {

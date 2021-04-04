@@ -22,11 +22,67 @@
 
 deamer::parser::type::bison::IncludeSection::IncludeSection(
 	const generator::bison::Bison::ReferenceType reference_)
-	: reference(reference_)
+	: reference(reference_),
+	  name(reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			   .name->value)
 {
 }
 
 std::string deamer::parser::type::bison::IncludeSection::Generate() const
 {
+	return "%{\n" + Includes() + "\n" + MacroDefine() + "\n" + FunctionPrototypes() + "%}\n";
+}
+
+std::string deamer::parser::type::bison::IncludeSection::Includes() const
+{
+	return AstIncludes() + DefaultIncludes();
+}
+
+std::string deamer::parser::type::bison::IncludeSection::DefaultIncludes() const
+{
+	return "#include <iostream>\n"
+		   "#include <vector>\n"
+		   "#include <cstring>\n"
+		   "#include <stdio.h>\n"
+		   "#include <Deamer/External/Cpp/Lexer/TerminalObject.h>\n"
+		   "#include \"./Parser.h\"\n"
+		   "#include \"" +
+		   name + "_lexer.h\"\n";
+}
+
+std::string deamer::parser::type::bison::IncludeSection::AstIncludes() const
+{
+	const bool ast =
+		reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsIntegrationSet({tool::type::Tool::Bison, tool::type::Tool::DeamerAST});
+
+	if (!ast)
+	{
+		return "";
+	}
+
 	return "";
+}
+
+std::string deamer::parser::type::bison::IncludeSection::MacroDefine() const
+{
+	return "#ifndef YY_parse_NERRS\n"
+		   "#define YY_parse_NERRS " +
+		   name +
+		   "nerrs\n"
+		   "#endif //YY_parse_NERRS\n"
+		   "#ifndef YY_parse_LLOC\n"
+		   "#define YY_parse_LLOC " +
+		   name +
+		   "lloc\n"
+		   "#endif //YY_parse_LLOC\n"
+		   "#define YYERROR_VERBOSE\n";
+}
+
+std::string deamer::parser::type::bison::IncludeSection::FunctionPrototypes() const
+{
+	return "void " + name +
+		   "error(const char* s);\n"
+		   "int " +
+		   name + "lex();\n";
 }

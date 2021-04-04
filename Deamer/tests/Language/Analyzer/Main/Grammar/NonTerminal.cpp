@@ -93,8 +93,10 @@ TEST_F(TestNonTerminal, IsDirectRecursive_NullptrNonTerminal_ShouldThrowExceptio
 	const ReferenceType reference(language);
 
 	const auto* nonTerminal = reference.GetDefinition<Type::Grammar>().GetNonTerminal("stmt");
-
+	const deamer::language::type::definition::object::main::ProductionRule* nullptr_production =
+		nullptr;
+	
 	EXPECT_ANY_THROW(const deamer::language::analyzer::Analyzer<
 						 deamer::language::type::definition::object::main::NonTerminal>
-						 analyzer(&reference, nullptr););
+						 analyzer(&reference, nullptr_production););
 }

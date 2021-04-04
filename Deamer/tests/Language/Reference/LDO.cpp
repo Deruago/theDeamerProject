@@ -138,6 +138,61 @@ TEST_F(TestLDO, VerifyIfKnownPointerIsInLanguage_ShouldReturnTrue)
 	EXPECT_FALSE(terminalReference_original.Verify(language));
 }
 
+TEST_F(TestLDO, VerifyViaReferenceIfUnknownPointerIsInLanguage_ShouldReturnFalse)
+{
+	ReferenceType reference(language);
+	const auto* expected_varname = reference.GetDefinition<Type::Lexicon>().GetTerminal("VARNAME");
+
+	const auto terminalReference_original =
+		LDO<deamer::language::type::definition::object::main::Terminal>(expected_varname);
+
+	EXPECT_TRUE(terminalReference_original.Verify(&reference));
+}
+
+TEST_F(TestLDO, VerifyViaReferenceIfKnownPointerIsInLanguage_ShouldReturnTrue)
+{
+	ReferenceType reference(language);
+	const auto* unknown_pointer =
+		static_cast<LDO<deamer::language::type::definition::object::main::Terminal>::type>(
+			nullptr) +
+		1;
+
+	const auto terminalReference_original =
+		LDO<deamer::language::type::definition::object::main::Terminal>(unknown_pointer);
+
+	EXPECT_FALSE(terminalReference_original.Verify(&reference));
+}
+
+TEST_F(TestLDO, VerifyViaBaseReferenceIfUnknownPointerIsInLanguage_ShouldReturnFalse)
+{
+	const PropertyDefinitionBase* const reference_base = new ReferenceType(language);
+	ReferenceType reference(language);
+	const auto* expected_varname = reference.GetDefinition<Type::Lexicon>().GetTerminal("VARNAME");
+
+	const auto terminalReference_original =
+		LDO<deamer::language::type::definition::object::main::Terminal>(expected_varname);
+
+	EXPECT_TRUE(terminalReference_original.Verify(reference_base));
+
+	delete reference_base;
+}
+
+TEST_F(TestLDO, VerifyViaBaseReferenceIfKnownPointerIsInLanguage_ShouldReturnTrue)
+{
+	const PropertyDefinitionBase* const reference_base = new ReferenceType(language);
+	const auto* unknown_pointer =
+		static_cast<LDO<deamer::language::type::definition::object::main::Terminal>::type>(
+			nullptr) +
+		1;
+
+	const auto terminalReference_original =
+		LDO<deamer::language::type::definition::object::main::Terminal>(unknown_pointer);
+
+	EXPECT_FALSE(terminalReference_original.Verify(reference_base));
+
+	delete reference_base;
+}
+
 TEST_F(TestLDO, CheckIfBaseIsCorrespondsWithGivenType_CorrespondingType_ShouldReturnTrue)
 {
 	ReferenceType reference(language);

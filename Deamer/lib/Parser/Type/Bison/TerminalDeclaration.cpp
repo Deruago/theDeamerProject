@@ -24,7 +24,7 @@
 
 deamer::parser::type::bison::TerminalDeclaration::TerminalDeclaration(
 	const generator::bison::Bison::ReferenceType reference_,
-	const language::type::definition::object::main::Terminal* terminal_)
+	language::reference::LDO<language::type::definition::object::main::Terminal> terminal_)
 	: reference(reference_),
 	  terminal(terminal_)
 {
@@ -32,47 +32,6 @@ deamer::parser::type::bison::TerminalDeclaration::TerminalDeclaration(
 
 std::string deamer::parser::type::bison::TerminalDeclaration::Generate() const
 {
-	{
-		const auto start = std::chrono::system_clock::now();
-		const auto precedence =
-			language::reference::ReverseLookup<
-				language::type::definition::object::main::ObjectPrecedence>(&reference)
-				.Get(terminal);
-		std::cout << "Cache location: " << (unsigned)precedence.GetCacheLocation() << "\n";
-		/*std::cout << "Precedence of terminal: " << precedence.Size()
-				  << " value: " << precedence.GetObject()->Precedence << '\n';*/
-		const auto end = std::chrono::system_clock::now();
-		const std::chrono::duration<double> elapsed_seconds = end - start;
-		std::cout << elapsed_seconds.count() << std::endl;
-	}
-
-	{
-		const auto start = std::chrono::system_clock::now();
-		const auto precedence =
-			language::reference::ReverseLookup<
-				language::type::definition::object::main::ObjectPrecedence>(&reference)
-				.Get(terminal);
-		/*std::cout << "Precedence of terminal: " << precedence.size()
-				  << " value: " << precedence[0]->Precedence << '\n';*/
-		const auto end = std::chrono::system_clock::now();
-		const std::chrono::duration<double> elapsed_seconds = end - start;
-		std::cout << elapsed_seconds.count() << std::endl;
-	}
-
-	{
-		const auto start = std::chrono::system_clock::now();
-		const auto precedence =
-			language::reference::ReverseLookup<
-				language::type::definition::object::main::ObjectPrecedence>(&reference)
-				.Get(terminal);
-		/*std::cout << "Precedence of terminal: " << precedence.size()
-				  << " value: " << precedence[0]->Precedence << '\n';*/
-		const auto end = std::chrono::system_clock::now();
-		const std::chrono::duration<double> elapsed_seconds = end - start;
-		std::cout << elapsed_seconds.count() << std::endl;
-	}
-	std::cout << "------------------\n";
-
 	if (terminal->Special != language::type::definition::object::main::SpecialType::Delete)
 	{
 		return "%token " + terminal->Name + '\n';

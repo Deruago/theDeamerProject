@@ -22,11 +22,57 @@
 
 deamer::parser::type::bison::ActionSection::ActionSection(
 	const generator::bison::Bison::ReferenceType reference_)
-	: reference(reference_)
+	: reference(reference_),
+	  name(reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			   .name->value)
 {
 }
 
 std::string deamer::parser::type::bison::ActionSection::Generate() const
 {
+	return LanguageError() + "\n" + LanguageParser() + "\n" + DebugMain();
+}
+
+std::string deamer::parser::type::bison::ActionSection::LanguageError() const
+{
+	return "void " + name +
+		   "error(const char* s)\n"
+		   "{\n"
+		   "\tstd::cout << \"Syntax error on line: \" << s << '\\n';\n"
+		   "}\n";
+}
+
+std::string deamer::parser::type::bison::ActionSection::LanguageParser() const
+{
+	return "deamer::external::cpp::ast::Tree* " + name +
+		   "::parser::Parser::Parse(const std::string& text) const\n"
+		   "{\n"
+		   "\tFILE* tmpFile = fmemopen((void*)text.c_str(), text.size(), \"r\");\n"
+		   "\tif (tmpFile == nullptr)\n"
+		   "\t{\n"
+		   "\t\treturn nullptr;\n"
+		   "\t}\n"
+		   "\tSimpleLangin = tmpFile;\n"
+		   "\tyyparse();\n"
+		   "\n"
+		   "\tfclose(tmpFile);\n"
+		   "\n"
+		   "\treturn nullptr;\n"
+		   "}\n";
+}
+
+std::string deamer::parser::type::bison::ActionSection::DebugMain() const
+{
+	const auto identity =
+		reference.GetDefinition<language::type::definition::property::Type::Identity>();
+	const auto generation =
+		reference.GetDefinition<language::type::definition::property::Type::Generation>();
+
+	if (generation.IsArgumentSet({tool::type::Tool::Flex, "Debug"}) &&
+		!generation.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison}))
+	{
+		return "int main() { return 0; }\n";
+	}
+
 	return "";
 }

@@ -21,11 +21,57 @@
 #include "Deamer/Lexer/Type/Flex/MainSection.h"
 
 deamer::lexer::type::flex::MainSection::MainSection(const ReferenceType reference_)
-	: reference(reference_)
+	: reference(reference_),
+	  name(reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			   .name->value)
 {
 }
 
 std::string deamer::lexer::type::flex::MainSection::Generate() const
+{
+	return AddStore() + '\n' + AddClear() + '\n' + AddDeamerLexer() + '\n' + CreateMain();
+}
+
+std::string deamer::lexer::type::flex::MainSection::AddStore() const
+{
+	return "static void store(const deamer::external::cpp::lexer::TerminalObject* const "
+		   "newObject)\n"
+		   "{\n"
+		   "\tlocal_objects.push_back(newObject);\n"
+		   "}\n";
+}
+
+std::string deamer::lexer::type::flex::MainSection::AddClear() const
+{
+	return "static void clear()\n"
+		   "{\n"
+		   "\tlocal_objects.clear();\n"
+		   "}\n";
+}
+
+std::string deamer::lexer::type::flex::MainSection::AddDeamerLexer() const
+{
+	return "std::vector<const deamer::external::cpp::lexer::TerminalObject*> " + name +
+		   "::lexer::Lexer::Tokenize(const std::string& text) const\n"
+		   "{\n"
+		   "\tlocal_store = true;\n"
+		   "\n"
+		   "\tYY_BUFFER_STATE buf;\n"
+		   "\tbuf = yy_scan_string(text.c_str());\n"
+		   "\tyylex();\n"
+		   "\tyy_delete_buffer(buf);\n"
+		   "\tyylex_destroy();\n"
+		   "\n"
+		   "\tlocal_store = false;\n"
+		   "\n"
+		   "\tauto local_objects_copy = local_objects;\n"
+		   "\tclear();\n"
+		   "\n"
+		   "\treturn local_objects_copy;\n"
+		   "}\n";
+}
+
+std::string deamer::lexer::type::flex::MainSection::CreateMain() const
 {
 	const auto identity =
 		reference.GetDefinition<language::type::definition::property::Type::Identity>();
@@ -35,9 +81,23 @@ std::string deamer::lexer::type::flex::MainSection::Generate() const
 	if (generation.IsArgumentSet({tool::type::Tool::Flex, "Debug"}) &&
 		!generation.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison}))
 	{
-		return "int main()\n"
+		return "int main(int argc,  char** argv)\n"
 			   "{\n"
-			   "\tyylex();\n"
+			   "\tstd::string debug_input;\n"
+			   "\tfor(auto i = 1; i < argc; i++)\n"
+			   "\t{\n"
+			   "\t\tdebug_input += argv[i];\n"
+			   "\t\tif (i < argc)\n"
+			   "\t\t{\n"
+			   "\t\t\tdebug_input += ' ';\n"
+			   "\t\t}\n"
+			   "\t}\n"
+			   "\n"
+			   "\tauto lexer = " +
+			   name +
+			   "::lexer::Lexer();\n"
+			   "\tauto tokens = lexer.Tokenize(debug_input);\n"
+			   "\n"
 			   "\treturn 0;\n"
 			   "}\n";
 	}

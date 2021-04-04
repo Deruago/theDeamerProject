@@ -34,6 +34,7 @@ namespace deamer::lexer::generator::flex
 
 	private:
 		const ReferenceType reference;
+		const std::string name;
 
 	public:
 		Flex(ReferenceType reference_);
@@ -41,6 +42,10 @@ namespace deamer::lexer::generator::flex
 
 	public:
 		deamer::file::tool::Output Generate() override;
+
+	private:
+		std::string GenerateDeamerLexer_HeaderFile() const;
+		std::string GenerateDeamerLexer_SourceFile() const;
 	};
 }
 

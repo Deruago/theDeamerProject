@@ -22,20 +22,22 @@
 #define DEAMER_LANGUAGE_ANALYZER_MAIN_LEXICON_TERMINAL_H
 
 #include "Deamer/Language/Analyzer/Main/Base.h"
+#include "Deamer/Language/Reference/LDO.h"
 
 namespace deamer::language::analyzer::main
 {
 	class Terminal : public Base
 	{
 	private:
-		deamer::language::type::definition::object::main::Terminal* const terminal;
+		reference::LDO<type::definition::object::main::Terminal> terminal;
 
 	public:
 		Terminal(const reference::PropertyDefinitionBase* reference_,
-				 deamer::language::type::definition::object::main::Terminal* terminal_);
+				 reference::LDO<type::definition::object::main::Terminal> terminal_);
 		~Terminal() override = default;
 
 	public:
+		bool DoesTerminalHaveValue() const;
 	};
 }
 

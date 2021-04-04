@@ -57,6 +57,9 @@ namespace deamer::language::analyzer::main
 		size_t GetDirectRecursionPoint(
 			reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const;
 
+		bool IsNonTerminalOwnerOfThisProductionRule(
+			reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const;
+
 	private:
 	};
 }

@@ -22,8 +22,14 @@
 
 deamer::language::analyzer::main::Terminal::Terminal(
 	const reference::PropertyDefinitionBase* reference_,
-	deamer::language::type::definition::object::main::Terminal* terminal_)
+	reference::LDO<type::definition::object::main::Terminal> terminal_)
 	: Base(reference_),
 	  terminal(terminal_)
 {
+}
+
+bool deamer::language::analyzer::main::Terminal::DoesTerminalHaveValue() const
+{
+	return terminal->Special == type::definition::object::main::SpecialType::Standard ||
+		   terminal->Special == type::definition::object::main::SpecialType::NoValue;
 }

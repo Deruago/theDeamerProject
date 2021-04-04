@@ -20,6 +20,13 @@
 
 #include "Deamer/Lexer/Type/Flex/IncludeSection.h"
 
+deamer::lexer::type::flex::IncludeSection::IncludeSection(ReferenceType reference_)
+	: reference(reference_),
+	  name(reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			   .name->value)
+{
+}
+
 std::string deamer::lexer::type::flex::IncludeSection::Generate() const
 {
 	return "%option yylineno\n"
@@ -30,5 +37,63 @@ std::string deamer::lexer::type::flex::IncludeSection::Generate() const
 		   "#include <string>\n"
 		   "#include <stdio.h>\n"
 		   "#include <string.h>\n"
-		   "%}\n";
+		   "#include <Deamer/External/Cpp/Lexer/TerminalObject.h>\n"
+		   //		   "#include <"+ name + "/Flex/Extern/Lexer.h>\n" +
+		   "#include \"./Lexer.h\"\n" +
+		   ParserInclude() +
+		   "void showError();\n"
+		   "extern int " +
+		   name +
+		   "lex();\n"
+		   "\n"
+		   "static bool local_store = false;\n"
+		   "static void store(const deamer::external::cpp::lexer::TerminalObject* const "
+		   "newObject);\n"
+		   "static std::vector<const deamer::external::cpp::lexer::TerminalObject*> "
+		   "local_objects;\n" +
+		   RedefineMacros() + "%}\n";
+}
+
+std::string deamer::lexer::type::flex::IncludeSection::ParserInclude() const
+{
+	const bool bison =
+		reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison});
+
+	if (!bison)
+	{
+		return "";
+	}
+
+	return "#include \"./" + name + "_parser.tab.h\"\n";
+}
+
+std::string deamer::lexer::type::flex::IncludeSection::ParserMacroRedefine() const
+{
+	const bool bison =
+		reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison});
+
+	if (bison)
+	{
+		return "";
+	}
+
+	return "#ifndef " + name + "lval\n" + "struct " + name +
+		   "lval_t {\n"
+		   "deamer::external::lexer::TerminalObject* Terminal = nullptr;\n"
+		   "};\n"
+		   "auto " +
+		   name + "lval = " + name +
+		   "lval_t();\n"
+		   "#endif // " +
+		   name + "lval\n";
+}
+
+std::string deamer::lexer::type::flex::IncludeSection::RedefineMacros() const
+{
+	return ParserMacroRedefine() +
+		   "#ifndef yyval\n"
+		   "#define yyval yytext\n"
+		   "#endif //yyval\n";
 }

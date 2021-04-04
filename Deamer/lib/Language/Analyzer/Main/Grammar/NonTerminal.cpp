@@ -45,6 +45,11 @@ bool deamer::language::analyzer::main::NonTerminal::IsEventuallyRecursive(const 
 	return IsRecursive(0, true);
 }
 
+bool deamer::language::analyzer::main::NonTerminal::DoesNonTerminalHaveValue() const
+{
+	return true;
+}
+
 bool deamer::language::analyzer::main::NonTerminal::IsRecursiveImplementation(
 	const size_t currentDepth, const size_t maxDepth, const bool infinite,
 	reference::LDO<deamer::language::type::definition::object::main::NonTerminal>

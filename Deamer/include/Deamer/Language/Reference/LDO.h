@@ -21,14 +21,16 @@
 #ifndef DEAMER_LANGUAGE_REFERENCE_LDO_H
 #define DEAMER_LANGUAGE_REFERENCE_LDO_H
 
+#include "Deamer/Language/Reference/PropertyDefinition.h"
 #include "Deamer/Language/Type/Definition/Language.h"
+#include <exception>
 
 namespace deamer::language::reference
 {
 	class LDO_Base
 	{
 	protected:
-		const type::definition::object::Base* const base;
+		const type::definition::object::Base* base;
 
 		LDO_Base(const type::definition::object::Base* const base_, const bool check_on_ctor)
 			: base(base_)
@@ -53,20 +55,27 @@ namespace deamer::language::reference
 	class LDO : public LDO_Base
 	{
 	public:
+		static_assert(!std::is_same<T, std::nullptr_t>::value,
+					  "LDO type may not be of type std::nullptr");
+
+		using T_bare = T;
 		using T_stripped = std::remove_cv_t<std::remove_pointer_t<T>>;
 		using type = T_stripped*;
 		using const_type = const T_stripped*;
 		using const_type_const = const T_stripped* const;
+
+		using const_type_const_reference = const_type_const&;
 
 		using base_type = type::definition::object::Base*;
 		using const_base_type = const type::definition::object::Base*;
 		using const_base_type_const = const type::definition::object::Base* const;
 
 	private:
-		friend LDO<T_stripped, !check_on_ctor>;
+		template<typename T_, bool check_on_ctor_>
+		friend class LDO;
 
 	public:
-		LDO(const_type_const t) : LDO_Base(t, check_on_ctor)
+		LDO(const_type_const_reference t) : LDO_Base(t, check_on_ctor)
 		{
 		}
 
@@ -78,11 +87,13 @@ namespace deamer::language::reference
 			}
 		}
 
-		LDO(const LDO& rhs) : LDO_Base(rhs.base, check_on_ctor)
+		template<typename T_>
+		LDO(const LDO<T_, check_on_ctor>& rhs) : LDO_Base(rhs.base, check_on_ctor)
 		{
 		}
 
-		LDO(const LDO<T_stripped, !check_on_ctor>& rhs) : LDO_Base(rhs.base, check_on_ctor)
+		template<typename T_>
+		LDO(const LDO<T_, !check_on_ctor>& rhs) : LDO_Base(rhs.base, check_on_ctor)
 		{
 		}
 
@@ -102,7 +113,7 @@ namespace deamer::language::reference
 		 *
 		 *	\brief Verifies if pointer it contains is known in the language.
 		 */
-		bool Verify(type::definition::Language* language) const
+		bool Verify(const typename type::definition::Language* const language) const
 		{
 			for (const auto* const ldo : language->definitionObjects)
 			{
@@ -113,6 +124,11 @@ namespace deamer::language::reference
 			}
 
 			return false;
+		}
+
+		bool Verify(const PropertyDefinitionBase* const reference) const
+		{
+			return Verify(reference->GetLanguage());
 		}
 
 		bool IsBaseTypeValid() const
@@ -126,6 +142,31 @@ namespace deamer::language::reference
 			{
 				throw std::logic_error("Tried to use incorrect base for LDO reference");
 			}
+		}
+
+		LDO<T, check_on_ctor>& operator=(const LDO<T, check_on_ctor>& rhs)
+		{
+			if (this->GetBaseVariant() == rhs.GetBaseVariant())
+			{
+				return *this;
+			}
+
+			this->base = rhs.base;
+
+			return *this;
+		}
+
+		template<typename T_, bool check_on_ctor_>
+		LDO<T, check_on_ctor>& operator=(const LDO<T_, check_on_ctor_>& rhs)
+		{
+			if (this->GetBaseVariant() == rhs.GetBaseVariant())
+			{
+				return *this;
+			}
+
+			this->base = rhs.base;
+
+			return *this;
 		}
 	};
 
@@ -159,20 +200,50 @@ namespace deamer::language::reference
 		return t >= q.GetBaseVariant();
 	}
 
-	template<typename T, bool check_on_ctor1, bool check_on_ctor2>
-	bool operator==(LDO<T, check_on_ctor1> t, LDO<T, check_on_ctor2> q)
+	template<typename T, typename Q, bool check_on_ctor>
+	bool operator==(LDO<T, check_on_ctor> t, Q* const q)
+	{
+		return t.GetBaseVariant() == q;
+	}
+
+	template<typename T, typename Q, bool check_on_ctor>
+	bool operator<(LDO<T, check_on_ctor> t, Q* const q)
+	{
+		return t.GetBaseVariant() < q;
+	}
+
+	template<typename T, typename Q, bool check_on_ctor>
+	bool operator>(LDO<T, check_on_ctor> t, Q* const q)
+	{
+		return t.GetBaseVariant() > q;
+	}
+
+	template<typename T, typename Q, bool check_on_ctor>
+	bool operator<=(LDO<T, check_on_ctor> t, Q* const q)
+	{
+		return t.GetBaseVariant() <= q;
+	}
+
+	template<typename T, typename Q, bool check_on_ctor>
+	bool operator>=(LDO<T, check_on_ctor> t, Q* const q)
+	{
+		return t.GetBaseVariant() >= q;
+	}
+
+	template<typename T, typename Q, bool check_on_ctor1, bool check_on_ctor2>
+	bool operator==(LDO<T, check_on_ctor1> t, LDO<Q, check_on_ctor2> q)
 	{
 		return t.GetBaseVariant() == q.GetBaseVariant();
 	}
 
-	template<typename T, bool check_on_ctor1, bool check_on_ctor2>
-	bool operator<(LDO<T, check_on_ctor1> t, LDO<T, check_on_ctor2> q)
+	template<typename T, typename Q, bool check_on_ctor1, bool check_on_ctor2>
+	bool operator<(LDO<T, check_on_ctor1> t, LDO<Q, check_on_ctor2> q)
 	{
 		return t.GetBaseVariant() < q.GetBaseVariant();
 	}
 
-	template<typename T, bool check_on_ctor1, bool check_on_ctor2>
-	bool operator>(LDO<T, check_on_ctor1> t, LDO<T, check_on_ctor2> q)
+	template<typename T, typename Q, bool check_on_ctor1, bool check_on_ctor2>
+	bool operator>(LDO<T, check_on_ctor1> t, LDO<Q, check_on_ctor2> q)
 	{
 		return t.GetBaseVariant() > q.GetBaseVariant();
 	}

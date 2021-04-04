@@ -35,10 +35,10 @@ namespace deamer::language::type::definition::object::main
 		friend deamer::type::SafeReserve<ObjectPrecedence>;
 
 	public:
-		object::Base* Object;
+		const object::Base* Object;
 		int Precedence;
 
-		ObjectPrecedence(object::Base* const object_, const int precedence_);
+		ObjectPrecedence(const object::Base* const object_, const int precedence_);
 
 	private:
 		ObjectPrecedence();

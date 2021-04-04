@@ -22,6 +22,7 @@
 #define DEAMER_PARSER_TYPE_BISON_PRECEDENCESCTION_H
 
 #include "Deamer/File/Tool/Data.h"
+#include "Deamer/Language/Reference/LDO.h"
 #include "Deamer/Parser/Generator/Bison/Bison.h"
 
 namespace deamer::parser::type::bison
@@ -30,13 +31,16 @@ namespace deamer::parser::type::bison
 	{
 	private:
 		const generator::bison::Bison::ReferenceType reference;
-		std::vector<std::pair<int, language::type::definition::object::main::Terminal>> terminals;
+		std::vector<std::pair<
+			int, language::reference::LDO<language::type::definition::object::main::Terminal>>>
+			terminals;
 
 	public:
 		PrecedenceSection(const generator::bison::Bison::ReferenceType reference_);
 		virtual ~PrecedenceSection() override = default;
 
-		void AddTerminal(const language::type::definition::object::main::Terminal& terminal);
+		void AddTerminal(
+			language::reference::LDO<language::type::definition::object::main::Terminal> terminal);
 
 	public:
 		std::string Generate() const override;

@@ -21,6 +21,7 @@
 #ifndef DEAMER_LANGUAGE_REFERENCE_REVERSELOOKUPRESULT_H
 #define DEAMER_LANGUAGE_REFERENCE_REVERSELOOKUPRESULT_H
 
+#include "Deamer/Language/Reference/LDO.h"
 #include <utility>
 
 namespace deamer::language::reference
@@ -43,11 +44,11 @@ namespace deamer::language::reference
 	private:
 		bool reverseLookupSuccess;
 		CacheLocation cacheLocation;
-		std::vector<const T_lookup*> results;
+		std::vector<LDO<T_lookup>> results;
 
 	public:
 		ReverseLookupResult(bool reverseLookupSuccess_, CacheLocation cacheLocation_,
-							std::vector<const T_lookup*> results_)
+							std::vector<LDO<T_lookup>> results_)
 			: reverseLookupSuccess(reverseLookupSuccess_),
 			  cacheLocation(cacheLocation_),
 			  results(std::move(results_))
@@ -91,12 +92,12 @@ namespace deamer::language::reference
 			return results.empty();
 		}
 
-		const T_lookup* GetObject() const noexcept
+		LDO<T_lookup> GetObject() const noexcept
 		{
 			return results[0];
 		}
 
-		const std::vector<const T_lookup*>& GetObjects() const noexcept
+		const std::vector<LDO<T_lookup>>& GetObjects() const noexcept
 		{
 			return results;
 		}

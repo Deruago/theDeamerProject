@@ -28,19 +28,19 @@ deamer::parser::type::bison::PrecedenceSection::PrecedenceSection(
 }
 
 void deamer::parser::type::bison::PrecedenceSection::AddTerminal(
-	const language::type::definition::object::main::Terminal& terminal)
+	language::reference::LDO<language::type::definition::object::main::Terminal> terminal)
 {
 	const auto precedence =
 		language::reference::ReverseLookup<
 			language::type::definition::object::main::ObjectPrecedence>(&reference)
-			.Get(&terminal);
+			.Get(terminal);
 
 	if (precedence.IsEmpty())
 	{
 		return;
 	}
 
-	const auto& terminalPrecedence = precedence.GetObject()->Precedence;
+	const auto terminalPrecedence = precedence.GetObject()->Precedence;
 
 	for (size_t i = 0; i < terminals.size(); i++)
 	{
@@ -56,34 +56,24 @@ void deamer::parser::type::bison::PrecedenceSection::AddTerminal(
 
 std::string deamer::parser::type::bison::PrecedenceSection::Generate() const
 {
+	return "";
 	if (terminals.empty())
 	{
 		return "";
 	}
 
 	std::vector<std::string> generatedStrings;
-	std::string currentString;
 	int currentPrecedence = terminals[0].first;
 	for (const auto& [precedence, terminal] : terminals)
 	{
-		if (precedence != currentPrecedence)
-		{
-			generatedStrings.push_back(currentString);
-			currentString.clear();
-
-			currentPrecedence = precedence;
-		}
-		currentString += terminal.Name + " ";
-	}
-	if (!currentString.empty())
-	{
+		const std::string currentString = "%precedence " + terminal->Name + "\n";
 		generatedStrings.push_back(currentString);
 	}
 
 	std::string output;
 	for (const auto& generatedString : generatedStrings)
 	{
-		output += "%precedence " + generatedString + '\n';
+		output += generatedString;
 	}
 
 	return output;

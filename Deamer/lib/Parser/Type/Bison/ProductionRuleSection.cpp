@@ -46,7 +46,7 @@ std::string deamer::parser::type::bison::ProductionRuleSection::Generate() const
 }
 
 void deamer::parser::type::bison::ProductionRuleSection::AddNonTerminal(
-	const language::type::definition::object::main::NonTerminal* nonTerminal)
+	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal)
 {
 	nonTerminalImplementations.emplace_back(reference, nonTerminal);
 }

@@ -47,9 +47,11 @@ namespace deamer::parser::type::bison
 
 	public:
 		std::string Generate() const override;
-		void AddTerminal(const language::type::definition::object::main::Terminal* terminal);
-		void
-		AddNonterminal(const language::type::definition::object::main::NonTerminal& nonTerminal);
+		void AddTerminal(
+			language::reference::LDO<language::type::definition::object::main::Terminal> terminal);
+		void AddNonterminal(
+			language::reference::LDO<language::type::definition::object::main::NonTerminal>
+				nonTerminal);
 	};
 }
 
