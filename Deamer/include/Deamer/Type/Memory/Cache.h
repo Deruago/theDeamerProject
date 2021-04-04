@@ -2,6 +2,7 @@
 #define DEAMER_TYPE_MEMORY_CACHE_H
 
 #include <map>
+#include <set>
 
 namespace deamer::type::memory
 {
