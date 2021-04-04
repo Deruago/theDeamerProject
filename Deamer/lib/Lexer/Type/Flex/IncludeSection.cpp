@@ -37,10 +37,8 @@ std::string deamer::lexer::type::flex::IncludeSection::Generate() const
 		   "#include <string>\n"
 		   "#include <stdio.h>\n"
 		   "#include <string.h>\n"
-		   "#include <Deamer/External/Cpp/Lexer/TerminalObject.h>\n"
-		   //		   "#include <"+ name + "/Flex/Extern/Lexer.h>\n" +
-		   "#include \"./Lexer.h\"\n" +
-		   ParserInclude() +
+		   "#include <Deamer/External/Cpp/Lexer/TerminalObject.h>\n" +
+		   LexerIncludeLocation() + ParserInclude() +
 		   "void showError();\n"
 		   "extern int " +
 		   name +
@@ -65,7 +63,7 @@ std::string deamer::lexer::type::flex::IncludeSection::ParserInclude() const
 		return "";
 	}
 
-	return "#include \"./" + name + "_parser.tab.h\"\n";
+	return "#include \"Bison/" + name + "_parser.tab.h\"\n";
 }
 
 std::string deamer::lexer::type::flex::IncludeSection::ParserMacroRedefine() const
@@ -96,4 +94,9 @@ std::string deamer::lexer::type::flex::IncludeSection::RedefineMacros() const
 		   "#ifndef yyval\n"
 		   "#define yyval yytext\n"
 		   "#endif //yyval\n";
+}
+
+std::string deamer::lexer::type::flex::IncludeSection::LexerIncludeLocation() const
+{
+	return "#include \"" + name + "/Flex/Lexer.h\"\n";
 }

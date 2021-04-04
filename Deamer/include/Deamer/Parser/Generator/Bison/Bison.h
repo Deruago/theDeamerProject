@@ -48,6 +48,8 @@ namespace deamer::parser::generator::bison
 
 	private:
 		std::string bisonParserFile() const;
+		deamer::file::tool::Action externalAction();
+		std::string externalCMakeLists();
 	};
 }
 

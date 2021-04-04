@@ -58,6 +58,39 @@ void deamer::file::tool::Output::AddFileToLibrary(const File& newFile)
 	library.AddFile(newFile);
 }
 
+void deamer::file::tool::Output::AddCMakeListsToExternal(const CMakeLists& newFile)
+{
+	external.SetCMakeLists(newFile.GetCMakeLists().FileContent());
+}
+
+void deamer::file::tool::Output::AddCMakeListsToInclude(const CMakeLists& newFile)
+{
+	include.SetCMakeLists(newFile.GetCMakeLists().FileContent());
+}
+
+void deamer::file::tool::Output::AddCMakeListsToLibrary(const CMakeLists& newFile)
+{
+	library.SetCMakeLists(newFile.GetCMakeLists().FileContent());
+}
+
+void deamer::file::tool::Output::AddActionToExternal(const deamer::file::tool::Action& action,
+													 const deamer::file::tool::OSType os)
+{
+	external.AddAction(action, os);
+}
+
+void deamer::file::tool::Output::AddActionToInclude(const deamer::file::tool::Action& action,
+													const deamer::file::tool::OSType os)
+{
+	include.AddAction(action, os);
+}
+
+void deamer::file::tool::Output::AddActionToLibrary(const deamer::file::tool::Action& action,
+													const deamer::file::tool::OSType os)
+{
+	library.AddAction(action, os);
+}
+
 std::string deamer::file::tool::Output::GetToolDirectory() const
 {
 	return toolDirectory;

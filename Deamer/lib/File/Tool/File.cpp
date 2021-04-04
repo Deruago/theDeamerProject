@@ -56,3 +56,10 @@ std::string deamer::file::tool::File::GetCompleteFileName() const
 {
 	return GetFilename() + '.' + GetExtension();
 }
+
+deamer::file::tool::File& deamer::file::tool::File::operator+=(const std::string& cs)
+{
+	fileContent += cs;
+
+	return *this;
+}

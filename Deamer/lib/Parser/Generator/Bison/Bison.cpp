@@ -60,7 +60,9 @@ deamer::file::tool::Output deamer::parser::generator::bison::Bison::Generate()
 	const file::tool::File bisonParser("Parser", "h", bisonParserFile());
 
 	output.AddFileToExternal(bisonFile);
-	output.AddFileToExternal(bisonParser);
+	output.AddFileToInclude(bisonParser);
+	output.AddActionToExternal(externalAction(), file::tool::OSType::os_linux);
+	output.AddCMakeListsToExternal(externalCMakeLists());
 
 	return output;
 }
@@ -93,4 +95,16 @@ std::string deamer::parser::generator::bison::Bison::bisonParserFile() const
 		   "\n"
 		   "#endif // " +
 		   name + "_BISON_PARSER_H\n";
+}
+
+deamer::file::tool::Action deamer::parser::generator::bison::Bison::externalAction()
+{
+	return "bison -p" + name + " -d ./" + name + "_parser.y" + " ; mv ./" + name +
+		   "_parser.tab.c ./" + name + "_parser.tab.cpp";
+}
+
+std::string deamer::parser::generator::bison::Bison::externalCMakeLists()
+{
+	return "set(source_files ./" + name + "_parser.tab.cpp)\n" + name +
+		   "_add_external_library(Bison ${source_files})\n";
 }

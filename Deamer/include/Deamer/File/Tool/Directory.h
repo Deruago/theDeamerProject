@@ -21,7 +21,10 @@
 #ifndef DEAMER_FILE_TOOL_DIRECTORY_H
 #define DEAMER_FILE_TOOL_DIRECTORY_H
 
+#include "Deamer/File/Tool/Action.h"
+#include "Deamer/File/Tool/CMakeLists.h"
 #include "Deamer/File/Tool/File.h"
+#include "Deamer/File/Tool/OSType.h"
 #include <string>
 #include <vector>
 
@@ -34,6 +37,9 @@ namespace deamer::file::tool
 
 		std::vector<File> files;
 		std::vector<Directory> directories;
+		std::vector<std::pair<deamer::file::tool::Action, deamer::file::tool::OSType>> actions;
+
+		CMakeLists cmakeLists;
 
 	public:
 		Directory(const std::string& directoryName_);
@@ -42,11 +48,17 @@ namespace deamer::file::tool
 	public:
 		void AddFile(const File& newFile);
 		void AddDirectory(const Directory& newDirectory);
+		void AddAction(const deamer::file::tool::Action& action,
+					   const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
+		void SetCMakeLists(const std::string& cmakeLists_);
 
 	public:
 		std::vector<File> GetFiles() const;
 		std::vector<Directory> GetDirectories() const;
 		std::string GetThisDirectory() const;
+		deamer::file::tool::Action
+		GetAction(deamer::file::tool::OSType os = deamer::file::tool::OSType::all) const;
+		CMakeLists GetCMakeLists() const;
 	};
 }
 

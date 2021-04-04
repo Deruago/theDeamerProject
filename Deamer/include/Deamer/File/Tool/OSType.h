@@ -18,34 +18,19 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LEXER_TYPE_FILE_FLEX_INCLUDESECTION_H
-#define DEAMER_LEXER_TYPE_FILE_FLEX_INCLUDESECTION_H
+#ifndef DEAMER_FILE_TOOL_OSTYPE_H
+#define DEAMER_FILE_TOOL_OSTYPE_H
 
-#include "Deamer/File/Tool/Data.h"
-#include "Deamer/Lexer/Generator/Flex/Flex.h"
-
-namespace deamer::lexer::type::flex
+namespace deamer::file::tool
 {
-	class IncludeSection : public file::tool::Data
+	enum class OSType
 	{
-	private:
-		using ReferenceType = deamer::lexer::generator::flex::Flex::ReferenceType;
-		ReferenceType reference;
-		const std::string name;
-
-	public:
-		IncludeSection(ReferenceType reference_);
-		~IncludeSection() override = default;
-
-	public:
-		std::string Generate() const override;
-
-	private:
-		std::string ParserInclude() const;
-		std::string ParserMacroRedefine() const;
-		std::string RedefineMacros() const;
-		std::string LexerIncludeLocation() const;
+		unknown,
+		all,
+		os_linux,
+		os_windows,
+		os_mac,
 	};
 }
 
-#endif // DEAMER_LEXER_TYPE_FILE_FLEX_INCLUDESECTION_H
+#endif // DEAMER_FILE_TOOL_OSTYPE_H

@@ -37,6 +37,8 @@ namespace deamer::file::generate
 	{
 	private:
 		const deamer::file::compiler::Output compilerOutput;
+		deamer::file::tool::OSType currentOs;
+		std::string languageName;
 
 		virtual void GenerateDirectory(const tool::Directory& directory,
 									   const std::string& pathFromRoot);
@@ -47,16 +49,29 @@ namespace deamer::file::generate
 		virtual void GenerateIncludeDirectory(const tool::Directory& directory,
 											  const std::string& pathFromRoot);
 		virtual void GenerateFile(const tool::File& file, const std::string& pathFromRoot);
+		std::string CMakeListsHeader(const deamer::file::tool::Directory& directory);
+		std::string CMakeListsHeader(const std::string& directory);
 
 		virtual void FillDirectory(const tool::Directory& directory,
 								   const std::string& libraryDirectory,
 								   const std::string& directoryPath);
 
+		void ExecuteDirectoryAction(const tool::Directory& directory,
+									const std::string& directoryPath) const;
+		tool::File InitialiseExternalCMakeLists();
+		tool::File InitialiseLibraryCMakeLists();
+		tool::File InitialiseIncludeCMakeLists();
+
+		tool::File language_default_source_file();
+		tool::File language_default_header_file();
+
 	public:
-		Compiler(const deamer::file::compiler::Output& compilerOutput_);
+		Compiler(const deamer::file::compiler::Output& compilerOutput_,
+				 deamer::file::tool::OSType currentOs_ = deamer::file::tool::OSType::os_linux);
 		virtual ~Compiler() = default;
 
 	public:
+		void GenerateProjectCMakeLists(const std::string& compilerPath);
 		virtual void Generate(const std::string& pathFromRoot = "./");
 	};
 }

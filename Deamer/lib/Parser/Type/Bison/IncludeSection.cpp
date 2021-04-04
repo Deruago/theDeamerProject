@@ -44,10 +44,8 @@ std::string deamer::parser::type::bison::IncludeSection::DefaultIncludes() const
 		   "#include <vector>\n"
 		   "#include <cstring>\n"
 		   "#include <stdio.h>\n"
-		   "#include <Deamer/External/Cpp/Lexer/TerminalObject.h>\n"
-		   "#include \"./Parser.h\"\n"
-		   "#include \"" +
-		   name + "_lexer.h\"\n";
+		   "#include <Deamer/External/Cpp/Lexer/TerminalObject.h>\n" +
+		   ParserIncludeLocation() + FlexHeaderLocation();
 }
 
 std::string deamer::parser::type::bison::IncludeSection::AstIncludes() const
@@ -85,4 +83,23 @@ std::string deamer::parser::type::bison::IncludeSection::FunctionPrototypes() co
 		   "error(const char* s);\n"
 		   "int " +
 		   name + "lex();\n";
+}
+
+std::string deamer::parser::type::bison::IncludeSection::ParserIncludeLocation() const
+{
+	return "#include \"" + name + "/Bison/Parser.h\"\n";
+}
+
+std::string deamer::parser::type::bison::IncludeSection::FlexHeaderLocation() const
+{
+	const bool flex =
+		reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison});
+
+	if (!flex)
+	{
+		return "";
+	}
+
+	return "#include \"Flex/" + name + "_lexer.h\"\n";
 }

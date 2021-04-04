@@ -18,34 +18,50 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_FILE_TOOL_FILE_H
-#define DEAMER_FILE_TOOL_FILE_H
+#ifndef DEAMER_FILE_TOOL_ACTION_H
+#define DEAMER_FILE_TOOL_ACTION_H
+
+#include "Deamer/File/Tool/OSType.h"
+#include <stdexcept>
 #include <string>
+#include <utility>
 
 namespace deamer::file::tool
 {
-	class Data;
-
-	class File
+	class Action
 	{
 	private:
-		std::string filename;
-		std::string extension;
-		std::string fileContent;
+		std::string action;
 
 	public:
-		File(const std::string& filename_, const std::string& extension_, const Data& data);
-		File(const std::string& filename_, const std::string& extension_, const std::string& data);
-		virtual ~File() = default;
+		Action(std::string action_ = "") : action(std::move(action_))
+		{
+		}
+
+		~Action() = default;
 
 	public:
-		std::string GetFilename() const;
-		std::string GetExtension() const;
-		std::string FileContent() const;
-		std::string GetCompleteFileName() const;
+		const std::string& GetAction() const
+		{
+			return action;
+		}
 
-		deamer::file::tool::File& operator+=(const std::string& cs);
+		std::string GetSubShellAction(const file::tool::OSType os, const std::string& directory = "./") const
+		{
+			switch (os)
+			{
+			case file::tool::OSType::unknown:
+			case file::tool::OSType::all:
+			case file::tool::OSType::os_mac:
+			case file::tool::OSType::os_linux:
+			case file::tool::OSType::os_windows:
+				return "bash -c \"( cd " + directory + " ; " + GetAction() + " )\"";
+				return "( cd " + directory + " ; " + GetAction() + " )";
+			}
+
+			throw std::logic_error("Unknown os given");
+		}
 	};
 }
 
-#endif // DEAMER_FILE_TOOL_FILE_H
+#endif // DEAMER_FILE_TOOL_ACTION_H
