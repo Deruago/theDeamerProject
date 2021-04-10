@@ -47,6 +47,7 @@ namespace deamer::parser::type::bison
 		std::string FunctionPrototypes() const;
 		std::string ParserIncludeLocation() const;
 		std::string FlexHeaderLocation() const;
+		std::string Options() const;
 	};
 }
 

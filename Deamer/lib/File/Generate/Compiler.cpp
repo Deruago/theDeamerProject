@@ -218,9 +218,21 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		languageName +
 		")\n"
 		"\n"
-		"set(" +
+		"find_package(Deamer REQUIRED)\n"
+		"\n"
+		"add_library(" +
+		languageName + "_external_libraries STATIC \"${" + languageName + "_SOURCE_DIR}/lib/" +
 		languageName +
-		"_external_libraries \"\")\n"
+		".cpp\")\n"
+		"target_link_libraries(" +
+		languageName +
+		"_external_libraries PUBLIC Deamer)\n"
+		"target_include_directories(" +
+		languageName +
+		"_external_libraries PUBLIC "
+		"\"${" +
+		languageName + "_SOURCE_DIR}/extern\" \"${" + languageName +
+		"_SOURCE_DIR}/include\")\n"
 		"\n"
 		"function(" +
 		languageName +
@@ -229,15 +241,16 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		"\n"
 		"\tadd_library(${external_library_full_name} STATIC ${source_files})\n"
 		"\n"
+		"\ttarget_link_libraries(${external_library_full_name} PUBLIC Deamer)\n"
 		"\ttarget_include_directories(${external_library_full_name} PRIVATE \"${" +
 		languageName + "_SOURCE_DIR}/extern\" \"${" + languageName +
 		"_SOURCE_DIR}/include\")\n"
-		"\ttarget_compile_features(${external_library_full_name} PRIVATE cxx_std_17)\n"
+		"\ttarget_compile_features(${external_library_full_name} PUBLIC cxx_std_17)\n"
 		"\tset_target_properties(${external_library_full_name} PROPERTIES LINKED_LANGUAGE CXX)\n"
 		"\t\n"
-		"\tlist(APPEND " +
+		"\ttarget_link_libraries(" +
 		languageName +
-		"_external_libraries ${external_library_full_name})\n"
+		"_external_libraries PUBLIC ${external_library_full_name})\n"
 		"\t\n"
 		"endfunction()\n"
 		"\n"
@@ -266,19 +279,19 @@ deamer::file::tool::File deamer::file::generate::Compiler::InitialiseLibraryCMak
 		"_static_library STATIC ${SOURCE_LIST})\n"
 		"\n"
 		"target_include_directories(" +
-		languageName + "_static_library PRIVATE \"${" + languageName +
-		"_SOURCE_DIR}/extern\" \"${" + languageName +
+		languageName + "_static_library PUBLIC \"${" + languageName + "_SOURCE_DIR}/extern\" \"${" +
+		languageName +
 		"_SOURCE_DIR}/include\")\n"
 		"target_compile_features(" +
 		languageName +
-		"_static_library PRIVATE cxx_std_17)\n"
+		"_static_library PUBLIC cxx_std_17)\n"
 		"set_target_properties(" +
 		languageName +
 		"_static_library PROPERTIES LINKER_LANGUAGE CXX)\n"
 		"\n"
 		"target_link_libraries(" +
-		languageName + "_static_library PRIVATE ${" + languageName +
-		"_external_libraries})\n"
+		languageName + "_static_library PUBLIC " + languageName +
+		"_external_libraries)\n"
 		"\n";
 
 	const std::string library_cmakelists_shared_library_content =
@@ -286,19 +299,19 @@ deamer::file::tool::File deamer::file::generate::Compiler::InitialiseLibraryCMak
 		"_shared_library SHARED ${SOURCE_LIST})\n"
 		"\n"
 		"target_include_directories(" +
-		languageName + "_shared_library PRIVATE \"${" + languageName +
-		"_SOURCE_DIR}/extern\" \"${" + languageName +
+		languageName + "_shared_library PUBLIC \"${" + languageName + "_SOURCE_DIR}/extern\" \"${" +
+		languageName +
 		"_SOURCE_DIR}/include\")\n"
 		"target_compile_features(" +
 		languageName +
-		"_shared_library PRIVATE cxx_std_17)\n"
+		"_shared_library PUBLIC cxx_std_17)\n"
 		"set_target_properties(" +
 		languageName +
 		"_shared_library PROPERTIES LINKER_LANGUAGE CXX)\n"
 		"\n"
 		"target_link_libraries(" +
-		languageName + "_shared_library PRIVATE ${" + languageName +
-		"_external_libraries})\n"
+		languageName + "_shared_library PUBLIC " + languageName +
+		"_external_libraries)\n"
 		"\n";
 
 	return tool::CMakeLists(CMakeListsHeader("lib") + library_get_source_files +

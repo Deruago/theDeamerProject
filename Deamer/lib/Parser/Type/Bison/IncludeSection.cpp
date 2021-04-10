@@ -30,7 +30,8 @@ deamer::parser::type::bison::IncludeSection::IncludeSection(
 
 std::string deamer::parser::type::bison::IncludeSection::Generate() const
 {
-	return "%{\n" + Includes() + "\n" + MacroDefine() + "\n" + FunctionPrototypes() + "%}\n";
+	return Options() + "%{\n" + Includes() + "\n" + MacroDefine() + "\n" + FunctionPrototypes() +
+		   "%}\n";
 }
 
 std::string deamer::parser::type::bison::IncludeSection::Includes() const
@@ -101,5 +102,28 @@ std::string deamer::parser::type::bison::IncludeSection::FlexHeaderLocation() co
 		return "";
 	}
 
-	return "#include \"Flex/" + name + "_lexer.h\"\n";
+	std::string output;
+	if constexpr (file::tool::os_used == file::tool::OSType::os_windows)
+	{
+		output += "#define YY_NO_UNISTD_H\n";
+	}
+
+	output += "#include \"Flex/" + name + "_lexer.h\"\n";
+
+	if constexpr (file::tool::os_used == file::tool::OSType::os_windows)
+	{
+		output += "#undef YY_NO_UNISTD_H\n";
+	}
+
+	return output;
+}
+
+std::string deamer::parser::type::bison::IncludeSection::Options() const
+{
+	if constexpr (deamer::file::tool::os_used == file::tool::OSType::os_windows)
+	{
+		return "";
+	}
+
+	return "";
 }

@@ -30,13 +30,15 @@ deamer::lexer::type::flex::IncludeSection::IncludeSection(ReferenceType referenc
 std::string deamer::lexer::type::flex::IncludeSection::Generate() const
 {
 	return "%option yylineno\n"
-		   "%option noyywrap\n"
+		   "%option noyywrap\n" +
+		   InteractiveOption() + UnistdOption() +
 		   "\n"
 		   "%{\n"
 		   "#include <iostream>\n"
 		   "#include <string>\n"
 		   "#include <stdio.h>\n"
 		   "#include <string.h>\n"
+		   "#include <vector>\n"
 		   "#include <Deamer/External/Cpp/Lexer/TerminalObject.h>\n" +
 		   LexerIncludeLocation() + ParserInclude() +
 		   "void showError();\n"
@@ -99,4 +101,24 @@ std::string deamer::lexer::type::flex::IncludeSection::RedefineMacros() const
 std::string deamer::lexer::type::flex::IncludeSection::LexerIncludeLocation() const
 {
 	return "#include \"" + name + "/Flex/Lexer.h\"\n";
+}
+
+std::string deamer::lexer::type::flex::IncludeSection::InteractiveOption() const
+{
+	if constexpr (deamer::file::tool::os_used == file::tool::OSType::os_windows)
+	{
+		return "%option never-interactive\n";
+	}
+
+	return "";
+}
+
+std::string deamer::lexer::type::flex::IncludeSection::UnistdOption() const
+{
+	if constexpr (deamer::file::tool::os_used == file::tool::OSType::os_windows)
+	{
+		return "%option nounistd\n";
+	}
+
+	return "";
 }

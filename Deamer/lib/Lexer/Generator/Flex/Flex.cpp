@@ -54,6 +54,7 @@ deamer::file::tool::Output deamer::lexer::generator::flex::Flex::Generate()
 	output.AddFileToExternal(flexFile);
 	output.AddFileToInclude(DeamerLexer_Header);
 	output.AddActionToExternal(externalAction(), file::tool::OSType::os_linux);
+	output.AddActionToExternal(externalAction(), file::tool::OSType::os_windows);
 	output.AddCMakeListsToExternal(externalCMakeLists());
 
 	const bool debug = reference.GetDefinition<Type::Generation>().IsArgumentSet(
@@ -123,7 +124,7 @@ std::string deamer::lexer::generator::flex::Flex::externalCMakeLists()
 
 	const std::string debug_main =
 		"add_executable(Flex_debug \"./main.cpp\")\n"
-		"target_link_libraries(Flex_debug Flex_static_library Deamer)\n"
+		"target_link_libraries(Flex_debug SimpleLang_static_library)\n"
 		"target_include_directories(Flex_debug PRIVATE \"${" +
 		name +
 		"_SOURCE_DIR}/include\")\n"
@@ -164,10 +165,10 @@ deamer::file::tool::File deamer::lexer::generator::flex::Flex::createDebugMain()
 		"\tstd::cout << \"Now printing the lexemes:\\n\";\n"
 		"\tfor (auto* token : tokens)\n"
 		"\t{\n"
-		"\t\ttoken.Print();\n"
+		"\t\ttoken->Print();\n"
 		"\t\tdelete token;\n"
 		"\t}\n"
-		"\tstd::cout << \"Done\\n\"\n"
+		"\tstd::cout << \"Done\\n\";\n"
 		"}\n";
 	return file::tool::File("main", "cpp", content);
 }

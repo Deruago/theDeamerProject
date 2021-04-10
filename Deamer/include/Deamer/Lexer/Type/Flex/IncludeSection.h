@@ -45,6 +45,8 @@ namespace deamer::lexer::type::flex
 		std::string ParserMacroRedefine() const;
 		std::string RedefineMacros() const;
 		std::string LexerIncludeLocation() const;
+		std::string InteractiveOption() const;
+		std::string UnistdOption() const;
 	};
 }
 

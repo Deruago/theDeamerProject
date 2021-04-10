@@ -62,6 +62,7 @@ deamer::file::tool::Output deamer::parser::generator::bison::Bison::Generate()
 	output.AddFileToExternal(bisonFile);
 	output.AddFileToInclude(bisonParser);
 	output.AddActionToExternal(externalAction(), file::tool::OSType::os_linux);
+	output.AddActionToExternal(externalAction(), file::tool::OSType::os_windows);
 	output.AddCMakeListsToExternal(externalCMakeLists());
 
 	return output;
