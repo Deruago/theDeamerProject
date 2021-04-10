@@ -8,6 +8,7 @@ project(Deamer VERSION 1.0
                   LANGUAGES CXX)
 
 set(CMAKE_BUILD_WITH_INSTALL_NAME_DIR ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(STATUS "No build type selected, default to Debug")
@@ -61,3 +62,13 @@ install(DIRECTORY ${Deamer_SOURCE_DIR}/include/Deamer
     PATTERN "*.h"
     PATTERN "LICENSE"
     )
+
+export(TARGETS
+	Deamer
+	FILE "${CMAKE_CURRENT_BINARY_DIR}/DeamerConfig.cmake"
+)
+
+install(EXPORT
+	DeamerConfig
+	DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/Deamer"
+)
