@@ -31,6 +31,16 @@ namespace deamer::file::tool
 		os_windows,
 		os_mac,
 	};
+
+#if defined(__linux__) || defined(linux) || defined(unix) || defined(__unix__)
+	constexpr static OSType os_used = OSType::os_linux;
+#elif defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)
+	constexpr static OSType os_used = OSType::os_windows;
+#elif defined(__APPLE__) || defined(__MACH__)
+	constexpr static OSType os_used = OSType::os_mac;
+#else
+	constexpr static OSType os_used = OSType::unknown;
+#endif
 }
 
 #endif // DEAMER_FILE_TOOL_OSTYPE_H

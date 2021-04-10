@@ -67,7 +67,7 @@ namespace deamer::file::generate
 
 	public:
 		Compiler(const deamer::file::compiler::Output& compilerOutput_,
-				 deamer::file::tool::OSType currentOs_ = deamer::file::tool::OSType::os_linux);
+				 deamer::file::tool::OSType currentOs_ = tool::os_used);
 		virtual ~Compiler() = default;
 
 	public:

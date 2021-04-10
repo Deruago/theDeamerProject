@@ -52,10 +52,11 @@ namespace deamer::file::tool
 			{
 			case file::tool::OSType::unknown:
 			case file::tool::OSType::all:
-			case file::tool::OSType::os_mac:
 			case file::tool::OSType::os_linux:
+				return "( cd " + directory + " ; " + GetAction() + " )";
 			case file::tool::OSType::os_windows:
 				return "bash -c \"( cd " + directory + " ; " + GetAction() + " )\"";
+			case file::tool::OSType::os_mac:
 				return "( cd " + directory + " ; " + GetAction() + " )";
 			}
 
