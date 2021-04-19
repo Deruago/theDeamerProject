@@ -39,6 +39,8 @@ namespace deamer::file::tool
 		std::vector<Directory> directories;
 		std::vector<std::pair<deamer::file::tool::Action, deamer::file::tool::OSType>> actions;
 
+		mutable const Directory* parent = nullptr;
+
 		CMakeLists cmakeLists;
 
 	public:
@@ -59,6 +61,33 @@ namespace deamer::file::tool
 		deamer::file::tool::Action
 		GetAction(deamer::file::tool::OSType os = deamer::file::tool::OSType::all) const;
 		CMakeLists GetCMakeLists() const;
+
+		deamer::file::tool::Directory& operator+=(const Directory& directory);
+
+		std::vector<std::string> SplitDirectoryName() const;
+
+		std::vector<std::string> GetParentPath() const;
+
+		/*!	\fn GetDifferenceOfDirectoryName
+		 *
+		 *	\brief Returns the difference between two directory names
+		 *	example:
+		 *		our        = "ast/node"
+		 *		theirs     = "ast/node/visitor/generated/"
+		 *		difference = "visitor/generated/"
+		 */
+		std::vector<std::string>
+		GetDifferenceOfDirectoryName(const Directory& comparedDirectory) const;
+
+		/*!	\fn CopyDirectoryAsLocalDirectory
+		 *
+		 *	\brief Returns the directory as if it was part of the current directory.
+		 */
+		deamer::file::tool::Directory CopyDirectoryAsLocalDirectory() const;
+
+	private:
+		Directory& GetLocalDirectory(const std::string& requestedDirectory);
+		bool IsDirectoryAlreadyCreated(const std::string& directoryName);
 	};
 }
 

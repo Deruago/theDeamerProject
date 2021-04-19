@@ -22,19 +22,31 @@
 #include "Deamer/File/Tool/Data.h"
 
 deamer::file::tool::File::File(const std::string& filename_, const std::string& extension_,
-							   const Data& data)
+							   const Data& data, const GenerationLevel level_)
 	: filename(filename_),
 	  extension(extension_),
-	  fileContent(data.Generate())
+	  fileContent(data.Generate()),
+	  level(level_)
 {
 }
 
 deamer::file::tool::File::File(const std::string& filename_, const std::string& extension_,
-							   const std::string& data)
+							   const std::string& data, const GenerationLevel level_)
 	: filename(filename_),
 	  extension(extension_),
-	  fileContent(data)
+	  fileContent(data),
+	  level(level_)
 {
+}
+
+deamer::file::tool::GenerationLevel deamer::file::tool::File::GetGenerationLevel() const
+{
+	return level;
+}
+
+void deamer::file::tool::File::SetGenerationLevel(GenerationLevel newLevel)
+{
+	level = newLevel;
 }
 
 std::string deamer::file::tool::File::GetFilename() const
@@ -55,6 +67,16 @@ std::string deamer::file::tool::File::FileContent() const
 std::string deamer::file::tool::File::GetCompleteFileName() const
 {
 	return GetFilename() + '.' + GetExtension();
+}
+
+void deamer::file::tool::File::SetFileContent(const Data& data)
+{
+	SetFileContent(data.Generate());
+}
+
+void deamer::file::tool::File::SetFileContent(const std::string& data)
+{
+	fileContent = data;
 }
 
 deamer::file::tool::File& deamer::file::tool::File::operator+=(const std::string& cs)

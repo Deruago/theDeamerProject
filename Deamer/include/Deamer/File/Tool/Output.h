@@ -55,14 +55,17 @@ namespace deamer::file::tool
 		void AddCMakeListsToInclude(const CMakeLists& newFile);
 		void AddCMakeListsToLibrary(const CMakeLists& newFile);
 
-		void AddActionToExternal(const deamer::file::tool::Action& action,
-								 const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
+		void
+		AddActionToExternal(const deamer::file::tool::Action& action,
+							const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
 
-		void AddActionToInclude(const deamer::file::tool::Action& action,
-								const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
+		void
+		AddActionToInclude(const deamer::file::tool::Action& action,
+						   const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
 
-		void AddActionToLibrary(const deamer::file::tool::Action& action,
-								const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
+		void
+		AddActionToLibrary(const deamer::file::tool::Action& action,
+						   const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
 
 	public:
 		std::string GetToolDirectory() const;
@@ -70,6 +73,21 @@ namespace deamer::file::tool
 		Directory GetExternalDirectory() const;
 		Directory GetIncludeDirectory() const;
 		Directory GetLibraryDirectory() const;
+
+	public:
+		/*!	\fn Merge
+		 *
+		 *	\brief This function merges multiple outputs.
+		 *
+		 *	\details This function merges multiple outputs,
+		 *	this allows the user to more easily define single Outputs,
+		 *	and combine them later.
+		 *	The alternative would be to manually add directories to existing
+		 *	outputs, this is very error prone.
+		 */
+		static Output Merge(const std::vector<Output>& outputs);
+
+		deamer::file::tool::Output& operator+=(const Output& output);
 	};
 }
 

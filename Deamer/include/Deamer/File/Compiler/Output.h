@@ -50,6 +50,8 @@ namespace deamer::file::compiler
 
 	public:
 		void AddLanguageToolOutput(const deamer::file::tool::Output& newLanguageOutput);
+		void
+		AddLanguageToolOutput(const std::vector<deamer::file::tool::Output>& newLanguageOutputs);
 		void AddCompilerOutput(const deamer::file::compiler::Output& newCompilerOutput);
 
 		std::vector<deamer::file::tool::Output> GetLanguageOutputs() const;

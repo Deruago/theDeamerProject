@@ -26,23 +26,49 @@ namespace deamer::file::tool
 {
 	class Data;
 
+	/*!	\enum GenerationLevel
+	 *
+	 *	\brief Defines the different levels of generation.
+	 *
+	 *	\details It might be that a file should only be generated if the target in question hasn't
+	 *been generated already. In such cases one may change the generation level to suite the
+	 *generation style.
+	 */
+	enum class GenerationLevel
+	{
+		unknown,
+
+		Always_regenerate,
+		Dont_generate_if_file_already_exists,
+	};
+
 	class File
 	{
 	private:
 		std::string filename;
 		std::string extension;
 		std::string fileContent;
+		GenerationLevel level = GenerationLevel::Always_regenerate;
 
 	public:
-		File(const std::string& filename_, const std::string& extension_, const Data& data);
-		File(const std::string& filename_, const std::string& extension_, const std::string& data);
+		File(const std::string& filename_, const std::string& extension_, const Data& data,
+			 const GenerationLevel level_ = GenerationLevel::Always_regenerate);
+		File(const std::string& filename_, const std::string& extension_,
+			 const std::string& data = "",
+			 const GenerationLevel level_ = GenerationLevel::Always_regenerate);
+
 		virtual ~File() = default;
 
 	public:
+		GenerationLevel GetGenerationLevel() const;
 		std::string GetFilename() const;
 		std::string GetExtension() const;
 		std::string FileContent() const;
 		std::string GetCompleteFileName() const;
+
+		void SetGenerationLevel(GenerationLevel newLevel);
+		void SetFileContent(const Data& data);
+		void SetFileContent(const std::string& data);
 
 		deamer::file::tool::File& operator+=(const std::string& cs);
 	};

@@ -30,6 +30,15 @@ void deamer::file::compiler::Output::AddLanguageToolOutput(
 	LanguageOut.push_back(newLanguageOutput);
 }
 
+void deamer::file::compiler::Output::AddLanguageToolOutput(
+	const std::vector<deamer::file::tool::Output>& newLanguageOutputs)
+{
+	for (const auto& newLanguageOutput : newLanguageOutputs)
+	{
+		AddLanguageToolOutput(newLanguageOutput);
+	}
+}
+
 void deamer::file::compiler::Output::AddCompilerOutput(
 	const deamer::file::compiler::Output& newCompilerOutput)
 {

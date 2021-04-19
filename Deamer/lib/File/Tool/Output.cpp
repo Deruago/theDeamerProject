@@ -110,3 +110,34 @@ deamer::file::tool::Directory deamer::file::tool::Output::GetLibraryDirectory() 
 {
 	return library;
 }
+
+deamer::file::tool::Output deamer::file::tool::Output::Merge(const std::vector<Output>& outputs)
+{
+	if (outputs.empty())
+	{
+		throw std::logic_error("Outputs is empty.");
+	}
+
+	Output baseOutput = Output(outputs[0].toolDirectory);
+
+	for (const auto& currentOutput : outputs)
+	{
+		baseOutput += currentOutput;
+	}
+
+	return baseOutput;
+}
+
+deamer::file::tool::Output& deamer::file::tool::Output::operator+=(const Output& output)
+{
+	if (&output == this)
+	{
+		return *this;
+	}
+
+	external += output.external;
+	include += output.include;
+	library += output.library;
+
+	return *this;
+}
