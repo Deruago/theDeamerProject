@@ -31,7 +31,32 @@ deamer::parser::type::bison::IncludeSection::IncludeSection(
 std::string deamer::parser::type::bison::IncludeSection::Generate() const
 {
 	return Options() + "%{\n" + Includes() + "\n" + MacroDefine() + "\n" + FunctionPrototypes() +
-		   "%}\n";
+		   StaticMembers() + "%}\n";
+}
+
+std::string deamer::parser::type::bison::IncludeSection::LanguageInclude() const
+{
+	const auto& terminals =
+		reference.GetDefinition<language::type::definition::property::Type::Lexicon>().Terminals;
+
+	std::string output;
+
+	output += "#include \"" + name + "/Ast/Enum/Type.h\"\n";
+
+	for (const auto& terminal : terminals)
+	{
+		output += "#include \"" + name + "/Ast/Node/" + terminal->Name + ".h\"\n";
+	}
+
+	const auto& nonTerminals =
+		reference.GetDefinition<language::type::definition::property::Type::Grammar>().NonTerminals;
+
+	output += "\n";
+	for (const auto& nonTerminal : nonTerminals)
+	{
+		output += "#include \"" + name + "/Ast/Node/" + nonTerminal->Name + ".h\"\n";
+	}
+	return output;
 }
 
 std::string deamer::parser::type::bison::IncludeSection::Includes() const
@@ -45,8 +70,9 @@ std::string deamer::parser::type::bison::IncludeSection::DefaultIncludes() const
 		   "#include <vector>\n"
 		   "#include <cstring>\n"
 		   "#include <stdio.h>\n"
-		   "#include <Deamer/External/Cpp/Lexer/TerminalObject.h>\n" +
-		   ParserIncludeLocation() + FlexHeaderLocation();
+		   "#include <Deamer/External/Cpp/Lexer/TerminalObject.h>\n"
+		   "#include <Deamer/External/Cpp/Ast/Node.h>\n" +
+		   ParserIncludeLocation() + FlexHeaderLocation() + LanguageInclude();
 }
 
 std::string deamer::parser::type::bison::IncludeSection::AstIncludes() const
@@ -126,4 +152,9 @@ std::string deamer::parser::type::bison::IncludeSection::Options() const
 	}
 
 	return "";
+}
+
+std::string deamer::parser::type::bison::IncludeSection::StaticMembers() const
+{
+	return "static ::deamer::external::cpp::ast::Tree* outputTree = nullptr;\n";
 }

@@ -56,14 +56,12 @@ void deamer::parser::type::bison::PrecedenceSection::AddTerminal(
 
 std::string deamer::parser::type::bison::PrecedenceSection::Generate() const
 {
-	return "";
 	if (terminals.empty())
 	{
 		return "";
 	}
 
 	std::vector<std::string> generatedStrings;
-	int currentPrecedence = terminals[0].first;
 	for (const auto& [precedence, terminal] : terminals)
 	{
 		const std::string currentString = "%precedence " + terminal->Name + "\n";

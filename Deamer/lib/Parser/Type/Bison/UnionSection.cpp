@@ -45,7 +45,7 @@ void deamer::parser::type::bison::UnionSection::GenerateASTUnionTypes(
 		reference.GetDefinition<language::type::definition::property::Type::Generation>()
 			.IsIntegrationSet({tool::type::Tool::Bison, tool::type::Tool::DeamerAST});
 
-	output += "\tconst deamer::external::cpp::lexer::TerminalObject* Terminal;\n";
+	output += "\t::deamer::external::cpp::lexer::TerminalObject* Terminal;\n";
 
 	if (!ASTintegrate)
 	{
@@ -87,7 +87,7 @@ std::string deamer::parser::type::bison::UnionSection::GetObjectFullType(
 	const auto& languageName =
 		reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
 
-	return languageName + "::ast::" + terminal->Name + "* ";
+	return "::" + languageName + "::ast::node::" + terminal->Name + "* ";
 }
 std::string deamer::parser::type::bison::UnionSection::GetObjectFullType(
 	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal)
@@ -96,5 +96,5 @@ std::string deamer::parser::type::bison::UnionSection::GetObjectFullType(
 	const auto& languageName =
 		reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
 
-	return languageName + "::ast::" + nonTerminal->Name + "* ";
+	return "::" + languageName + "::ast::node::" + nonTerminal->Name + "* ";
 }

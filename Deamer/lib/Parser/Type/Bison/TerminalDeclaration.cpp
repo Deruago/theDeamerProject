@@ -26,7 +26,9 @@ deamer::parser::type::bison::TerminalDeclaration::TerminalDeclaration(
 	const generator::bison::Bison::ReferenceType reference_,
 	language::reference::LDO<language::type::definition::object::main::Terminal> terminal_)
 	: reference(reference_),
-	  terminal(terminal_)
+	  terminal(terminal_),
+	  name(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
+			   .name->value)
 {
 }
 
@@ -34,7 +36,7 @@ std::string deamer::parser::type::bison::TerminalDeclaration::Generate() const
 {
 	if (terminal->Special != language::type::definition::object::main::SpecialType::Delete)
 	{
-		return "%token " + terminal->Name + '\n';
+		return "%token<Terminal> " + terminal->Name + '\n';
 	}
 
 	return "";

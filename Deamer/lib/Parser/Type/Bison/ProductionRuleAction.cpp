@@ -32,13 +32,15 @@ deamer::parser::type::bison::ProductionRuleAction::ProductionRuleAction(
 	  nonTerminal(nonTerminal_),
 	  productionRule(productionRule_),
 	  nonterminalAnalyzer(&reference, nonTerminal),
-	  productionRuleAnalyzer(&reference, productionRule)
+	  productionRuleAnalyzer(&reference, productionRule),
+	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
+					   .name->value)
 {
 }
 
 std::string deamer::parser::type::bison::ProductionRuleAction::Generate() const
 {
-	return GenerateDebug() + ConstructObject() + AssignObject();
+	return GenerateDebug() + ConstructObject() + AssignObject() + ExportObject();
 }
 
 std::string deamer::parser::type::bison::ProductionRuleAction::GenerateDebug() const
@@ -58,10 +60,7 @@ std::string deamer::parser::type::bison::ProductionRuleAction::GenerateDebug() c
 
 std::string deamer::parser::type::bison::ProductionRuleAction::ObjectFullName() const
 {
-	const std::string LanguageName =
-		reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
-
-	return LanguageName + "::ast::" + nonTerminal->Name;
+	return languageName + "::ast::node::" + nonTerminal->Name;
 }
 
 std::string deamer::parser::type::bison::ProductionRuleAction::AssignObject() const
@@ -116,7 +115,7 @@ std::string deamer::parser::type::bison::ProductionRuleAction::ObjectFullName(
 	const std::string LanguageName =
 		reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
 
-	return LanguageName + "::ast::" + terminal.Name;
+	return LanguageName + "::ast::node::" + terminal.Name;
 }
 
 std::vector<std::string>
@@ -152,12 +151,12 @@ deamer::parser::type::bison::ProductionRuleAction::GetSequenceOfValidArguments()
 
 			if (terminalAnalyzer->DoesTerminalHaveValue())
 			{
+				const language::reference::LDO<language::type::definition::object::main::Terminal>
+					terminal(ldo);
+
 				// language::ast::terminal($index)
-				arguments.push_back(
-					"new " +
-					ObjectFullName(
-						*static_cast<language::type::definition::object::main::Terminal*>(ldo)) +
-					"(" + currentArgumentIndex + ")");
+				arguments.push_back("new " + ObjectFullName(*terminal.Get()) + "(" +
+									GenerateNodeinformation(terminal, i) + ")");
 			}
 			break;
 		}
@@ -186,7 +185,7 @@ std::string deamer::parser::type::bison::ProductionRuleAction::ObjectArgumentLis
 		}
 	}
 
-	return "(" + arguments + ")";
+	return arguments;
 }
 
 std::string deamer::parser::type::bison::ProductionRuleAction::ConstructObject() const
@@ -195,18 +194,93 @@ std::string deamer::parser::type::bison::ProductionRuleAction::ConstructObject()
 		reference.GetDefinition<language::type::definition::property::Type::Generation>()
 			.IsIntegrationSet({tool::type::Tool::Bison, tool::type::Tool::DeamerAST});
 
-	if (productionRule->IsEmpty())
-	{
-		return "";
-	}
-
 	if (!integrateAST)
 	{
 		return "";
 	}
+	std::string output;
+	output +=
+		"\t\t"
+		"auto* const newNode = "
+		"new " +
+		ObjectFullName() + "(" + GenerateNodeinformation(nonTerminal) + ", { " +
+		ObjectArgumentList() + " }" + ")" + ";\n";
 
-	return "\t\t"
-		   "auto* const newNode = "
-		   "new " +
-		   ObjectFullName() + ObjectArgumentList() + ";\n";
+	return output;
+}
+
+std::string deamer::parser::type::bison::ProductionRuleAction::GenerateNodeinformation(
+	language::reference::LDO<language::type::definition::object::main::Terminal> terminal,
+	size_t currentIndex) const
+{
+	const std::string nodeValue = "::deamer::external::cpp::ast::NodeValue::terminal";
+
+	std::string output;
+	output += "{::" + languageName + "::ast::Type::" + terminal->Name + ", " + nodeValue + ", $" +
+			  std::to_string(currentIndex) + "}";
+
+	return output;
+}
+
+std::string deamer::parser::type::bison::ProductionRuleAction::GenerateNodeinformation(
+	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal)
+	const
+{
+	std::string nodeValue;
+
+	const auto vector =
+		reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsArgumentSet({tool::type::Tool::Bison, "Vector"});
+
+	if (vector)
+	{
+		nodeValue = "::deamer::external::cpp::ast::NodeValue::vector";
+	}
+	else
+	{
+		nodeValue = "::deamer::external::cpp::ast::NodeValue::nonterminal";
+	}
+
+	std::string output;
+	output += "{::" + languageName + "::ast::Type::" + nonTerminal->Name + ", " + nodeValue +
+			  ", {" + std::to_string(productionRuleAnalyzer->GetProductionRuleId(nonTerminal)) +
+			  ", ::deamer::external::cpp::ast::ProductionRuleType::user}}";
+
+	return output;
+}
+
+std::string deamer::parser::type::bison::ProductionRuleAction::ExportObject() const
+{
+	const auto ast =
+		reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsIntegrationSet({tool::type::Tool::Bison, tool::type::Tool::DeamerAST});
+
+	if (!ast)
+	{
+		return "";
+	}
+
+	bool startType = false;
+	const auto& nonTerminals =
+		reference.GetDefinition<language::type::definition::property::Type::Grammar>().NonTerminals;
+	if (nonTerminals.empty())
+	{
+		startType = false;
+	}
+	else
+	{
+		startType = nonTerminals[0] == nonTerminal;
+	}
+
+	if (!startType)
+	{
+		return "";
+	}
+
+	if (productionRuleAnalyzer->IsDirectRecursive(nonTerminal))
+	{
+		return "";
+	}
+
+	return "\t\toutputTree = new ::deamer::external::cpp::ast::Tree(newNode);\n";
 }

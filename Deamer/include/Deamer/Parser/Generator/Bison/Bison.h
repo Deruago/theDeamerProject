@@ -17,6 +17,7 @@
  * Part of the DeamerProject.
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
+
 #ifndef DEAMER_PARSER_GENERATOR_BISON_BISON_H
 #define DEAMER_PARSER_GENERATOR_BISON_BISON_H
 

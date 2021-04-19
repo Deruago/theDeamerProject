@@ -33,6 +33,7 @@ namespace deamer::parser::type::bison
 		const generator::bison::Bison::ReferenceType reference;
 
 		language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal;
+		std::string name;
 
 	public:
 		NonTerminalDeclaration(

@@ -38,6 +38,7 @@ namespace deamer::parser::type::bison
 
 	public:
 		std::string Generate() const override;
+		std::string LanguageInclude() const;
 		std::string DefaultIncludes() const;
 
 	private:
@@ -48,6 +49,7 @@ namespace deamer::parser::type::bison
 		std::string ParserIncludeLocation() const;
 		std::string FlexHeaderLocation() const;
 		std::string Options() const;
+		std::string StaticMembers() const;
 	};
 }
 

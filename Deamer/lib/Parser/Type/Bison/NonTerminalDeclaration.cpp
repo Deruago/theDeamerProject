@@ -24,11 +24,13 @@ deamer::parser::type::bison::NonTerminalDeclaration::NonTerminalDeclaration(
 	const generator::bison::Bison::ReferenceType reference_,
 	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal_)
 	: reference(reference_),
-	  nonTerminal(nonTerminal_)
+	  nonTerminal(nonTerminal_),
+	  name(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
+			   .name->value)
 {
 }
 
 std::string deamer::parser::type::bison::NonTerminalDeclaration::Generate() const
 {
-	return "%nterm " + nonTerminal->Name + '\n';
+	return "%nterm<" + name + "_" + nonTerminal->Name + "> " + nonTerminal->Name + '\n';
 }

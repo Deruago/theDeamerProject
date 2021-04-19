@@ -32,6 +32,7 @@ namespace deamer::parser::type::bison
 	private:
 		const generator::bison::Bison::ReferenceType reference;
 		language::reference::LDO<language::type::definition::object::main::Terminal> terminal;
+		std::string name;
 
 	public:
 		TerminalDeclaration(

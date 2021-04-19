@@ -47,21 +47,20 @@ std::string deamer::parser::type::bison::ActionSection::LanguageParser() const
 	return "deamer::external::cpp::ast::Tree* " + name +
 		   "::parser::Parser::Parse(const std::string& text) const\n"
 		   "{\n"
+		   "\toutputTree = nullptr;\n"
 		   "\tYY_BUFFER_STATE buf;\n"
 		   "\tbuf = SimpleLang_scan_string(text.c_str());\n"
 		   "\tSimpleLangparse();\n"
 		   "\tSimpleLang_delete_buffer(buf);\n"
 		   "\tSimpleLanglex_destroy();\n"
 		   "\n"
-		   "\treturn nullptr;\n"
+		   "\treturn outputTree;\n"
 		   "}\n";
 }
 
 std::string deamer::parser::type::bison::ActionSection::DebugMain() const
 {
-	const auto identity =
-		reference.GetDefinition<language::type::definition::property::Type::Identity>();
-	const auto generation =
+	const auto& generation =
 		reference.GetDefinition<language::type::definition::property::Type::Generation>();
 
 	if (generation.IsArgumentSet({tool::type::Tool::Flex, "Debug"}) &&

@@ -41,6 +41,8 @@ namespace deamer::parser::type::bison
 		language::analyzer::Analyzer<language::type::definition::object::main::ProductionRule>
 			productionRuleAnalyzer;
 
+		std::string languageName;
+
 	public:
 		ProductionRuleAction(
 			const generator::bison::Bison::ReferenceType reference_,
@@ -63,6 +65,15 @@ namespace deamer::parser::type::bison
 		std::vector<std::string> GetSequenceOfValidArguments() const;
 		std::string ObjectArgumentList() const;
 		std::string ConstructObject() const;
+
+		std::string GenerateNodeinformation(
+			language::reference::LDO<language::type::definition::object::main::Terminal> terminal,
+			size_t currentIndex) const;
+		std::string GenerateNodeinformation(
+			language::reference::LDO<language::type::definition::object::main::NonTerminal>
+				nonTerminal) const;
+
+		std::string ExportObject() const;
 	};
 }
 
