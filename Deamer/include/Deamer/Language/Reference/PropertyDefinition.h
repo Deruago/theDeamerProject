@@ -70,7 +70,7 @@ namespace deamer::language::reference
 			return &Language->cache;
 		}
 
-	protected:
+	public:
 		const type::definition::Language* GetLanguage() const
 		{
 			return this->Language;
@@ -124,6 +124,12 @@ namespace deamer::language::reference
 		PropertyDefinition(const PropertyDefinition& propertyDefinition)
 			: PropertyDefinitionBase(propertyDefinition.Language),
 			  requestedDefinitions(propertyDefinition.requestedDefinitions)
+		{
+		}
+
+		PropertyDefinition(const PropertyDefinitionBase& base)
+			: PropertyDefinitionBase(base),
+			  requestedDefinitions(GetPropertyDefinitions(base.GetLanguage()))
 		{
 		}
 
