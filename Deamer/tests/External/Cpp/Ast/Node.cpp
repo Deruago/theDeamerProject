@@ -10,16 +10,12 @@ protected:
 
 	virtual ~TestNode()
 	{
-		delete node1;
-		delete node2;
-		delete node3;
-		delete node4;
 	}
 
 	const deamer::external::cpp::ast::NodeInformation defaultNodeInformation =
 		deamer::external::cpp::ast::NodeInformation(
 			0, deamer::external::cpp::ast::NodeValue::unknown,
-			deamer::external::cpp::ast::MatchedProductionRule(), "", -1, -1);
+			deamer::external::cpp::ast::MatchedProductionRule(), "", 0, 0);
 
 	const deamer::external::cpp::ast::MatchedProductionRule defaultMatchedProductionRule =
 		deamer::external::cpp::ast::MatchedProductionRule();
@@ -52,6 +48,11 @@ TEST_F(TestNode, CreateNodeWithNoNodes)
 	EXPECT_EQ(0, actual.Get(3).size());
 
 	EXPECT_EQ(0, actual.GetType());
+
+	delete node1;
+	delete node2;
+	delete node3;
+	delete node4;
 }
 
 TEST_F(TestNode, CreateNodeWith1Nodes)
@@ -74,6 +75,10 @@ TEST_F(TestNode, CreateNodeWith1Nodes)
 	EXPECT_EQ(nullptr, node2->GetParent());
 	EXPECT_EQ(nullptr, node3->GetParent());
 	EXPECT_EQ(nullptr, node4->GetParent());
+
+	delete node2;
+	delete node3;
+	delete node4;
 }
 
 TEST_F(TestNode, CreateNodeWith2Nodes)
@@ -96,6 +101,9 @@ TEST_F(TestNode, CreateNodeWith2Nodes)
 	EXPECT_EQ(&actual, node2->GetParent());
 	EXPECT_EQ(nullptr, node3->GetParent());
 	EXPECT_EQ(nullptr, node4->GetParent());
+
+	delete node3;
+	delete node4;
 }
 
 TEST_F(TestNode, CreateNodeWith3Nodes)
@@ -119,6 +127,8 @@ TEST_F(TestNode, CreateNodeWith3Nodes)
 	EXPECT_EQ(&actual, node2->GetParent());
 	EXPECT_EQ(&actual, node3->GetParent());
 	EXPECT_EQ(nullptr, node4->GetParent());
+
+	delete node4;
 }
 
 TEST_F(TestNode, CreateNodeWith4Nodes)
