@@ -18,20 +18,24 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
-#include <utility>
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_NONTERMINALABSTRACTION_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_NONTERMINALABSTRACTION_H
 
-deamer::language::type::definition::object::main::NonTerminal::NonTerminal(
-	std::string name_, std::vector<ProductionRule*> productionRules_,
-	NonTerminalAbstraction abstraction_)
-	: Base(Type::NonTerminal),
-	  Name(std::move(name_)),
-	  ProductionRules(std::move(productionRules_)),
-	  abstraction(abstraction_)
+namespace deamer::language::type::definition::object::main
 {
-	references.Add(ProductionRules);
+	/*!	\enum NonTerminalAbstraction
+	 *
+	 *	\brief Abstractions allows you to specify specific behaviour to nonterminals.
+	 *	These behaviours may modify code generation in later stages.
+	 */
+	enum class NonTerminalAbstraction
+	{
+		// Standard nonterminal symbol
+		Standard,
+
+		// Group allows underlying types to be subclass of this nonterminal
+		Group,
+	};
 }
 
-deamer::language::type::definition::object::main::NonTerminal::NonTerminal() : NonTerminal("", {})
-{
-}
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_NONTERMINALABSTRACTION_H

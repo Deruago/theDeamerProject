@@ -22,6 +22,7 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_NONTERMINAL_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminalAbstraction.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
@@ -41,8 +42,10 @@ namespace deamer::language::type::definition::object::main
 	public:
 		std::string Name;
 		std::vector<ProductionRule*> ProductionRules;
+		NonTerminalAbstraction abstraction;
 
-		NonTerminal(std::string name_, std::vector<ProductionRule*> productionRules_);
+		NonTerminal(std::string name_, std::vector<ProductionRule*> productionRules_,
+					NonTerminalAbstraction abstraction_ = NonTerminalAbstraction::Standard);
 
 		bool operator==(const NonTerminal& rhs) const
 		{
