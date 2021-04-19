@@ -54,9 +54,9 @@ namespace simplelang
 			integrateLexerAndDeamerAST.Set(
 				deamer::language::type::definition::object::main::Integrate(
 					deamer::tool::type::Tool::Flex, deamer::tool::type::Tool::DeamerAST));
-			/*integrateParserAndDeamerAST.Set(
+			integrateParserAndDeamerAST.Set(
 				deamer::language::type::definition::object::main::Integrate(
-					deamer::tool::type::Tool::Bison, deamer::tool::type::Tool::DeamerAST));*/
+					deamer::tool::type::Tool::Bison, deamer::tool::type::Tool::DeamerAST));
 
 			lexerDebug.Set(deamer::language::type::definition::object::main::GenerateArgument(
 				deamer::tool::type::Tool::Flex, "Debug"));
