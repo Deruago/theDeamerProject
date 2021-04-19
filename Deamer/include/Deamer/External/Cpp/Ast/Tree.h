@@ -12,12 +12,15 @@ namespace deamer::external::cpp::ast
 
 	public:
 		Tree() = default;
+		Tree(Node* const node) : startNode(node)
+		{
+		}
 		virtual ~Tree()
 		{
 			delete startNode;
 		}
 
-		void SetStartNode(const Node* const node)
+		void SetStartNode(Node* const node)
 		{
 			startNode = node;
 		}
