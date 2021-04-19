@@ -40,7 +40,7 @@ std::string deamer::lexer::type::flex::IncludeSection::Generate() const
 		   "#include <string.h>\n"
 		   "#include <vector>\n"
 		   "#include <Deamer/External/Cpp/Lexer/TerminalObject.h>\n" +
-		   LexerIncludeLocation() + ParserInclude() +
+		   LexerIncludeLocation() + LanguageInclude() + ParserInclude() +
 		   "void showError();\n"
 		   "extern int " +
 		   name +
@@ -121,4 +121,38 @@ std::string deamer::lexer::type::flex::IncludeSection::UnistdOption() const
 	}
 
 	return "";
+}
+
+std::string deamer::lexer::type::flex::IncludeSection::LanguageInclude() const
+{
+	const auto ast =
+		reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::DeamerAST});
+
+	if (!ast)
+	{
+		return "";
+	}
+
+	const auto& terminals =
+		reference.GetDefinition<language::type::definition::property::Type::Lexicon>().Terminals;
+
+	std::string output;
+
+	output += "#include \"" + name + "/Ast/Enum/Type.h\"\n";
+
+	for (const auto& terminal : terminals)
+	{
+		output += "#include \"" + name + "/Ast/Node/" + terminal->Name + ".h\"\n";
+	}
+
+	const auto& nonTerminals =
+		reference.GetDefinition<language::type::definition::property::Type::Grammar>().NonTerminals;
+
+	output += "\n";
+	for (const auto& nonTerminal : nonTerminals)
+	{
+		output += "#include \"" + name + "/Ast/Node/" + nonTerminal->Name + ".h\"\n";
+	}
+	return output;
 }

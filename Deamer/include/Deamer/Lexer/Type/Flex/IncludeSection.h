@@ -47,6 +47,7 @@ namespace deamer::lexer::type::flex
 		std::string LexerIncludeLocation() const;
 		std::string InteractiveOption() const;
 		std::string UnistdOption() const;
+		std::string LanguageInclude() const;
 	};
 }
 

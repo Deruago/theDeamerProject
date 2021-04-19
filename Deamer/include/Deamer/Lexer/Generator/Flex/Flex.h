@@ -30,7 +30,8 @@ namespace deamer::lexer::generator::flex
 	{
 	public:
 		using ReferenceType = language::reference::PropertyDefinition<
-			language::type::definition::property::Type::Lexicon>;
+			language::type::definition::property::Type::Lexicon,
+			language::type::definition::property::Type::Grammar>;
 
 	private:
 		const ReferenceType reference;
