@@ -69,6 +69,8 @@ namespace deamer::language::analyzer::main
 
 		bool DoesNonTerminalHaveValue() const;
 
+		bool IsStartType() const;
+
 	private:
 		bool IsRecursiveImplementation(
 			const size_t currentDepth, const size_t maxDepth, const bool infinite,

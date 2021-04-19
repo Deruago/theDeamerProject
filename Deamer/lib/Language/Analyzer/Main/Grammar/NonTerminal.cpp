@@ -50,6 +50,22 @@ bool deamer::language::analyzer::main::NonTerminal::DoesNonTerminalHaveValue() c
 	return true;
 }
 
+bool deamer::language::analyzer::main::NonTerminal::IsStartType() const
+{
+	reference::PropertyDefinition<type::definition::property::Type::Grammar> reference(
+		*language_reference);
+
+	const auto& nonTerminals =
+		reference.GetDefinition<type::definition::property::Type::Grammar>().NonTerminals;
+
+	if (nonTerminals.empty())
+	{
+		return false;
+	}
+
+	return nonTerminals[0] == nonTerminal;
+}
+
 bool deamer::language::analyzer::main::NonTerminal::IsRecursiveImplementation(
 	const size_t currentDepth, const size_t maxDepth, const bool infinite,
 	reference::LDO<deamer::language::type::definition::object::main::NonTerminal>

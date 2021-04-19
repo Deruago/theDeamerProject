@@ -60,6 +60,10 @@ namespace deamer::language::analyzer::main
 		bool IsNonTerminalOwnerOfThisProductionRule(
 			reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const;
 
+		size_t GetProductionRuleId() const;
+		size_t GetProductionRuleId(
+			reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const;
+
 	private:
 	};
 }
