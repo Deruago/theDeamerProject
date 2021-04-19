@@ -128,6 +128,12 @@ void deamer::file::generate::Compiler::GenerateFile(const tool::File& file,
 {
 	const auto filePath = pathFromRoot + file.GetCompleteFileName();
 
+	if (file.GetGenerationLevel() == tool::GenerationLevel::Dont_generate_if_file_already_exists &&
+		std::filesystem::exists(filePath))
+	{
+		return;
+	}
+
 	std::ofstream outputFile;
 	outputFile.open(filePath);
 
@@ -189,7 +195,8 @@ void deamer::file::generate::Compiler::FillDirectory(const deamer::file::tool::D
 	for (const auto& subDirectory : directory.GetDirectories())
 	{
 		cmakelists_file += "add_subdirectory(" + subDirectory.GetThisDirectory() + ")\n";
-		GenerateDirectory(subDirectory, directoryPath);
+		FillDirectory(subDirectory, libraryDirectory,
+					  directoryPath + subDirectory.GetThisDirectory() + '/');
 	}
 
 	GenerateFile(cmakelists_file, directoryPath);
@@ -258,7 +265,8 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		"add_subdirectory(lib)\n"
 		"\n";
 
-	const tool::File file("CMakeLists", "txt", cmakelists_content);
+	const tool::File file("CMakeLists", "txt", cmakelists_content,
+						  tool::GenerationLevel::Dont_generate_if_file_already_exists);
 
 	GenerateFile(file, compilerPath);
 }
