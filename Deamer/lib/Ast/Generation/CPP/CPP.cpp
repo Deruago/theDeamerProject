@@ -20,6 +20,7 @@
 
 #include "Deamer/Ast/Generation/CPP/CPP.h"
 #include "Deamer/Ast/Type/CPP/BaseNode.h"
+#include "Deamer/Ast/Type/CPP/CommonNode.h"
 #include "Deamer/Ast/Type/CPP/Enum.h"
 #include "Deamer/Ast/Type/CPP/Listener.h"
 #include "Deamer/Ast/Type/CPP/Node.h"
@@ -36,6 +37,7 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 {
 	deamer::file::tool::Output ast_directory("Ast");
 	deamer::file::tool::Output ast_node_directory("Ast/Node");
+	deamer::file::tool::Output ast_common_node_directory("Ast/Common/Node");
 	deamer::file::tool::Output ast_enum_directory("Ast/Enum");
 	deamer::file::tool::Output ast_visitor_directory("Ast/Visitor");
 	deamer::file::tool::Output ast_listener_directory("Ast/Listener");
@@ -74,15 +76,22 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 		enumeration.AddNonTerminal(nonTerminal);
 		listener.AddNonTerminal(nonTerminal);
 		visitor.AddNonTerminal(nonTerminal);
+
+		if (nonTerminal->abstraction ==
+			language::type::definition::object::main::NonTerminalAbstraction::Group)
+		{
+			const type::cpp::CommonNode commonNode(reference, nonTerminal);
+			ast_common_node_directory.AddFileToInclude(commonNode.Generate());
+		}
 	}
 
 	ast_enum_directory.AddFileToInclude(enumeration.Generate());
 	ast_listener_directory.AddFileToInclude(listener.Generate());
 	ast_visitor_directory.AddFileToInclude(visitor.Generate());
 
-	return file::tool::Output::Merge({ast_directory, ast_node_directory, ast_enum_directory,
-									  ast_visitor_directory, ast_visitor_deamer_directory,
-									  ast_visitor_tool_directory, ast_visitor_user_directory,
-									  ast_listener_directory, ast_listener_deamer_directory,
-									  ast_listener_tool_directory, ast_listener_user_directory});
+	return file::tool::Output::Merge(
+		{ast_directory, ast_node_directory, ast_common_node_directory, ast_enum_directory,
+		 ast_visitor_directory, ast_visitor_deamer_directory, ast_visitor_tool_directory,
+		 ast_visitor_user_directory, ast_listener_directory, ast_listener_deamer_directory,
+		 ast_listener_tool_directory, ast_listener_user_directory});
 }

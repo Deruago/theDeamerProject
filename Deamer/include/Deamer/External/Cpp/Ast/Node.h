@@ -76,6 +76,8 @@ namespace deamer::external::cpp::ast
 		MatchedProductionRule match;
 
 	public:
+		NodeInformation() = default;
+
 		template<typename T>
 		NodeInformation(T type_, NodeValue nodeValue_, MatchedProductionRule match_,
 						std::string value_, int line_number_, int column_number_)
@@ -127,6 +129,8 @@ namespace deamer::external::cpp::ast
 		std::vector<size_t> baseValues;
 
 	public:
+		Node() = default;
+
 		Node(NodeInformation information_, std::vector<Node*> nodes_ = {},
 			 std::vector<size_t> baseValues_ = {})
 			: information(std::move(information_)),

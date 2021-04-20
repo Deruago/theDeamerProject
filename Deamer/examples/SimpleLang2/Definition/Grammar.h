@@ -16,6 +16,10 @@ namespace simplelang
 			stmts;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
 			stmt;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			runtime;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			declaration;
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
 			program_stmts;
@@ -25,6 +29,17 @@ namespace simplelang
 			stmts_empty;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
 			stmt_varname_semicolon;
+
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			stmt_runtime;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			declaration_function_declaration;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			declaration_variable_declaration;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			runtime_declaration;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			runtime_function_declaration;
 
 	public:
 		Grammar(simplelang::Language* language);

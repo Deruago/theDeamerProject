@@ -19,6 +19,7 @@
  */
 
 #include "Deamer/Ast/Type/CPP/Node.h"
+#include "Deamer/Language/Reference/ReverseLookup.h"
 
 deamer::ast::type::cpp::Node::Node(const ReferenceType reference_,
 								   language::type::definition::object::Base* token_)
@@ -61,8 +62,7 @@ deamer::file::tool::File deamer::ast::type::cpp::Node::GenerateTerminal(
 			  "_H\n"
 			  "\n"
 			  "#include \"" +
-			  languageName + "/Ast/Node/" + languageName +
-			  ".h\"\n"
+			  languageName + "/Ast/Node/" + languageName + ".h\"\n" + GetBaseIncludes(terminal) +
 			  "#include <Deamer/External/Cpp/Ast/Node.h>\n"
 			  "\n"
 			  "namespace " +
@@ -70,7 +70,7 @@ deamer::file::tool::File deamer::ast::type::cpp::Node::GenerateTerminal(
 			  " { namespace ast { namespace node {\n"
 			  "\n"
 			  "\tclass " +
-			  tokenName + " : public " + languageName + "<" + tokenName + "> " +
+			  tokenName + " : public " + languageName + "<" + tokenName + ">" +
 			  GetBaseNodesToInherit(terminal) +
 			  "\n"
 			  "\t{\n"
@@ -111,8 +111,7 @@ deamer::file::tool::File deamer::ast::type::cpp::Node::GenerateNonTerminal(
 			  "_H\n"
 			  "\n"
 			  "#include \"" +
-			  languageName + "/Ast/Node/" + languageName +
-			  ".h\"\n"
+			  languageName + "/Ast/Node/" + languageName + ".h\"\n" + GetBaseIncludes(nonTerminal) +
 			  "#include <Deamer/External/Cpp/Ast/Node.h>\n"
 			  "\n"
 			  "namespace " +
@@ -120,7 +119,7 @@ deamer::file::tool::File deamer::ast::type::cpp::Node::GenerateNonTerminal(
 			  " { namespace ast { namespace node { \n"
 			  "\n"
 			  "\tclass " +
-			  tokenName + " : public " + languageName + "<" + tokenName + "> " +
+			  tokenName + " : public " + languageName + "<" + tokenName + ">" +
 			  GetBaseNodesToInherit(nonTerminal) +
 			  "\n"
 			  "\t{\n"
@@ -152,14 +151,124 @@ std::string deamer::ast::type::cpp::Node::GetBaseNodesToInherit(
 	const language::reference::LDO<language::type::definition::object::main::NonTerminal>&
 		nonTerminal) const
 {
-	return "";
+	const auto baseNonTerminals = GetBaseGroupedNodes(nonTerminal);
+
+	std::string output;
+	if (nonTerminal->abstraction ==
+		language::type::definition::object::main::NonTerminalAbstraction::Group)
+	{
+		output += ", public ::" + languageName + "::ast::common::node::" + nonTerminal->Name;
+	}
+
+	for (language::reference::LDO<language::type::definition::object::main::NonTerminal> baseToken :
+		 baseNonTerminals)
+	{
+		output += ", public ::" + languageName + "::ast::common::node::" + baseToken->Name;
+	}
+
+	return output;
+}
+
+std::vector<const deamer::language::type::definition::object::main::NonTerminal*>
+deamer::ast::type::cpp::Node::GetBaseGroupedNodes(
+	const deamer::language::reference::LDO<
+		deamer::language::type::definition::object::main::Terminal>& terminal) const
+{
+	language::reference::ReverseLookup<language::type::definition::object::main::ProductionRule>
+		lookupRroductionRules(&reference);
+	const auto& result = lookupRroductionRules.Get(terminal);
+
+	if (result.Fail() || result.IsEmpty())
+	{
+		return {};
+	}
+
+	const auto& productionRules = result.GetObjects();
+	std::vector<const deamer::language::type::definition::object::main::NonTerminal*>
+		baseNonTerminals;
+
+	for (const auto& productionRule : productionRules)
+	{
+		language::reference::ReverseLookup<language::type::definition::object::main::NonTerminal>
+			lookupNonTerminal(&reference);
+		const auto& resultNonTerminalLookup = lookupNonTerminal.Get(productionRule);
+
+		if (resultNonTerminalLookup.Fail() || resultNonTerminalLookup.IsEmpty())
+		{
+			continue;
+		}
+
+		const auto& resultNonTerminal = resultNonTerminalLookup.GetObject();
+
+		if (resultNonTerminal->abstraction !=
+			language::type::definition::object::main::NonTerminalAbstraction::Group)
+		{
+			continue;
+		}
+
+		baseNonTerminals.push_back(resultNonTerminal.Get());
+	}
+
+	return baseNonTerminals;
+}
+
+std::vector<const deamer::language::type::definition::object::main::NonTerminal*>
+deamer::ast::type::cpp::Node::GetBaseGroupedNodes(
+	const deamer::language::reference::LDO<
+		deamer::language::type::definition::object::main::NonTerminal>& nonTerminal) const
+{
+	language::reference::ReverseLookup<language::type::definition::object::main::ProductionRule>
+		lookupRroductionRules(&reference);
+	const auto& result = lookupRroductionRules.Get(nonTerminal);
+
+	if (result.Fail() || result.IsEmpty())
+	{
+		return {};
+	}
+
+	const auto& productionRules = result.GetObjects();
+	std::vector<const deamer::language::type::definition::object::main::NonTerminal*>
+		baseNonTerminals;
+
+	for (const auto& productionRule : productionRules)
+	{
+		language::reference::ReverseLookup<language::type::definition::object::main::NonTerminal>
+			lookupNonTerminal(&reference);
+		const auto& resultNonTerminalLookup = lookupNonTerminal.Get(productionRule);
+
+		if (resultNonTerminalLookup.Fail() || resultNonTerminalLookup.IsEmpty())
+		{
+			continue;
+		}
+
+		const auto& resultNonTerminal = resultNonTerminalLookup.GetObject();
+
+		if (resultNonTerminal->abstraction !=
+			language::type::definition::object::main::NonTerminalAbstraction::Group)
+		{
+			continue;
+		}
+
+		baseNonTerminals.push_back(resultNonTerminal.Get());
+	}
+
+	return baseNonTerminals;
 }
 
 std::string deamer::ast::type::cpp::Node::GetBaseNodesToInherit(
 	const language::reference::LDO<language::type::definition::object::main::Terminal>& terminal)
 	const
 {
-	return "";
+	const auto baseNonTerminals = GetBaseGroupedNodes(terminal);
+
+	std::string output;
+	for (language::reference::LDO<language::type::definition::object::main::NonTerminal> baseToken :
+		 baseNonTerminals)
+	{
+		output += ", public ::" + languageName + "::ast::common::node::" + baseToken->Name;
+	}
+
+	return output;
 }
 
 std::string deamer::ast::type::cpp::Node::GetBaseNodes(
@@ -174,4 +283,43 @@ std::string deamer::ast::type::cpp::Node::GetBaseNodes(
 		nonTerminal) const
 {
 	return "{}";
+}
+
+std::string deamer::ast::type::cpp::Node::GetBaseIncludes(
+	const language::reference::LDO<language::type::definition::object::main::Terminal>& terminal)
+	const
+{
+	const auto baseNonTerminals = GetBaseGroupedNodes(terminal);
+
+	std::string output;
+	for (language::reference::LDO<language::type::definition::object::main::NonTerminal> baseToken :
+		 baseNonTerminals)
+	{
+		output += "#include \"" + languageName + "/Ast/Node/" + baseToken->Name + ".h\"\n";
+	}
+
+	return output;
+}
+
+std::string deamer::ast::type::cpp::Node::GetBaseIncludes(
+	const language::reference::LDO<language::type::definition::object::main::NonTerminal>&
+		nonTerminal) const
+{
+	const auto baseNonTerminals = GetBaseGroupedNodes(nonTerminal);
+
+	std::string output;
+
+	if (nonTerminal->abstraction ==
+		language::type::definition::object::main::NonTerminalAbstraction::Group)
+	{
+		output += "#include \"" + languageName + "/Ast/Common/Node/" + nonTerminal->Name + ".h\"\n";
+	}
+
+	for (language::reference::LDO<language::type::definition::object::main::NonTerminal> baseToken :
+		 baseNonTerminals)
+	{
+		output += "#include \"" + languageName + "/Ast/Node/" + baseToken->Name + ".h\"\n";
+	}
+
+	return output;
 }

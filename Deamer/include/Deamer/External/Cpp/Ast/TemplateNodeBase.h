@@ -9,6 +9,8 @@ namespace deamer::external::cpp::ast
 	class TemplateNodeBase : public Node
 	{
 	public:
+		TemplateNodeBase() = default;
+
 		TemplateNodeBase(NodeInformation information_, std::vector<Node*> nodes_ = {},
 						 std::vector<size_t> baseValues_ = {})
 			: Node(information_, nodes_, baseValues_)

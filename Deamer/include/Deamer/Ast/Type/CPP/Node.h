@@ -71,6 +71,22 @@ namespace deamer::ast::type::cpp
 		std::string GetBaseNodes(
 			const language::reference::LDO<language::type::definition::object::main::NonTerminal>&
 				nonTerminal) const;
+
+		std::string GetBaseIncludes(
+			const language::reference::LDO<language::type::definition::object::main::NonTerminal>&
+				nonTerminal) const;
+		std::string GetBaseIncludes(
+			const language::reference::LDO<language::type::definition::object::main::Terminal>&
+				terminal) const;
+
+		std::vector<const deamer::language::type::definition::object::main::NonTerminal*>
+		GetBaseGroupedNodes(
+			const deamer::language::reference::LDO<
+				deamer::language::type::definition::object::main::Terminal>& terminal) const;
+		std::vector<const deamer::language::type::definition::object::main::NonTerminal*>
+		GetBaseGroupedNodes(
+			const deamer::language::reference::LDO<
+				deamer::language::type::definition::object::main::NonTerminal>& nonTerminal) const;
 	};
 }
 

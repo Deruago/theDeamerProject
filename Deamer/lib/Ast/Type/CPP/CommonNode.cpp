@@ -18,64 +18,59 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#include "Deamer/Ast/Type/CPP/BaseNode.h"
+#include "Deamer/Ast/Type/CPP/CommonNode.h"
 
-deamer::ast::type::cpp::BaseNode::BaseNode(ReferenceType reference_)
+deamer::ast::type::cpp::CommonNode::CommonNode(
+	ReferenceType reference_,
+	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal_)
 	: reference(reference_),
+	  nonTerminal(nonTerminal_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
 					   .name->value)
 {
 }
 
-deamer::file::tool::File deamer::ast::type::cpp::BaseNode::Generate() const
+deamer::file::tool::File deamer::ast::type::cpp::CommonNode::Generate() const
 {
-	deamer::file::tool::File baseNodeFile(languageName, "h");
-	baseNodeFile.SetGenerationLevel(
+	deamer::file::tool::File commonNodeFile(nonTerminal->Name, "h");
+	commonNodeFile.SetGenerationLevel(
 		file::tool::GenerationLevel::Dont_generate_if_file_already_exists);
 
 	std::string output;
-	output += "#ifndef " + languageName + "_AST_NODE_" + languageName +
+	output += "#ifndef " + languageName + "_AST_COMMON_NODE_" + nonTerminal->Name +
 			  "_H\n"
 			  "#define " +
-			  languageName + "_AST_NODE_" + languageName +
+			  languageName + "_AST_COMMON_NODE_" + nonTerminal->Name +
 			  "_H\n"
 			  "\n"
-			  "#include <Deamer/External/Cpp/Ast/TemplateNodeBase.h>\n"
+			  "#include <Deamer/External/Cpp/Ast/CommonNodeAPI.h>\n"
 			  "\n"
 			  "namespace " +
 			  languageName +
-			  " { namespace ast { namespace node {\n"
+			  " { namespace ast { namespace common { namespace node {\n"
 			  "\n"
-			  "\ttemplate<typename Derived>\n"
 			  "\tclass " +
-			  languageName + " : public ::deamer::external::cpp::ast::TemplateNodeBase<" +
-			  languageName +
-			  "<Derived>, Derived>\n"
-			  "\t{\n"
+			  nonTerminal->Name + " : public ::deamer::external::cpp::ast::CommonNodeAPI<" +
+			  nonTerminal->Name +
+			  ">\n"
+			  "\t{"
 			  "\tprivate:\n"
-			  "\t\t\n"
 			  "\tpublic:\n"
 			  "\t\t" +
-			  languageName +
+			  nonTerminal->Name +
 			  "() = default;\n"
-			  "\t\t\n"
-			  "\t\t" +
-			  languageName +
-			  "(deamer::external::cpp::ast::NodeInformation information_, "
-			  "std::vector<deamer::external::cpp::ast::Node*> nodes_ = {}, "
-			  "std::vector<size_t> baseValues_ = {})\n"
-			  "\t\t: deamer::external::cpp::ast::TemplateNodeBase<" +
-			  languageName +
-			  "<Derived>, Derived>(information_, nodes_, baseValues_)\n"
-			  "\t\t{\n"
-			  "\t\t}\n"
-			  "\t};\n"
+			  "\t\tvirtual ~" +
+			  nonTerminal->Name +
+			  "() = default;\n"
+			  "\tpublic:\n"
+			  "\t};"
 			  "\n"
-			  "}}}\n"
+			  "}}}}\n"
 			  "\n"
 			  "#endif // " +
-			  languageName + "_AST_NODE_" + languageName + "_H\n";
+			  languageName + "_AST_COMMON_NODE_" + nonTerminal->Name + "_H\n";
 
-	baseNodeFile.SetFileContent(output);
-	return baseNodeFile;
+	commonNodeFile.SetFileContent(output);
+
+	return commonNodeFile;
 }
