@@ -49,10 +49,18 @@ std::string deamer::parser::type::bison::ActionSection::LanguageParser() const
 		   "{\n"
 		   "\toutputTree = nullptr;\n"
 		   "\tYY_BUFFER_STATE buf;\n"
-		   "\tbuf = SimpleLang_scan_string(text.c_str());\n"
-		   "\tSimpleLangparse();\n"
-		   "\tSimpleLang_delete_buffer(buf);\n"
-		   "\tSimpleLanglex_destroy();\n"
+		   "\tbuf = " +
+		   name +
+		   "_scan_string(text.c_str());\n"
+		   "\t" +
+		   name +
+		   "parse();\n"
+		   "\t" +
+		   name +
+		   "_delete_buffer(buf);\n"
+		   "\t" +
+		   name +
+		   "lex_destroy();\n"
 		   "\n"
 		   "\treturn outputTree;\n"
 		   "}\n";

@@ -228,8 +228,8 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		"find_package(Deamer REQUIRED)\n"
 		"\n"
 		"add_library(" +
-		languageName + "_external_libraries STATIC \"${" + languageName + "_SOURCE_DIR}/lib/" +
-		languageName +
+		languageName + "_external_libraries STATIC \"" + languageName + "_${" + languageName +
+		"_SOURCE_DIR}/lib/" + languageName +
 		".cpp\")\n"
 		"target_link_libraries(" +
 		languageName +

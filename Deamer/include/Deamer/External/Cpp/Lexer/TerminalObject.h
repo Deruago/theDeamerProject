@@ -24,8 +24,8 @@ namespace deamer::external::cpp::lexer
 			  LineNumber(lineNumber_),
 			  ColumnNumber(columnNumber_)
 		{
-			Print();
 		}
+
 		~TerminalObject() = default;
 
 		void Print() const
