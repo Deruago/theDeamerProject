@@ -218,6 +218,14 @@ void deamer::file::generate::Compiler::ExecuteDirectoryAction(
 
 void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::string& compilerPath)
 {
+	const auto names = GetSubCompilerNames();
+
+	std::string add_subdirectory_sub_compilers;
+	for (const auto& name : names)
+	{
+		add_subdirectory_sub_compilers += "add_subdirectory(" + name + ")\n";
+	}
+
 	const std::string cmakelists_content =
 		"cmake_minimum_required(VERSION 3.18)\n"
 		"\n"
@@ -226,10 +234,12 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		")\n"
 		"\n"
 		"find_package(Deamer REQUIRED)\n"
+		"\n" +
+		add_subdirectory_sub_compilers +
 		"\n"
 		"add_library(" +
-		languageName + "_external_libraries STATIC \"" + languageName + "_${" + languageName +
-		"_SOURCE_DIR}/lib/" + languageName +
+		languageName + "_external_libraries STATIC \"${" + languageName + "_SOURCE_DIR}/lib/" +
+		languageName +
 		".cpp\")\n"
 		"target_link_libraries(" +
 		languageName +
@@ -244,7 +254,9 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		"function(" +
 		languageName +
 		"_add_external_library external_library_name source_files)\n"
-		"\tset(external_library_full_name \"${external_library_name}_static_library\")\n"
+		"\tset(external_library_full_name \"" +
+		languageName +
+		"_${external_library_name}_static_library\")\n"
 		"\n"
 		"\tadd_library(${external_library_full_name} STATIC ${source_files})\n"
 		"\n"
@@ -366,4 +378,17 @@ deamer::file::tool::File deamer::file::generate::Compiler::language_default_head
 									languageName + "_" + languageName + "_H\n";
 
 	return tool::File(languageName, "h", source_code);
+}
+
+std::vector<std::string> deamer::file::generate::Compiler::GetSubCompilerNames() const
+{
+	std::vector<std::string> names;
+	for (auto compiler : compilerOutput.GetCompilerOutputs())
+	{
+		names.push_back(compiler.GetLanguageReference()
+							.GetDefinition<language::type::definition::property::Type::Identity>()
+							.name->value);
+	}
+
+	return names;
 }

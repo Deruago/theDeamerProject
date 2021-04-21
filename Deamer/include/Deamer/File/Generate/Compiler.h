@@ -73,6 +73,8 @@ namespace deamer::file::generate
 	public:
 		void GenerateProjectCMakeLists(const std::string& compilerPath);
 		virtual void Generate(const std::string& pathFromRoot = "./");
+
+		std::vector<std::string> GetSubCompilerNames() const;
 	};
 }
 #endif // DEAMER_FILE_GENERATE_COMPILER_H
