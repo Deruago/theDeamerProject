@@ -18,7 +18,7 @@ macro(package_add_test TESTNAME)
     # link the Google test infrastructure, mocking library
     target_link_libraries(${TESTNAME} gtest gmock gtest_main)
     target_link_libraries(${TESTNAME} Deamer)
-	target_include_directories(${TESTNAME} PRIVATE ${Deamer_SOURCE_DIR}/include/ ${Deamer_SOURCE_DIR}/extern/googletest)
+	target_include_directories(${TESTNAME} PUBLIC ${Deamer_SOURCE_DIR}/include/ ${Deamer_SOURCE_DIR}/extern/googletest)
 
     gtest_discover_tests(${TESTNAME}
         WORKING_DIRECTORY ${PROJECT_DIR}
@@ -28,7 +28,7 @@ macro(package_add_test TESTNAME)
 	
 	add_dependencies(build_and_test ${TESTNAME})
 	
-	target_compile_features(${TESTNAME} PRIVATE cxx_std_17)
+	target_compile_features(${TESTNAME} PUBLIC cxx_std_17)
 endmacro()
 
 file(GLOB_RECURSE UNIT_TESTS *.cpp)

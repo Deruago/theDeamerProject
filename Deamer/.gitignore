@@ -8,8 +8,6 @@ DeamerProject/*
 *.log
 *.out
 *.gch
-*.*/
-.*/
 /.dep
 /.obj
 

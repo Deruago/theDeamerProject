@@ -21,6 +21,10 @@
 #ifndef DEAMER_H
 #define DEAMER_H
 
+/*! \namespace deamer
+ *
+ *  Used as main namespace for all the library code
+ */
 namespace deamer {
     
 }

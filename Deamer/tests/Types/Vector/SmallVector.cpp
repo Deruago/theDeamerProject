@@ -1,5 +1,7 @@
-#include <Deamer/Types/Vector/SmallVector.h>
+#include <Deamer/Type/Vector/SmallVector.h>
 #include <gtest/gtest.h>
+
+using namespace deamer::type;
 
 class TestSmallVector : public testing::Test
 {
