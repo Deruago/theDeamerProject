@@ -30,6 +30,9 @@ namespace DST::main
 			BACKSLASH; // \
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
+			DOT; // .
+
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
 			VARNAME; // aaa AbA abbC
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
@@ -58,13 +61,16 @@ namespace DST::main
 				"LEFT_BRACKET", "[{]"));
 			RIGHT_BRACKET.Set(new const deamer::language::type::definition::object::main::Terminal(
 				"RIGHT_BRACKET", "[}]"));
+			DOT.Set(new const deamer::language::type::definition::object::main::Terminal("DOT",
+																						 "[\\.]"));
 
 			VARNAME.Set(new const deamer::language::type::definition::object::main::Terminal(
 				"VARNAME", "[a-zA-Z]+[a-zA-Z_0-9]*"));
 
 			OTHER.Set(new const deamer::language::type::definition::object::main::Terminal(
-				"OTHER", "[^{}\\\\]*"));
+				"OTHER", "[^{}\\\\\\.]*"));
 
+			AddObject(DOT);
 			AddObject(LEFT_BRACKETS_ESCAPED);
 			AddObject(RIGHT_BRACKETS_ESCAPED);
 

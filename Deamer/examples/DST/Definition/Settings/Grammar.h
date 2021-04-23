@@ -18,10 +18,23 @@ namespace DST::setting
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
 			stmt;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
-			variable_insertion;
+			abstraction;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
-			other_symbols;
+			special;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			variable_declaration;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			main_assignment;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			keyword_assignment;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			scope;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			user_keyword;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			dst_keyword;
 
+		// Production rules
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
 			program_stmts;
 
@@ -31,31 +44,35 @@ namespace DST::setting
 			stmts_empty;
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			stmt_variable_insertion;
+			stmt_abstraction;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			stmt_other;
+			stmt_special;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			abstraction_variable_declaration_EQUAL_main_assignment;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			special_variable_declaration_EQUAL_keyword_assignment;
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			variable_insertion_LEFT_BRACKETS_VARNAME_RIGHT_BRACKETS;
+			variable_declaration_LEFT_BRACKETS_VARNAME_RIGHT_BRACKETS;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			variable_declaration_LEFT_BRACKETS_VARNAME_scope_RIGHT_BRACKETS;
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			other_symbols_LEFT_BRACKET;
+			scope_DOT_VARNAME_scope;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			other_symbols_RIGHT_BRACKET;
+			scope_DOT_VARNAME;
+
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			other_symbols_LEFT_BRACKETS;
+			main_assignment_USER_INPUT;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			other_symbols_RIGHT_BRACKETS;
+			keyword_assignment_user_keyword;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			other_symbols_ESCAPED_LEFT_BRACKETS;
+			user_keyword_LEFT_SQUARE_BRACKET_VARNAME_RIGHT_SQUARE_BRACKET;
+
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			other_symbols_ESCAPED_RIGHT_BRACKETS;
+			keyword_assignment_dst_keyword;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			other_symbols_VARNAME;
-		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			other_symbols_BACKSLASH;
-		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			other_symbols_OTHER;
+			dst_keyword_INVALID;
 
 	public:
 		Grammar(::DST::setting::Language* language);

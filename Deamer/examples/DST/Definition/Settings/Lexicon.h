@@ -12,70 +12,89 @@ namespace DST::setting
 	{
 	public:
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
-			LEFT_BRACKETS_ESCAPED; // \{{
-		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
-			RIGHT_BRACKETS_ESCAPED; // \}}
-
-		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
 			LEFT_BRACKETS; // {{
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
 			RIGHT_BRACKETS; // }}
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
-			LEFT_BRACKET; // {
+			DOT; // .
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
-			RIGHT_BRACKET; // }
+			ADD_ASSIGNMENT; // +=
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
+			EQUAL; // =
+
+		// Standard top-level keywords
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
+			INVALID; // [invalid] [Invalid]
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
-			BACKSLASH; // \
+			LEFT_SQUARE_BRACKET; // [
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
+			RIGHT_SQUARE_BRACKET; // ]
+
+		// User input
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
+			USER_INPUT; // <anything>
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
 			VARNAME; // aaa AbA abbC
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::Terminal>
-			OTHER; // anything else
+			OTHER; // aaa AbA abbC
 
 	public:
 		Lexicon(::DST::setting::Language* language)
 			: deamer::language::generator::definition::property::user::Lexicon<
 				  ::DST::setting::Language>(language)
 		{
-			LEFT_BRACKETS_ESCAPED.Set(
-				new const deamer::language::type::definition::object::main::Terminal(
-					"LEFT_BRACKETS_ESCAPED", "[\\\\][{][{]"));
-			RIGHT_BRACKETS_ESCAPED.Set(
-				new const deamer::language::type::definition::object::main::Terminal(
-					"RIGHT_BRACKETS_ESCAPED", "[\\\\][}][}]"));
-			BACKSLASH.Set(new const deamer::language::type::definition::object::main::Terminal(
-				"BACKSLASH", "[\\\\]"));
-
 			LEFT_BRACKETS.Set(new const deamer::language::type::definition::object::main::Terminal(
 				"LEFT_BRACKETS", "[{][{]"));
 			RIGHT_BRACKETS.Set(new const deamer::language::type::definition::object::main::Terminal(
 				"RIGHT_BRACKETS", "[}][}]"));
 
-			LEFT_BRACKET.Set(new const deamer::language::type::definition::object::main::Terminal(
-				"LEFT_BRACKET", "[{]"));
-			RIGHT_BRACKET.Set(new const deamer::language::type::definition::object::main::Terminal(
-				"RIGHT_BRACKET", "[}]"));
+			DOT.Set(new const deamer::language::type::definition::object::main::Terminal("DOT",
+																						 "[\\.]"));
+			EQUAL.Set(new const deamer::language::type::definition::object::main::Terminal("EQUAL",
+																						   "[=]"));
+			ADD_ASSIGNMENT.Set(new const deamer::language::type::definition::object::main::Terminal(
+				"ADD_ASSIGNMENT", "[+][=]"));
+
+			INVALID.Set(new const deamer::language::type::definition::object::main::Terminal(
+				"INVALID", "[\\[][Ii]nvalid[\\]]"));
+
+			LEFT_SQUARE_BRACKET.Set(
+				new const deamer::language::type::definition::object::main::Terminal(
+					"LEFT_SQUARE_BRACKET", "[\\[]"));
+			RIGHT_SQUARE_BRACKET.Set(
+				new const deamer::language::type::definition::object::main::Terminal(
+					"RIGHT_SQUARE_BRACKET", "[\\]]"));
+
+			USER_INPUT.Set(new const deamer::language::type::definition::object::main::Terminal(
+				"USER_INPUT", "[<][^>]*[>]"));
 
 			VARNAME.Set(new const deamer::language::type::definition::object::main::Terminal(
 				"VARNAME", "[a-zA-Z]+[a-zA-Z_0-9]*"));
 
 			OTHER.Set(new const deamer::language::type::definition::object::main::Terminal(
-				"OTHER", "[^{}\\\\]*"));
-
-			AddObject(LEFT_BRACKETS_ESCAPED);
-			AddObject(RIGHT_BRACKETS_ESCAPED);
+				"OTHER", "[\\n\\r\\t\\b\\f\\v\\a ]*",
+				deamer::language::type::definition::object::main::SpecialType::Delete));
 
 			AddObject(LEFT_BRACKETS);
 			AddObject(RIGHT_BRACKETS);
 
-			AddObject(LEFT_BRACKET);
-			AddObject(RIGHT_BRACKET);
+			AddObject(DOT);
+			AddObject(ADD_ASSIGNMENT);
+			AddObject(EQUAL);
+
+			AddObject(INVALID);
+
+			AddObject(LEFT_SQUARE_BRACKET);
+			AddObject(RIGHT_SQUARE_BRACKET);
+
+			AddObject(USER_INPUT);
 
 			AddObject(VARNAME);
-			AddObject(BACKSLASH);
+
 			AddObject(OTHER);
 		}
 

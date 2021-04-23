@@ -20,6 +20,10 @@ namespace DST::main
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
 			variable_insertion;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			variable;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			scope;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
 			other_symbols;
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
@@ -36,7 +40,7 @@ namespace DST::main
 			stmt_other;
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
-			variable_insertion_LEFT_BRACKETS_VARNAME_RIGHT_BRACKETS;
+			variable_insertion_LEFT_BRACKETS_variable_RIGHT_BRACKETS;
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
 			other_symbols_LEFT_BRACKET;
@@ -53,9 +57,20 @@ namespace DST::main
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
 			other_symbols_VARNAME;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			other_symbols_DOT;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
 			other_symbols_BACKSLASH;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
 			other_symbols_OTHER;
+
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			variable_VARNAME_scope;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			variable_VARNAME;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			scope_DOT_VARNAME_scope;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			scope_DOT_VARNAME;
 
 	public:
 		Grammar(::DST::main::Language* language);
