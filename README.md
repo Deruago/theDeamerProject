@@ -1,6 +1,6 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d46f28fda6e949578efd991af7c045bd)](https://www.codacy.com/gh/Deruago/theDeamerProject/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Deruago/theDeamerProject&amp;utm_campaign=Badge_Grade)
 
-[![CMake](https://github.com/Deruago/theDeamerProject/actions/workflows/cmake.yml/badge.svg?branch=development)](https://github.com/Deruago/theDeamerProject/actions/workflows/cmake.yml)
+[![CMake](https://github.com/Deruago/theDeamerProject/actions/workflows/cmake.yml/badge.svg?branch=development)](https://github.com/Deruago/theDeamerProject/actions/workflows/cmake.yml)[![](https://tokei.rs/b1/github/Deruago/theDeamerProject)](https://github.com/Deruago/theDeamerProject)
 
 # The DeamerProject
 
@@ -12,9 +12,11 @@ This directory and subdirectories contain source code and documentation regardin
 
 Welcome to the DeamerProject!
 
-DeamerProject exists of multiple components that as whole count as the DeamerProject. The core of this project is "Deamer", Deamer is a compiler generator used to generate the front-end and mid-end of compilers (and a whole lot more). The DeamerProject include tools for language generation, language processing, language testing, language optimisations, and tools to support people with RSI.
+DeamerProject exists of multiple components that as whole count as the DeamerProject. The core of this project is "Deamer", Deamer is an infrastructure for compiler and ecosystem generation. This means that you can generate complete compilers, and complete ecosystems for your compilers (syntax highlighting, refactoring, auto-completion, etc).
 
-Tools included are: [Deamer](https://github.com/Deruago/theDeamerProject), Deamer-lang, [DLDL](https://github.com/Deruago/DLDL), DQSL, DCPP.
+Deamer is a definition based infrastructure, allowing extensions to easily reuse existing definitions. This way Deamer is capable of supporting a lot of extensions.
+
+Deamer-Tools included in the Deamer Project: [Deamer](https://github.com/Deruago/theDeamerProject), Deamer-lang, [DLDL](https://github.com/Deruago/DLDL), DQSL, DCPP, [DST](https://github.com/Deruago/DeamerStringTemplate).
 
 ## Getting the source code and building DeamerProject
 
@@ -63,6 +65,18 @@ Cmake is used for installing, building, and running the tests. Currently the fol
 - ``````bash
   test			# run the last build tests
   ``````
+
+## Examples
+
+Go to the development branch, or go visit the wiki.
+
+We are currently busy documenting everything, so if you are missing something feel free to report it.
+
+## Deamer v1 vs Deamer v2
+
+Deamer v1 was the original infrastructure, it had been redesigned and reimplemented as Deamer v2.
+
+Please use Deamer v2. All tools currently available for Deamer v2 can be found [here](https://github.com/Deruago/theDeamerProject/wiki/Deamer-v2:-Deamer-tool-support).
 
 ## License
 
