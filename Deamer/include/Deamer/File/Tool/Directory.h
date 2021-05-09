@@ -44,7 +44,11 @@ namespace deamer::file::tool
 		CMakeLists cmakeLists;
 
 	public:
+		// Use this to generate an empty directory.
+		Directory() = default;
+
 		Directory(const std::string& directoryName_);
+		Directory(const Directory& rhs);
 		virtual ~Directory() = default;
 
 	public:

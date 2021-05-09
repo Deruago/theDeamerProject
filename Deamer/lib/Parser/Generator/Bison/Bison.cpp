@@ -63,7 +63,7 @@ deamer::file::tool::Output deamer::parser::generator::bison::Bison::Generate()
 	output.AddFileToInclude(bisonParser);
 	output.AddActionToExternal(externalAction(), file::tool::OSType::os_linux);
 	output.AddActionToExternal(externalAction(), file::tool::OSType::os_windows);
-	output.AddCMakeListsToExternal(externalCMakeLists());
+	output.AddCMakeListsToExternal({externalCMakeLists(), dependenciesCMakeLists()});
 
 	return output;
 }
@@ -108,4 +108,19 @@ std::string deamer::parser::generator::bison::Bison::externalCMakeLists()
 {
 	return "set(source_files ./" + name + "_parser.tab.cpp)\n" + name +
 		   "_add_external_library(Bison ${source_files})\n";
+}
+
+std::string deamer::parser::generator::bison::Bison::dependenciesCMakeLists()
+{
+	const auto flex =
+		reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison});
+
+	if (flex)
+	{
+		return "target_link_libraries(" + name + "_Bison_static_library PUBLIC " + name +
+			   "_Flex_static_library)\n";
+	}
+
+	return "";
 }

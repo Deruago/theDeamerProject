@@ -46,15 +46,21 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 	auto cmakelists_library = InitialiseLibraryCMakeLists();
 	auto cmakelists_include = InitialiseIncludeCMakeLists();
 
+	// Generate standard directories.
+	// These directories are always default generated.
+	GenerateExternalDirectory(compilerPath);
+	GenerateLibraryDirectory(compilerPath);
+	GenerateIncludeDirectory(compilerPath);
+
 	for (const auto& languageOutput : compilerOutput.GetLanguageOutputs())
 	{
 		const auto externalDirectory = languageOutput.GetExternalDirectory();
 		const auto libDirectory = languageOutput.GetLibraryDirectory();
 		const auto includeDirectory = languageOutput.GetIncludeDirectory();
 
-		GenerateExternalDirectory(externalDirectory, compilerPath);
-		GenerateLibraryDirectory(libDirectory, compilerPath);
-		GenerateIncludeDirectory(includeDirectory, compilerPath);
+		GenerateExternalDirectory(compilerPath, externalDirectory);
+		GenerateLibraryDirectory(compilerPath, libDirectory);
+		GenerateIncludeDirectory(compilerPath, includeDirectory);
 
 		cmakelists_external += "add_subdirectory(" + externalDirectory.GetThisDirectory() + ")\n";
 		cmakelists_library += "add_subdirectory(" + libDirectory.GetThisDirectory() + ")\n";
@@ -91,8 +97,8 @@ void deamer::file::generate::Compiler::GenerateDirectory(const tool::Directory& 
 	}
 }
 
-void deamer::file::generate::Compiler::GenerateExternalDirectory(const tool::Directory& directory,
-																 const std::string& pathFromRoot)
+void deamer::file::generate::Compiler::GenerateExternalDirectory(const std::string& pathFromRoot,
+																 const tool::Directory& directory)
 {
 	const auto externalDirectory = pathFromRoot + "extern/";
 	const auto directoryPath = externalDirectory + directory.GetThisDirectory() + '/';
@@ -100,8 +106,8 @@ void deamer::file::generate::Compiler::GenerateExternalDirectory(const tool::Dir
 	FillDirectory(directory, externalDirectory, directoryPath);
 }
 
-void deamer::file::generate::Compiler::GenerateLibraryDirectory(const tool::Directory& directory,
-																const std::string& pathFromRoot)
+void deamer::file::generate::Compiler::GenerateLibraryDirectory(const std::string& pathFromRoot,
+																const tool::Directory& directory)
 {
 	const auto libraryDirectory = pathFromRoot + "lib/";
 	const auto directoryPath = libraryDirectory + directory.GetThisDirectory() + '/';
@@ -109,8 +115,8 @@ void deamer::file::generate::Compiler::GenerateLibraryDirectory(const tool::Dire
 	FillDirectory(directory, libraryDirectory, directoryPath);
 }
 
-void deamer::file::generate::Compiler::GenerateIncludeDirectory(const tool::Directory& directory,
-																const std::string& pathFromRoot)
+void deamer::file::generate::Compiler::GenerateIncludeDirectory(const std::string& pathFromRoot,
+																const tool::Directory& directory)
 {
 	const auto includeDirectory =
 		pathFromRoot + "include/" +
@@ -129,7 +135,7 @@ void deamer::file::generate::Compiler::GenerateFile(const tool::File& file,
 	const auto filePath = pathFromRoot + file.GetCompleteFileName();
 
 	if (file.GetGenerationLevel() == tool::GenerationLevel::Dont_generate_if_file_already_exists &&
-		std::filesystem::exists(filePath))
+		std::filesystem::exists(filePath) && !std::filesystem::is_empty(filePath))
 	{
 		return;
 	}

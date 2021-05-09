@@ -51,6 +51,7 @@ namespace deamer::parser::generator::bison
 		std::string bisonParserFile() const;
 		deamer::file::tool::Action externalAction();
 		std::string externalCMakeLists();
+		std::string dependenciesCMakeLists();
 	};
 }
 

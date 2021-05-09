@@ -29,6 +29,16 @@ deamer::file::tool::Directory::Directory(const std::string& directoryName_)
 	}
 }
 
+deamer::file::tool::Directory::Directory(const Directory& rhs)
+{
+	this->directoryName = rhs.directoryName;
+	this->files = rhs.files;
+	this->directories = rhs.directories;
+	this->actions = rhs.actions;
+	this->parent = rhs.parent;
+	this->cmakeLists = rhs.cmakeLists;
+}
+
 void deamer::file::tool::Directory::AddFile(const File& newFile)
 {
 	files.push_back(newFile);

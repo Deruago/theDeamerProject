@@ -46,12 +46,14 @@ namespace deamer::file::tool
 	private:
 		CMakeLists_type type = CMakeLists_type::default_;
 		std::string fileData;
+		std::string dependencies;
 
 	public:
 		CMakeLists() = default;
-		CMakeLists(std::string fileData_)
+		CMakeLists(std::string fileData_, std::string dependencies_ = "")
 			: type(CMakeLists_type::custom_),
-			  fileData(std::move(fileData_))
+			  fileData(std::move(fileData_)),
+			  dependencies(std::move(dependencies_))
 		{
 		}
 		~CMakeLists() = default;
@@ -77,7 +79,7 @@ namespace deamer::file::tool
 
 		File GetCMakeLists() const
 		{
-			return File("CMakeLists", "txt", fileData);
+			return File("CMakeLists", "txt", fileData + dependencies);
 		}
 	};
 }
