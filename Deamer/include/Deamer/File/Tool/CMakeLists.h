@@ -32,6 +32,15 @@ namespace deamer::file::tool
 		default_,
 		custom_,
 	};
+	
+	enum class CMakeLists_Generation_Variant
+	{
+		// CMakeLists.txt
+		default_,
+		
+		// deamer.cmake ; this gets included in the default cmakelists.txt
+		user_excluded,
+	};
 
 	/*!	\class CMakeLists
 	 *
@@ -47,13 +56,15 @@ namespace deamer::file::tool
 		CMakeLists_type type = CMakeLists_type::default_;
 		std::string fileData;
 		std::string dependencies;
-
+		CMakeLists_Generation_Variant CMG_Variant = CMakeLists_Generation_Variant::default_;
 	public:
 		CMakeLists() = default;
-		CMakeLists(std::string fileData_, std::string dependencies_ = "")
+		CMakeLists(std::string fileData_, std::string dependencies_ = "",
+				   CMakeLists_Generation_Variant CMG_Variant_ = CMakeLists_Generation_Variant::default_)
 			: type(CMakeLists_type::custom_),
 			  fileData(std::move(fileData_)),
-			  dependencies(std::move(dependencies_))
+			  dependencies(std::move(dependencies_)),
+			  CMG_Variant(CMG_Variant_)
 		{
 		}
 		~CMakeLists() = default;
@@ -79,7 +90,16 @@ namespace deamer::file::tool
 
 		File GetCMakeLists() const
 		{
-			return File("CMakeLists", "txt", fileData + dependencies);
+			switch (CMG_Variant)
+			{
+			case CMakeLists_Generation_Variant::user_excluded:
+				return File("deamer", "cmake", fileData + dependencies);
+			case CMakeLists_Generation_Variant::default_:
+				return File("CMakeLists", "txt", fileData + dependencies);
+			default:
+				return File("CMakeLists", "txt", fileData + dependencies);
+			}
+			
 		}
 	};
 }
