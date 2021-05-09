@@ -2,12 +2,8 @@
 
 ## Overview
 
-Deamer is a compiler generator which generates the front- and mid-end of a compiler. Deamer has several specialized definitions to generate a compiler. So far the following definitions can be used:
-
-- Lexer definition
-- Parser definition
-
-The output compiler can be any combination of lexer generators and parser generators, e.g. you can generate a compiler which uses the flex and bison generators for the lexer and parser part.
+Deamer CC is a compiler and ecosystem generator. Via specialized definitions Deamer is capable of generating complete compilers and complete ecosystems (such as: formatting, refactoring, syntax highlighters, formatters, etc).
+Using specialized definitions one can specify languages ranging from multi compilers to simple DSL's.
 
 All the definitions you can use in Deamer are also supported by [DLDL](https://github.com/Deruago/DLDL). [DLDL](https://github.com/Deruago/DLDL) is a language which generates C++ code for Deamer, allowing you to more easily define languages. [DLDL](https://github.com/Deruago/DLDL) will be supported with each new definition. It is recommended to use [DLDL](https://github.com/Deruago/DLDL) instead of writing the C++ code on your own for Deamer, as it automates a lot of processes.
 
