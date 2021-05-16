@@ -73,15 +73,18 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 
 	GenerateFile({"CMakeLists", "txt",
 				  "include(deamer.cmake)\n"
-				  "\n"},
+				  "\n",
+				  tool::GenerationLevel::Dont_generate_if_file_already_exists},
 				 compilerPath + "extern/");
 	GenerateFile({"CMakeLists", "txt",
 				  "include(deamer.cmake)\n"
-				  "\n"},
+				  "\n",
+				  tool::GenerationLevel::Dont_generate_if_file_already_exists},
 				 compilerPath + "lib/");
 	GenerateFile({"CMakeLists", "txt",
 				  "include(deamer.cmake)\n"
-				  "\n"},
+				  "\n",
+				  tool::GenerationLevel::Dont_generate_if_file_already_exists},
 				 compilerPath + "include/");
 
 	GenerateFile(language_default_source_file(), compilerPath + "lib/");
