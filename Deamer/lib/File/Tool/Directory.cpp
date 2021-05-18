@@ -70,6 +70,11 @@ void deamer::file::tool::Directory::SetCMakeLists(const std::string& cmakeLists_
 	cmakeLists.SetCMakeLists(cmakeLists_);
 }
 
+void deamer::file::tool::Directory::SetCMakeLists(const CMakeLists& cmakeLists_)
+{
+	cmakeLists = cmakeLists_;
+}
+
 std::vector<deamer::file::tool::File> deamer::file::tool::Directory::GetFiles() const
 {
 	return files;

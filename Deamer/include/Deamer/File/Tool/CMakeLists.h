@@ -32,14 +32,17 @@ namespace deamer::file::tool
 		default_,
 		custom_,
 	};
-	
+
 	enum class CMakeLists_Generation_Variant
 	{
 		// CMakeLists.txt
 		default_,
-		
+
 		// deamer.cmake ; this gets included in the default cmakelists.txt
 		user_excluded,
+
+		// User mainained
+		user_maintained,
 	};
 
 	/*!	\class CMakeLists
@@ -57,14 +60,19 @@ namespace deamer::file::tool
 		std::string fileData;
 		std::string dependencies;
 		CMakeLists_Generation_Variant CMG_Variant = CMakeLists_Generation_Variant::default_;
+		GenerationLevel generationLevel_;
+
 	public:
 		CMakeLists() = default;
-		CMakeLists(std::string fileData_, std::string dependencies_ = "",
-				   CMakeLists_Generation_Variant CMG_Variant_ = CMakeLists_Generation_Variant::default_)
+		CMakeLists(
+			std::string fileData_, std::string dependencies_ = "",
+			CMakeLists_Generation_Variant CMG_Variant_ = CMakeLists_Generation_Variant::default_,
+			GenerationLevel generationLevel = GenerationLevel::Always_regenerate)
 			: type(CMakeLists_type::custom_),
 			  fileData(std::move(fileData_)),
 			  dependencies(std::move(dependencies_)),
-			  CMG_Variant(CMG_Variant_)
+			  CMG_Variant(CMG_Variant_),
+			  generationLevel_(generationLevel)
 		{
 		}
 		~CMakeLists() = default;
@@ -93,13 +101,17 @@ namespace deamer::file::tool
 			switch (CMG_Variant)
 			{
 			case CMakeLists_Generation_Variant::user_excluded:
-				return File("deamer", "cmake", fileData + dependencies);
+				return File("deamer", "cmake", fileData + dependencies, generationLevel_);
 			case CMakeLists_Generation_Variant::default_:
-				return File("CMakeLists", "txt", fileData + dependencies);
+				return File("CMakeLists", "txt", fileData + dependencies, generationLevel_);
 			default:
-				return File("CMakeLists", "txt", fileData + dependencies);
+				return File("CMakeLists", "txt", fileData + dependencies, generationLevel_);
 			}
-			
+		}
+
+		bool IsUserMaintained() const
+		{
+			return CMG_Variant == CMakeLists_Generation_Variant::user_maintained;
 		}
 	};
 }

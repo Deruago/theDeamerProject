@@ -46,10 +46,14 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 	auto cmakelists_library = InitialiseLibraryCMakeLists();
 	auto cmakelists_include = InitialiseIncludeCMakeLists();
 
+	auto standardDirectory = tool::Directory();
+	standardDirectory.SetCMakeLists(tool::CMakeLists(
+		"include(deamer.cmake)\n\n", "", tool::CMakeLists_Generation_Variant::user_maintained,
+		tool::GenerationLevel::Dont_generate_if_file_already_exists));
 	// Generate standard directories.
 	// These directories are always default generated.
-	GenerateExternalDirectory(compilerPath);
-	GenerateLibraryDirectory(compilerPath);
+	GenerateExternalDirectory(compilerPath, standardDirectory);
+	GenerateLibraryDirectory(compilerPath, standardDirectory);
 	GenerateIncludeDirectory(compilerPath);
 
 	for (const auto& languageOutput : compilerOutput.GetLanguageOutputs())
@@ -70,22 +74,6 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 	GenerateFile(cmakelists_external, compilerPath + "extern/");
 	GenerateFile(cmakelists_library, compilerPath + "lib/");
 	GenerateFile(cmakelists_include, compilerPath + "include/");
-
-	GenerateFile({"CMakeLists", "txt",
-				  "include(deamer.cmake)\n"
-				  "\n",
-				  tool::GenerationLevel::Dont_generate_if_file_already_exists},
-				 compilerPath + "extern/");
-	GenerateFile({"CMakeLists", "txt",
-				  "include(deamer.cmake)\n"
-				  "\n",
-				  tool::GenerationLevel::Dont_generate_if_file_already_exists},
-				 compilerPath + "lib/");
-	GenerateFile({"CMakeLists", "txt",
-				  "include(deamer.cmake)\n"
-				  "\n",
-				  tool::GenerationLevel::Dont_generate_if_file_already_exists},
-				 compilerPath + "include/");
 
 	GenerateFile(language_default_source_file(), compilerPath + "lib/");
 	GenerateFile(language_default_header_file(), compilerPath + "include/" + languageName + "/");
@@ -207,6 +195,9 @@ void deamer::file::generate::Compiler::FillDirectory(const deamer::file::tool::D
 	if (cmakelists.IsDefault())
 	{
 		cmakelists_file += CMakeListsHeader(directory);
+	}
+	else if (cmakelists.IsUserMaintained())
+	{
 	}
 	else
 	{

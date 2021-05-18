@@ -57,6 +57,7 @@ namespace deamer::file::tool
 		void AddAction(const deamer::file::tool::Action& action,
 					   const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
 		void SetCMakeLists(const std::string& cmakeLists_);
+		void SetCMakeLists(const CMakeLists& cmakeLists_);
 
 	public:
 		std::vector<File> GetFiles() const;
