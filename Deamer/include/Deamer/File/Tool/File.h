@@ -41,7 +41,7 @@ namespace deamer::file::tool
 		Always_regenerate,
 		Dont_generate_if_file_already_exists,
 	};
-
+	 
 	class File
 	{
 	private:

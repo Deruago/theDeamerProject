@@ -76,7 +76,8 @@ namespace deamer::language::validator::definition
 	public:
 		constexpr static auto value = {type::definition::object::Type::Generate,
 									   type::definition::object::Type::GenerateArgument,
-									   type::definition::object::Type::Integrate};
+									   type::definition::object::Type::Integrate,
+									   type::definition::object::Type::OSTarget};
 		using type = type::definition::property::main::Generation;
 	};
 

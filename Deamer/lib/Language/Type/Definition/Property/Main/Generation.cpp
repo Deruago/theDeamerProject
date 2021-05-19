@@ -35,6 +35,23 @@ deamer::language::type::definition::property::main::Generation::Generation(
 	references.Add(integrateStatements);
 }
 
+deamer::language::type::definition::property::main::Generation::Generation(
+	std::vector<object::main::Generate*> generateStatements_,
+	std::vector<object::main::GenerateArgument*> generateArguments_,
+	std::vector<object::main::Integrate*> integrateStatements_,
+	std::vector<object::main::OSTarget*> osTarget_)
+	: Definition(Type::Generation),
+	  osTarget(osTarget_[0]),
+	  generateStatements(std::move(generateStatements_)),
+	  generateArguments(std::move(generateArguments_)),
+	  integrateStatements(std::move(integrateStatements_))
+{
+	references.Add(generateStatements);
+	references.Add(generateArguments);
+	references.Add(integrateStatements);
+	references.Add(osTarget.value());
+}
+
 bool deamer::language::type::definition::property::main::Generation::IsIntegrationSet(
 	const object::main::Integrate& integrate) const
 {
@@ -60,4 +77,15 @@ bool deamer::language::type::definition::property::main::Generation::IsArgumentS
 		}
 	}
 	return false;
+}
+
+deamer::file::tool::OSType
+deamer::language::type::definition::property::main::Generation::GetOSTarget() const
+{
+	if (!osTarget.has_value())
+	{
+		return deamer::file::tool::os_used;
+	}
+
+	return osTarget.value()->os;
 }

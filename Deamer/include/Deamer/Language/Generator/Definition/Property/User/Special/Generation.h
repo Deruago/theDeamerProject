@@ -62,8 +62,19 @@ namespace deamer::language::generator::definition::property::user
 				Base<LanguageDefinitionType, type::definition::property::main::Generation>::
 					template GetObjects<type::definition::object::Type::Integrate>();
 
-			this->generatedDefinition = new type::definition::property::main::Generation(
-				generateStatements, generateArguments, integrationStatements);
+			const auto usedOS =
+				Base<LanguageDefinitionType, type::definition::property::main::Generation>::
+					template GetObjects<type::definition::object::Type::OSTarget>();
+			if (usedOS.empty())
+			{
+				this->generatedDefinition = new type::definition::property::main::Generation(
+					generateStatements, generateArguments, integrationStatements);
+			}
+			else
+			{
+				this->generatedDefinition = new type::definition::property::main::Generation(
+					generateStatements, generateArguments, integrationStatements, usedOS);
+			}
 		}
 	};
 }

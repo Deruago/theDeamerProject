@@ -34,6 +34,7 @@ namespace deamer::language::type::definition::object::main
 	class Generate;
 	class GenerateArgument;
 	class Integrate;
+	class OSTarget;
 	class NonTerminal;
 	class ProductionRule;
 	class Name;
@@ -169,6 +170,18 @@ namespace deamer::language::convertor::definition
 		constexpr static type::definition::object::Type value =
 			type::definition::object::Type::Integrate;
 		using type = type::definition::object::main::Integrate;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::OSTarget>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::OSTarget;
+		using type = type::definition::object::main::OSTarget;
 	};
 
 	/*!

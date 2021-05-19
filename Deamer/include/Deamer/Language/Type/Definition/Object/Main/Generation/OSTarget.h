@@ -18,42 +18,36 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+#ifndef DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_OSTARGET_H
+#define DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_OSTARGET_H
 
-namespace deamer::language::type::definition::object
+#include "Deamer/File/Tool/OSType.h"
+#include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Tool/Type/Tool.h"
+#include "Deamer/Type/Memory/SafeReserve.h"
+
+namespace deamer::language::type::definition::object::main
 {
-	/*! \enum Type
+	/*! \class OSTarget
 	 *
-	 *  \brief This enum lists all the different language definition object types.
+	 *  This object is used to specify which generators should integrate each others.
 	 */
-	enum class Type
+	class OSTarget : public Base
 	{
-		Unknown,
-		Base,
+	private:
+		friend deamer::type::SafeReserve<OSTarget>;
 
-		// Lexicon
-		Terminal,
+	public:
+		deamer::file::tool::OSType os;
+		
+	public:
+		OSTarget(deamer::file::tool::OSType os_);
 
-		// Grammar
-		NonTerminal,
-		ProductionRule,
+		bool operator==(const OSTarget& rhs) const;
 
-		// Precedence
-		ObjectPrecedence,
-
-		// Associativity
-		ObjectAssociativity,
-
-		// Generate
-		Generate,
-		GenerateArgument,
-		Integrate,
-		OSTarget,
-
-		// Identity
-		Name,
+	private:
+		OSTarget();
 	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+#endif // DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_OSTARGET_H

@@ -22,6 +22,14 @@
 #include <filesystem>
 #include <fstream>
 
+deamer::file::generate::Compiler::Compiler(const deamer::file::compiler::Output& compilerOutput_)
+	: compilerOutput(compilerOutput_),
+	  currentOs(compilerOutput_.GetLanguageReference()
+					.GetDefinition<language::type::definition::property::Type::Generation>()
+					.GetOSTarget())
+{
+}
+
 deamer::file::generate::Compiler::Compiler(const deamer::file::compiler::Output& compilerOutput_,
 										   deamer::file::tool::OSType currentOs_)
 	: compilerOutput(compilerOutput_),
@@ -220,8 +228,11 @@ void deamer::file::generate::Compiler::FillDirectory(const deamer::file::tool::D
 void deamer::file::generate::Compiler::ExecuteDirectoryAction(
 	const tool::Directory& directory, const std::string& directoryPath) const
 {
-	const deamer::file::tool::Action action = directory.GetAction(currentOs);
-	const std::string console_action = action.GetSubShellAction(currentOs, directoryPath);
+	// as this is run on the platform installed, we require to use the global
+	// deamer::file::tool::os_used variable.
+	const deamer::file::tool::Action action = directory.GetAction(deamer::file::tool::os_used);
+	const std::string console_action =
+		action.GetSubShellAction(deamer::file::tool::os_used, directoryPath);
 	const char* console_action_char_ptr = console_action.c_str();
 
 	std::cout << "Now running console action!\n";
@@ -424,7 +435,7 @@ deamer::file::tool::File deamer::file::generate::Compiler::language_default_head
 std::vector<std::string> deamer::file::generate::Compiler::GetSubCompilerNames() const
 {
 	std::vector<std::string> names;
-	for (auto compiler : compilerOutput.GetCompilerOutputs())
+	for (auto& compiler : compilerOutput.GetCompilerOutputs())
 	{
 		names.push_back(compiler.GetLanguageReference()
 							.GetDefinition<language::type::definition::property::Type::Identity>()

@@ -105,7 +105,8 @@ std::string deamer::lexer::type::flex::IncludeSection::LexerIncludeLocation() co
 
 std::string deamer::lexer::type::flex::IncludeSection::InteractiveOption() const
 {
-	if constexpr (deamer::file::tool::os_used == file::tool::OSType::os_windows)
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.GetOSTarget() == file::tool::OSType::os_windows)
 	{
 		return "%option never-interactive\n";
 	}
@@ -115,7 +116,8 @@ std::string deamer::lexer::type::flex::IncludeSection::InteractiveOption() const
 
 std::string deamer::lexer::type::flex::IncludeSection::UnistdOption() const
 {
-	if constexpr (deamer::file::tool::os_used == file::tool::OSType::os_windows)
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.GetOSTarget() == file::tool::OSType::os_windows)
 	{
 		return "%option nounistd\n";
 	}

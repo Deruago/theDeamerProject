@@ -25,6 +25,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/GeneratorArgument.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/OSTarget.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Identity/Name.h"
@@ -136,6 +137,17 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::object::Type::Integrate;
 		using type = type::definition::object::main::Integrate;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::OSTarget>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::OSTarget;
+		using type = type::definition::object::main::OSTarget;
 	};
 
 	/*!

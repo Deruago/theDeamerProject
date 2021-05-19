@@ -18,42 +18,22 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/OSTarget.h"
 
-namespace deamer::language::type::definition::object
+deamer::language::type::definition::object::main::OSTarget::OSTarget(deamer::file::tool::OSType os_)
+	: Base(Type::OSTarget),
+	  os(os_)
 {
-	/*! \enum Type
-	 *
-	 *  \brief This enum lists all the different language definition object types.
-	 */
-	enum class Type
-	{
-		Unknown,
-		Base,
-
-		// Lexicon
-		Terminal,
-
-		// Grammar
-		NonTerminal,
-		ProductionRule,
-
-		// Precedence
-		ObjectPrecedence,
-
-		// Associativity
-		ObjectAssociativity,
-
-		// Generate
-		Generate,
-		GenerateArgument,
-		Integrate,
-		OSTarget,
-
-		// Identity
-		Name,
-	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+bool deamer::language::type::definition::object::main::OSTarget::operator==(
+	const OSTarget& rhs) const
+{
+	return os == rhs.os;
+}
+
+deamer::language::type::definition::object::main::OSTarget::OSTarget()
+	: Base(Type::OSTarget),
+	  os(deamer::file::tool::os_used)
+{
+}
