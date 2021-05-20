@@ -258,7 +258,7 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		languageName +
 		")\n"
 		"\n"
-		"find_package(Deamer REQUIRED)\n"
+		"find_package(Deamer_External REQUIRED)\n"
 		"\n" +
 		"include(deamer.cmake)\n"
 		"\n"
@@ -280,7 +280,7 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		"# If you want to contribute to Deamer.\n"
 		"# Please visit: https://github.com/Deruago/theDeamerProject \n"
 		"\n"
-		"find_package(Deamer REQUIRED)\n"
+		"find_package(Deamer_External REQUIRED)\n"
 		"\n" +
 		add_subdirectory_sub_compilers +
 		"\n"
@@ -290,7 +290,7 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		".cpp\")\n"
 		"target_link_libraries(" +
 		languageName +
-		"_external_libraries PUBLIC Deamer)\n"
+		"_external_libraries PUBLIC Deamer_External)\n"
 		"target_include_directories(" +
 		languageName +
 		"_external_libraries PUBLIC "
@@ -307,7 +307,7 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		"\n"
 		"\tadd_library(${external_library_full_name} STATIC ${source_files})\n"
 		"\n"
-		"\ttarget_link_libraries(${external_library_full_name} PUBLIC Deamer)\n"
+		"\ttarget_link_libraries(${external_library_full_name} PUBLIC Deamer_External)\n"
 		"\ttarget_include_directories(${external_library_full_name} PRIVATE \"${" +
 		languageName + "_SOURCE_DIR}/extern\" \"${" + languageName +
 		"_SOURCE_DIR}/include\")\n"
