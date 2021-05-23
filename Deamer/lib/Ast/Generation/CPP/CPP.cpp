@@ -25,7 +25,6 @@
 #include "Deamer/Ast/Type/CPP/Listener.h"
 #include "Deamer/Ast/Type/CPP/Node.h"
 #include "Deamer/Ast/Type/CPP/Visitor.h"
-#include "Deamer/External/Cpp/Ast/Node.h"
 
 deamer::ast::generation::cpp::CPP::CPP(ReferenceType reference_)
 	: Base(tool::type::Tool::DeamerAST),
