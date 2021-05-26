@@ -47,6 +47,8 @@ std::string deamer::lexer::type::flex::IncludeSection::Generate() const
 		   "lex();\n"
 		   "\n"
 		   "static bool local_store = false;\n"
+		   "static int column = 0;\n"
+		   "static int handleColumn(const std::string& text);\n"
 		   "static void store(const deamer::external::cpp::lexer::TerminalObject* const "
 		   "newObject);\n"
 		   "static std::vector<const deamer::external::cpp::lexer::TerminalObject*> "
