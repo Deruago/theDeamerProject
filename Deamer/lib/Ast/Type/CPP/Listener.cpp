@@ -105,7 +105,7 @@ std::string deamer::ast::type::cpp::Listener::GenerateDispatch() const
 {
 	std::string output;
 	output +=
-		"\t\tvoid Dispatch(const ::deamer::external::cpp::ast::Node* node) const override\n"
+		"\t\tvoid Dispatch(const ::deamer::external::cpp::ast::Node* node) override\n"
 		"\t\t{\n"
 		"\t\t\tconst auto enumeratedValue = static_cast<" +
 		languageName +
@@ -147,7 +147,7 @@ std::string deamer::ast::type::cpp::Listener::GenerateListenerCallbacks() const
 	for (const auto& terminal : terminals)
 	{
 		output += "\t\tvirtual void Listen(const " + languageName +
-				  "::ast::node::" + terminal->Name + "* node) const\n";
+				  "::ast::node::" + terminal->Name + "* node)\n";
 		output +=
 			"\t\t{\n"
 			"\t\t}\n";
@@ -157,7 +157,7 @@ std::string deamer::ast::type::cpp::Listener::GenerateListenerCallbacks() const
 	for (const auto& nonTerminal : nonTerminals)
 	{
 		output += "\t\tvirtual void Listen(const " + languageName +
-				  "::ast::node::" + nonTerminal->Name + "* node) const\n";
+				  "::ast::node::" + nonTerminal->Name + "* node)\n";
 		output +=
 			"\t\t{\n"
 			"\t\t}\n";
@@ -165,7 +165,7 @@ std::string deamer::ast::type::cpp::Listener::GenerateListenerCallbacks() const
 
 	output +=
 		"\tprivate:\n"
-		"\t\tvoid DefaultAction(const ::deamer::external::cpp::ast::Node* node) const\n"
+		"\t\tvoid DefaultAction(const ::deamer::external::cpp::ast::Node* node)\n"
 		"\t\t{\n"
 		"\t\t\tfor(const auto* child : node->GetNodes())\n"
 		"\t\t\t{\n"

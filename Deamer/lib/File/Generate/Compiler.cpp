@@ -56,7 +56,7 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 
 	auto standardDirectory = tool::Directory();
 	standardDirectory.SetCMakeLists(tool::CMakeLists(
-		"include(deamer.cmake)\n\n", "", tool::CMakeLists_Generation_Variant::user_maintained,
+		"include(deamer.cmake)\n\n", "", tool::CMakeListsGenerationVariant::user_maintained,
 		tool::GenerationLevel::Dont_generate_if_file_already_exists));
 	// Generate standard directories.
 	// These directories are always default generated.
@@ -333,7 +333,7 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 deamer::file::tool::File deamer::file::generate::Compiler::InitialiseExternalCMakeLists()
 {
 	return tool::CMakeLists(CMakeListsHeader("extern"), "",
-							tool::CMakeLists_Generation_Variant::user_excluded)
+							tool::CMakeListsGenerationVariant::user_excluded)
 		.GetCMakeLists();
 }
 
@@ -386,14 +386,14 @@ deamer::file::tool::File deamer::file::generate::Compiler::InitialiseLibraryCMak
 	return tool::CMakeLists(CMakeListsHeader("lib") + library_get_source_files +
 								library_cmakelists_static_library_content +
 								library_cmakelists_shared_library_content,
-							"", tool::CMakeLists_Generation_Variant::user_excluded)
+							"", tool::CMakeListsGenerationVariant::user_excluded)
 		.GetCMakeLists();
 }
 
 deamer::file::tool::File deamer::file::generate::Compiler::InitialiseIncludeCMakeLists()
 {
 	return tool::CMakeLists(CMakeListsHeader("include"), "",
-							tool::CMakeLists_Generation_Variant::user_excluded)
+							tool::CMakeListsGenerationVariant::user_excluded)
 		.GetCMakeLists();
 }
 

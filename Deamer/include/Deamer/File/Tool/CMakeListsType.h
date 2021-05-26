@@ -18,36 +18,16 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LEXER_TYPE_FILE_FLEX_MAINSECTION_H
-#define DEAMER_LEXER_TYPE_FILE_FLEX_MAINSECTION_H
+#ifndef DEAMER_FILE_TOOL_CMAKELISTSTYPE_H
+#define DEAMER_FILE_TOOL_CMAKELISTSTYPE_H
 
-#include "Deamer/File/Tool/Data.h"
-#include "Deamer/Lexer/Generator/Flex/Flex.h"
-
-namespace deamer::lexer::type::flex
+namespace deamer::file::tool
 {
-	class MainSection : public file::tool::Data
+	enum class CMakeListsType
 	{
-	public:
-		using ReferenceType = deamer::lexer::generator::flex::Flex::ReferenceType;
-
-		const ReferenceType reference;
-		const std::string name;
-
-	public:
-		MainSection(const ReferenceType reference_);
-		~MainSection() override = default;
-
-	public:
-		std::string Generate() const override;
-
-	private:
-		std::string AddStore() const;
-		std::string AddClear() const;
-		std::string AddDeamerLexer() const;
-		std::string AddHandleColumn() const;
-		std::string CreateMain() const;
+		default_,
+		custom_,
 	};
 }
 
-#endif // DEAMER_LEXER_TYPE_FILE_FLEX_MAINSECTION_H
+#endif // DEAMER_FILE_TOOL_CMAKELISTSTYPE_H

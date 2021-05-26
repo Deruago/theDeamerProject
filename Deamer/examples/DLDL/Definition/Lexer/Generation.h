@@ -58,13 +58,13 @@ namespace DLDL::lexer
 				deamer::language::type::definition::object::main::Integrate(
 					deamer::tool::type::Tool::Bison, deamer::tool::type::Tool::DeamerAST));
 
-			/*lexerDebug.Set(deamer::language::type::definition::object::main::GenerateArgument(
-				deamer::tool::type::Tool::Flex, "Debug"));*/
+			lexerDebug.Set(deamer::language::type::definition::object::main::GenerateArgument(
+				deamer::tool::type::Tool::Flex, "Debug"));
 			lexerOutputTerminalObjects.Set(
 				deamer::language::type::definition::object::main::GenerateArgument(
 					deamer::tool::type::Tool::Flex, "Output-terminal-objects"));
-			/*grammarDebug.Set(deamer::language::type::definition::object::main::GenerateArgument(
-				deamer::tool::type::Tool::Bison, "Debug"));*/
+			grammarDebug.Set(deamer::language::type::definition::object::main::GenerateArgument(
+				deamer::tool::type::Tool::Bison, "Debug"));
 			grammarDeclareDeletedTerminals.Set(
 				deamer::language::type::definition::object::main::GenerateArgument(
 					deamer::tool::type::Tool::Bison, "Declare-deleted-terminals"));

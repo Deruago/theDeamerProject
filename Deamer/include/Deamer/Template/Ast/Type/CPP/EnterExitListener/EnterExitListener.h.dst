@@ -1,0 +1,78 @@
+#ifndef {{header_guard}}
+#define {{header_guard}}
+
+#include <Deamer/External/Cpp/Ast/Listener.h>
+#include "{{language_name}}/Ast/Node/{{language_name}}.h"
+#include "{{language_name}}/Ast/Enum/Type.h"
+
+{{terminal_include.Variable_Field}}
+
+{{nonterminal_include.Variable_Field}}
+
+namespace {{language_name}} { namespace ast { namespace listener { 
+
+	class EnterExitListener : public ::deamer::external::cpp::ast::Listener
+	{
+	private:
+	public:
+		EnterExitListener() = default;
+		~EnterExitListener() override = default;
+
+	public:
+		void Dispatch(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}} override
+		{
+			const auto enumeratedValue = static_cast<{{language_type}}>(node->GetType());
+			switch(enumeratedValue)
+			{
+			// Terminal cases
+			{{terminal_case.Variable_Field}}
+
+			// Nonterminal cases
+			{{nonterminal_case.Variable_Field}}
+			}
+		}
+
+		{{enter_terminal_listen.Variable_Field}}
+		{{exit_terminal_listen.Variable_Field}}
+
+		{{enter_nonterminal_listen.Variable_Field}}
+		{{exit_nonterminal_listen.Variable_Field}}
+
+		
+		virtual void EnterTerminal(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}}
+		{
+		}
+		
+		virtual void ExitTerminal(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}}
+		{
+		}
+		
+		virtual void EnterNonTerminal(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}}
+		{
+		}
+		
+		virtual void ExitNonTerminal(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}}
+		{
+		}
+		
+		virtual void EnterAnything(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}}
+		{
+		}
+
+		virtual void ExitAnything(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}}
+		{
+		}
+	
+	private:
+		void DefaultAction(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}}
+		{
+			for(const auto* child : node->GetNodes())
+			{
+				Dispatch(child);
+			}
+		}
+	};
+
+}}}
+
+#endif // {{header_guard}}

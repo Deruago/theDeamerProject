@@ -105,7 +105,7 @@ std::string deamer::ast::type::cpp::Visitor::GenerateDispatch() const
 {
 	std::string output;
 	output +=
-		"\t\tvoid Dispatch(const ::deamer::external::cpp::ast::Node* node) const override\n"
+		"\t\tvoid Dispatch(const ::deamer::external::cpp::ast::Node* node) override\n"
 		"\t\t{\n"
 		"\t\t\tconst auto enumeratedValue = static_cast<" +
 		languageName +
@@ -146,7 +146,7 @@ std::string deamer::ast::type::cpp::Visitor::GenerateVisitorCallbacks() const
 	for (const auto& terminal : terminals)
 	{
 		output += "\t\tvirtual void Visit(const " + languageName +
-				  "::ast::node::" + terminal->Name + "* node) const\n";
+				  "::ast::node::" + terminal->Name + "* node)\n";
 		output +=
 			"\t\t{\n"
 			"\t\t}\n";
@@ -156,7 +156,7 @@ std::string deamer::ast::type::cpp::Visitor::GenerateVisitorCallbacks() const
 	for (const auto& nonTerminal : nonTerminals)
 	{
 		output += "\t\tvirtual void Visit(const " + languageName +
-				  "::ast::node::" + nonTerminal->Name + "* node) const\n";
+				  "::ast::node::" + nonTerminal->Name + "* node)\n";
 		output +=
 			"\t\t{\n"
 			"\t\t}\n";

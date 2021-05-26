@@ -21,6 +21,7 @@
 #include "Deamer/Ast/Generation/CPP/CPP.h"
 #include "Deamer/Ast/Type/CPP/BaseNode.h"
 #include "Deamer/Ast/Type/CPP/CommonNode.h"
+#include "Deamer/Ast/Type/CPP/EnterExitListener.h"
 #include "Deamer/Ast/Type/CPP/Enum.h"
 #include "Deamer/Ast/Type/CPP/Listener.h"
 #include "Deamer/Ast/Type/CPP/Node.h"
@@ -48,6 +49,7 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 	deamer::file::tool::Output ast_listener_user_directory("Ast/Listener/User");
 
 	type::cpp::Enum enumeration(reference);
+	type::cpp::EnterExitListener enterExitListener(reference);
 	type::cpp::Listener listener(reference);
 	type::cpp::Visitor visitor(reference);
 
@@ -62,6 +64,7 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 
 		enumeration.AddTerminal(terminal);
 		listener.AddTerminal(terminal);
+		enterExitListener.AddTerminal(terminal);
 		visitor.AddTerminal(terminal);
 	}
 
@@ -74,6 +77,7 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 
 		enumeration.AddNonTerminal(nonTerminal);
 		listener.AddNonTerminal(nonTerminal);
+		enterExitListener.AddNonTerminal(nonTerminal);
 		visitor.AddNonTerminal(nonTerminal);
 
 		if (nonTerminal->abstraction ==
@@ -86,6 +90,7 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 
 	ast_enum_directory.AddFileToInclude(enumeration.Generate());
 	ast_listener_directory.AddFileToInclude(listener.Generate());
+	ast_listener_directory.AddFileToInclude(enterExitListener.Generate());
 	ast_visitor_directory.AddFileToInclude(visitor.Generate());
 
 	return file::tool::Output::Merge(

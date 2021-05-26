@@ -18,36 +18,23 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LEXER_TYPE_FILE_FLEX_MAINSECTION_H
-#define DEAMER_LEXER_TYPE_FILE_FLEX_MAINSECTION_H
+#include "Deamer/File/Tool/CMakeLists.h"
+#include <utility>
 
-#include "Deamer/File/Tool/Data.h"
-#include "Deamer/Lexer/Generator/Flex/Flex.h"
-
-namespace deamer::lexer::type::flex
+deamer::file::tool::CMakeLists::CMakeLists()
+	: type(CMakeListsType::default_),
+	  CMG_Variant(CMakeListsGenerationVariant::default_),
+	  generationLevel_(GenerationLevel::Always_regenerate)
 {
-	class MainSection : public file::tool::Data
-	{
-	public:
-		using ReferenceType = deamer::lexer::generator::flex::Flex::ReferenceType;
-
-		const ReferenceType reference;
-		const std::string name;
-
-	public:
-		MainSection(const ReferenceType reference_);
-		~MainSection() override = default;
-
-	public:
-		std::string Generate() const override;
-
-	private:
-		std::string AddStore() const;
-		std::string AddClear() const;
-		std::string AddDeamerLexer() const;
-		std::string AddHandleColumn() const;
-		std::string CreateMain() const;
-	};
 }
 
-#endif // DEAMER_LEXER_TYPE_FILE_FLEX_MAINSECTION_H
+deamer::file::tool::CMakeLists::CMakeLists(std::string fileData_, std::string dependencies_,
+										   CMakeListsGenerationVariant CMG_Variant_,
+										   GenerationLevel generationLevel)
+	: type(CMakeListsType::custom_),
+	  fileData(std::move(fileData_)),
+	  dependencies(std::move(dependencies_)),
+	  CMG_Variant(CMG_Variant_),
+	  generationLevel_(generationLevel)
+{
+}

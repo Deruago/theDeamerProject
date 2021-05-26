@@ -17,7 +17,7 @@ endif()
 
 # version information
 if(NOT DEFINED Deamer_VERSION_MAJOR)
-  set(Deamer_VERSION_MAJOR 1)
+  set(Deamer_VERSION_MAJOR 2)
 endif()
 if(NOT DEFINED Deamer_VERSION_MINOR)
   set(Deamer_VERSION_MINOR 0)
