@@ -29,6 +29,7 @@ namespace deamer::language::type::definition::object::main
 	class Generate;
 	class GenerateArgument;
 	class Integrate;
+	class OSTarget;
 	class NonTerminal;
 	class ProductionRule;
 	class Name;
@@ -152,6 +153,17 @@ namespace deamer::language::validator::definition
 	 */
 	template<>
 	class GetPropertyTypeFromObjectType<type::definition::object::main::Integrate>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Generation;
+		using type = type::definition::property::main::Generation;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::OSTarget>
 	{
 	public:
 		constexpr static auto value = type::definition::property::Type::Generation;

@@ -45,6 +45,7 @@ namespace deamer::lexer::type::flex
 		std::string AddStore() const;
 		std::string AddClear() const;
 		std::string AddDeamerLexer() const;
+		std::string AddHandleColumn() const;
 		std::string CreateMain() const;
 	};
 }

@@ -30,7 +30,7 @@ deamer::lexer::type::flex::TerminalAction::TerminalAction(
 
 std::string deamer::lexer::type::flex::TerminalAction::Generate() const
 {
-	return braces(terminal.Name) + '\t' + braces(GetDebug() + OptionalAction() + OptionalReturn()) +
+	return braces(terminal.Name) + '\t' + braces(GetDebug() + OptionalAction() + HandleColumn() + OptionalReturn()) +
 		   '\n';
 }
 
@@ -54,12 +54,12 @@ std::string deamer::lexer::type::flex::TerminalAction::GetAction() const
 		case language::type::definition::object::main::SpecialType::Standard:
 			return identity.name->value +
 				   "lval.Terminal = new deamer::external::cpp::lexer::TerminalObject(yyval, "
-				   "yylineno);";
+				   "yylineno, column);";
 		case language::type::definition::object::main::SpecialType::Ignore:
 		case language::type::definition::object::main::SpecialType::NoValue:
 			return identity.name->value +
 				   "lval.Terminal = new deamer::external::cpp::lexer::TerminalObject(\"\", "
-				   "yylineno);";
+				   "yylineno, column);";
 		case language::type::definition::object::main::SpecialType::Delete:
 			return "";
 		case language::type::definition::object::main::SpecialType::Crash:
@@ -86,13 +86,13 @@ std::string deamer::lexer::type::flex::TerminalAction::OptionalAction() const
 	{
 	case language::type::definition::object::main::SpecialType::Standard:
 		return "if (local_store) store(new deamer::external::cpp::lexer::TerminalObject(yyval, "
-			   "yylineno));"
+			   "yylineno, column));"
 			   "else " +
 			   GetAction() + ';';
 	case language::type::definition::object::main::SpecialType::Ignore:
 	case language::type::definition::object::main::SpecialType::NoValue:
 		return "if (local_store) store(new deamer::external::cpp::lexer::TerminalObject(\"\", "
-			   "yylineno));"
+			   "yylineno, column));"
 			   "else " +
 			   GetAction() + ';';
 	case language::type::definition::object::main::SpecialType::Delete:
@@ -126,4 +126,9 @@ std::string deamer::lexer::type::flex::TerminalAction::ReturnValue() const
 std::string deamer::lexer::type::flex::TerminalAction::OptionalReturn() const
 {
 	return "if (!local_store) " + ReturnValue() + ";";
+}
+
+std::string deamer::lexer::type::flex::TerminalAction::HandleColumn() const
+{
+	return "handleColumn(yyval);";
 }

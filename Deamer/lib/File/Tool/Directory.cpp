@@ -29,6 +29,16 @@ deamer::file::tool::Directory::Directory(const std::string& directoryName_)
 	}
 }
 
+deamer::file::tool::Directory::Directory(const Directory& rhs)
+{
+	this->directoryName = rhs.directoryName;
+	this->files = rhs.files;
+	this->directories = rhs.directories;
+	this->actions = rhs.actions;
+	this->parent = rhs.parent;
+	this->cmakeLists = rhs.cmakeLists;
+}
+
 void deamer::file::tool::Directory::AddFile(const File& newFile)
 {
 	files.push_back(newFile);
@@ -58,6 +68,11 @@ void deamer::file::tool::Directory::AddAction(const deamer::file::tool::Action& 
 void deamer::file::tool::Directory::SetCMakeLists(const std::string& cmakeLists_)
 {
 	cmakeLists.SetCMakeLists(cmakeLists_);
+}
+
+void deamer::file::tool::Directory::SetCMakeLists(const CMakeLists& cmakeLists_)
+{
+	cmakeLists = cmakeLists_;
 }
 
 std::vector<deamer::file::tool::File> deamer::file::tool::Directory::GetFiles() const

@@ -45,8 +45,6 @@ deamer::file::tool::Output deamer::lexer::generator::flex::Flex::Generate()
 		flexFileData.AddTerminal(*terminal);
 	}
 
-	std::cout << flexFileData.Generate() << std::endl;
-
 	const std::string fileName = name + "_lexer";
 	const file::tool::File flexFile(fileName, "l", flexFileData.Generate());
 	const file::tool::File DeamerLexer_Header("Lexer", "h", GenerateDeamerLexer_HeaderFile());

@@ -44,7 +44,11 @@ namespace deamer::file::tool
 		CMakeLists cmakeLists;
 
 	public:
+		// Use this to generate an empty directory.
+		Directory() = default;
+
 		Directory(const std::string& directoryName_);
+		Directory(const Directory& rhs);
 		virtual ~Directory() = default;
 
 	public:
@@ -53,6 +57,7 @@ namespace deamer::file::tool
 		void AddAction(const deamer::file::tool::Action& action,
 					   const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
 		void SetCMakeLists(const std::string& cmakeLists_);
+		void SetCMakeLists(const CMakeLists& cmakeLists_);
 
 	public:
 		std::vector<File> GetFiles() const;

@@ -45,6 +45,7 @@ namespace deamer::lexer::type::flex
 	public:
 		std::string ReturnValue() const;
 		std::string OptionalReturn() const;
+		std::string HandleColumn() const;
 		std::string Generate() const override;
 	};
 }

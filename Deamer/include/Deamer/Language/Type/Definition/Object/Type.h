@@ -49,6 +49,7 @@ namespace deamer::language::type::definition::object
 		Generate,
 		GenerateArgument,
 		Integrate,
+		OSTarget,
 
 		// Identity
 		Name,

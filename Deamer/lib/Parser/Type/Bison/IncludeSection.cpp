@@ -129,14 +129,16 @@ std::string deamer::parser::type::bison::IncludeSection::FlexHeaderLocation() co
 	}
 
 	std::string output;
-	if constexpr (file::tool::os_used == file::tool::OSType::os_windows)
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.GetOSTarget() == file::tool::OSType::os_windows)
 	{
 		output += "#define YY_NO_UNISTD_H\n";
 	}
 
 	output += "#include \"Flex/" + name + "_lexer.h\"\n";
 
-	if constexpr (file::tool::os_used == file::tool::OSType::os_windows)
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.GetOSTarget() == file::tool::OSType::os_windows)
 	{
 		output += "#undef YY_NO_UNISTD_H\n";
 	}
@@ -146,7 +148,8 @@ std::string deamer::parser::type::bison::IncludeSection::FlexHeaderLocation() co
 
 std::string deamer::parser::type::bison::IncludeSection::Options() const
 {
-	if constexpr (deamer::file::tool::os_used == file::tool::OSType::os_windows)
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.GetOSTarget() == file::tool::OSType::os_windows)
 	{
 		return "";
 	}

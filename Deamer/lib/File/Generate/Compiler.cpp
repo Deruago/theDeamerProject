@@ -22,6 +22,14 @@
 #include <filesystem>
 #include <fstream>
 
+deamer::file::generate::Compiler::Compiler(const deamer::file::compiler::Output& compilerOutput_)
+	: compilerOutput(compilerOutput_),
+	  currentOs(compilerOutput_.GetLanguageReference()
+					.GetDefinition<language::type::definition::property::Type::Generation>()
+					.GetOSTarget())
+{
+}
+
 deamer::file::generate::Compiler::Compiler(const deamer::file::compiler::Output& compilerOutput_,
 										   deamer::file::tool::OSType currentOs_)
 	: compilerOutput(compilerOutput_),
@@ -46,15 +54,25 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 	auto cmakelists_library = InitialiseLibraryCMakeLists();
 	auto cmakelists_include = InitialiseIncludeCMakeLists();
 
+	auto standardDirectory = tool::Directory();
+	standardDirectory.SetCMakeLists(tool::CMakeLists(
+		"include(deamer.cmake)\n\n", "", tool::CMakeListsGenerationVariant::user_maintained,
+		tool::GenerationLevel::Dont_generate_if_file_already_exists));
+	// Generate standard directories.
+	// These directories are always default generated.
+	GenerateExternalDirectory(compilerPath, standardDirectory);
+	GenerateLibraryDirectory(compilerPath, standardDirectory);
+	GenerateIncludeDirectory(compilerPath);
+
 	for (const auto& languageOutput : compilerOutput.GetLanguageOutputs())
 	{
 		const auto externalDirectory = languageOutput.GetExternalDirectory();
 		const auto libDirectory = languageOutput.GetLibraryDirectory();
 		const auto includeDirectory = languageOutput.GetIncludeDirectory();
 
-		GenerateExternalDirectory(externalDirectory, compilerPath);
-		GenerateLibraryDirectory(libDirectory, compilerPath);
-		GenerateIncludeDirectory(includeDirectory, compilerPath);
+		GenerateExternalDirectory(compilerPath, externalDirectory);
+		GenerateLibraryDirectory(compilerPath, libDirectory);
+		GenerateIncludeDirectory(compilerPath, includeDirectory);
 
 		cmakelists_external += "add_subdirectory(" + externalDirectory.GetThisDirectory() + ")\n";
 		cmakelists_library += "add_subdirectory(" + libDirectory.GetThisDirectory() + ")\n";
@@ -64,6 +82,7 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 	GenerateFile(cmakelists_external, compilerPath + "extern/");
 	GenerateFile(cmakelists_library, compilerPath + "lib/");
 	GenerateFile(cmakelists_include, compilerPath + "include/");
+
 	GenerateFile(language_default_source_file(), compilerPath + "lib/");
 	GenerateFile(language_default_header_file(), compilerPath + "include/" + languageName + "/");
 
@@ -91,8 +110,8 @@ void deamer::file::generate::Compiler::GenerateDirectory(const tool::Directory& 
 	}
 }
 
-void deamer::file::generate::Compiler::GenerateExternalDirectory(const tool::Directory& directory,
-																 const std::string& pathFromRoot)
+void deamer::file::generate::Compiler::GenerateExternalDirectory(const std::string& pathFromRoot,
+																 const tool::Directory& directory)
 {
 	const auto externalDirectory = pathFromRoot + "extern/";
 	const auto directoryPath = externalDirectory + directory.GetThisDirectory() + '/';
@@ -100,8 +119,8 @@ void deamer::file::generate::Compiler::GenerateExternalDirectory(const tool::Dir
 	FillDirectory(directory, externalDirectory, directoryPath);
 }
 
-void deamer::file::generate::Compiler::GenerateLibraryDirectory(const tool::Directory& directory,
-																const std::string& pathFromRoot)
+void deamer::file::generate::Compiler::GenerateLibraryDirectory(const std::string& pathFromRoot,
+																const tool::Directory& directory)
 {
 	const auto libraryDirectory = pathFromRoot + "lib/";
 	const auto directoryPath = libraryDirectory + directory.GetThisDirectory() + '/';
@@ -109,8 +128,8 @@ void deamer::file::generate::Compiler::GenerateLibraryDirectory(const tool::Dire
 	FillDirectory(directory, libraryDirectory, directoryPath);
 }
 
-void deamer::file::generate::Compiler::GenerateIncludeDirectory(const tool::Directory& directory,
-																const std::string& pathFromRoot)
+void deamer::file::generate::Compiler::GenerateIncludeDirectory(const std::string& pathFromRoot,
+																const tool::Directory& directory)
 {
 	const auto includeDirectory =
 		pathFromRoot + "include/" +
@@ -129,7 +148,7 @@ void deamer::file::generate::Compiler::GenerateFile(const tool::File& file,
 	const auto filePath = pathFromRoot + file.GetCompleteFileName();
 
 	if (file.GetGenerationLevel() == tool::GenerationLevel::Dont_generate_if_file_already_exists &&
-		std::filesystem::exists(filePath))
+		std::filesystem::exists(filePath) && !std::filesystem::is_empty(filePath))
 	{
 		return;
 	}
@@ -168,9 +187,7 @@ void deamer::file::generate::Compiler::FillDirectory(const deamer::file::tool::D
 													 const std::string& libraryDirectory,
 													 const std::string& directoryPath)
 {
-	std::cout << "Creating directories!\n";
 	std::filesystem::create_directories(libraryDirectory);
-	std::cout << "Done\n";
 	std::filesystem::create_directory(directoryPath);
 
 	for (const auto& file : directory.GetFiles())
@@ -184,6 +201,9 @@ void deamer::file::generate::Compiler::FillDirectory(const deamer::file::tool::D
 	if (cmakelists.IsDefault())
 	{
 		cmakelists_file += CMakeListsHeader(directory);
+	}
+	else if (cmakelists.IsUserMaintained())
+	{
 	}
 	else
 	{
@@ -206,14 +226,14 @@ void deamer::file::generate::Compiler::FillDirectory(const deamer::file::tool::D
 void deamer::file::generate::Compiler::ExecuteDirectoryAction(
 	const tool::Directory& directory, const std::string& directoryPath) const
 {
-	const deamer::file::tool::Action action = directory.GetAction(currentOs);
-	const std::string console_action = action.GetSubShellAction(currentOs, directoryPath);
+	// as this is run on the platform installed, we require to use the global
+	// deamer::file::tool::os_used variable.
+	const deamer::file::tool::Action action = directory.GetAction(deamer::file::tool::os_used);
+	const std::string console_action =
+		action.GetSubShellAction(deamer::file::tool::os_used, directoryPath);
 	const char* console_action_char_ptr = console_action.c_str();
-
-	std::cout << "Now running console action!\n";
-	std::cout << "Action: " << console_action_char_ptr << "\n";
+	
 	std::system(console_action_char_ptr);
-	std::cout << "Done\n";
 }
 
 void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::string& compilerPath)
@@ -233,7 +253,29 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		languageName +
 		")\n"
 		"\n"
-		"find_package(Deamer REQUIRED)\n"
+		"find_package(Deamer_External REQUIRED)\n"
+		"\n" +
+		"include(deamer.cmake)\n"
+		"\n"
+		"add_subdirectory(extern)\n"
+		"add_subdirectory(lib)\n"
+		"\n";
+
+	const tool::File file("CMakeLists", "txt", cmakelists_content,
+						  tool::GenerationLevel::Dont_generate_if_file_already_exists);
+
+	GenerateFile(file, compilerPath);
+
+	const std::string deamerCMake_content =
+		"# This file is auto-generated and auto-maintained.\n"
+		"# Please don't change code in this file, as new changes will be "
+		"discarded,\n"
+		"# when Deamer regenerates the project.\n"
+		"#\n"
+		"# If you want to contribute to Deamer.\n"
+		"# Please visit: https://github.com/Deruago/theDeamerProject \n"
+		"\n"
+		"find_package(Deamer_External REQUIRED)\n"
 		"\n" +
 		add_subdirectory_sub_compilers +
 		"\n"
@@ -243,7 +285,7 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		".cpp\")\n"
 		"target_link_libraries(" +
 		languageName +
-		"_external_libraries PUBLIC Deamer)\n"
+		"_external_libraries PUBLIC Deamer_External)\n"
 		"target_include_directories(" +
 		languageName +
 		"_external_libraries PUBLIC "
@@ -260,32 +302,34 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		"\n"
 		"\tadd_library(${external_library_full_name} STATIC ${source_files})\n"
 		"\n"
-		"\ttarget_link_libraries(${external_library_full_name} PUBLIC Deamer)\n"
+		"\ttarget_link_libraries(${external_library_full_name} PUBLIC Deamer_External)\n"
 		"\ttarget_include_directories(${external_library_full_name} PRIVATE \"${" +
 		languageName + "_SOURCE_DIR}/extern\" \"${" + languageName +
 		"_SOURCE_DIR}/include\")\n"
 		"\ttarget_compile_features(${external_library_full_name} PUBLIC cxx_std_17)\n"
 		"\tset_target_properties(${external_library_full_name} PROPERTIES LINKED_LANGUAGE CXX)\n"
+		"\tset_property(TARGET ${external_library_full_name} PROPERTY POSITION_INDEPENDENT_CODE "
+		"ON)\n"
 		"\t\n"
 		"\ttarget_link_libraries(" +
 		languageName +
 		"_external_libraries PUBLIC ${external_library_full_name})\n"
 		"\t\n"
 		"endfunction()\n"
-		"\n"
-		"add_subdirectory(extern)\n"
-		"add_subdirectory(lib)\n"
 		"\n";
 
-	const tool::File file("CMakeLists", "txt", cmakelists_content,
-						  tool::GenerationLevel::Dont_generate_if_file_already_exists);
+	// This file is always autogenerated, and is safe to be auto generated.
+	const tool::File deamerCMake("deamer", "cmake", deamerCMake_content,
+								 tool::GenerationLevel::Always_regenerate);
 
-	GenerateFile(file, compilerPath);
+	GenerateFile(deamerCMake, compilerPath);
 }
 
 deamer::file::tool::File deamer::file::generate::Compiler::InitialiseExternalCMakeLists()
 {
-	return tool::CMakeLists(CMakeListsHeader("extern")).GetCMakeLists();
+	return tool::CMakeLists(CMakeListsHeader("extern"), "",
+							tool::CMakeListsGenerationVariant::user_excluded)
+		.GetCMakeLists();
 }
 
 deamer::file::tool::File deamer::file::generate::Compiler::InitialiseLibraryCMakeLists()
@@ -335,14 +379,17 @@ deamer::file::tool::File deamer::file::generate::Compiler::InitialiseLibraryCMak
 		"\n";
 
 	return tool::CMakeLists(CMakeListsHeader("lib") + library_get_source_files +
-							library_cmakelists_static_library_content +
-							library_cmakelists_shared_library_content)
+								library_cmakelists_static_library_content +
+								library_cmakelists_shared_library_content,
+							"", tool::CMakeListsGenerationVariant::user_excluded)
 		.GetCMakeLists();
 }
 
 deamer::file::tool::File deamer::file::generate::Compiler::InitialiseIncludeCMakeLists()
 {
-	return tool::CMakeLists(CMakeListsHeader("include")).GetCMakeLists();
+	return tool::CMakeLists(CMakeListsHeader("include"), "",
+							tool::CMakeListsGenerationVariant::user_excluded)
+		.GetCMakeLists();
 }
 
 deamer::file::tool::File deamer::file::generate::Compiler::language_default_source_file()
@@ -383,7 +430,7 @@ deamer::file::tool::File deamer::file::generate::Compiler::language_default_head
 std::vector<std::string> deamer::file::generate::Compiler::GetSubCompilerNames() const
 {
 	std::vector<std::string> names;
-	for (auto compiler : compilerOutput.GetCompilerOutputs())
+	for (auto& compiler : compilerOutput.GetCompilerOutputs())
 	{
 		names.push_back(compiler.GetLanguageReference()
 							.GetDefinition<language::type::definition::property::Type::Identity>()

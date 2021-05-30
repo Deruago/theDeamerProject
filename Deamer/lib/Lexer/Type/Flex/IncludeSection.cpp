@@ -47,6 +47,8 @@ std::string deamer::lexer::type::flex::IncludeSection::Generate() const
 		   "lex();\n"
 		   "\n"
 		   "static bool local_store = false;\n"
+		   "static int column = 0;\n"
+		   "static int handleColumn(const std::string& text);\n"
 		   "static void store(const deamer::external::cpp::lexer::TerminalObject* const "
 		   "newObject);\n"
 		   "static std::vector<const deamer::external::cpp::lexer::TerminalObject*> "
@@ -105,7 +107,8 @@ std::string deamer::lexer::type::flex::IncludeSection::LexerIncludeLocation() co
 
 std::string deamer::lexer::type::flex::IncludeSection::InteractiveOption() const
 {
-	if constexpr (deamer::file::tool::os_used == file::tool::OSType::os_windows)
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.GetOSTarget() == file::tool::OSType::os_windows)
 	{
 		return "%option never-interactive\n";
 	}
@@ -115,7 +118,8 @@ std::string deamer::lexer::type::flex::IncludeSection::InteractiveOption() const
 
 std::string deamer::lexer::type::flex::IncludeSection::UnistdOption() const
 {
-	if constexpr (deamer::file::tool::os_used == file::tool::OSType::os_windows)
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.GetOSTarget() == file::tool::OSType::os_windows)
 	{
 		return "%option nounistd\n";
 	}

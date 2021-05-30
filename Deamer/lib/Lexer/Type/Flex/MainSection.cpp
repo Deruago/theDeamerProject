@@ -29,7 +29,8 @@ deamer::lexer::type::flex::MainSection::MainSection(const ReferenceType referenc
 
 std::string deamer::lexer::type::flex::MainSection::Generate() const
 {
-	return AddStore() + '\n' + AddClear() + '\n' + AddDeamerLexer() + '\n' + CreateMain();
+	return AddStore() + '\n' + AddClear() + '\n' + AddHandleColumn() + '\n' + AddDeamerLexer() +
+		   '\n' + CreateMain();
 }
 
 std::string deamer::lexer::type::flex::MainSection::AddStore() const
@@ -55,6 +56,7 @@ std::string deamer::lexer::type::flex::MainSection::AddDeamerLexer() const
 		   "::lexer::Lexer::Tokenize(const std::string& text) const\n"
 		   "{\n"
 		   "\tlocal_store = true;\n"
+		   "\tcolumn = 0;\n"
 		   "\n"
 		   "\tYY_BUFFER_STATE buf;\n"
 		   "\tbuf = yy_scan_string(text.c_str());\n"
@@ -68,6 +70,25 @@ std::string deamer::lexer::type::flex::MainSection::AddDeamerLexer() const
 		   "\tclear();\n"
 		   "\n"
 		   "\treturn local_objects_copy;\n"
+		   "}\n";
+}
+
+std::string deamer::lexer::type::flex::MainSection::AddHandleColumn() const
+{
+	return "static int handleColumn(const std::string& text)\n"
+		   "{\n"
+		   "\tint currentColumn = column;\n"
+		   "\tcurrentColumn += text.size();\n"
+		   "\tfor (auto character : text)\n"
+		   "\t{\n"
+		   "\t\tif (character == '\\n')\n"
+		   "\t\t{\n"
+		   "\t\t\tcurrentColumn = 0;\n"
+		   "\t\t\tbreak;\n"
+		   "\t\t}\n"
+		   "\t}\n"
+		   "\t\n"
+		   "\treturn currentColumn;\n"
 		   "}\n";
 }
 

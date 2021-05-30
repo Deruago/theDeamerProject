@@ -1,9 +1,10 @@
-# Deamer, Compiler Generator
+# Deamer, Compiler and ecosystem Generator
 
 ## Overview
 
-Deamer CC is a compiler and ecosystem generator. Via specialized definitions Deamer is capable of generating complete compilers and complete ecosystems (such as: formatting, refactoring, syntax highlighters, formatters, etc).
-Using specialized definitions one can specify languages ranging from multi compilers to simple DSL's.
+Deamer CC is an infrastructure for compiler and ecosystem generation. 
+
+Via specialized definitions Deamer is capable of generating complete compilers and complete ecosystems (such as: refactoring tools, syntax highlighters, formatters, etc). Using specialized definitions one can specify languages ranging from multi compilers to simple DSL's.
 
 All the definitions you can use in Deamer are also supported by [DLDL](https://github.com/Deruago/DLDL). [DLDL](https://github.com/Deruago/DLDL) is a language which generates C++ code for Deamer, allowing you to more easily define languages. [DLDL](https://github.com/Deruago/DLDL) will be supported with each new definition. It is recommended to use [DLDL](https://github.com/Deruago/DLDL) instead of writing the C++ code on your own for Deamer, as it automates a lot of processes.
 
@@ -56,11 +57,9 @@ sudo apt install flex
 sudo apt install bison++
 ```
 
-
-
 ## Examples
 
-For examples see the development branch.
+For examples see the [example repo](https://github.com/Deruago/DeamerExamples). This repo contains much better examples and tutorials.
 
 ## Contributing
 

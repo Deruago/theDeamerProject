@@ -1,0 +1,61 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <EnterExitListener>
+{{file.namespace}} = <deamer::templates::ast::type::cpp>
+{{file.extension}} = <h>
+
+{{const_qualifier}} = <const>
+
+{{language_node}} = <{{language_name}}::ast::node>
+{{language_type}} = <{{language_name}}::ast::Type>
+
+{{terminal_node}} = <{{language_node}}::{{terminal_name}}>
+{{nonterminal_node}} = <{{language_node}}::{{nonterminal_name}}>
+
+{{language_name_underscore}} = <{{language_name.Underscore}}>
+
+{{header_guard}} = <{{language_name_underscore.Upper}}_AST_LISTENER_ENTEREXITLISTENER_H>
+
+{{terminal_include}} = <#include "{{language_name}}/Ast/Node/{{terminal_name}}.h">
+{{nonterminal_include}} = <#include "{{language_name}}/Ast/Node/{{nonterminal_name}}.h">
+
+{{terminal_case}} = <
+			case {{language_type}}::{{terminal_name}}:
+			{
+				EnterAnything(node);
+				EnterTerminal(node);
+				ListenEntry(static_cast{{left_angle_bracket}}const {{terminal_node}}*{{right_angle_bracket}}(node));
+				break;
+			}>
+
+{{nonterminal_case}} = <
+			case {{language_type}}::{{nonterminal_name}}:
+			{
+				// Enter nonterminal
+				EnterAnything(node);
+				EnterNonTerminal(node);
+				ListenEntry(static_cast{{left_angle_bracket}}const {{nonterminal_node}}*{{right_angle_bracket}}(node));
+				
+				// Go through its children
+				DefaultAction(node);
+
+				// Exit nonterminal
+				ListenExit(static_cast{{left_angle_bracket}}const {{nonterminal_node}}*{{right_angle_bracket}}(node));
+				ExitNonTerminal(node);
+				ExitAnything(node);
+				break;
+			}>
+
+{{enter_terminal_listen}} = <
+		virtual void ListenEntry(const {{terminal_node}}* node) {{const_qualifier}}
+		{
+		}>
+
+{{enter_nonterminal_listen}} = <
+		virtual void ListenEntry(const {{nonterminal_node}}* node) {{const_qualifier}}
+		{
+		}>
+
+{{exit_nonterminal_listen}} = <
+		virtual void ListenExit(const {{nonterminal_node}}* node) {{const_qualifier}}
+		{
+		}>

@@ -68,8 +68,10 @@ namespace deamer::language::generator::definition::property
 		 *
 		 *	\brief This function will generate all objects.
 		 *
-		 *	\note This should only be used whenever the objects cannot be determined at construction
-		 *time.
+		 *	\note This should be used whenever the initialization order is not correct.
+		 *	e.g. First initializing a grammar LPD and then a lexicon LPD will result in nullptr references to lexicon.
+		 *
+		 *	The usage of an separate function solves this.
 		 */
 		virtual void GenerateObjects()
 		{
