@@ -187,9 +187,7 @@ void deamer::file::generate::Compiler::FillDirectory(const deamer::file::tool::D
 													 const std::string& libraryDirectory,
 													 const std::string& directoryPath)
 {
-	std::cout << "Creating directories!\n";
 	std::filesystem::create_directories(libraryDirectory);
-	std::cout << "Done\n";
 	std::filesystem::create_directory(directoryPath);
 
 	for (const auto& file : directory.GetFiles())
@@ -234,11 +232,8 @@ void deamer::file::generate::Compiler::ExecuteDirectoryAction(
 	const std::string console_action =
 		action.GetSubShellAction(deamer::file::tool::os_used, directoryPath);
 	const char* console_action_char_ptr = console_action.c_str();
-
-	std::cout << "Now running console action!\n";
-	std::cout << "Action: " << console_action_char_ptr << "\n";
+	
 	std::system(console_action_char_ptr);
-	std::cout << "Done\n";
 }
 
 void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::string& compilerPath)

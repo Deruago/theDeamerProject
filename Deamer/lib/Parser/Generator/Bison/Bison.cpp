@@ -53,8 +53,6 @@ deamer::file::tool::Output deamer::parser::generator::bison::Bison::Generate()
 		bisonFileData.AddNonTerminal(nonTerminal);
 	}
 
-	std::cout << bisonFileData.Generate() << '\n';
-
 	const std::string fileName = identity.name->value + "_parser";
 	const file::tool::File bisonFile(fileName, "y", bisonFileData.Generate());
 	const file::tool::File bisonParser("Parser", "h", bisonParserFile());
