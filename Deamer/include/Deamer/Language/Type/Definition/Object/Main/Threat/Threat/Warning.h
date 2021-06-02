@@ -35,15 +35,11 @@ namespace deamer::language::type::definition::object::main::threat
 		friend deamer::type::SafeReserve<Warning>;
 
 	public:
-		Warning(const Warning& warning);
-		Warning(Warning&& warning) noexcept;
-
-		Warning& operator=(const Warning& warning);
-		Warning& operator=(Warning&& warning) noexcept;
+		Warning(const analyzer::Type analyzerType, const size_t id);
 
 		~Warning() = default;
 
-	private:
+	protected:
 		Warning();
 	};
 }

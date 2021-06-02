@@ -35,11 +35,7 @@ namespace deamer::language::type::definition::object::main::threat
 		friend deamer::type::SafeReserve<Error>;
 
 	public:
-		Error(const Error& error);
-		Error(Error&& error) noexcept;
-
-		Error& operator=(const Error& error);
-		Error& operator=(Error&& error) noexcept;
+		Error(const analyzer::Type analyzerType, const size_t id);
 
 		~Error() = default;
 

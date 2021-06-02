@@ -47,17 +47,11 @@ namespace deamer::language::type::definition::object::main::threat
 		TypeInformation typeInformation;
 
 	public:
-		Threat(TypeInformation typeInformation_);
-
-		Threat(const Threat& threat);
-		Threat(Threat&& threat) noexcept;
-
-		Threat& operator=(const Threat& threat);
-		Threat& operator=(Threat&& threat) noexcept;
+		Threat(const TypeInformation typeInformation_);
 
 		~Threat() = default;
 
-	private:
+	protected:
 		Threat();
 	};
 }

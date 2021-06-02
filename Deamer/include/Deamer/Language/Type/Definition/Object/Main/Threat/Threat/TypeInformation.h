@@ -33,12 +33,13 @@ namespace deamer::language::type::definition::object::main::threat
 	struct TypeInformation
 	{
 	public:
-		analyzer::Type analyzerType;
-		Severity severity;
-		size_t id;
+		const analyzer::Type analyzerType;
+		const Severity severity;
+		const size_t id;
 
 	public:
-		TypeInformation(analyzer::Type analyzerType_, Severity severity_, size_t id_);
+		TypeInformation(const analyzer::Type analyzerType_, const Severity severity_,
+						const size_t id_);
 
 		TypeInformation();
 	};

@@ -53,6 +53,9 @@ namespace deamer::language::type::definition::object
 
 		// Identity
 		Name,
+
+		// Threat
+		Threat,
 	};
 }
 
