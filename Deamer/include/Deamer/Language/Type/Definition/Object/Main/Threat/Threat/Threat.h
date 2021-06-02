@@ -24,6 +24,7 @@
 #include "Deamer/Language/Type/Definition/Object/Base.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/TypeInformation.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
+#include <cstddef>
 
 namespace deamer::language::type::definition::object::main::threat
 {

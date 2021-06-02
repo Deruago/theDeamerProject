@@ -21,7 +21,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Warning.h"
 
 deamer::language::type::definition::object::main::threat::Warning::Warning(
-	const analyzer::Type analyzerType, const size_t id)
+	const analyzer::Type analyzerType, const std::size_t id)
 	: Threat(TypeInformation(analyzerType, Severity::Warning, id))
 {
 }

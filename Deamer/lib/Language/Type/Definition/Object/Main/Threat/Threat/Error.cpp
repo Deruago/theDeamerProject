@@ -21,7 +21,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Error.h"
 
 deamer::language::type::definition::object::main::threat::Error::Error(
-	const analyzer::Type analyzerType, const size_t id)
+	const analyzer::Type analyzerType, const std::size_t id)
 	: Threat(TypeInformation(analyzerType, Severity::Error, id))
 {
 }

@@ -21,7 +21,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/TypeInformation.h"
 
 deamer::language::type::definition::object::main::threat::TypeInformation::TypeInformation(
-	const analyzer::Type analyzerType_, const Severity severity_, const size_t id_)
+	const analyzer::Type analyzerType_, const Severity severity_, const std::size_t id_)
 	: analyzerType(analyzerType_),
 	  severity(severity_),
 	  id(id_)

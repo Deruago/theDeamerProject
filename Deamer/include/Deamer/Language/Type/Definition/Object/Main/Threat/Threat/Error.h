@@ -23,6 +23,7 @@
 
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Threat.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
+#include <cstddef>
 
 namespace deamer::language::type::definition::object::main::threat
 {
@@ -35,11 +36,11 @@ namespace deamer::language::type::definition::object::main::threat
 		friend deamer::type::SafeReserve<Error>;
 
 	public:
-		Error(const analyzer::Type analyzerType, const size_t id);
+		Error(const analyzer::Type analyzerType, const std::size_t id);
 
 		~Error() = default;
 
-	private:
+	protected:
 		Error();
 	};
 }

@@ -23,6 +23,7 @@
 
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Analyzer/Type.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Severity.h"
+#include <cstddef>
 
 namespace deamer::language::type::definition::object::main::threat
 {
@@ -35,11 +36,11 @@ namespace deamer::language::type::definition::object::main::threat
 	public:
 		const analyzer::Type analyzerType;
 		const Severity severity;
-		const size_t id;
+		const std::size_t id;
 
 	public:
 		TypeInformation(const analyzer::Type analyzerType_, const Severity severity_,
-						const size_t id_);
+						const std::size_t id_);
 
 		TypeInformation();
 	};
