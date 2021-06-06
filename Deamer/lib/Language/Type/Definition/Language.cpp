@@ -23,14 +23,20 @@
 
 deamer::language::type::definition::Language::Language(
 	std::vector<property::Definition*> propertyDefinitions_,
-	std::vector<object::Base*> definitionObjects_)
-	: propertyDefinitions(std::move(propertyDefinitions_)),
+	std::vector<object::Base*> definitionObjects_, bool temporary_)
+	: temporary(temporary_),
+	  propertyDefinitions(std::move(propertyDefinitions_)),
 	  definitionObjects(std::move(definitionObjects_))
 {
 }
 
 deamer::language::type::definition::Language::~Language()
 {
+	if (temporary)
+	{
+		return;
+	}
+
 	for (auto* propertyDefinition : propertyDefinitions)
 	{
 		delete propertyDefinition;

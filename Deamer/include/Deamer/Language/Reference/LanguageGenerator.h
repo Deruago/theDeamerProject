@@ -13,18 +13,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_REFERENCE_LANGUAGEGENERATOR_H
 #define DEAMER_LANGUAGE_REFERENCE_LANGUAGEGENERATOR_H
 
-#include "Deamer/Language/Generator/Definition/Base.h"
-#include "Deamer/Language/Type/Definition/Property/Type.h"
 #include "Deamer/Language/Convertor/Definition/PropertyEnumToType.h"
 #include "Deamer/Language/Exception/RequestedPropertyDefinitionNotFound.h"
+#include "Deamer/Language/Generator/Definition/Base.h"
+#include "Deamer/Language/Type/Definition/Property/Type.h"
 #include <vector>
 
 namespace deamer::language::reference
@@ -38,7 +38,8 @@ namespace deamer::language::reference
 	class LanguageGenerator
 	{
 	private:
-		[[nodiscard]] std::vector<const type::definition::property::Definition*> GetPropertyDefinitions(const generator::definition::Base& language) const
+		[[nodiscard]] std::vector<const type::definition::property::Definition*>
+		GetPropertyDefinitions(const generator::definition::Base& language) const
 		{
 			std::vector<const type::definition::property::Definition*> propertyDefinitions;
 			for (auto* propertyDefinition : language.GetDefinitions())
@@ -49,12 +50,13 @@ namespace deamer::language::reference
 			return propertyDefinitions;
 		}
 		const generator::definition::Base& Language;
+
 	public:
 		const std::vector<const type::definition::property::Definition*> requestedDefinitions;
 
 		LanguageGenerator(const generator::definition::Base& languageGenerator)
 			: Language(languageGenerator),
-			requestedDefinitions(GetPropertyDefinitions(languageGenerator))
+			  requestedDefinitions(GetPropertyDefinitions(languageGenerator))
 		{
 		}
 
@@ -66,9 +68,11 @@ namespace deamer::language::reference
 		 *
 		 *	\tparam type The requested property definition.
 		 *
-		 *	\returns It will automatically return a downcast-ed constant reference to the requested type.
+		 *	\returns It will automatically return a downcast-ed constant reference to the requested
+		 *type.
 		 *
-		 *	\note It will throw an exception::RequestedPropertyDefinitionNotFound whenever it cannot find the requested definition.
+		 *	\note It will throw an exception::RequestedPropertyDefinitionNotFound whenever it cannot
+		 *find the requested definition.
 		 */
 		template<type::definition::property::Type type>
 		const typename convertor::definition::PropertyEnumToType<type>::type& GetDefinition() const
@@ -77,12 +81,20 @@ namespace deamer::language::reference
 			{
 				if (definition->GetType() == type)
 				{
-					return *static_cast<const typename convertor::definition::PropertyEnumToType<type>::type*>(definition);
+					return *static_cast<
+						const typename convertor::definition::PropertyEnumToType<type>::type*>(
+						definition);
 				}
 			}
 			throw exception::RequestedPropertyDefinitionNotFound{};
 		}
+
+		[[nodiscard]] std::shared_ptr<::deamer::language::type::definition::Language>
+		GetTemporaryLanguageDefinition() const
+		{
+			return Language.GetTemporaryLanguageDefinition();
+		}
 	};
 }
 
-#endif //DEAMER_LANGUAGE_REFERENCE_LANGUAGEGENERATOR_H
+#endif // DEAMER_LANGUAGE_REFERENCE_LANGUAGEGENERATOR_H

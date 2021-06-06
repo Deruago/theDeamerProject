@@ -41,6 +41,15 @@ namespace deamer::language::type::definition
 	 */
 	class Language
 	{
+	private:
+		/*!	\property
+		 *
+		 *	\brief Specifies if it is temporary or not.
+		 *
+		 *	\note Temporary language definitions don't destroy their content.
+		 */
+		bool temporary;
+
 	public:
 		/*! \property propertyDefinitions
 		 * \brief propertyDefinitions contains pointers to all property definitions that define the
@@ -65,7 +74,7 @@ namespace deamer::language::type::definition
 		mutable deamer::type::memory::Cache<object::Base, object::Type> cache;
 
 		Language(std::vector<property::Definition*> propertyDefinitions_,
-				 std::vector<object::Base*> definitionObjects_);
+				 std::vector<object::Base*> definitionObjects_, bool temporary_ = false);
 
 		Language(const Language& language) = delete;
 		Language(Language&& language) = delete;

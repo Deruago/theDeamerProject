@@ -13,19 +13,21 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_BASE_H
 #define DEAMER_LANGUAGE_GENERATOR_DEFINITION_BASE_H
 
+#include "Deamer/Language/Generator/Definition/Property/BaseGenerator.h"
+#include "Deamer/Language/Type/Definition/Language.h"
+#include "Deamer/Language/Type/Definition/Object/Base.h"
 #include "Deamer/Language/Type/Definition/Property/Definition.h"
 #include "Deamer/Language/Type/Definition/Property/Type.h"
-#include "Deamer/Language/Type/Definition/Object/Base.h"
-#include "Deamer/Language/Generator/Definition/Property/BaseGenerator.h"
 #include <map>
+#include <memory>
 #include <vector>
 
 namespace deamer::language::generator::definition
@@ -33,8 +35,10 @@ namespace deamer::language::generator::definition
 	class Base
 	{
 	private:
-		std::map<type::definition::property::Type, type::definition::property::Definition*> definitions;
-		std::map<type::definition::property::Type, std::vector<type::definition::object::Base*>> objects;
+		std::map<type::definition::property::Type, type::definition::property::Definition*>
+			definitions;
+		std::map<type::definition::property::Type, std::vector<type::definition::object::Base*>>
+			objects;
 
 	public:
 		std::vector<type::definition::property::Definition*> GetDefinitions() const
@@ -62,33 +66,45 @@ namespace deamer::language::generator::definition
 
 			return allObjects;
 		}
+
+		[[nodiscard]] std::shared_ptr<::deamer::language::type::definition::Language>
+		GetTemporaryLanguageDefinition() const
+		{
+			return std::make_shared<::deamer::language::type::definition::Language>(
+				GetDefinitions(), GetObjects(), true);
+		}
+
 	public:
 		Base() = default;
 		virtual ~Base() = default;
+
 	public:
 		bool DefinitionAlreadyHasADefinition(type::definition::property::Type type)
 		{
 			return definitions[type] != nullptr;
 		}
 
-		virtual void ReplaceDefinition(type::definition::property::Type type, type::definition::property::Definition* const definition)
+		virtual void ReplaceDefinition(type::definition::property::Type type,
+									   type::definition::property::Definition* const definition)
 		{
 			delete definitions[type];
 
 			definitions[type] = definition;
 		}
 
-		virtual void ReplaceObjects(type::definition::property::Type type, const std::vector<type::definition::object::Base*>& newObjects)
+		virtual void ReplaceObjects(type::definition::property::Type type,
+									const std::vector<type::definition::object::Base*>& newObjects)
 		{
 			objects[type] = newObjects;
 		}
 
-		virtual void RegisterDefinition(const std::vector<type::definition::object::Base*>& newObjects, type::definition::property::Definition* const newDefinition)
+		virtual void
+		RegisterDefinition(const std::vector<type::definition::object::Base*>& newObjects,
+						   type::definition::property::Definition* const newDefinition)
 		{
 			const type::definition::property::Type type = newDefinition->GetType();
 			if (DefinitionAlreadyHasADefinition(type))
 			{
-
 				ReplaceDefinition(type, newDefinition);
 				ReplaceObjects(type, newObjects);
 			}
@@ -109,8 +125,12 @@ namespace deamer::language::generator::definition
 			propertyGenerator->GenerateDefinition();
 			auto* definition = propertyGenerator->GetDefinition();
 			RegisterDefinition(allObjects, definition);
+
+			// When generated we can safely allow the property generator to analyze itself.
+			// Note this is single module analysis
+			propertyGenerator->ThreatAnalyzeDefinition();
 		}
 	};
 }
 
-#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_BASE_H
+#endif // DEAMER_LANGUAGE_GENERATOR_DEFINITION_BASE_H
