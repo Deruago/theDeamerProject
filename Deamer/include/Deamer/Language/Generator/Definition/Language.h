@@ -13,18 +13,18 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_LANGUAGE_H
 #define DEAMER_LANGUAGE_GENERATOR_DEFINITION_LANGUAGE_H
 
 #include "Deamer/Language/Generator/Definition/Base.h"
-#include "Deamer/Language/Type/Definition/Language.h"
-#include "Deamer/Language/Generator/Definition/Property/User/BaseAPI.h"
 #include "Deamer/Language/Generator/Definition/Property/Standard/BaseAPI.h"
+#include "Deamer/Language/Generator/Definition/Property/User/BaseAPI.h"
+#include "Deamer/Language/Type/Definition/Language.h"
 #include "Deamer/Language/Validator/Generator/IsGeneratorSequenceGeneratable.h"
 
 namespace deamer::language::generator::definition
@@ -33,20 +33,21 @@ namespace deamer::language::generator::definition
 	 *
 	 *	\brief Used to generate Language Definitions with.
 	 *
-	 *	\details Given a set of property generators, it automatically generates the language definition.
+	 *	\details Given a set of property generators, it automatically generates the language
+	 *definition.
 	 *
 	 *	\tparam Derived Your language class which is a subclass of this class.
 	 *
 	 *	\tparam PropertyGenerators A set of PropertyGenerators used in your language.
 	 */
 	template<typename Derived, typename... PropertyGenerators>
-	class Language : public deamer::language::generator::definition::Base
+	class Language : public ::deamer::language::generator::definition::Base
 	{
 	public:
 		Language() = default;
 		virtual ~Language() = default;
-	public:
 
+	public:
 		/*!	\fn GenerateLanguage
 		 *
 		 *	\brief Generates a language definition.
@@ -58,7 +59,7 @@ namespace deamer::language::generator::definition
 			const auto allObjects = GetObjects();
 			return new type::definition::Language(allDefinitions, allObjects);
 		}
-		
+
 		/*!	\class GeneratePropertyDefinitions
 		 *
 		 *	\brief This class generates the given property generators in correct order.
@@ -80,12 +81,17 @@ namespace deamer::language::generator::definition
 		private:
 			/*!	\property sequenceIsValid
 			 *
-			 *	\brief When called checks whether the finished generators are enough to generate the current generator.
+			 *	\brief When called checks whether the finished generators are enough to generate the
+			 *current generator.
 			 *
-			 *	\tparam CurrentGenerator The current generator, which one wants to check the dependencies of.
+			 *	\tparam CurrentGenerator The current generator, which one wants to check the
+			 *dependencies of.
 			 */
 			template<typename CurrentGenerator>
-			static constexpr bool sequenceIsValid = validator::generator::IsGeneratorSequenceGeneratable<FinishedGenerators..., CurrentGenerator>::value;
+			static constexpr bool sequenceIsValid =
+				validator::generator::IsGeneratorSequenceGeneratable<FinishedGenerators...,
+																	 CurrentGenerator>::value;
+
 		public:
 			/*!	\fn Generate
 			 *
@@ -96,8 +102,9 @@ namespace deamer::language::generator::definition
 			 *	this function automatically resolves the conflict.
 			 *
 			 *	It works by checking in each iteration if the current generator can be generated.
-			 *	If it can be generated, we will continue to the next generator, if not we will add it at the end of the generator pack.
-			 *	We will continue this, until everything is generated.
+			 *	If it can be generated, we will continue to the next generator, if not we will add
+			 *it at the end of the generator pack. We will continue this, until everything is
+			 *generated.
 			 *
 			 *	This method allows us to automatically resolve dependency conflicts.
 			 *
@@ -113,24 +120,41 @@ namespace deamer::language::generator::definition
 					FinishGenerator<CurrentGenerator>(language);
 					if constexpr (sizeof...(UnfinishedGenerators) > 0)
 					{
-						GeneratePropertyDefinitions<FinishedGenerators..., CurrentGenerator>::template Generate<UnfinishedGenerators...>(language);
+						GeneratePropertyDefinitions<FinishedGenerators..., CurrentGenerator>::
+							template Generate<UnfinishedGenerators...>(language);
 					}
 				}
 				else
 				{
-					if constexpr (sequenceIsValid<CurrentGenerator>)
+					/* It is undefined behaviour to depend on Threat LPD's for generation.
+					 * In later versions this might be revised.
+					 */
+					if constexpr (::std::is_same_v<
+									  ::deamer::language::type::definition::property::main::Threat,
+									  typename CurrentGenerator::TargetPropertyDefinition_t>)
+					{
+						if constexpr (sizeof...(UnfinishedGenerators) > 0)
+						{
+							GeneratePropertyDefinitions<FinishedGenerators...>::template Generate<
+								UnfinishedGenerators...>(language);
+						}
+						FinishGenerator<CurrentGenerator>(language);
+					}
+					else if constexpr (sequenceIsValid<CurrentGenerator>)
 					{
 						FinishGenerator<CurrentGenerator>(language);
 						if constexpr (sizeof...(UnfinishedGenerators) > 0)
 						{
-							GeneratePropertyDefinitions<FinishedGenerators..., CurrentGenerator>::template Generate<UnfinishedGenerators...>(language);
+							GeneratePropertyDefinitions<FinishedGenerators..., CurrentGenerator>::
+								template Generate<UnfinishedGenerators...>(language);
 						}
 					}
 					else
 					{
 						if constexpr (sizeof...(UnfinishedGenerators) > 0)
 						{
-							GeneratePropertyDefinitions<FinishedGenerators...>::template Generate<UnfinishedGenerators..., CurrentGenerator>(language);
+							GeneratePropertyDefinitions<FinishedGenerators...>::template Generate<
+								UnfinishedGenerators..., CurrentGenerator>(language);
 						}
 					}
 				}
@@ -141,8 +165,9 @@ namespace deamer::language::generator::definition
 			 *	\brief Finishes a generator.
 			 *
 			 *	\details Finishes a generator.
-			 *	It correctly calls each stage of the generator, until it is fully generated (finished).
-			 *	
+			 *	It correctly calls each stage of the generator, until it is fully generated
+			 *(finished).
+			 *
 			 *	\tparam Generator The generator that we can finish.
 			 */
 			template<typename Generator>
@@ -154,4 +179,4 @@ namespace deamer::language::generator::definition
 	};
 }
 
-#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_LANGUAGE_H
+#endif // DEAMER_LANGUAGE_GENERATOR_DEFINITION_LANGUAGE_H
