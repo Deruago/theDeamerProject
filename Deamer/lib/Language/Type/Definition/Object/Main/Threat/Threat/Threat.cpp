@@ -27,6 +27,17 @@ deamer::language::type::definition::object::main::threat::Threat::Threat(
 {
 }
 
+deamer::language::type::definition::object::main::threat::TypeInformation
+deamer::language::type::definition::object::main::threat::Threat::GetTypeInformation() const
+{
+	return typeInformation;
+}
+
+std::string deamer::language::type::definition::object::main::threat::Threat::Print() const
+{
+	return "No Description given!";
+}
+
 deamer::language::type::definition::object::main::threat::Threat::Threat()
 	: Threat(TypeInformation())
 {

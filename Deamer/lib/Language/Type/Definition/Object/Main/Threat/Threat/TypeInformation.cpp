@@ -34,3 +34,29 @@ deamer::language::type::definition::object::main::threat::TypeInformation::TypeI
 	  id(0)
 {
 }
+
+std::string
+deamer::language::type::definition::object::main::threat::TypeInformation::GetSeverityAsText() const
+{
+	switch (severity)
+	{
+	case Severity::Error:
+		return "E";
+
+	case Severity::Warning:
+		return "W";
+
+	case Severity::Note:
+		return "N";
+	case Severity::Suggestion:
+		return "S";
+	}
+	return "U";
+}
+
+std::string
+deamer::language::type::definition::object::main::threat::TypeInformation::Header() const
+{
+	return "[" + GetSeverityAsText() + std::to_string(static_cast<std::size_t>(analyzerType)) +
+		   "_" + std::to_string(static_cast<std::size_t>(id)) + "]";
+}
