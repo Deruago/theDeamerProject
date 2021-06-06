@@ -42,6 +42,11 @@ namespace deamer::language::type::definition::object::main
 	class ObjectPrecedence;
 }
 
+namespace deamer::language::type::definition::object::main::threat
+{
+	class Threat;
+}
+
 namespace deamer::language::convertor::definition
 {
 	/*! \class ObjectTypeToEnum
@@ -194,6 +199,18 @@ namespace deamer::language::convertor::definition
 		constexpr static type::definition::object::Type value =
 			type::definition::object::Type::Name;
 		using type = type::definition::object::main::Name;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::threat::Threat>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Threat;
+		using type = type::definition::object::main::threat::Threat;
 	};
 
 	/*!

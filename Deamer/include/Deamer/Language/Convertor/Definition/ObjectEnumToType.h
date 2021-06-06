@@ -31,6 +31,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Identity/Name.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Threat.h"
 #include "Deamer/Language/Type/Definition/Object/Type.h"
 
 namespace deamer::language::convertor::definition
@@ -159,6 +160,17 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::object::Type::Name;
 		using type = type::definition::object::main::Name;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::Threat>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::Threat;
+		using type = type::definition::object::main::threat::Threat;
 	};
 
 	template<type::definition::object::Type T>

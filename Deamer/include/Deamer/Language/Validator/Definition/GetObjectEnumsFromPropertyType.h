@@ -26,6 +26,7 @@
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Threat.h"
 
 namespace deamer::language::validator::definition
 {
@@ -87,6 +88,14 @@ namespace deamer::language::validator::definition
 	public:
 		constexpr static auto value = {type::definition::object::Type::Name};
 		using type = type::definition::property::main::Identity;
+	};
+
+	template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Threat>
+	{
+	public:
+		constexpr static auto value = {type::definition::object::Type::Threat};
+		using type = type::definition::property::main::Threat;
 	};
 }
 

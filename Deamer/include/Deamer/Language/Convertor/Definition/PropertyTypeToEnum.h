@@ -37,6 +37,7 @@ namespace deamer::language::type::definition::property::main
 	class Lexicon;
 	class Precedence;
 	class Semantic;
+	class Threat;
 }
 
 namespace deamer::language::convertor::definition
@@ -189,6 +190,17 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Identity;
 		using type = type::definition::property::main::Identity;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyTypeToEnum
+	 */
+	template<>
+	class PropertyTypeToEnum<type::definition::property::main::Threat>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Threat;
+		using type = type::definition::property::main::Threat;
 	};
 }
 

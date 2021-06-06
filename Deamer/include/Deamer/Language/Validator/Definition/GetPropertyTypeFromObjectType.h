@@ -37,6 +37,11 @@ namespace deamer::language::type::definition::object::main
 	class ObjectPrecedence;
 }
 
+namespace deamer::language::type::definition::object::main::threat
+{
+	class Threat;
+}
+
 namespace deamer::language::type::definition::property::main
 {
 	class Associativity;
@@ -51,6 +56,7 @@ namespace deamer::language::type::definition::property::main
 	class Lexicon;
 	class Precedence;
 	class Semantic;
+	class Threat;
 }
 
 namespace deamer::language::validator::definition
@@ -179,6 +185,17 @@ namespace deamer::language::validator::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Identity;
 		using type = type::definition::property::main::Identity;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::threat::Threat>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Threat;
+		using type = type::definition::property::main::Threat;
 	};
 }
 
