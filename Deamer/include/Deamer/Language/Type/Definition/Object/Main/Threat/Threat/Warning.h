@@ -24,6 +24,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Threat.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <cstddef>
+#include <type_traits>
 
 namespace deamer::language::type::definition::object::main::threat
 {
@@ -33,10 +34,16 @@ namespace deamer::language::type::definition::object::main::threat
 	 */
 	class Warning : public Threat
 	{
-		friend deamer::type::SafeReserve<Warning>;
+		friend ::deamer::type::SafeReserve<Warning>;
 
 	public:
 		Warning(const analyzer::Type analyzerType, const std::size_t id);
+
+		template<typename T, std::enable_if_t<std::is_enum_v<T>, bool> = true>
+		Warning(const analyzer::Type analyzerType, T id)
+			: Warning(analyzerType, static_cast<unsigned>(id))
+		{
+		}
 
 		~Warning() = default;
 

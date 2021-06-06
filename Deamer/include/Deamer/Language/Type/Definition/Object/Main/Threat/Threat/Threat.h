@@ -25,6 +25,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/TypeInformation.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <cstddef>
+#include <string>
 
 namespace deamer::language::type::definition::object::main::threat
 {
@@ -33,7 +34,7 @@ namespace deamer::language::type::definition::object::main::threat
 	 *  \brief A threat is a LDO describing an possible issue given a LDO.
 	 *
 	 *  \details A threat describes an issue revolving a set of LDO's.
-	 *  An example of a frequent occuring threat is: "Unused LDO".
+	 *  An example of a frequent occurring threat is: "Unused LDO".
 	 *
 	 *  Due to the properties of the LD and LPD system, threats are part
 	 *  of language definitions.
@@ -42,7 +43,7 @@ namespace deamer::language::type::definition::object::main::threat
 	 */
 	class Threat : public Base
 	{
-		friend deamer::type::SafeReserve<Threat>;
+		friend ::deamer::type::SafeReserve<Threat>;
 
 	private:
 		TypeInformation typeInformation;
@@ -51,6 +52,12 @@ namespace deamer::language::type::definition::object::main::threat
 		Threat(const TypeInformation typeInformation_);
 
 		~Threat() = default;
+
+	public:
+		TypeInformation GetTypeInformation() const;
+
+	public:
+		virtual std::string Print() const;
 
 	protected:
 		Threat();

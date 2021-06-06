@@ -24,6 +24,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Analyzer/Type.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Severity.h"
 #include <cstddef>
+#include <string>
 
 namespace deamer::language::type::definition::object::main::threat
 {
@@ -43,6 +44,10 @@ namespace deamer::language::type::definition::object::main::threat
 						const std::size_t id_);
 
 		TypeInformation();
+
+	public:
+		std::string GetSeverityAsText() const;
+		std::string Header() const;
 	};
 }
 
