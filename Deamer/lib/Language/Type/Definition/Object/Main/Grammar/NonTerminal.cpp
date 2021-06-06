@@ -32,6 +32,12 @@ deamer::language::type::definition::object::main::NonTerminal::NonTerminal(
 	references.Add(ProductionRules);
 }
 
+bool deamer::language::type::definition::object::main::NonTerminal::operator==(const NonTerminal& rhs) const
+{
+	return this == &rhs ||
+			(this->Name == rhs.Name && this->ProductionRules == rhs.ProductionRules);
+}
+
 deamer::language::type::definition::object::main::NonTerminal::NonTerminal() : NonTerminal("", {})
 {
 }
