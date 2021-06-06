@@ -149,7 +149,7 @@ TEST_F(IntegrationTestDefineSimpleLanguage, GenerateLanguageDefinition_Correctly
 	auto* languageDefinition = language.GenerateLanguage();
 
 	const auto reference = PropertyDefinition<Type::Lexicon>(languageDefinition);
-	auto terminals = reference.GetDefinition<Type::Lexicon>().Terminals;
+	auto& terminals = reference.GetDefinition<Type::Lexicon>().Terminals;
 
 	EXPECT_EQ(4, terminals.size());
 
@@ -187,10 +187,10 @@ TEST_F(IntegrationTestDefineSimpleLanguage,
 	auto* languageDefinition = language.GenerateLanguage();
 
 	const auto referenceLexicon = PropertyDefinition<Type::Lexicon>(languageDefinition);
-	auto terminals = referenceLexicon.GetDefinition<Type::Lexicon>().Terminals;
+	auto& terminals = referenceLexicon.GetDefinition<Type::Lexicon>().Terminals;
 
 	const auto referencePrecedence = PropertyDefinition<Type::Precedence>(languageDefinition);
-	auto precedences = referencePrecedence.GetDefinition<Type::Precedence>().PrecedenceObjects;
+	auto& precedences = referencePrecedence.GetDefinition<Type::Precedence>().PrecedenceObjects;
 
 	EXPECT_EQ(4, terminals.size());
 	EXPECT_EQ(4, precedences.size());
@@ -215,7 +215,7 @@ TEST_F(IntegrationTestDefineSimpleLanguage,
 	auto* languageDefinition = language.GenerateLanguage();
 
 	const auto referenceLexicon = PropertyDefinition<Type::Lexicon>(languageDefinition);
-	auto terminals = referenceLexicon.GetDefinition<Type::Lexicon>().Terminals;
+	const auto& terminals = referenceLexicon.GetDefinition<Type::Lexicon>().Terminals;
 
 	const auto referencePrecedence = PropertyDefinition<Type::Associativity>(languageDefinition);
 	const auto& associativities =
