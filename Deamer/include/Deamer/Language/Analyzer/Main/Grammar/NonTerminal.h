@@ -71,7 +71,77 @@ namespace deamer::language::analyzer::main
 
 		bool IsStartType() const;
 
+		/*!	\fn GetStartingTerminals
+		 *
+		 *	\brief This algorithm will found out each possible starting terminal given a
+		 *	nonterminal.
+		 *
+		 *	\see GetEndingTerminals
+		 */
+		void GetStartingTerminals(
+			std::set<reference::LDO<type::definition::object::main::Terminal>>& startingTerminals)
+			const;
+
+		/*!	\fn GetEndingTerminals
+		 *
+		 *	\brief This algorithm will found out each possible ending terminal given a nonterminal.
+		 *
+		 *	\details This algorithm is O(n^2) (where n is the total tokens in the expanded subtree
+		 *	of the nonterminal) for when the grammar underlying the nonterminal is does not end with
+		 *	the empty set.
+		 *	If it does this introduces multiple branches.
+		 *	Increasing the complexity drastically as multiple nonterminals can be reached, possible
+		 *	extending to the complete grammar.
+		 */
+		void GetEndingTerminals(std::set<reference::LDO<type::definition::object::main::Terminal>>&
+									endingTerminals) const;
+
+		/*!	\fn DoesNonTerminalHaveEmptyAsItsNode
+		 *
+		 *	\brief This function checks if a given nonterminal ends or starts with an EMPTY
+		 *	(epsilon) terminal.
+		 *
+		 *	\detail This algorithm is O(n) (where n is the total tokens in the expanded subtree
+		 *	of the nonterminal).
+		 *	If epsilon is found earlier this will be returned earlier.
+		 */
+		bool DoesNonTerminalHaveEmptyAsItsNode() const;
+
+		/*!	\fn GetLeftNeighbouringTokens
+		 *
+		 *	\brief Finds out all subtrees left of this nonterminal.
+		 */
+		void GetLeftNeighboringTokens(
+			std::set<type::definition::object::Base*>& neighboringTokens) const;
+
+		void GetRightNeighboringTokens(
+			std::set<type::definition::object::Base*>& neighboringTokens) const;
+
 	private:
+		void GetStartingTerminals(
+			std::set<reference::LDO<type::definition::object::main::Terminal>>& startingTerminals,
+			std::set<reference::LDO<type::definition::object::main::NonTerminal>>&
+				nonTerminalsVisited) const;
+
+		void GetEndingTerminals(
+			std::set<reference::LDO<type::definition::object::main::Terminal>>& endingTerminals,
+			std::set<reference::LDO<type::definition::object::main::NonTerminal>>&
+				nonTerminalsVisited) const;
+
+		void GetLeftNeighboringTokens(
+			std::set<type::definition::object::Base*>& neighboringTokens,
+			std::set<reference::LDO<type::definition::object::main::NonTerminal>>&
+				visitedNonTerminals) const;
+
+		void GetRightNeighboringTokens(
+			std::set<type::definition::object::Base*>& set,
+			std::set<reference::LDO<type::definition::object::main::NonTerminal>>&
+				visitedNonTerminals) const;
+
+		bool DoesNonTerminalHaveEmptyAsItsNode(
+			std::set<reference::LDO<type::definition::object::main::NonTerminal>>&
+				visitedNonTerminal) const;
+
 		bool IsRecursiveImplementation(
 			const size_t currentDepth, const size_t maxDepth, const bool infinite,
 			reference::LDO<deamer::language::type::definition::object::main::NonTerminal>

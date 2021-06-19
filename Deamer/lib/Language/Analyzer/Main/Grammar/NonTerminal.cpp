@@ -19,6 +19,8 @@
  */
 
 #include "Deamer/Language/Analyzer/Main/Grammar/NonTerminal.h"
+#include "Deamer/Language/Reference/ReverseLookup.h"
+#include "Deamer/Parser/Type/Bison/ActionSection.h"
 
 deamer::language::analyzer::main::NonTerminal::NonTerminal(
 	const reference::PropertyDefinitionBase* reference_,
@@ -64,6 +66,406 @@ bool deamer::language::analyzer::main::NonTerminal::IsStartType() const
 	}
 
 	return nonTerminals[0] == nonTerminal;
+}
+
+void deamer::language::analyzer::main::NonTerminal::GetStartingTerminals(
+	std::set<reference::LDO<type::definition::object::main::Terminal>>& startingTerminals) const
+{
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>> nonTerminalsVisited;
+	GetStartingTerminals(startingTerminals, nonTerminalsVisited);
+}
+
+void deamer::language::analyzer::main::NonTerminal::GetEndingTerminals(
+	std::set<reference::LDO<type::definition::object::main::Terminal>>& endingTerminals) const
+{
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>> nonTerminalsVisited;
+	GetEndingTerminals(endingTerminals, nonTerminalsVisited);
+}
+
+bool deamer::language::analyzer::main::NonTerminal::DoesNonTerminalHaveEmptyAsItsNode() const
+{
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>> visitedNonTerminals;
+
+	return DoesNonTerminalHaveEmptyAsItsNode(visitedNonTerminals);
+}
+
+void deamer::language::analyzer::main::NonTerminal::GetLeftNeighboringTokens(
+	std::set<type::definition::object::Base*>& neighboringTokens) const
+{
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>> visitedNonTerminals;
+
+	GetLeftNeighboringTokens(neighboringTokens, visitedNonTerminals);
+}
+
+void deamer::language::analyzer::main::NonTerminal::GetLeftNeighboringTokens(
+	std::set<type::definition::object::Base*>& neighboringTokens,
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>>& visitedNonTerminals)
+	const
+{
+	const reference::ReverseLookup<type::definition::object::main::ProductionRule>
+		reverseLookupProductionRules(language_reference);
+
+	const auto& resultReferencingProductionRules = reverseLookupProductionRules.Get(nonTerminal);
+
+	for (const auto& productionRule : resultReferencingProductionRules.GetObjects())
+	{
+		std::vector<std::size_t> indexes;
+		std::size_t currentIndex = 0;
+		for (reference::LDO<type::definition::object::main::Terminal> token :
+			 productionRule->Tokens)
+		{
+			if (token == nonTerminal)
+			{
+				indexes.push_back(currentIndex);
+			}
+
+			currentIndex += 1;
+		}
+
+		bool topExpanded = false;
+		reference::ReverseLookup<type::definition::object::main::NonTerminal>
+			reverseLookupProductionRuleNonTerminal(language_reference);
+		auto productionRuleTokenResult = reverseLookupProductionRuleNonTerminal.Get(productionRule);
+		for (auto index : indexes)
+		{
+			if (index == 0)
+			{
+				if (!topExpanded && !productionRuleTokenResult.IsEmpty())
+				{
+					topExpanded = true;
+
+					if (visitedNonTerminals.find(productionRuleTokenResult.GetObject()) !=
+						visitedNonTerminals.end())
+					{
+						return;
+					}
+
+					visitedNonTerminals.insert(productionRuleTokenResult.GetObject());
+
+					NonTerminal(language_reference, productionRuleTokenResult.GetObject())
+						.GetLeftNeighboringTokens(neighboringTokens, visitedNonTerminals);
+
+					visitedNonTerminals.erase(productionRuleTokenResult.GetObject());
+				}
+			}
+			else if (index > 0)
+			{
+				bool shouldBeFurtherAnalyzed = false;
+				bool done = false;
+				std::size_t currentElementIndex = index - 1;
+				do
+				{
+					auto* const currentToken = productionRule->Tokens[currentElementIndex];
+					neighboringTokens.insert(currentToken);
+
+					if (currentToken->Type_ == type::definition::object::Type::NonTerminal &&
+						NonTerminal(language_reference, currentToken)
+							.DoesNonTerminalHaveEmptyAsItsNode())
+					{
+						if (currentElementIndex != 0)
+						{
+							currentElementIndex--;
+						}
+						else
+						{
+							shouldBeFurtherAnalyzed = true;
+							done = true;
+						}
+					}
+					else
+					{
+						done = true;
+					}
+				} while (!done && currentElementIndex >= 0 &&
+						 currentElementIndex < productionRule->Tokens.size());
+
+				if (currentElementIndex == 0 && shouldBeFurtherAnalyzed)
+				{
+					if (!topExpanded && !productionRuleTokenResult.IsEmpty())
+					{
+						topExpanded = true;
+
+						if (visitedNonTerminals.find(productionRuleTokenResult.GetObject()) !=
+							visitedNonTerminals.end())
+						{
+							return;
+						}
+
+						visitedNonTerminals.insert(productionRuleTokenResult.GetObject());
+
+						NonTerminal(language_reference, productionRuleTokenResult.GetObject())
+							.GetLeftNeighboringTokens(neighboringTokens, visitedNonTerminals);
+
+						visitedNonTerminals.erase(productionRuleTokenResult.GetObject());
+					}
+				}
+			}
+		}
+	}
+}
+
+void deamer::language::analyzer::main::NonTerminal::GetRightNeighboringTokens(
+	std::set<type::definition::object::Base*>& neighboringTokens) const
+{
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>> visitedNonTerminals;
+
+	GetRightNeighboringTokens(neighboringTokens, visitedNonTerminals);
+}
+
+void deamer::language::analyzer::main::NonTerminal::GetRightNeighboringTokens(
+	std::set<type::definition::object::Base*>& neighboringTokens,
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>>& visitedNonTerminals)
+	const
+{
+	const reference::ReverseLookup<type::definition::object::main::ProductionRule>
+		reverseLookupProductionRules(language_reference);
+
+	const auto& resultReferencingProductionRules = reverseLookupProductionRules.Get(nonTerminal);
+
+	std::cout << "Analyzing: " << nonTerminal->Name << "\n";
+
+	for (const auto& productionRule : resultReferencingProductionRules.GetObjects())
+	{
+		std::vector<std::size_t> indexes;
+		std::size_t currentIndex = 0;
+		for (reference::LDO<type::definition::object::main::Terminal> token :
+			 productionRule->Tokens)
+		{
+			if (token == nonTerminal)
+			{
+				std::cout << "\tIndex: " << currentIndex << "\n";
+				indexes.push_back(currentIndex);
+			}
+
+			currentIndex += 1;
+		}
+
+		std::cout << "\tDone indexing\n";
+
+		bool topExpanded = false;
+		reference::ReverseLookup<type::definition::object::main::NonTerminal>
+			reverseLookupProductionRuleNonTerminal(language_reference);
+		auto productionRuleTokenResult = reverseLookupProductionRuleNonTerminal.Get(productionRule);
+		for (auto index : indexes)
+		{
+			if (index == productionRule->Tokens.size() - 1)
+			{
+				if (!topExpanded && !productionRuleTokenResult.IsEmpty())
+				{
+					topExpanded = true;
+
+					if (visitedNonTerminals.find(productionRuleTokenResult.GetObject()) !=
+						visitedNonTerminals.end())
+					{
+						return;
+					}
+
+					visitedNonTerminals.insert(productionRuleTokenResult.GetObject());
+
+					NonTerminal(language_reference, productionRuleTokenResult.GetObject())
+						.GetRightNeighboringTokens(neighboringTokens, visitedNonTerminals);
+
+					visitedNonTerminals.erase(productionRuleTokenResult.GetObject());
+				}
+			}
+			else if (index < productionRule->Tokens.size() - 1)
+			{
+				bool shouldBeFurtherAnalyzed = false;
+				bool done = false;
+				std::size_t currentElementIndex = index + 1;
+				do
+				{
+					auto* const currentToken = productionRule->Tokens[currentElementIndex];
+					neighboringTokens.insert(currentToken);
+
+					if (currentToken->Type_ == type::definition::object::Type::NonTerminal &&
+						NonTerminal(language_reference, currentToken)
+							.DoesNonTerminalHaveEmptyAsItsNode())
+					{
+						if (currentElementIndex < productionRule->Tokens.size() - 1)
+						{
+							currentElementIndex++;
+						}
+						else
+						{
+							shouldBeFurtherAnalyzed = true;
+							done = true;
+						}
+					}
+					else
+					{
+						done = true;
+					}
+				} while (!done && currentElementIndex >= 0 &&
+						 currentElementIndex < productionRule->Tokens.size());
+
+				if (currentElementIndex == productionRule->Tokens.size() - 1 &&
+					shouldBeFurtherAnalyzed)
+				{
+					if (!topExpanded && !productionRuleTokenResult.IsEmpty())
+					{
+						topExpanded = true;
+
+						if (visitedNonTerminals.find(productionRuleTokenResult.GetObject()) !=
+							visitedNonTerminals.end())
+						{
+							return;
+						}
+
+						visitedNonTerminals.insert(productionRuleTokenResult.GetObject());
+
+						NonTerminal(language_reference, productionRuleTokenResult.GetObject())
+							.GetRightNeighboringTokens(neighboringTokens, visitedNonTerminals);
+
+						visitedNonTerminals.erase(productionRuleTokenResult.GetObject());
+					}
+				}
+			}
+		}
+	}
+
+	std::cout << "Done Analyzing: " << nonTerminal->Name << "\n";
+}
+
+bool deamer::language::analyzer::main::NonTerminal::DoesNonTerminalHaveEmptyAsItsNode(
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>>& visitedNonTerminal) const
+{
+	if (visitedNonTerminal.find(nonTerminal) != visitedNonTerminal.end())
+	{
+		return false;
+	}
+
+	visitedNonTerminal.insert(nonTerminal);
+
+	for (reference::LDO<type::definition::object::main::ProductionRule> productionrule :
+		 nonTerminal->ProductionRules)
+	{
+		// Definition of having an EMPTY (epsilon) terminal
+		if (productionrule->Tokens.empty())
+		{
+			return true;
+		}
+
+		const auto* const lastToken = productionrule->Tokens[productionrule->Tokens.size() - 1];
+
+		if (lastToken->Type_ != type::definition::object::Type::NonTerminal)
+		{
+			continue;
+		}
+
+		reference::LDO<type::definition::object::main::NonTerminal> currentNonTerminal(lastToken);
+		NonTerminal analyzer(language_reference, currentNonTerminal.Get());
+		if (analyzer.DoesNonTerminalHaveEmptyAsItsNode(visitedNonTerminal))
+		{
+			return true;
+		}
+	}
+
+	visitedNonTerminal.erase(nonTerminal);
+
+	return false;
+}
+
+void deamer::language::analyzer::main::NonTerminal::GetStartingTerminals(
+
+	std::set<reference::LDO<type::definition::object::main::Terminal>>& startingTerminals,
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>>& nonTerminalsVisited)
+	const
+{
+	if (nonTerminalsVisited.find(nonTerminal) != nonTerminalsVisited.end())
+	{
+		return;
+	}
+	nonTerminalsVisited.insert(nonTerminal.Get());
+
+	for (reference::LDO<type::definition::object::main::ProductionRule> productionRule :
+		 nonTerminal->ProductionRules)
+	{
+		if (productionRule->Tokens.empty())
+		{
+			continue;
+		}
+
+		size_t i = 0;
+		bool isEmptyEnding = false;
+		bool done = false;
+		do
+		{
+			isEmptyEnding = false;
+			const type::definition::object::Base* firstToken = productionRule->Tokens[i];
+			i++;
+
+			if (firstToken->Type_ == type::definition::object::Type::Terminal)
+			{
+				startingTerminals.insert(firstToken);
+				done = true;
+			}
+
+			if (firstToken->Type_ == type::definition::object::Type::NonTerminal)
+			{
+				reference::LDO<type::definition::object::main::NonTerminal> lastTokenAsNT(
+					firstToken);
+				auto lastTokenAnalyzer = NonTerminal(language_reference, lastTokenAsNT.Get());
+				isEmptyEnding = lastTokenAnalyzer.DoesNonTerminalHaveEmptyAsItsNode();
+
+				lastTokenAnalyzer.GetStartingTerminals(startingTerminals, nonTerminalsVisited);
+			}
+
+		} while (!done && isEmptyEnding && i < productionRule->Tokens.size());
+	}
+
+	nonTerminalsVisited.erase(nonTerminal.Get());
+}
+
+void deamer::language::analyzer::main::NonTerminal::GetEndingTerminals(
+	std::set<reference::LDO<type::definition::object::main::Terminal>>& endingTerminals,
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>>& nonTerminalsVisited)
+	const
+{
+	if (nonTerminalsVisited.find(nonTerminal) != nonTerminalsVisited.end())
+	{
+		return;
+	}
+	nonTerminalsVisited.insert(nonTerminal.Get());
+
+	for (reference::LDO<type::definition::object::main::ProductionRule> productionRule :
+		 nonTerminal->ProductionRules)
+	{
+		if (productionRule->Tokens.empty())
+		{
+			continue;
+		}
+
+		size_t i = 0;
+		bool isEmptyEnding = false;
+		bool done = false;
+		do
+		{
+			isEmptyEnding = false;
+			i++;
+			const type::definition::object::Base* lastToken =
+				productionRule->Tokens[productionRule->Tokens.size() - i];
+
+			if (lastToken->Type_ == type::definition::object::Type::Terminal)
+			{
+				endingTerminals.insert(lastToken);
+				done = true;
+			}
+
+			if (lastToken->Type_ == type::definition::object::Type::NonTerminal)
+			{
+				reference::LDO<type::definition::object::main::NonTerminal> lastTokenAsNT(
+					lastToken);
+				auto lastTokenAnalyzer = NonTerminal(language_reference, lastTokenAsNT.Get());
+				isEmptyEnding = lastTokenAnalyzer.DoesNonTerminalHaveEmptyAsItsNode();
+
+				lastTokenAnalyzer.GetEndingTerminals(endingTerminals, nonTerminalsVisited);
+			}
+
+		} while (!done && isEmptyEnding && i < productionRule->Tokens.size());
+	}
+
+	nonTerminalsVisited.erase(nonTerminal.Get());
 }
 
 bool deamer::language::analyzer::main::NonTerminal::IsRecursiveImplementation(
