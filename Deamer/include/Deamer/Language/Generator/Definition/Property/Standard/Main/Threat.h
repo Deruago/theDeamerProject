@@ -45,10 +45,9 @@ namespace deamer::language::generator::definition::property::standard
 
 		/*!	\fn Generate
 		 *
-		 *	\brief Generates a default precedence property definition.
+		 *	\brief This will generate the threat LPD.
 		 *
-		 *	\details The default precedence definition exists of a set of precedences which are all
-		 *the same (0).
+		 *	\details The threat LPD contains all results from the various threat analyzers given.
 		 */
 		void GenerateDefinition() override
 		{

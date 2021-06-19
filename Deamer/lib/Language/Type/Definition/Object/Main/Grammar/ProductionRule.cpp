@@ -53,7 +53,8 @@ std::string deamer::language::type::definition::object::main::ProductionRule::Ge
 		case Type::NonTerminal:
 			output += reference::LDO<NonTerminal>(token)->Name;
 			break;
-		default:;
+		default:
+			break;
 		}
 		output += " ";
 	}

@@ -13,10 +13,10 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_H
 #define DEAMER_H
@@ -25,8 +25,9 @@
  *
  *  Used as main namespace for all the library code
  */
-namespace deamer {
-    
+namespace deamer
+{
+	static constexpr const char* version = "2.1.0";
 }
 
-#endif //DEAMER_H
+#endif // DEAMER_H
