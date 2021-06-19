@@ -3,6 +3,7 @@
 
 #include "Deamer/Language/Generator/Definition/Language.h"
 #include "Deamer/Language/Generator/Definition/Property/Standard/Main/Associativity.h"
+#include "Deamer/Language/Generator/Definition/Property/Standard/Main/Colorization.h"
 #include "Deamer/Language/Generator/Definition/Property/Standard/Main/Precedence.h"
 #include "Deamer/Language/Generator/Definition/Property/User/Main/Grammar.h"
 #include <Deamer/Language/Generator/Definition/Property/User/Main/Lexicon.h>
@@ -76,14 +77,23 @@ public:
 	GenerateAssociativity(LanguageDefinition* lang);
 };
 
+class GenerateDefaultColorization
+	: public deamer::language::generator::definition::property::standard::Colorization<
+		  LanguageDefinition>
+{
+public:
+	GenerateDefaultColorization(LanguageDefinition* lang);
+};
+
 class LanguageDefinition
-	: public deamer::language::generator::definition::Language<LanguageDefinition, GenerateLexicon,
-															   GenerateGrammar, GeneratePrecedence,
-															   GenerateAssociativity>,
+	: public deamer::language::generator::definition::Language<
+		  LanguageDefinition, GenerateLexicon, GenerateGrammar, GeneratePrecedence,
+		  GenerateAssociativity, GenerateDefaultColorization>,
 	  public GenerateLexicon,
 	  public GenerateGrammar,
 	  public GeneratePrecedence,
-	  public GenerateAssociativity
+	  public GenerateAssociativity,
+	  public GenerateDefaultColorization
 {
 public:
 	int a = 0;

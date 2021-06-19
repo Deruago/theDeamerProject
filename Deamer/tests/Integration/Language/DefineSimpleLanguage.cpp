@@ -54,11 +54,17 @@ GenerateAssociativity::GenerateAssociativity(LanguageDefinition* lang) : Associa
 {
 }
 
+GenerateDefaultColorization::GenerateDefaultColorization(LanguageDefinition* lang)
+	: Colorization(lang)
+{
+}
+
 LanguageDefinition::LanguageDefinition()
 	: GenerateLexicon(this),
 	  GenerateGrammar(this),
 	  GeneratePrecedence(this),
-	  GenerateAssociativity(this)
+	  GenerateAssociativity(this),
+	  GenerateDefaultColorization(this)
 {
 }
 
