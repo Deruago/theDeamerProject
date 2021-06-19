@@ -55,8 +55,12 @@ namespace deamer::language::reference
 	class LDO : public LDO_Base
 	{
 	public:
-		static_assert(!std::is_same<T, std::nullptr_t>::value,
+		static_assert(!std::is_same_v<T, std::nullptr_t>,
 					  "LDO type may not be of type std::nullptr");
+
+		static_assert(std::is_base_of_v<::deamer::language::type::definition::object::Base, T>,
+					  "LDO Should be subclass of the "
+					  "::deamer::language::type::definition::object::Base class.");
 
 		using T_bare = T;
 		using T_stripped = std::remove_cv_t<std::remove_pointer_t<T>>;
@@ -102,6 +106,21 @@ namespace deamer::language::reference
 			ThrowIfBaseTypeIsInvalid();
 
 			return static_cast<const_type>(base);
+		}
+
+		/*! \fn GetRawPointer
+		 *
+		 *	\brief Returns non const raw pointer dereferenced.
+		 *
+		 *	\warning If any immutable object is given this function will create a mutable raw pointer.
+		 *	Thus if the original data was in read only memory, you have a problem.
+		 *	Only use this if you know the data is mutable.
+		 */
+		type GetRawPointer() const
+		{
+			ThrowIfBaseTypeIsInvalid();
+
+			return static_cast<type>(const_cast<type::definition::object::Base*>(base));
 		}
 
 		const_type operator->() const
