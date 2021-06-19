@@ -23,6 +23,7 @@
 
 #include "Deamer/Language/Type/Definition/Object/Type.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Associativity.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Colorization.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
@@ -88,6 +89,18 @@ namespace deamer::language::validator::definition
 	public:
 		constexpr static auto value = {type::definition::object::Type::Name};
 		using type = type::definition::property::main::Identity;
+	};
+
+	template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Colorization>
+	{
+	public:
+		constexpr static auto value = {type::definition::object::Type::ColorTheme,
+									   type::definition::object::Type::ColorGroup,
+									   type::definition::object::Type::ColorCombination,
+									   type::definition::object::Type::TerminalColor,
+									   type::definition::object::Type::TerminalPatternColor};
+		using type = type::definition::property::main::Colorization;
 	};
 
 	template<>

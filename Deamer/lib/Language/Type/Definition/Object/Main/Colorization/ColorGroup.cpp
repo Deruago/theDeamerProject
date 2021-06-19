@@ -18,52 +18,21 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorGroup.h"
 
-namespace deamer::language::type::definition::object
+deamer::language::type::definition::object::main::ColorGroup::ColorGroup(std::size_t colorId)
+	: Base(Type::ColorGroup),
+	  ColorId(colorId)
 {
-	/*! \enum Type
-	 *
-	 *  \brief This enum lists all the different language definition object types.
-	 */
-	enum class Type
-	{
-		Unknown,
-		Base,
-
-		// Lexicon
-		Terminal,
-
-		// Grammar
-		NonTerminal,
-		ProductionRule,
-
-		// Precedence
-		ObjectPrecedence,
-
-		// Associativity
-		ObjectAssociativity,
-
-		// Generate
-		Generate,
-		GenerateArgument,
-		Integrate,
-		OSTarget,
-
-		// Identity
-		Name,
-
-		// Threat
-		Threat,
-
-		// Colorization
-		ColorGroup,
-		ColorCombination,
-		ColorTheme,
-		TerminalColor,
-		TerminalPatternColor,
-	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+
+deamer::language::type::definition::object::main::ColorGroup::ColorGroup() : ColorGroup(0)
+{
+}
+
+bool deamer::language::type::definition::object::main::ColorGroup::operator==(
+	const ColorGroup& rhs) const
+{
+	return this == &rhs || (this->ColorId == rhs.ColorId);
+}

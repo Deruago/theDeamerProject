@@ -13,16 +13,17 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_VALIDATOR_DEFINITION_DOESOBJECTBELONGTOPROPERTY_H
 #define DEAMER_LANGUAGE_VALIDATOR_DEFINITION_DOESOBJECTBELONGTOPROPERTY_H
 
 #include "Deamer/Language/Convertor/Definition/ObjectTypeToEnum.h"
 #include "Deamer/Language/Validator/Definition/GetPropertyTypeFromObjectType.h"
+#include <type_traits>
 
 namespace deamer::language::validator::definition
 {
@@ -41,12 +42,16 @@ namespace deamer::language::validator::definition
 	class DoesObjectBelongToProperty
 	{
 	private:
-		constexpr static auto T_integralConstant = std::integral_constant<T, convertor::definition::ObjectTypeToEnum<T>::value>{};
-		constexpr static auto Q_integralConstant = std::integral_constant<typename GetPropertyTypeFromObjectType<Q>::type, convertor::definition::ObjectTypeToEnum<GetPropertyTypeFromObjectType<Q>>::value>{};
+		constexpr static auto T_integralConstant =
+			std::integral_constant<T, convertor::definition::ObjectTypeToEnum<T>::value>{};
+		constexpr static auto Q_integralConstant = std::integral_constant<
+			typename GetPropertyTypeFromObjectType<Q>::type,
+			convertor::definition::ObjectTypeToEnum<GetPropertyTypeFromObjectType<Q>>::value>{};
+
 	public:
 		constexpr static auto value = T_integralConstant == Q_integralConstant;
 		using type = void;
 	};
 }
 
-#endif //DEAMER_LANGUAGE_VALIDATOR_DEFINITION_DOESOBJECTBELONGTOPROPERTY_H
+#endif // DEAMER_LANGUAGE_VALIDATOR_DEFINITION_DOESOBJECTBELONGTOPROPERTY_H

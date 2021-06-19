@@ -18,52 +18,25 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorTheme.h"
+#include <utility>
 
-namespace deamer::language::type::definition::object
+deamer::language::type::definition::object::main::ColorTheme::ColorTheme(
+	std::string themeName_, std::vector<ColorCombination*> colorCombinations_)
+	: Base(Type::ColorTheme),
+	  ThemeName(std::move(themeName_)),
+	  ColorCombinations(std::move(colorCombinations_))
 {
-	/*! \enum Type
-	 *
-	 *  \brief This enum lists all the different language definition object types.
-	 */
-	enum class Type
-	{
-		Unknown,
-		Base,
-
-		// Lexicon
-		Terminal,
-
-		// Grammar
-		NonTerminal,
-		ProductionRule,
-
-		// Precedence
-		ObjectPrecedence,
-
-		// Associativity
-		ObjectAssociativity,
-
-		// Generate
-		Generate,
-		GenerateArgument,
-		Integrate,
-		OSTarget,
-
-		// Identity
-		Name,
-
-		// Threat
-		Threat,
-
-		// Colorization
-		ColorGroup,
-		ColorCombination,
-		ColorTheme,
-		TerminalColor,
-		TerminalPatternColor,
-	};
+	references.Add(ColorCombinations);
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+bool deamer::language::type::definition::object::main::ColorTheme::operator==(
+	const ColorTheme& rhs) const
+{
+	return this == &rhs ||
+		   (this->ThemeName == rhs.ThemeName && this->ColorCombinations == rhs.ColorCombinations);
+}
+
+deamer::language::type::definition::object::main::ColorTheme::ColorTheme() : ColorTheme("", {})
+{
+}
