@@ -234,8 +234,6 @@ namespace deamer::language::generator::definition::property::standard
 
 			for (auto [terminal, deducedColor] : deducedColors)
 			{
-				std::cout << "Color: " << deducedColor->colorId
-						  << " Terminal: " << deducedColor->terminal->Name << "\n";
 				delete deducedColor;
 			}
 		}

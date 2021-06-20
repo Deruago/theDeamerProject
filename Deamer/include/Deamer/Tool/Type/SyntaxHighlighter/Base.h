@@ -18,37 +18,20 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_TOOL_TYPE_TOOL_H
-#define DEAMER_TOOL_TYPE_TOOL_H
+#ifndef DEAMER_TOOL_TYPE_SYNTAXHIGHLIGHTER_BASE_H
+#define DEAMER_TOOL_TYPE_SYNTAXHIGHLIGHTER_BASE_H
 
-namespace deamer::tool::type
+#include "Deamer/Tool/Type/Base.h"
+
+namespace deamer::tool::type::syntaxhighlighter
 {
-	/*!	\enum Tool
-	 *
-	 *	\brief Used to enumerate all available tools.
-	 */
-	enum class Tool
+	class Base : ::deamer::tool::type::Base
 	{
-		// Unknown
-		Unknown,
-
-		// Lexer
-		Flex,
-		Antlr_Lexer,
-
-		// Parser
-		Bison,
-		Antlr_Parser,
-
-		// AST generators
-		DeamerAST,
-
-		// External
-
-		// Syntax Highlighter
-		SyntaxHighlighter_UDL,		// used by notepad++
-		SyntaxHighlighter_TextMate,	// used by visual code, textmate
+	public:
+		Base(Tool tool_) : type::Base(tool_)
+		{
+		}
 	};
 }
 
-#endif // DEAMER_TOOL_TYPE_TOOL_H
+#endif // DEAMER_TOOL_TYPE_SYNTAXHIGHLIGHTER_BASE_H

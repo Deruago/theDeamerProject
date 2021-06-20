@@ -222,8 +222,6 @@ void deamer::language::analyzer::main::NonTerminal::GetRightNeighboringTokens(
 
 	const auto& resultReferencingProductionRules = reverseLookupProductionRules.Get(nonTerminal);
 
-	std::cout << "Analyzing: " << nonTerminal->Name << "\n";
-
 	for (const auto& productionRule : resultReferencingProductionRules.GetObjects())
 	{
 		std::vector<std::size_t> indexes;
@@ -233,14 +231,11 @@ void deamer::language::analyzer::main::NonTerminal::GetRightNeighboringTokens(
 		{
 			if (token == nonTerminal)
 			{
-				std::cout << "\tIndex: " << currentIndex << "\n";
 				indexes.push_back(currentIndex);
 			}
 
 			currentIndex += 1;
 		}
-
-		std::cout << "\tDone indexing\n";
 
 		bool topExpanded = false;
 		reference::ReverseLookup<type::definition::object::main::NonTerminal>
@@ -323,8 +318,6 @@ void deamer::language::analyzer::main::NonTerminal::GetRightNeighboringTokens(
 			}
 		}
 	}
-
-	std::cout << "Done Analyzing: " << nonTerminal->Name << "\n";
 }
 
 bool deamer::language::analyzer::main::NonTerminal::DoesNonTerminalHaveEmptyAsItsNode(
