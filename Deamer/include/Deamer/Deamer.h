@@ -21,6 +21,10 @@
 #ifndef DEAMER_H
 #define DEAMER_H
 
+// Defines the version of deamer that is installed.
+// If not defined Deamer is either v2.0.0 or older.
+#define DEAMER_CC_V2_RESERVED_MACRO_VALUE_VERSION_NUMBER 002'001'000UL
+
 /*! \namespace deamer
  *
  *  Used as main namespace for all the library code
