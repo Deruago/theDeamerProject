@@ -1,0 +1,30 @@
+#ifndef {{header_guard}}
+#define {{header_guard}}
+
+{{node_enum_include}}
+
+namespace {{language_name}} { namespace ast { namespace node {
+
+{{node_type_forward_declaration.Variable_Field}}
+}}}
+
+namespace {{language_name}} { namespace ast { namespace relation { 
+
+	template<typename T>
+	struct {{class_name}}
+	{
+		constexpr static auto value = {{node_enum_type}}::deamerreserved_unknown;
+		using type = void;
+	};
+
+{{node_conversion.Variable_Field}}
+
+template<typename T>
+constexpr static auto {{class_name}}_v = ::{{language_name}}::ast::relation::{{class_name}}<T>::value;
+
+template<typename T>
+using {{class_name}}_t = typename ::{{language_name}}::ast::relation::{{class_name}}<T>::type;
+
+}}}
+
+#endif // {{header_guard}}
