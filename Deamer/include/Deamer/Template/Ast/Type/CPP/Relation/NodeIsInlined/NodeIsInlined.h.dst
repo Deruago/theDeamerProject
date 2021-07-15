@@ -1,0 +1,18 @@
+#ifndef {{header_guard}}
+#define {{header_guard}}
+
+{{node_enum_include}}
+
+namespace {{language_name}} { namespace ast { namespace relation { 
+
+	constexpr static bool {{class_name}}({{node_enum_type}} t)
+	{
+		{{node_conversion.Variable_Field}}
+
+		return false;
+	}
+
+
+}}}
+
+#endif // {{header_guard}}

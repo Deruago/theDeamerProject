@@ -1399,8 +1399,8 @@ namespace deamer::templates::ast::type::cpp
 						   GenerateVariable("_AST_RELATION_"),
 						   GenerateVariable(class_name_->Upper()), GenerateVariable("_H")}));
 			*language_name_ = Variable_language_name_(this, std::vector<VariableBase*>({}));
-			*language_name_underscore_ =
-				Variable_language_name_underscore_(this, std::vector<VariableBase*>({}));
+			*language_name_underscore_ = Variable_language_name_underscore_(
+				this, std::vector<VariableBase*>({GenerateVariable(language_name_->Underscore())}));
 			*left_angle_bracket_ = Variable_left_angle_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable("<")}));
 			*left_bracket_ =

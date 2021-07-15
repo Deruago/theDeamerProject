@@ -101,7 +101,7 @@ namespace deamer::language::analyzer::main
 		 *	\brief This function checks if a given nonterminal ends or starts with an EMPTY
 		 *	(epsilon) terminal.
 		 *
-		 *	\detail This algorithm is O(n) (where n is the total tokens in the expanded subtree
+		 *	\details This algorithm is O(n) (where n is the total tokens in the expanded subtree
 		 *	of the nonterminal).
 		 *	If epsilon is found earlier this will be returned earlier.
 		 */
@@ -116,6 +116,15 @@ namespace deamer::language::analyzer::main
 
 		void GetRightNeighboringTokens(
 			std::set<type::definition::object::Base*>& neighboringTokens) const;
+
+		/*!
+		 * \fn GetDirectNonTerminalAndTerminals
+		 *
+		 * \brief Returns all direct accessible (non) terminals.
+		 *
+		 * \details This function takes in the property of inlined nonterminals.
+		*/
+		std::set<deamer::language::type::definition::object::Base*> GetDirectNonTerminalAndTerminals() const;
 
 	private:
 		void GetStartingTerminals(
@@ -148,6 +157,12 @@ namespace deamer::language::analyzer::main
 				currentNonTerminal,
 			std::set<reference::LDO<deamer::language::type::definition::object::main::NonTerminal>>
 				currentVisited = {}) const;
+
+		std::set<deamer::language::type::definition::object::Base*>
+		GetDirectNonTerminalAndTerminals(
+			std::set<deamer::language::type::definition::object::Base*>& symbols,
+			std::set<reference::LDO<deamer::language::type::definition::object::main::NonTerminal>>
+				visitedNonTerminal = {}) const;
 	};
 }
 

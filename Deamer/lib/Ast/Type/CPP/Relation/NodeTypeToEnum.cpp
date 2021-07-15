@@ -50,6 +50,16 @@ deamer::file::tool::File deamer::ast::type::cpp::NodeTypeToEnum::Generate() cons
 		nodeTypeToEnumTemplate->node_conversion_->ExpandVariableField();
 	}
 
+	for (const auto* const terminal :
+		 reference.GetDefinition<language::type::definition::property::Type::Lexicon>()
+			 .Terminals)
+	{
+		nodeTypeToEnumTemplate->node_name_->Set(terminal->Name);
+
+		nodeTypeToEnumTemplate->node_type_forward_declaration_->ExpandVariableField();
+		nodeTypeToEnumTemplate->node_conversion_->ExpandVariableField();
+	}
+
 	nodeEnumToType.SetFileContent(nodeTypeToEnumTemplate->GetOutput());
 
 	return nodeEnumToType;

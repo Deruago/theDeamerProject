@@ -513,3 +513,46 @@ bool deamer::language::analyzer::main::NonTerminal::IsRecursiveImplementation(
 
 	return false;
 }
+
+std::set<deamer::language::type::definition::object::Base*>
+deamer::language::analyzer ::main::NonTerminal::GetDirectNonTerminalAndTerminals() const
+{
+	std::set<::deamer::language::type::definition::object::Base*> symbols;
+	GetDirectNonTerminalAndTerminals(symbols);
+	return symbols;
+}
+
+std::set<deamer::language::type::definition::object::Base*>
+deamer::language::analyzer::main::NonTerminal::GetDirectNonTerminalAndTerminals(
+	std::set<deamer::language::type::definition::object::Base*>& symbols,
+	std::set<reference::LDO<deamer::language::type::definition::object::main::NonTerminal>> visitedNonTerminal) const
+{
+	if (visitedNonTerminal.find(nonTerminal) != visitedNonTerminal.end())
+	{
+		return {};
+	}
+	visitedNonTerminal.insert(nonTerminal);
+	
+	for (const auto* const productionRule : nonTerminal->ProductionRules)
+	{
+		for (auto* symbol : productionRule->Tokens)
+		{
+			symbols.insert(symbol);
+
+			if (symbol->Type_ == type::definition::object::Type::NonTerminal)
+			{
+				auto nonterminal = ::deamer::language::reference::LDO<
+					::deamer::language::type::definition::object::main::NonTerminal>(symbol);
+
+				if (nonterminal->IsInlined())
+				{
+					auto analyzer = ::deamer::language::analyzer::main::NonTerminal(this->language_reference,
+																	nonterminal.Get());
+					analyzer.GetDirectNonTerminalAndTerminals(symbols, visitedNonTerminal);
+				}
+			}
+		}
+	}
+
+	return {};
+}
