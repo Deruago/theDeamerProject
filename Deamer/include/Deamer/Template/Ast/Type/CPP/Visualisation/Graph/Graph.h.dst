@@ -1,0 +1,47 @@
+#ifndef {{header_guard}}
+#define {{header_guard}}
+
+#include "{{language_name}}/Ast/Listener/EnterExitListener.h"
+
+namespace {{language_name}} { namespace ast { namespace listener { namespace deamer { namespace visualisation {
+
+	class Graph : public EnterExitListener
+	{
+	private:
+		std::string output;
+
+		void Init()
+		{
+			output += "digraph {{language_name}}_AST {\n";
+		}
+
+		void End()
+		{
+			output += "}\n";
+		}
+
+		void AddConnection({{const_qualifier}}  ::deamer::external::cpp::ast::Node* source, {{const_qualifier}}  ::deamer::external::cpp::ast::Node* target)
+		{
+			output += "\t" + std::to_string(::std::size_t(source)) + " -> " + std::to_string(::std::size_t(target)) + ";\n";
+		}
+
+		{{listen_object_entry.Variable_Field}}
+		{{listen_object_exit.Variable_Field}}
+
+	public:
+		Graph()
+		{
+			Init();
+		}
+
+
+		std::string GetGraph()
+		{
+			End();
+			return output;
+		}
+	};
+
+}}}}}
+
+#endif // {{header_guard}}

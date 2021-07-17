@@ -25,13 +25,14 @@
 #include "Deamer/Ast/Type/CPP/Enum.h"
 #include "Deamer/Ast/Type/CPP/Listener.h"
 #include "Deamer/Ast/Type/CPP/Node.h"
-#include "Deamer/Ast/Type/CPP/Visitor.h"
 #include "Deamer/Ast/Type/CPP/Reference/Access.h"
 #include "Deamer/Ast/Type/CPP/Relation/NodeEnumToType.h"
 #include "Deamer/Ast/Type/CPP/Relation/NodeIsInlined.h"
 #include "Deamer/Ast/Type/CPP/Relation/NodeIsNonTerminal.h"
 #include "Deamer/Ast/Type/CPP/Relation/NodeIsTerminal.h"
 #include "Deamer/Ast/Type/CPP/Relation/NodeTypeToEnum.h"
+#include "Deamer/Ast/Type/CPP/Visitor.h"
+#include "Deamer/Ast/Type/CPP/Visualisation/Graph.h"
 
 deamer::ast::generation::cpp::CPP::CPP(ReferenceType reference_)
 	: Base(tool::type::Tool::DeamerAST),
@@ -55,6 +56,7 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 	deamer::file::tool::Output ast_listener_user_directory("Ast/Listener/User");
 	deamer::file::tool::Output ast_relation_directory("Ast/Relation");
 	deamer::file::tool::Output ast_reference_directory("Ast/Reference");
+	deamer::file::tool::Output ast_visualisation_directory("Ast/Visualisation");
 
 	type::cpp::Enum enumeration(reference);
 	type::cpp::EnterExitListener enterExitListener(reference);
@@ -66,6 +68,7 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 	type::cpp::NodeIsNonTerminal nodeIsNonTerminal(reference);
 	type::cpp::NodeIsTerminal nodeIsTerminal(reference);
 	type::cpp::Access access(reference);
+	type::cpp::Graph graph(reference);
 
 	const type::cpp::BaseNode baseNode(reference);
 	ast_node_directory.AddFileToInclude(baseNode.Generate());
@@ -112,10 +115,12 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 	ast_relation_directory.AddFileToInclude(nodeIsNonTerminal.Generate());
 	ast_relation_directory.AddFileToInclude(nodeIsTerminal.Generate());
 	ast_reference_directory.AddFileToInclude(access.Generate());
-	
+	ast_visualisation_directory.AddFileToInclude(graph.Generate());
+
 	return file::tool::Output::Merge(
 		{ast_directory, ast_node_directory, ast_common_node_directory, ast_enum_directory,
 		 ast_visitor_directory, ast_visitor_deamer_directory, ast_visitor_tool_directory,
 		 ast_visitor_user_directory, ast_listener_directory, ast_listener_deamer_directory,
-		 ast_listener_tool_directory, ast_listener_user_directory, ast_relation_directory, ast_reference_directory});
+		 ast_listener_tool_directory, ast_listener_user_directory, ast_relation_directory,
+		 ast_reference_directory, ast_visualisation_directory});
 }
