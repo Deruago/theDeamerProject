@@ -24,13 +24,16 @@
 {{node_type}} = <::{{language_name}}::ast::node::{{node_name}}>
 {{node_type_target}} = <::{{language_name}}::ast::node::{{node_target_name}}>
 
+{{class_name_node_type}} = <{{class_name}}{{left_angle_bracket}}{{node_type}}{{right_angle_bracket}}>
+{{class_name_node_target_type}} = <{{class_name}}{{left_angle_bracket}}{{node_type_target}}{{right_angle_bracket}}>
+
 {{node_access_forward_declaration}} =
 <	template{{left_angle_bracket}}{{right_angle_bracket}}
-	struct {{class_name}}{{left_angle_bracket}}{{node_type}}{{right_angle_bracket}};>
+	struct {{class_name_node_type}};>
 
 {{node_access}} = <
 	template{{left_angle_bracket}}{{right_angle_bracket}}
-	struct {{class_name}}{{left_angle_bracket}}{{node_type}}{{right_angle_bracket}} : public {{class_name}}Base
+	struct {{class_name_node_type}} : public {{class_name}}Base
 	{
 	protected:
 		std::vector{{left_angle_bracket}}{{const_qualifier}} {{node_type}}*{{right_angle_bracket}} ts;
@@ -51,7 +54,7 @@
 		{{class_name}}() = default;
 
 	public:
-		{{class_name}}{{left_angle_bracket}}{{node_type}}{{right_angle_bracket}}& operator[](::std::size_t index)
+		{{class_name_node_type}}& operator[](::std::size_t index)
 		{
 			if (index {{right_angle_bracket}}= ts.size())
 			{
@@ -67,7 +70,7 @@
 			return *this;
 		}
 
-		{{class_name}}{{left_angle_bracket}}{{node_type}}{{right_angle_bracket}}& operator()(::std::size_t indexBegin, ::std::size_t indexEnd)
+		{{class_name_node_type}}& operator()(::std::size_t indexBegin, ::std::size_t indexEnd)
 		{
 			// swap if the other is larger
 			if (indexBegin {{right_angle_bracket}} indexEnd)
@@ -102,15 +105,26 @@
 
 	public:
 		{{target_retrievement_function_declaration.Variable_Field}}
+
+		template{{left_angle_bracket}}typename FunctionType{{right_angle_bracket}}
+		{{class_name_node_type}}& for_all(FunctionType function)
+		{
+			for ({{const_qualifier}} auto* const t : ts)
+			{
+				function(t);
+			}
+
+			return *this;
+		}
 	};>
 
 {{target_retrievement_function_implementation}} = <
-		inline {{class_name}}{{left_angle_bracket}}{{node_type_target}}{{right_angle_bracket}} {{class_name}}{{left_angle_bracket}}{{node_type}}{{right_angle_bracket}}::{{node_target_name}}()
+		inline {{class_name_node_target_type}} {{class_name_node_type}}::{{node_target_name}}()
 		{
 			// Optimized search, if it fails continue using unoptimized search.
 
 			// Unoptimized search
-			return {{class_name}}{{left_angle_bracket}}{{node_type_target}}{{right_angle_bracket}}(Get{{left_angle_bracket}}{{node_enum_target_value}}{{right_angle_bracket}}(ts));
+			return {{class_name_node_target_type}}(Get{{left_angle_bracket}}{{node_enum_target_value}}{{right_angle_bracket}}(ts));
 		}>
 
-{{target_retrievement_function_declaration}} = <{{class_name}}{{left_angle_bracket}}{{node_type_target}}{{right_angle_bracket}} {{node_target_name}}();>
+{{target_retrievement_function_declaration}} = <{{class_name_node_target_type}} {{node_target_name}}();>

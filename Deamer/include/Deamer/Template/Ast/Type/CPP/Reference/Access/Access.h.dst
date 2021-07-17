@@ -49,6 +49,10 @@ namespace {{language_name}} { namespace ast { namespace relation {
 		}
 	};
 
+	/*!	\class Access
+	 *
+	 *	\brief Used to access AST nodes. It contains various helper functions to ease navigation through AST nodes.
+	 */
 	template<typename T>
 	struct Access : public AccessBase
 	{
