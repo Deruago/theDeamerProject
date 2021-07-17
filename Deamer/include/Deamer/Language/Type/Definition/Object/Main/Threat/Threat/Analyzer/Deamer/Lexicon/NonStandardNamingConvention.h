@@ -18,8 +18,8 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_THREAT_THREAT_ANALYZER_DEAMER_LEXICON_TERMINALISBASESETOFLATERTERMINAL_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_THREAT_THREAT_ANALYZER_DEAMER_LEXICON_TERMINALISBASESETOFLATERTERMINAL_H
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_THREAT_THREAT_ANALYZER_DEAMER_LEXICON_NONSTANDARDNAMINGCONVENTION_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_THREAT_THREAT_ANALYZER_DEAMER_LEXICON_NONSTANDARDNAMINGCONVENTION_H
 
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Analyzer/Deamer/Lexicon/Type.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Warning.h"
@@ -27,37 +27,32 @@
 
 namespace deamer::language::type::definition::object::main::threat::deamer::lexicon
 {
-	/*! \class TerminalIsBaseSetOfLaterTerminal
+	/*! \class NonStandardNamingConvention
 	 *
-	 *	\brief Checks if the terminal covers a later terminal definition.
-	 *
-	 *	\note This check is incomplete, and requires a better algorithm to find matches between
-	 *regexes.
+	 *	\brief Checks if the terminal follows the naming convention for terminals.
 	 */
-	class TerminalIsBaseSetOfLaterTerminal : public Warning
+	class NonStandardNamingConvention : public Warning
 	{
-		friend ::deamer::type::SafeReserve<TerminalIsBaseSetOfLaterTerminal>;
+		friend ::deamer::type::SafeReserve<NonStandardNamingConvention>;
 
 	public:
-		static constexpr auto id = Type::TerminalIsBaseSetOfLaterTerminal;
+		static constexpr auto id = Type::NonStandardNamingConvention;
 		static constexpr auto analyzerType = analyzer::Type::Deamer_Lexicon;
 
-		Terminal* terminalSource;
-		Terminal* terminalTarget;
+		Terminal* terminal;
 
 	public:
-		TerminalIsBaseSetOfLaterTerminal(main::Terminal* terminalSource_,
-										 main::Terminal* terminalTarget_);
+		NonStandardNamingConvention(main::Terminal* terminal_);
 
-		~TerminalIsBaseSetOfLaterTerminal() override = default;
+		~NonStandardNamingConvention() override = default;
 
-		bool operator==(const TerminalIsBaseSetOfLaterTerminal& rhs) const;
+		bool operator==(const NonStandardNamingConvention& rhs) const;
 
 		std::string Print() const override;
 
 	protected:
-		TerminalIsBaseSetOfLaterTerminal();
+		NonStandardNamingConvention();
 	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_THREAT_THREAT_ANALYZER_DEAMER_LEXICON_TERMINALISBASESETOFLATERTERMINAL_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_THREAT_THREAT_ANALYZER_DEAMER_LEXICON_NONSTANDARDNAMINGCONVENTION_H

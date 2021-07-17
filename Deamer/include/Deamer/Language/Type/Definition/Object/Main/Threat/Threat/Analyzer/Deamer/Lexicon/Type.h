@@ -34,6 +34,8 @@ namespace deamer::language::type::definition::object::main::threat::deamer::lexi
 		UnusedTerminal = 1,
 		DeletedTerminalReferencedInGrammar = 2,
 		CrashTerminalReferencedInGrammar = 3,
+		TerminalIsBaseSetOfLaterTerminal = 4,
+		NonStandardNamingConvention = 5,
 	};
 }
 

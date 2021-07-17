@@ -33,6 +33,7 @@ namespace deamer::language::type::definition::object::main::threat::deamer::gram
 
 		UnusedNonTerminal = 1,
 		UnusedProductionRule = 2,
+		NonStandardNamingConvention = 3,
 	};
 }
 

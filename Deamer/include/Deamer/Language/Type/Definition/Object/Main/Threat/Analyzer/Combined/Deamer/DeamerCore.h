@@ -25,8 +25,10 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Check/Multi/Deamer/Lexicon/CrashTerminalReferencedInGrammar.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Check/Multi/Deamer/Lexicon/DeletedTerminalReferencedInGrammar.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Check/Multi/Deamer/Lexicon/UnusedTerminal.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Threat/Check/Single/Deamer/Grammar/NonStandardNamingConvention.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Check/Single/Deamer/Grammar/UnusedNonTerminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Check/Single/Deamer/Grammar/UnusedProductionRule.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Threat/Check/Single/Deamer/Lexicon/NonStandardNamingConvention.h"
 
 namespace deamer::language::type::definition::object::main::threat::analyzer::deamer
 {
@@ -37,8 +39,10 @@ namespace deamer::language::type::definition::object::main::threat::analyzer::de
 		: public Analyzer<check::deamer::lexicon::UnusedTerminal,
 						  check::deamer::lexicon::CrashTerminalReferencedInGrammar,
 						  check::deamer::lexicon::DeletedTerminalReferencedInGrammar,
+						  check::deamer::lexicon::NonStandardNamingConvention,
 						  check::deamer::grammar::UnusedNonTerminal,
-						  check::deamer::grammar::UnusedProductionRule>
+						  check::deamer::grammar::UnusedProductionRule,
+						  check::deamer::grammar::NonStandardNamingConvention>
 	{
 	};
 }

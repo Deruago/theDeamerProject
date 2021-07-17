@@ -59,19 +59,25 @@ namespace deamer::test::language::threat::deamer::unusedterminal
 		GenerateGrammarUnusedTerminals(LanguageDefinitionUnusedTerminals* lang);
 	};
 
-	class LanguageDefinitionUnusedTerminals : public ::deamer::language::generator::definition::Language<
-								   LanguageDefinitionUnusedTerminals, GenerateLexiconUnusedTerminals, GenerateGrammarUnusedTerminals>,
-							   public GenerateLexiconUnusedTerminals,
-							   public GenerateGrammarUnusedTerminals
+	class LanguageDefinitionUnusedTerminals
+		: public ::deamer::language::generator::definition::Language<
+			  LanguageDefinitionUnusedTerminals, GenerateLexiconUnusedTerminals,
+			  GenerateGrammarUnusedTerminals>,
+		  public GenerateLexiconUnusedTerminals,
+		  public GenerateGrammarUnusedTerminals
 	{
 	public:
-		LanguageDefinitionUnusedTerminals() : GenerateLexiconUnusedTerminals(this), GenerateGrammarUnusedTerminals(this)
+		LanguageDefinitionUnusedTerminals()
+			: GenerateLexiconUnusedTerminals(this),
+			  GenerateGrammarUnusedTerminals(this)
 		{
 		}
 		~LanguageDefinitionUnusedTerminals() = default;
 	};
 
-	inline GenerateLexiconUnusedTerminals::GenerateLexiconUnusedTerminals(LanguageDefinitionUnusedTerminals* lang) : Lexicon(lang)
+	inline GenerateLexiconUnusedTerminals::GenerateLexiconUnusedTerminals(
+		LanguageDefinitionUnusedTerminals* lang)
+		: Lexicon(lang)
 	{
 		VARNAME.Set(::deamer::language::type::definition::object::main::Terminal(
 			"VARNAME", "[a-zA-Z]+[a-zA-Z_0-9]*"));
@@ -87,7 +93,9 @@ namespace deamer::test::language::threat::deamer::unusedterminal
 		AddObject(ESCAPE_CHARS);
 	}
 
-	inline GenerateGrammarUnusedTerminals::GenerateGrammarUnusedTerminals(LanguageDefinitionUnusedTerminals* lang) : Grammar(lang)
+	inline GenerateGrammarUnusedTerminals::GenerateGrammarUnusedTerminals(
+		LanguageDefinitionUnusedTerminals* lang)
+		: Grammar(lang)
 	{
 		prog.Set(::deamer::language::type::definition::object::main::NonTerminal(
 			"prog", {prog_stmts.Pointer()}));
