@@ -32,6 +32,16 @@ deamer::language::type::definition::object::Base::GetReferences() const
 	return references;
 }
 
+bool deamer::language::type::definition::object::Base::IsInitialized() const
+{
+	return !isUninitialized;
+}
+
+void deamer::language::type::definition::object::Base::SetAsUninitialized()
+{
+	isUninitialized = true;
+}
+
 void deamer::language::type::definition::object::Base::Register(Language& language) const
 {
 	for (const auto& SetOfReferences : references)

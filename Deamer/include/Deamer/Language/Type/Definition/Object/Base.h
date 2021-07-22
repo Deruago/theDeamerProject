@@ -37,6 +37,12 @@ namespace deamer::language::type::definition::object
 	 */
 	class Base
 	{
+	private:
+		// This is manually controlled by the user.
+		// If the user has not initialized the LDO he is required to set this to variable to true.
+		// Due to the fact uninitialized objects need to be overriden, this can only be set to true.
+		bool isUninitialized = false;
+
 	protected:
 		deamer::type::vector::LDOMultiVector references;
 
@@ -55,6 +61,18 @@ namespace deamer::language::type::definition::object
 		virtual ~Base() = default;
 
 		const deamer::type::vector::LDOMultiVector& GetReferences() const;
+
+		bool IsInitialized() const;
+
+		/*!	\fn SetAsUninitialized
+		 *
+		 *	\brief Specifies that the current object is not properly initialized.
+		 *
+		 *	\details Uninitialised objects are non complete initialized objects should be marked as
+		 *not initialized. That can be done using this function. By default safe reserved LDO's are
+		 *considered uninitialized unless overriden.
+		 */
+		void SetAsUninitialized();
 	};
 }
 
