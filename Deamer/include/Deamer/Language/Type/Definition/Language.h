@@ -42,13 +42,26 @@ namespace deamer::language::type::definition
 	class Language
 	{
 	private:
-		/*!	\property
+		/*!	\property temporary
 		 *
 		 *	\brief Specifies if it is temporary or not.
 		 *
 		 *	\note Temporary language definitions don't destroy their content.
 		 */
 		bool temporary;
+
+		/*! \property baseLanguages
+		 *
+		 *	\brief Contains all base languages.
+		 *
+		 *	\details When inheriting from a language, one requires to put that language here as a
+		 *	base. Base languages are not visible.
+		 *
+		 *	\note When importing a LDO the LDO does get copied in the target languages LPD.
+		 *	So importing a character class for your terminal, means copying the pointer to that
+		 *	class.
+		 */
+		std::vector<Language*> baseLanguages;
 
 	public:
 		/*! \property propertyDefinitions
@@ -74,7 +87,8 @@ namespace deamer::language::type::definition
 		mutable deamer::type::memory::Cache<object::Base, object::Type> cache;
 
 		Language(std::vector<property::Definition*> propertyDefinitions_,
-				 std::vector<object::Base*> definitionObjects_, bool temporary_ = false);
+				 std::vector<object::Base*> definitionObjects_, bool temporary_ = false,
+				 std::vector<Language*> baseLanguages_ = {});
 
 		Language(const Language& language) = delete;
 		Language(Language&& language) = delete;
@@ -82,8 +96,9 @@ namespace deamer::language::type::definition
 		Language operator=(const Language& language) = delete;
 		Language operator=(Language&& language) = delete;
 
-		/*! \function ~Language
-		 * \brief deletes all the objects it is owner of
+		/*!	\function ~Language
+		 *
+		 *	\brief deletes all the objects it is owner of
 		 */
 		~Language();
 	};
