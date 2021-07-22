@@ -31,18 +31,17 @@ namespace deamer::language::type::definition::object::special
 	 *	}
 	 *	```
 	 *
-	 *	\note the base parameter has to be a LDO and should be default constructable.
+	 *	\note
+	 *	- The given base parameter must be an LDO
+	 *	- The given base parameter must be default constructable.
 	 */
-	template<typename Base_T>
+	template<typename Base_T,
+			 std::enable_if_t<
+				 std::is_base_of_v<::deamer::language::type::definition::object::Base, Base_T> &&
+					 std::is_default_constructible_v<Base_T>,
+				 bool> = true>
 	class Uninitialized : private Base_T
 	{
-	private:
-		static_assert(std::is_base_of_v<::deamer::language::type::definition::object::Base, Base_T>,
-					  "given type given for template parameter: \"Base_T\", is not an LDO!");
-
-		static_assert(std::is_default_constructible_v<Base_T>,
-					  "Given LDO should be default constructible!");
-
 	private:
 		std::string supposedType;
 		std::string supposedName;
