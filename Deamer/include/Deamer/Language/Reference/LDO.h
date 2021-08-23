@@ -30,9 +30,10 @@ namespace deamer::language::reference
 	class LDO_Base
 	{
 	protected:
-		const type::definition::object::Base* base;
+		const ::deamer::language::type::definition::object::Base* base;
 
-		LDO_Base(const type::definition::object::Base* const base_, const bool check_on_ctor)
+		LDO_Base(const ::deamer::language::type::definition::object::Base* const base_,
+				 const bool check_on_ctor)
 			: base(base_)
 		{
 			if (check_on_ctor)
@@ -45,7 +46,7 @@ namespace deamer::language::reference
 		}
 
 	public:
-		const type::definition::object::Base* GetBaseVariant() const
+		const ::deamer::language::type::definition::object::Base* GetBaseVariant() const
 		{
 			return base;
 		}
@@ -68,11 +69,12 @@ namespace deamer::language::reference
 		using const_type = const T_stripped*;
 		using const_type_const = const T_stripped* const;
 
+		using type_reference = type&;
 		using const_type_const_reference = const_type_const&;
 
-		using base_type = type::definition::object::Base*;
-		using const_base_type = const type::definition::object::Base*;
-		using const_base_type_const = const type::definition::object::Base* const;
+		using base_type = ::deamer::language::type::definition::object::Base*;
+		using const_base_type = const ::deamer::language::type::definition::object::Base*;
+		using const_base_type_const = const ::deamer::language::type::definition::object::Base* const;
 
 	private:
 		template<typename T_, bool check_on_ctor_>
@@ -113,14 +115,15 @@ namespace deamer::language::reference
 		 *	\brief Returns non const raw pointer dereferenced.
 		 *
 		 *	\warning If any immutable object is given this function will create a mutable raw pointer.
-		 *	Thus if the original data was in read only memory, you have a problem.
+		 *	Thus if the original data was in read only memory, you have a problem (undefined behaviour).
 		 *	Only use this if you know the data is mutable.
 		 */
 		type GetRawPointer() const
 		{
 			ThrowIfBaseTypeIsInvalid();
 
-			return static_cast<type>(const_cast<type::definition::object::Base*>(base));
+			return static_cast<type>(
+				const_cast<::deamer::language::type::definition::object::Base*>(base));
 		}
 
 		const_type operator->() const
@@ -132,7 +135,7 @@ namespace deamer::language::reference
 		 *
 		 *	\brief Verifies if pointer it contains is known in the language.
 		 */
-		bool Verify(const typename type::definition::Language* const language) const
+		bool Verify(const ::deamer::language::type::definition::Language* const language) const
 		{
 			for (const auto* const ldo : language->definitionObjects)
 			{
@@ -152,7 +155,8 @@ namespace deamer::language::reference
 
 		bool IsBaseTypeValid() const
 		{
-			return base->Type_ == convertor::definition::ObjectTypeToEnum<T>::value;
+			return base->Type_ ==
+				   ::deamer::language::convertor::definition::ObjectTypeToEnum<T>::value;
 		}
 
 		void ThrowIfBaseTypeIsInvalid() const
