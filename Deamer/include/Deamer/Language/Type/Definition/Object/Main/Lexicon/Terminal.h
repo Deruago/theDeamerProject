@@ -52,7 +52,7 @@ namespace deamer::language::type::definition::object::main
 
 		~Terminal() = default;
 
-	private:
+	protected:
 		Terminal();
 	};
 }
