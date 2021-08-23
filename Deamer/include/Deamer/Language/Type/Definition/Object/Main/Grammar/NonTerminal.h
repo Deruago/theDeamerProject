@@ -49,7 +49,7 @@ namespace deamer::language::type::definition::object::main
 					NonTerminalAbstraction abstraction_ = NonTerminalAbstraction::Standard,
 					bool inline_ = false);
 
-		bool operator==(const NonTerminal& rhs) const;
+		bool operator==(const NonTerminal& rhs) const noexcept;
 
 	public:
 		/*!
@@ -68,7 +68,7 @@ namespace deamer::language::type::definition::object::main
 		 */
 		bool IsReserved() const noexcept;
 
-	private:
+	protected:
 		NonTerminal();
 	};
 }

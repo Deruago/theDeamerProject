@@ -34,7 +34,7 @@ deamer::language::type::definition::object::main::NonTerminal::NonTerminal(
 }
 
 bool deamer::language::type::definition::object::main::NonTerminal::operator==(
-	const NonTerminal& rhs) const
+	const NonTerminal& rhs) const noexcept
 {
 	return this == &rhs || (this->Name == rhs.Name && this->ProductionRules == rhs.ProductionRules);
 }
