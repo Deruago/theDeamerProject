@@ -1,5 +1,5 @@
-file(GLOB_RECURSE HEADER_LIST "${Deamer_SOURCE_DIR}/include/*.h")
 file(GLOB_RECURSE SOURCE_LIST "${Deamer_SOURCE_DIR}/lib/*.cpp")
+file(GLOB_RECURSE HEADER_LIST "${Deamer_SOURCE_DIR}/include/*.h")
 
 add_library(Deamer STATIC ${SOURCE_LIST} ${HEADER_LIST})
 

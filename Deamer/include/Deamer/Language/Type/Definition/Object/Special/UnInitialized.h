@@ -37,10 +37,9 @@ namespace deamer::language::type::definition::object::special
 	 */
 	template<typename Base_T,
 			 std::enable_if_t<
-				 std::is_base_of_v<::deamer::language::type::definition::object::Base, Base_T> &&
-					 std::is_default_constructible_v<Base_T>,
+				 std::is_base_of_v<::deamer::language::type::definition::object::Base, Base_T>,
 				 bool> = true>
-	class Uninitialized : private Base_T
+	class Uninitialized : public Base_T
 	{
 	private:
 		std::string supposedType;
