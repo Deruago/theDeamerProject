@@ -11,7 +11,7 @@
 #include <vector>
 #include <utility>
 
-namespace {{language_name}} { namespace ast { namespace relation { 
+namespace {{language_name}} { namespace ast { namespace reference { 
 
 	struct {{class_name}}Base
 	{	

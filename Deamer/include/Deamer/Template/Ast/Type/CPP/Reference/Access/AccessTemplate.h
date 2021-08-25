@@ -907,7 +907,7 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable("{"),
 					 GenerateVariable(" namespace ast "),
 					 GenerateVariable("{"),
-					 GenerateVariable(" namespace relation "),
+					 GenerateVariable(" namespace reference "),
 					 GenerateVariable("{"),
 					 GenerateVariable(" \n\n\tstruct "),
 					 GenerateVariable(accesstemplate_->class_name_->This()),
