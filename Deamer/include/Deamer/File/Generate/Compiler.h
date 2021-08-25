@@ -49,6 +49,12 @@ namespace deamer::file::generate
 											  const tool::Directory& directory = tool::Directory());
 		virtual void GenerateIncludeDirectory(const std::string& pathFromRoot,
 											  const tool::Directory& directory = tool::Directory());
+		virtual void GenerateDocsDirectory(const std::string& pathFromRoot,
+										   const tool::Directory& directory = tool::Directory());
+		virtual void GenerateTestsDirectory(const std::string& pathFromRoot,
+											const tool::Directory& directory = tool::Directory());
+		virtual void GenerateSourcesDirectory(const std::string& pathFromRoot,
+											  const tool::Directory& directory = tool::Directory());
 		virtual void GenerateFile(const tool::File& file, const std::string& pathFromRoot);
 		std::string CMakeListsHeader(const deamer::file::tool::Directory& directory);
 		std::string CMakeListsHeader(const std::string& directory);
@@ -62,6 +68,8 @@ namespace deamer::file::generate
 		tool::File InitialiseExternalCMakeLists();
 		tool::File InitialiseLibraryCMakeLists();
 		tool::File InitialiseIncludeCMakeLists();
+		tool::File InitialiseTestsCMakeLists();
+		tool::File InitialiseSourcesCMakeLists();
 
 		tool::File language_default_source_file();
 		tool::File language_default_header_file();
@@ -77,6 +85,13 @@ namespace deamer::file::generate
 		virtual void Generate(const std::string& pathFromRoot = "./");
 
 		std::vector<std::string> GetSubCompilerNames() const;
+
+	private:
+		void GenerateIfDirectoryIsNotUseless(
+			void (Compiler::*generateDirectory)(const std::string&, const tool::Directory&),
+			const std::string& path, const tool::Directory& directory);
+		void AddIfDirectoryIsNotUseless(tool::File& file, const tool::Directory& directory,
+										const std::string& text);
 	};
 }
 #endif // DEAMER_FILE_GENERATE_COMPILER_H

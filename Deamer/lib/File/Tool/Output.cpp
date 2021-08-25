@@ -43,6 +43,21 @@ void deamer::file::tool::Output::AddDirectoryToLibrary(const Directory& newDirec
 	library.AddDirectory(newDirectory);
 }
 
+void deamer::file::tool::Output::AddDirectoryToDocs(const Directory& newDirectory)
+{
+	docs.AddDirectory(newDirectory);
+}
+
+void deamer::file::tool::Output::AddDirectoryToTests(const Directory& newDirectory)
+{
+	tests.AddDirectory(newDirectory);
+}
+
+void deamer::file::tool::Output::AddDirectoryToSources(const Directory& newDirectory)
+{
+	sources.AddDirectory(newDirectory);
+}
+
 void deamer::file::tool::Output::AddFileToExternal(const File& newFile)
 {
 	external.AddFile(newFile);
@@ -109,6 +124,21 @@ deamer::file::tool::Directory deamer::file::tool::Output::GetIncludeDirectory() 
 deamer::file::tool::Directory deamer::file::tool::Output::GetLibraryDirectory() const
 {
 	return library;
+}
+
+deamer::file::tool::Directory deamer::file::tool::Output::GetDocsDirectory() const
+{
+	return docs;
+}
+
+deamer::file::tool::Directory deamer::file::tool::Output::GetTestsDirectory() const
+{
+	return tests;
+}
+
+deamer::file::tool::Directory deamer::file::tool::Output::GetSourcesDirectory() const
+{
+	return sources;
 }
 
 deamer::file::tool::Output deamer::file::tool::Output::Merge(const std::vector<Output>& outputs)
