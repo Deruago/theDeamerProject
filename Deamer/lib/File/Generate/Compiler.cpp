@@ -313,6 +313,18 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		"\n"
 		"add_subdirectory(extern)\n"
 		"add_subdirectory(lib)\n"
+		"\n"
+		"option(TESTS \"Enables all the tests\" ON)\n"
+		"if(TESTS)\n"
+		"	message(STATUS \"Tests are now available.\")\n"
+		"	add_subdirectory(tests)\n"
+		"endif()\n"
+		"\n"
+		"option(APPLICATIONS \"Enables all the applications\" ON)\n"
+		"if(APPLICATIONS)\n"
+		"	message(STATUS \"Applications are now available.\")\n"
+		"	add_subdirectory(sources)\n"
+		"endif()\n"
 		"\n";
 
 	const tool::File file("CMakeLists", "txt", cmakelists_content,
