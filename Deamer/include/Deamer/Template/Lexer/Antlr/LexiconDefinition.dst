@@ -1,0 +1,3 @@
+lexer grammar {{language_name}}Lexer;
+
+{{terminal_declaration.Variable_Field}}
