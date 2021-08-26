@@ -58,6 +58,9 @@ namespace deamer::file::tool
 		void AddFileToExternal(const File& newFile);
 		void AddFileToInclude(const File& newFile);
 		void AddFileToLibrary(const File& newFile);
+		void AddFileToDocs(const File& newDirectory);
+		void AddFileToTests(const File& newDirectory);
+		void AddFileToSources(const File& newDirectory);
 
 		void AddCMakeListsToExternal(const CMakeLists& newFile);
 		void AddCMakeListsToInclude(const CMakeLists& newFile);
