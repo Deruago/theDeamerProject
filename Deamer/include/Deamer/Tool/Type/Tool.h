@@ -48,6 +48,9 @@ namespace deamer::tool::type
 		// Syntax Highlighter
 		SyntaxHighlighter_UDL,		// used by notepad++
 		SyntaxHighlighter_TextMate,	// used by visual code, textmate
+
+		// Documentation generators
+		DeamerDocumentation,
 	};
 }
 

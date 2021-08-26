@@ -1,0 +1,27 @@
+# Terminal: {{this}}
+
+Overview of the terminal: {{this}}.
+
+
+
+## **Neighbours**
+
+| Relative position | Name                                          |
+| ----------------- | --------------------------------------------- |{{optional_above_neighbour}}
+| This              | {{this}} |
+{{optional_below_neighbour}}
+
+
+
+## **This**
+
+| Name:                                       | Value:          | Abstraction:    |
+| ------------------------------------------- | --------------- | --------------- |
+| {{this}} | {{regex_value}} | {{abstraction}} |
+
+
+
+## **Who references this**
+
+{{optional_nonterminal_reference_section}}
+
