@@ -301,7 +301,7 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 	}
 
 	const std::string cmakelists_content =
-		"cmake_minimum_required(VERSION 3.18)\n"
+		"cmake_minimum_required(VERSION 3.16)\n"
 		"\n"
 		"project(" +
 		languageName +
