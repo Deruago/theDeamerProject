@@ -1,0 +1,29 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <NonTerminal>
+{{file.namespace}} = <deamer::templates::deamerdocumentation::grammar::markdown>
+{{file.extension}} = <h>
+
+{{this}} = <**[{{nonterminal_name}}](./{{nonterminal_name}}.md)**>
+
+{{nonterminal_production_rule}} = <| {{production_rule_member.Variable_Field}} |>
+
+{{optional_nonterminal_reference_section}} = <{{nonterminal_reference_section}}>
+{{nonterminal_reference_section}} = <### NonTerminals
+
+{{nonterminal_reference.Variable_Field}}>
+
+{{nonterminal_reference}} = <
+#### [{{referencing_nonterminal_name}}](./../Grammar/{{referencing_nonterminal_name}}.md)
+
+| Productionrule referencing this                      |
+| ---------------------------------------------------- |
+{{production_rule.Variable_Field}}>
+
+{{production_rule}} =  <| {{production_rule_member.Variable_Field}} |>
+
+{{production_rule_member}} = <>
+
+{{production_rule_empty_member}} = <EMPTY>
+
+{{production_rule_nonterminal_member}} = <[{{production_rule_member_name}}](./{{production_rule_member_name}}.md)>
+{{production_rule_terminal_member}}    = <[{{production_rule_member_name}}](./../Lexicon/{{production_rule_member_name}}.md)>

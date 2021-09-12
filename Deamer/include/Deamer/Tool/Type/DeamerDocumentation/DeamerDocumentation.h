@@ -23,8 +23,6 @@
 
 #include "Deamer/Language/Reference/LDO.h"
 #include "Deamer/Language/Reference/PropertyDefinition.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
-#include "Deamer/Template/Tool/Type/DeamerDocumentation/Lexicon/TerminalTemplate.h"
 #include "Deamer/Tool/Type/Base.h"
 
 namespace deamer::tool::type::deamerdocumentation
@@ -37,6 +35,7 @@ namespace deamer::tool::type::deamerdocumentation
 	 */
 	class DeamerDocumentation : public ::deamer::tool::type::Base
 	{
+	public:
 		using reference = language::reference::PropertyDefinition<
 			language::type::definition::property::Type::Lexicon,
 			language::type::definition::property::Type::Grammar,
@@ -53,24 +52,6 @@ namespace deamer::tool::type::deamerdocumentation
 
 	public:
 		deamer::file::tool::Output Generate() override;
-
-	private:
-		void ImplementNonTerminalReferences(
-			::deamer::templates::deamerdocumentation::lexer::markdown::TerminalTemplate&
-				terminalTemplate,
-			const ::deamer::language::reference::LDO<
-				deamer::language::type::definition::object::main::Terminal>
-				terminal);
-
-		void ImplementTerminalInformation(
-			deamer::templates::deamerdocumentation::lexer::markdown::TerminalTemplate&
-				terminalTemplate,
-			const std::vector<deamer::language::type::definition::object::main::Terminal*>&
-				terminals,
-			int i,
-			const deamer::language::reference::LDO<
-				deamer::language::type::definition::object::main::Terminal>
-				terminal);
 	};
 }
 

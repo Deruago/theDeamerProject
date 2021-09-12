@@ -1,0 +1,26 @@
+# NonTerminal: {{this}}
+
+Overview of the nonterminal: {{this}}
+
+
+
+## This
+
+| Name:                | Abstraction:    | Is Inlined |
+| -------------------- | --------------- | ---------- |
+| {{nonterminal_name}} | {{abstraction}} | {{inlined}} |
+
+
+
+## ProductionRules
+
+| ProductionRule |
+| ---- |
+{{nonterminal_production_rule.Variable_Field}}
+
+
+
+## Who references this
+
+{{optional_nonterminal_reference_section}}
+

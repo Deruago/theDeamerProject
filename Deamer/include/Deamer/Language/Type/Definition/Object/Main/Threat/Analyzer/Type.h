@@ -47,6 +47,7 @@ namespace deamer::language::type::definition::object::main::threat::analyzer
 		Deamer_SymbolTable = 3,
 		Deamer_Precedence = 4,
 		Deamer_Associativity = 5,
+		Deamer_Special = 6,
 
 		Separator = 1025,
 
