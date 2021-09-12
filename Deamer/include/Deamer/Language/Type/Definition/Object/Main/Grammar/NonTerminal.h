@@ -32,7 +32,7 @@ namespace deamer::language::type::definition::object::main
 {
 	/*! \class NonTerminal
 	 *
-	 *  NonTerminal symbol, used in grammar definitions.
+	 *  \brief NonTerminal symbol, used in grammar definitions.
 	 */
 	class NonTerminal : public Base
 	{
@@ -43,17 +43,32 @@ namespace deamer::language::type::definition::object::main
 		std::string Name;
 		std::vector<ProductionRule*> ProductionRules;
 		NonTerminalAbstraction abstraction;
+		bool Inline;
 
 		NonTerminal(std::string name_, std::vector<ProductionRule*> productionRules_,
-					NonTerminalAbstraction abstraction_ = NonTerminalAbstraction::Standard);
+					NonTerminalAbstraction abstraction_ = NonTerminalAbstraction::Standard,
+					bool inline_ = false);
 
-		bool operator==(const NonTerminal& rhs) const
-		{
-			return this == &rhs ||
-				   (this->Name == rhs.Name && this->ProductionRules == rhs.ProductionRules);
-		}
+		bool operator==(const NonTerminal& rhs) const noexcept;
 
-	private:
+	public:
+		/*!
+		 * \fn IsInlined
+		 *
+		 * \brief Returns whether the NonTerminal should be inlined.
+		 *
+		 * \details An Inlined nonterminal is not visible for the user, unless explicitly wanted.
+		 */
+		bool IsInlined() const noexcept;
+
+		/*!
+		 * \fn IsReserved
+		 *
+		 *	\brief Checks if the nonterminal is using a reserved name. E.g. "deamerreserved".
+		 */
+		bool IsReserved() const noexcept;
+
+	protected:
 		NonTerminal();
 	};
 }

@@ -1,0 +1,7 @@
+parser grammar {{language_name}}Parser;
+options
+{
+	tokenVocab = {{language_name}}Lexer;
+}
+
+{{nonterminal_declaration.Variable_Field}}

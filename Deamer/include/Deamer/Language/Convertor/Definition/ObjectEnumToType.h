@@ -22,6 +22,11 @@
 #define DEAMER_LANGUAGE_CONVERTOR_DEFINITION_OBJECTENUMTOTYPE_H
 
 #include "Deamer/Language/Type/Definition/Object/Main/Associativity/ObjectAssociativity.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorCombination.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorGroup.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorTheme.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalColor.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalPatternColor.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/GeneratorArgument.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
@@ -31,6 +36,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Identity/Name.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Threat.h"
 #include "Deamer/Language/Type/Definition/Object/Type.h"
 
 namespace deamer::language::convertor::definition
@@ -159,6 +165,72 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::object::Type::Name;
 		using type = type::definition::object::main::Name;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::Threat>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::Threat;
+		using type = type::definition::object::main::threat::Threat;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ColorTheme>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ColorTheme;
+		using type = type::definition::object::main::ColorTheme;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ColorGroup>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ColorGroup;
+		using type = type::definition::object::main::ColorGroup;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ColorCombination>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ColorCombination;
+		using type = type::definition::object::main::ColorCombination;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::TerminalColor>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::TerminalColor;
+		using type = type::definition::object::main::TerminalColor;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::TerminalPatternColor>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::TerminalPatternColor;
+		using type = type::definition::object::main::TerminalPatternColor;
 	};
 
 	template<type::definition::object::Type T>

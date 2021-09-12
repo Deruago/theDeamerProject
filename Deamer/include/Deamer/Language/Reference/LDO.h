@@ -30,9 +30,10 @@ namespace deamer::language::reference
 	class LDO_Base
 	{
 	protected:
-		const type::definition::object::Base* base;
+		const ::deamer::language::type::definition::object::Base* base;
 
-		LDO_Base(const type::definition::object::Base* const base_, const bool check_on_ctor)
+		LDO_Base(const ::deamer::language::type::definition::object::Base* const base_,
+				 const bool check_on_ctor)
 			: base(base_)
 		{
 			if (check_on_ctor)
@@ -45,7 +46,7 @@ namespace deamer::language::reference
 		}
 
 	public:
-		const type::definition::object::Base* GetBaseVariant() const
+		const ::deamer::language::type::definition::object::Base* GetBaseVariant() const
 		{
 			return base;
 		}
@@ -55,8 +56,13 @@ namespace deamer::language::reference
 	class LDO : public LDO_Base
 	{
 	public:
-		static_assert(!std::is_same<T, std::nullptr_t>::value,
+		static_assert(!std::is_same_v<T, std::nullptr_t>,
 					  "LDO type may not be of type std::nullptr");
+
+		static_assert(std::is_base_of_v<::deamer::language::type::definition::object::Base, T> ||
+						  ::std::is_same_v<::deamer::language::type::definition::object::Base, T>,
+					  "LDO Should be subclass of the "
+					  "::deamer::language::type::definition::object::Base class.");
 
 		using T_bare = T;
 		using T_stripped = std::remove_cv_t<std::remove_pointer_t<T>>;
@@ -64,11 +70,13 @@ namespace deamer::language::reference
 		using const_type = const T_stripped*;
 		using const_type_const = const T_stripped* const;
 
+		using type_reference = type&;
 		using const_type_const_reference = const_type_const&;
 
-		using base_type = type::definition::object::Base*;
-		using const_base_type = const type::definition::object::Base*;
-		using const_base_type_const = const type::definition::object::Base* const;
+		using base_type = ::deamer::language::type::definition::object::Base*;
+		using const_base_type = const ::deamer::language::type::definition::object::Base*;
+		using const_base_type_const =
+			const ::deamer::language::type::definition::object::Base* const;
 
 	private:
 		template<typename T_, bool check_on_ctor_>
@@ -104,6 +112,22 @@ namespace deamer::language::reference
 			return static_cast<const_type>(base);
 		}
 
+		/*! \fn GetRawPointer
+		 *
+		 *	\brief Returns non const raw pointer dereferenced.
+		 *
+		 *	\warning If any immutable object is given this function will create a mutable raw
+		 *pointer. Thus if the original data was in read only memory, you have a problem (undefined
+		 *behaviour). Only use this if you know the data is mutable.
+		 */
+		type GetRawPointer() const
+		{
+			ThrowIfBaseTypeIsInvalid();
+
+			return static_cast<type>(
+				const_cast<::deamer::language::type::definition::object::Base*>(base));
+		}
+
 		const_type operator->() const
 		{
 			return Get();
@@ -113,7 +137,7 @@ namespace deamer::language::reference
 		 *
 		 *	\brief Verifies if pointer it contains is known in the language.
 		 */
-		bool Verify(const typename type::definition::Language* const language) const
+		bool Verify(const ::deamer::language::type::definition::Language* const language) const
 		{
 			for (const auto* const ldo : language->definitionObjects)
 			{
@@ -133,7 +157,8 @@ namespace deamer::language::reference
 
 		bool IsBaseTypeValid() const
 		{
-			return base->Type_ == convertor::definition::ObjectTypeToEnum<T>::value;
+			return base->Type_ ==
+				   ::deamer::language::convertor::definition::ObjectTypeToEnum<T>::value;
 		}
 
 		void ThrowIfBaseTypeIsInvalid() const
@@ -158,6 +183,112 @@ namespace deamer::language::reference
 
 		template<typename T_, bool check_on_ctor_>
 		LDO<T, check_on_ctor>& operator=(const LDO<T_, check_on_ctor_>& rhs)
+		{
+			if (this->GetBaseVariant() == rhs.GetBaseVariant())
+			{
+				return *this;
+			}
+
+			this->base = rhs.base;
+
+			return *this;
+		}
+	};
+
+	template<>
+	class LDO<::deamer::language::type::definition::object::Base, false> : public LDO_Base
+	{
+	public:
+	private:
+		template<typename T_, bool check_on_ctor_>
+		friend class LDO;
+
+	public:
+		LDO(const ::deamer::language::type::definition::object::Base* t) : LDO_Base(t, false)
+		{
+		}
+
+		template<typename T_>
+		LDO(const LDO<T_, false>& rhs) : LDO_Base(rhs.base, false)
+		{
+		}
+
+		template<typename T_>
+		LDO(const LDO<T_, !false>& rhs) : LDO_Base(rhs.base, false)
+		{
+		}
+
+		/*!	\fn Promote
+		 *
+		 *	\brief Promotes the base LDO to any given subtype LDO.
+		 */
+		template<typename T_>
+		LDO<T_, false> Promote()
+		{
+			return LDO<T_, false>(this->base);
+		}
+
+		const ::deamer::language::type::definition::object::Base* Get() const
+		{
+			return static_cast<const ::deamer::language::type::definition::object::Base*>(base);
+		}
+
+		/*! \fn GetRawPointer
+		 *
+		 *	\brief Returns non const raw pointer dereferenced.
+		 *
+		 *	\warning If any immutable object is given this function will create a mutable raw
+		 *pointer. Thus if the original data was in read only memory, you have a problem (undefined
+		 *behaviour). Only use this if you know the data is mutable.
+		 */
+		::deamer::language::type::definition::object::Base* GetRawPointer() const
+		{
+			return const_cast<::deamer::language::type::definition::object::Base*>(base);
+		}
+
+		const ::deamer::language::type::definition::object::Base* operator->() const
+		{
+			return Get();
+		}
+
+		/*!	\fn Verify
+		 *
+		 *	\brief Verifies if pointer it contains is known in the language.
+		 */
+		bool Verify(const ::deamer::language::type::definition::Language* const language) const
+		{
+			for (const auto* const ldo : language->definitionObjects)
+			{
+				if (ldo == GetBaseVariant())
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		bool Verify(const PropertyDefinitionBase* const reference) const
+		{
+			return Verify(reference->GetLanguage());
+		}
+
+		LDO<::deamer::language::type::definition::object::Base, false>&
+		operator=(const LDO<::deamer::language::type::definition::object::Base, false>& rhs)
+		{
+			if (this->GetBaseVariant() == rhs.GetBaseVariant())
+			{
+				return *this;
+			}
+
+			this->base = rhs.base;
+
+			return *this;
+		}
+
+		template<typename T_, bool check_on_ctor_>
+		LDO<::deamer::language::type::definition::object::Base, false>&
+		operator=(const LDO<T_, check_on_ctor_>& rhs)
 		{
 			if (this->GetBaseVariant() == rhs.GetBaseVariant())
 			{

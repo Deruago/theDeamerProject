@@ -13,10 +13,10 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_VALIDATOR_GENERATOR_ISGENERATORSEQUENCEGENERATABLE_H
 #define DEAMER_LANGUAGE_VALIDATOR_GENERATOR_ISGENERATORSEQUENCEGENERATABLE_H
@@ -42,7 +42,8 @@ namespace deamer::language::validator::generator
 		{
 			if constexpr (currentGenerator::IsDefaultGenerator)
 			{
-				if constexpr (!currentGenerator::template InSetOfGeneratorsAreDependenciesCovered<Generators...>())
+				if constexpr (!currentGenerator::template InSetOfGeneratorsAreDependenciesCovered<
+								  Generators...>())
 				{
 					return false;
 				}
@@ -58,13 +59,15 @@ namespace deamer::language::validator::generator
 				{
 					return true;
 				}
-				
-				return currentGenerator::template InSetOfGeneratorsAreDependenciesCovered<Generators...>();
+
+				return currentGenerator::template InSetOfGeneratorsAreDependenciesCovered<
+					Generators...>();
 			}
 		}
+
 	public:
 		static constexpr bool value = Check<Generators...>();
 	};
 }
 
-#endif //DEAMER_LANGUAGE_VALIDATOR_GENERATOR_ISGENERATORSEQUENCEGENERATABLE_H
+#endif // DEAMER_LANGUAGE_VALIDATOR_GENERATOR_ISGENERATORSEQUENCEGENERATABLE_H

@@ -1,0 +1,13 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <UDLSyntaxHighlighter>
+{{file.namespace}} = <deamer::templates::tool::type::syntaxhighligher>
+{{file.extension}} = <h>
+
+{{keywords_1_fg}} = <000000>
+{{keywords_2_fg}} = <000000>
+{{keywords_3_fg}} = <000000>
+{{keywords_4_fg}} = <000000>
+{{keywords_5_fg}} = <000000>
+{{keywords_6_fg}} = <000000>
+{{keywords_7_fg}} = <000000>
+{{keywords_8_fg}} = <000000>

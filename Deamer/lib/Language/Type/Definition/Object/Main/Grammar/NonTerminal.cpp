@@ -23,13 +23,30 @@
 
 deamer::language::type::definition::object::main::NonTerminal::NonTerminal(
 	std::string name_, std::vector<ProductionRule*> productionRules_,
-	NonTerminalAbstraction abstraction_)
+	NonTerminalAbstraction abstraction_, bool inline_)
 	: Base(Type::NonTerminal),
 	  Name(std::move(name_)),
 	  ProductionRules(std::move(productionRules_)),
-	  abstraction(abstraction_)
+	  abstraction(abstraction_),
+	  Inline(inline_)
 {
 	references.Add(ProductionRules);
+}
+
+bool deamer::language::type::definition::object::main::NonTerminal::operator==(
+	const NonTerminal& rhs) const noexcept
+{
+	return this == &rhs || (this->Name == rhs.Name && this->ProductionRules == rhs.ProductionRules);
+}
+
+bool deamer::language::type::definition::object::main::NonTerminal::IsInlined() const noexcept
+{
+	return Inline;
+}
+
+bool deamer::language::type::definition::object::main::NonTerminal::IsReserved() const noexcept
+{
+	return Name.find("deamerreserved") == 0;
 }
 
 deamer::language::type::definition::object::main::NonTerminal::NonTerminal() : NonTerminal("", {})

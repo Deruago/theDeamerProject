@@ -1,0 +1,25 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <{{class_name}}>
+{{file.namespace}} = <deamer::templates::ast::type::cpp>
+{{file.extension}} = <h>
+
+{{language_name_underscore}} = <{{language_name.Underscore}}>
+
+{{header_guard}} = <{{language_name_underscore.Upper}}_AST_RELATION_{{class_name.Upper}}_H>
+
+{{class_name}} = <NodeEnumToType>
+
+{{node_enum_include}} = <#include "{{language_name}}/Ast/Enum/Type.h">
+
+{{node_type_include}} = <#include "{{language_name}}/Ast/Node/{{node_name}}.h">
+
+{{node_enum_type}} = <::{{language_name}}::ast::Type>
+{{node_type}} = <::{{language_name}}::ast::node::{{node_name}}>
+
+{{node_conversion}} = <
+	template{{left_angle_bracket}}{{right_angle_bracket}}
+	struct {{class_name}}{{left_angle_bracket}}{{node_enum_type}}::{{node_name}}{{right_angle_bracket}}
+	{
+		constexpr static auto value = {{node_enum_type}}::{{node_name}};
+		using type = {{node_type}};
+	};>

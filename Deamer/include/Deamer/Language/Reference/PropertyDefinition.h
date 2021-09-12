@@ -111,6 +111,7 @@ namespace deamer::language::reference
 		constexpr static auto requestedTypes = {
 			type::definition::property::Type::Identity,
 			type::definition::property::Type::Generation,
+			type::definition::property::Type::Threat,
 			types...,
 		};
 		const std::vector<const type::definition::property::Definition*> requestedDefinitions;

@@ -1,0 +1,34 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <Terminal>
+{{file.namespace}} = <deamer::templates::deamerdocumentation::lexer::markdown>
+{{file.extension}} = <h>
+
+{{this}} = <**[{{terminal_name}}](./{{terminal_name}}.md)**>
+
+{{optional_above_neighbour}} = <{{above_neighbour}}>
+{{above_neighbour}} = <
+| Above             | [{{terminal_above}}](./{{terminal_above}}.md) |>
+
+{{optional_below_neighbour}} = <{{below_neighbour}}>
+{{below_neighbour}} = <| Below             | [{{terminal_below}}](./{{terminal_below}}.md) |>
+
+{{optional_nonterminal_reference_section}} = <{{nonterminal_reference_section}}>
+{{nonterminal_reference_section}} = <### NonTerminals
+
+{{nonterminal_reference.Variable_Field}}>
+
+{{nonterminal_reference}} = <
+#### [{{nonterminal_name}}](./../Grammar/{{nonterminal_name}}.md)
+
+| Productionrule referencing this                      |
+| ---------------------------------------------------- |
+{{production_rule.Variable_Field}}>
+
+{{production_rule}} =  <| {{production_rule_member.Variable_Field}} |>
+
+{{production_rule_member}} = <>
+
+{{production_rule_empty_member}} = <EMPTY>
+
+{{production_rule_nonterminal_member}} = <[{{production_rule_member_name}}](./../Grammar/{{production_rule_member_name}}.md)>
+{{production_rule_terminal_member}}    = <[{{production_rule_member_name}}](./{{production_rule_member_name}}.md)>

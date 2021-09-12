@@ -64,16 +64,20 @@ namespace deamer::type::vector
 			return references.end();
 		}
 
-		template<typename T>
+		template<typename T,
+				 std::enable_if_t<std::is_base_of_v<language::type::definition::object::Base, T>,
+								  bool> = true>
 		void Add(const T* t)
-		{
+		{			
 			constexpr static auto enumValue =
 				language::convertor::definition::ObjectTypeToEnum<T>::value;
 
 			references[enumValue].insert(t);
 		}
 
-		template<typename T>
+		template<typename T,
+				 std::enable_if_t<std::is_base_of_v<language::type::definition::object::Base, T>,
+								  bool> = true>
 		void Add(std::vector<const T*>& ts)
 		{
 			constexpr static auto enumValue =
@@ -85,7 +89,9 @@ namespace deamer::type::vector
 			}
 		}
 
-		template<typename T>
+		template<typename T,
+				 std::enable_if_t<std::is_base_of_v<language::type::definition::object::Base, T>,
+								  bool> = true>
 		void Add(std::vector<T*>& ts)
 		{
 			constexpr static auto enumValue =
@@ -97,7 +103,9 @@ namespace deamer::type::vector
 			}
 		}
 
-		template<typename T>
+		template<typename T,
+				 std::enable_if_t<std::is_base_of_v<language::type::definition::object::Base, T>,
+								  bool> = true>
 		bool Contains(T* reference) const
 		{
 			using T_stripped = std::remove_cv_t<T>;

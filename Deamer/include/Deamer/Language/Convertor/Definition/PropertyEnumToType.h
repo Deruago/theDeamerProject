@@ -33,6 +33,7 @@
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Semantic.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Threat.h"
 #include "Deamer/Language/Type/Definition/Property/Type.h"
 
 namespace deamer::language::convertor::definition
@@ -183,6 +184,17 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Identity;
 		using type = type::definition::property::main::Identity;
+	};
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyEnumToType
+	 */
+	template<>
+	class PropertyEnumToType<type::definition::property::Type::Threat>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Threat;
+		using type = type::definition::property::main::Threat;
 	};
 
 	template<type::definition::property::Type T>

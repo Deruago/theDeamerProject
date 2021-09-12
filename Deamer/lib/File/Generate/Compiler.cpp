@@ -53,6 +53,8 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 	auto cmakelists_external = InitialiseExternalCMakeLists();
 	auto cmakelists_library = InitialiseLibraryCMakeLists();
 	auto cmakelists_include = InitialiseIncludeCMakeLists();
+	auto cmakelists_tests = InitialiseTestsCMakeLists();
+	auto cmakelists_sources = InitialiseSourcesCMakeLists();
 
 	auto standardDirectory = tool::Directory();
 	standardDirectory.SetCMakeLists(tool::CMakeLists(
@@ -63,25 +65,50 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 	GenerateExternalDirectory(compilerPath, standardDirectory);
 	GenerateLibraryDirectory(compilerPath, standardDirectory);
 	GenerateIncludeDirectory(compilerPath);
+	GenerateDocsDirectory(compilerPath);
+	GenerateTestsDirectory(compilerPath, standardDirectory);
+	GenerateSourcesDirectory(compilerPath, standardDirectory);
 
 	for (const auto& languageOutput : compilerOutput.GetLanguageOutputs())
 	{
 		const auto externalDirectory = languageOutput.GetExternalDirectory();
 		const auto libDirectory = languageOutput.GetLibraryDirectory();
 		const auto includeDirectory = languageOutput.GetIncludeDirectory();
+		const auto docsDirectory = languageOutput.GetDocsDirectory();
+		const auto testsDirectory = languageOutput.GetTestsDirectory();
+		const auto sourcesDirectory = languageOutput.GetSourcesDirectory();
 
-		GenerateExternalDirectory(compilerPath, externalDirectory);
-		GenerateLibraryDirectory(compilerPath, libDirectory);
-		GenerateIncludeDirectory(compilerPath, includeDirectory);
+		GenerateIfDirectoryIsNotUseless(&Compiler::GenerateExternalDirectory, compilerPath,
+										externalDirectory);
+		GenerateIfDirectoryIsNotUseless(&Compiler::GenerateLibraryDirectory, compilerPath,
+										libDirectory);
+		GenerateIfDirectoryIsNotUseless(&Compiler::GenerateIncludeDirectory, compilerPath,
+										includeDirectory);
+		GenerateIfDirectoryIsNotUseless(&Compiler::GenerateDocsDirectory, compilerPath,
+										docsDirectory);
+		GenerateIfDirectoryIsNotUseless(&Compiler::GenerateTestsDirectory, compilerPath,
+										testsDirectory);
+		GenerateIfDirectoryIsNotUseless(&Compiler::GenerateSourcesDirectory, compilerPath,
+										sourcesDirectory);
 
-		cmakelists_external += "add_subdirectory(" + externalDirectory.GetThisDirectory() + ")\n";
-		cmakelists_library += "add_subdirectory(" + libDirectory.GetThisDirectory() + ")\n";
+		AddIfDirectoryIsNotUseless(cmakelists_external, externalDirectory,
+								   "add_subdirectory(" + externalDirectory.GetThisDirectory() +
+									   ")\n");
+		AddIfDirectoryIsNotUseless(cmakelists_library, libDirectory,
+								   "add_subdirectory(" + libDirectory.GetThisDirectory() + ")\n");
+		AddIfDirectoryIsNotUseless(cmakelists_tests, testsDirectory,
+								   "add_subdirectory(" + testsDirectory.GetThisDirectory() + ")\n");
+		AddIfDirectoryIsNotUseless(cmakelists_sources, sourcesDirectory,
+								   "add_subdirectory(" + sourcesDirectory.GetThisDirectory() +
+									   ")\n");
 	}
 
 	GenerateProjectCMakeLists(compilerPath);
 	GenerateFile(cmakelists_external, compilerPath + "extern/");
 	GenerateFile(cmakelists_library, compilerPath + "lib/");
 	GenerateFile(cmakelists_include, compilerPath + "include/");
+	GenerateFile(cmakelists_tests, compilerPath + "tests/");
+	GenerateFile(cmakelists_sources, compilerPath + "sources/");
 
 	GenerateFile(language_default_source_file(), compilerPath + "lib/");
 	GenerateFile(language_default_header_file(), compilerPath + "include/" + languageName + "/");
@@ -140,6 +167,33 @@ void deamer::file::generate::Compiler::GenerateIncludeDirectory(const std::strin
 	const auto directoryPath = includeDirectory + directory.GetThisDirectory() + '/';
 
 	FillDirectory(directory, includeDirectory, directoryPath);
+}
+
+void deamer::file::generate::Compiler::GenerateDocsDirectory(const std::string& pathFromRoot,
+															 const tool::Directory& directory)
+{
+	const auto libraryDirectory = pathFromRoot + "docs/";
+	const auto directoryPath = libraryDirectory + directory.GetThisDirectory() + '/';
+
+	FillDirectory(directory, libraryDirectory, directoryPath);
+}
+
+void deamer::file::generate::Compiler::GenerateTestsDirectory(const std::string& pathFromRoot,
+															  const tool::Directory& directory)
+{
+	const auto libraryDirectory = pathFromRoot + "tests/";
+	const auto directoryPath = libraryDirectory + directory.GetThisDirectory() + '/';
+
+	FillDirectory(directory, libraryDirectory, directoryPath);
+}
+
+void deamer::file::generate::Compiler::GenerateSourcesDirectory(const std::string& pathFromRoot,
+																const tool::Directory& directory)
+{
+	const auto libraryDirectory = pathFromRoot + "sources/";
+	const auto directoryPath = libraryDirectory + directory.GetThisDirectory() + '/';
+
+	FillDirectory(directory, libraryDirectory, directoryPath);
 }
 
 void deamer::file::generate::Compiler::GenerateFile(const tool::File& file,
@@ -232,7 +286,7 @@ void deamer::file::generate::Compiler::ExecuteDirectoryAction(
 	const std::string console_action =
 		action.GetSubShellAction(deamer::file::tool::os_used, directoryPath);
 	const char* console_action_char_ptr = console_action.c_str();
-	
+
 	std::system(console_action_char_ptr);
 }
 
@@ -247,7 +301,7 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 	}
 
 	const std::string cmakelists_content =
-		"cmake_minimum_required(VERSION 3.18)\n"
+		"cmake_minimum_required(VERSION 3.16)\n"
 		"\n"
 		"project(" +
 		languageName +
@@ -259,6 +313,18 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		"\n"
 		"add_subdirectory(extern)\n"
 		"add_subdirectory(lib)\n"
+		"\n"
+		"option(TESTS \"Enables all the tests\" ON)\n"
+		"if(TESTS)\n"
+		"	message(STATUS \"Tests are now available.\")\n"
+		"	add_subdirectory(tests)\n"
+		"endif()\n"
+		"\n"
+		"option(APPLICATIONS \"Enables all the applications\" ON)\n"
+		"if(APPLICATIONS)\n"
+		"	message(STATUS \"Applications are now available.\")\n"
+		"	add_subdirectory(sources)\n"
+		"endif()\n"
 		"\n";
 
 	const tool::File file("CMakeLists", "txt", cmakelists_content,
@@ -392,6 +458,20 @@ deamer::file::tool::File deamer::file::generate::Compiler::InitialiseIncludeCMak
 		.GetCMakeLists();
 }
 
+deamer::file::tool::File deamer::file::generate::Compiler::InitialiseTestsCMakeLists()
+{
+	return tool::CMakeLists(CMakeListsHeader("tests"), "",
+							tool::CMakeListsGenerationVariant::user_excluded)
+		.GetCMakeLists();
+}
+
+deamer::file::tool::File deamer::file::generate::Compiler::InitialiseSourcesCMakeLists()
+{
+	return tool::CMakeLists(CMakeListsHeader("sources"), "",
+							tool::CMakeListsGenerationVariant::user_excluded)
+		.GetCMakeLists();
+}
+
 deamer::file::tool::File deamer::file::generate::Compiler::language_default_source_file()
 {
 	const std::string source_code = "#include \"" + languageName + "/" + languageName +
@@ -438,4 +518,24 @@ std::vector<std::string> deamer::file::generate::Compiler::GetSubCompilerNames()
 	}
 
 	return names;
+}
+
+void deamer::file::generate::Compiler::GenerateIfDirectoryIsNotUseless(
+	void (Compiler::*generateDirectory)(const std::string&, const tool::Directory&),
+	const std::string& path, const tool::Directory& directory)
+{
+	if (!directory.Useless())
+	{
+		(this->*generateDirectory)(path, directory);
+	}
+}
+
+void deamer::file::generate::Compiler::AddIfDirectoryIsNotUseless(tool::File& file,
+																  const tool::Directory& directory,
+																  const std::string& text)
+{
+	if (!directory.Useless())
+	{
+		file += text;
+	}
 }

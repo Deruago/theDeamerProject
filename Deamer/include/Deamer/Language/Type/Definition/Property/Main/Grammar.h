@@ -30,7 +30,7 @@ namespace deamer::language::type::definition::property::main
 {
 	/*! \class Grammar
 	 *
-	 *  Language Property Definition of a grammar, used to define the grammar for language x.
+	 *  \brief Language Property Definition of a grammar, used to define the grammar for language x.
 	 */
 	class Grammar final : public Definition
 	{

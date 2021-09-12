@@ -19,6 +19,7 @@
  */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
+#include "Deamer/Language/Reference/LDO.h"
 #include <utility>
 
 deamer::language::type::definition::object::main::ProductionRule::ProductionRule(
@@ -37,4 +38,26 @@ deamer::language::type::definition::object::main::ProductionRule::ProductionRule
 bool deamer::language::type::definition::object::main::ProductionRule::IsEmpty() const
 {
 	return Tokens.empty();
+}
+
+std::string deamer::language::type::definition::object::main::ProductionRule::GetText() const
+{
+	std::string output;
+	for (auto* token : Tokens)
+	{
+		switch (token->Type_)
+		{
+		case Type::Terminal:
+			output += reference::LDO<Terminal>(token)->Name;
+			break;
+		case Type::NonTerminal:
+			output += reference::LDO<NonTerminal>(token)->Name;
+			break;
+		default:
+			break;
+		}
+		output += " ";
+	}
+
+	return output;
 }

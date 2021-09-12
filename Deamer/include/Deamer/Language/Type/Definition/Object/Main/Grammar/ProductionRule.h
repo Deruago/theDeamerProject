@@ -23,6 +23,7 @@
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
+#include <string>
 #include <vector>
 
 namespace deamer::language::type::definition::object::main
@@ -44,6 +45,8 @@ namespace deamer::language::type::definition::object::main
 
 	public:
 		bool IsEmpty() const;
+
+		std::string GetText() const;
 
 	private:
 	};

@@ -24,7 +24,10 @@ deamer::file::tool::Output::Output(const std::string& toolDirectory_)
 	: toolDirectory(toolDirectory_),
 	  external(Directory(toolDirectory_)),
 	  include(Directory(toolDirectory_)),
-	  library(Directory(toolDirectory_))
+	  library(Directory(toolDirectory_)),
+	  docs(Directory(toolDirectory_)),
+	  tests(Directory(toolDirectory_)),
+	  sources(Directory(toolDirectory_))
 {
 }
 
@@ -43,6 +46,21 @@ void deamer::file::tool::Output::AddDirectoryToLibrary(const Directory& newDirec
 	library.AddDirectory(newDirectory);
 }
 
+void deamer::file::tool::Output::AddDirectoryToDocs(const Directory& newDirectory)
+{
+	docs.AddDirectory(newDirectory);
+}
+
+void deamer::file::tool::Output::AddDirectoryToTests(const Directory& newDirectory)
+{
+	tests.AddDirectory(newDirectory);
+}
+
+void deamer::file::tool::Output::AddDirectoryToSources(const Directory& newDirectory)
+{
+	sources.AddDirectory(newDirectory);
+}
+
 void deamer::file::tool::Output::AddFileToExternal(const File& newFile)
 {
 	external.AddFile(newFile);
@@ -56,6 +74,21 @@ void deamer::file::tool::Output::AddFileToInclude(const File& newFile)
 void deamer::file::tool::Output::AddFileToLibrary(const File& newFile)
 {
 	library.AddFile(newFile);
+}
+
+void deamer::file::tool::Output::AddFileToDocs(const File& newFile)
+{
+	docs.AddFile(newFile);
+}
+
+void deamer::file::tool::Output::AddFileToTests(const File& newFile)
+{
+	tests.AddFile(newFile);
+}
+
+void deamer::file::tool::Output::AddFileToSources(const File& newFile)
+{
+	sources.AddFile(newFile);
 }
 
 void deamer::file::tool::Output::AddCMakeListsToExternal(const CMakeLists& newFile)
@@ -111,6 +144,21 @@ deamer::file::tool::Directory deamer::file::tool::Output::GetLibraryDirectory() 
 	return library;
 }
 
+deamer::file::tool::Directory deamer::file::tool::Output::GetDocsDirectory() const
+{
+	return docs;
+}
+
+deamer::file::tool::Directory deamer::file::tool::Output::GetTestsDirectory() const
+{
+	return tests;
+}
+
+deamer::file::tool::Directory deamer::file::tool::Output::GetSourcesDirectory() const
+{
+	return sources;
+}
+
 deamer::file::tool::Output deamer::file::tool::Output::Merge(const std::vector<Output>& outputs)
 {
 	if (outputs.empty())
@@ -138,6 +186,10 @@ deamer::file::tool::Output& deamer::file::tool::Output::operator+=(const Output&
 	external += output.external;
 	include += output.include;
 	library += output.library;
+
+	docs += output.docs;
+	tests += output.tests;
+	sources += output.sources;
 
 	return *this;
 }

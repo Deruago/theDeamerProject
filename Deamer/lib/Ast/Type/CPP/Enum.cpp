@@ -73,7 +73,9 @@ void deamer::ast::type::cpp::Enum::AddNonTerminal(
 
 std::string deamer::ast::type::cpp::Enum::GenerateEnumerations() const
 {
-	std::string output;
+	std::string output = "\t\t// Reserved\n"
+	"\t\tdeamerreserved_unknown,\n"
+	"\n";
 
 	output += "\t\t// Terminals\n";
 	for (const auto& terminal : terminals)

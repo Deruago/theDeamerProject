@@ -60,6 +60,12 @@ namespace deamer::file::tool
 		void SetCMakeLists(const CMakeLists& cmakeLists_);
 
 	public:
+		// Specifies this directory is useless as it contains nothing
+		bool Empty() const;
+
+		// Specifies this directory's structure is useless
+		bool Useless() const;
+
 		std::vector<File> GetFiles() const;
 		std::vector<Directory> GetDirectories() const;
 		std::string GetThisDirectory() const;

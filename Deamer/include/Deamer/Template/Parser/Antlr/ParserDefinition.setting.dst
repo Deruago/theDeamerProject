@@ -1,0 +1,15 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <ParserDefinition>
+{{file.namespace}} = <deamer::templates::antlr::parser>
+{{file.extension}} = <h>
+
+{{nonterminal_declaration}} = <
+{{nonterminal_name}}:
+{{production_rule_declaration.Variable_Field}}
+	;>
+
+{{production_rule_declaration}} = <>
+
+{{first_production_rule_declaration}} = <	{{production_rule}}>
+
+{{second_production_rule_declaration}} = <	| {{production_rule}}>

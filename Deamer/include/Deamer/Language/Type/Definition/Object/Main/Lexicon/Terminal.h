@@ -32,7 +32,7 @@ namespace deamer::language::type::definition::object::main
 	 *
 	 *  Terminal symbol, used in lexicon definitions.
 	 */
-	class Terminal : public Base
+	class Terminal : public ::deamer::language::type::definition::object::Base
 	{
 		friend deamer::type::SafeReserve<Terminal>;
 
@@ -52,7 +52,7 @@ namespace deamer::language::type::definition::object::main
 
 		~Terminal() = default;
 
-	private:
+	protected:
 		Terminal();
 	};
 }

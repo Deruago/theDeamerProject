@@ -43,8 +43,10 @@ namespace deamer::language::type::definition::property
 		Colorization,
 		Formatting,
 		Documentation,
+
 		Generation,
 		Identity,
+		Threat,
 	};
 }
 

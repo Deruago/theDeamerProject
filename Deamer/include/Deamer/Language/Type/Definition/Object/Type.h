@@ -53,6 +53,16 @@ namespace deamer::language::type::definition::object
 
 		// Identity
 		Name,
+
+		// Threat
+		Threat,
+
+		// Colorization
+		ColorGroup,
+		ColorCombination,
+		ColorTheme,
+		TerminalColor,
+		TerminalPatternColor,
 	};
 }
 

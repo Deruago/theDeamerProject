@@ -96,7 +96,8 @@ size_t deamer::language::analyzer::main::ProductionRule::GetDirectRecursionPoint
 bool deamer::language::analyzer::main::ProductionRule::IsNonTerminalOwnerOfThisProductionRule(
 	reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const
 {
-	for (reference::LDO<ProductionRule> productionRule_ : nonTerminal->ProductionRules)
+	for (reference::LDO<::deamer::language::type::definition::object::main::ProductionRule>
+			 productionRule_ : nonTerminal->ProductionRules)
 	{
 		if (productionRule_ == productionRule)
 		{

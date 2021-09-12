@@ -38,6 +38,10 @@ namespace deamer::language::analyzer::main
 
 	public:
 		bool DoesTerminalHaveValue() const;
+
+		void GetAllPossibleNeighbouringTerminals(
+			std::set<reference::LDO<type::definition::object::main::Terminal>>&
+				neighbouringTerminals) const;
 	};
 }
 

@@ -28,9 +28,16 @@ namespace deamer::type
 		using pointer = T*;
 		using reference = T&;
 
-		SafeReserve() = default;
+		SafeReserve()
+		{
+			if constexpr (std::is_base_of_v<::deamer::language::type::definition::object::Base, T>)
+			{
+				static_cast<::deamer::language::type::definition::object::Base* const>(t_Reserved)
+					->SetAsUninitialized();
+			}
+		}
 
-		explicit SafeReserve(const T& t) noexcept
+		explicit SafeReserve(const T& t) noexcept : SafeReserve()
 		{
 			Set(t);
 		}

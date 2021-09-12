@@ -63,10 +63,10 @@ namespace deamer::language::generator::definition::property::standard
 
 		/*!	\fn Generate
 		 *
-		 *	\brief Generates a default precedence property definition.
+		 *	\brief Generates a default associativity property definition.
 		 *
-		 *	\details The default precedence definition exists of a set of precedences which are all
-		 *the same (0).
+		 *	\details The default associativity definition exists of a set of associativities all
+		 *having any associativity (unless set differently).
 		 */
 		void GenerateDefinition() override
 		{

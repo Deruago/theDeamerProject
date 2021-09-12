@@ -75,6 +75,35 @@ void deamer::file::tool::Directory::SetCMakeLists(const CMakeLists& cmakeLists_)
 	cmakeLists = cmakeLists_;
 }
 
+bool deamer::file::tool::Directory::Empty() const
+{
+	return directories.empty() && files.empty() && actions.empty();
+}
+
+bool deamer::file::tool::Directory::Useless() const
+{
+	if (!files.empty() || !actions.empty())
+	{
+		return false;
+	}
+
+	if (directories.empty())
+	{
+		return true;
+	}
+
+	// If directories are not empty, check if their structure is useless
+	for (const auto& directory : directories)
+	{
+		if (!directory.Useless())
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 std::vector<deamer::file::tool::File> deamer::file::tool::Directory::GetFiles() const
 {
 	return files;

@@ -169,7 +169,7 @@ std::string deamer::ast::type::cpp::Node::GetBaseNodesToInherit(
 	return output;
 }
 
-std::vector<const deamer::language::type::definition::object::main::NonTerminal*>
+std::set<const deamer::language::type::definition::object::main::NonTerminal*>
 deamer::ast::type::cpp::Node::GetBaseGroupedNodes(
 	const deamer::language::reference::LDO<
 		deamer::language::type::definition::object::main::Terminal>& terminal) const
@@ -184,7 +184,7 @@ deamer::ast::type::cpp::Node::GetBaseGroupedNodes(
 	}
 
 	const auto& productionRules = result.GetObjects();
-	std::vector<const deamer::language::type::definition::object::main::NonTerminal*>
+	std::set<const deamer::language::type::definition::object::main::NonTerminal*>
 		baseNonTerminals;
 
 	for (const auto& productionRule : productionRules)
@@ -206,13 +206,13 @@ deamer::ast::type::cpp::Node::GetBaseGroupedNodes(
 			continue;
 		}
 
-		baseNonTerminals.push_back(resultNonTerminal.Get());
+		baseNonTerminals.insert(resultNonTerminal.Get());
 	}
 
 	return baseNonTerminals;
 }
 
-std::vector<const deamer::language::type::definition::object::main::NonTerminal*>
+std::set<const deamer::language::type::definition::object::main::NonTerminal*>
 deamer::ast::type::cpp::Node::GetBaseGroupedNodes(
 	const deamer::language::reference::LDO<
 		deamer::language::type::definition::object::main::NonTerminal>& nonTerminal) const
@@ -227,7 +227,7 @@ deamer::ast::type::cpp::Node::GetBaseGroupedNodes(
 	}
 
 	const auto& productionRules = result.GetObjects();
-	std::vector<const deamer::language::type::definition::object::main::NonTerminal*>
+	std::set<const deamer::language::type::definition::object::main::NonTerminal*>
 		baseNonTerminals;
 
 	for (const auto& productionRule : productionRules)
@@ -249,7 +249,7 @@ deamer::ast::type::cpp::Node::GetBaseGroupedNodes(
 			continue;
 		}
 
-		baseNonTerminals.push_back(resultNonTerminal.Get());
+		baseNonTerminals.insert(resultNonTerminal.Get());
 	}
 
 	return baseNonTerminals;

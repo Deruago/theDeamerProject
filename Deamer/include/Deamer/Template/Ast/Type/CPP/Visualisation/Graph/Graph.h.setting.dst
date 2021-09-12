@@ -1,0 +1,27 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <{{class_name}}>
+{{file.namespace}} = <deamer::templates::ast::type::cpp>
+{{file.extension}} = <h>
+
+{{language_name_underscore}} = <{{language_name.Underscore}}>
+
+{{header_guard}} = <{{language_name_underscore.Upper}}_AST_VISUALISATION_{{class_name.Upper}}_H>
+
+{{class_name}} = <Graph>
+{{const_qualifier}} = <const>
+
+{{listen_object_entry}} = <
+		void ListenEntry({{const_qualifier}} ::{{language_name}}::ast::node::{{object}}* node) override
+		{
+			for ({{const_qualifier}} auto* child : node-{{right_angle_bracket}}GetNodes())
+			{
+				AddConnection(node, child);
+			}
+
+			output += "\t" + std::to_string(::std::size_t(node)) + " [label=\"{{object}}\"];\n";
+		}>
+
+{{listen_object_exit}} = <
+		void ListenExit({{const_qualifier}} ::{{language_name}}::ast::node::{{object}}* node) override
+		{
+		}>

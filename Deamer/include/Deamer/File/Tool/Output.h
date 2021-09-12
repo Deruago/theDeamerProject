@@ -38,6 +38,11 @@ namespace deamer::file::tool
 		Directory include;
 		Directory library;
 
+		// reserved
+		Directory docs;
+		Directory tests;
+		Directory sources;
+
 	public:
 		Output(const std::string& toolDirectory_);
 		virtual ~Output() = default;
@@ -46,10 +51,16 @@ namespace deamer::file::tool
 		void AddDirectoryToExternal(const Directory& newDirectory);
 		void AddDirectoryToInclude(const Directory& newDirectory);
 		void AddDirectoryToLibrary(const Directory& newDirectory);
+		void AddDirectoryToDocs(const Directory& newDirectory);
+		void AddDirectoryToTests(const Directory& newDirectory);
+		void AddDirectoryToSources(const Directory& newDirectory);
 
 		void AddFileToExternal(const File& newFile);
 		void AddFileToInclude(const File& newFile);
 		void AddFileToLibrary(const File& newFile);
+		void AddFileToDocs(const File& newDirectory);
+		void AddFileToTests(const File& newDirectory);
+		void AddFileToSources(const File& newDirectory);
 
 		void AddCMakeListsToExternal(const CMakeLists& newFile);
 		void AddCMakeListsToInclude(const CMakeLists& newFile);
@@ -73,6 +84,9 @@ namespace deamer::file::tool
 		Directory GetExternalDirectory() const;
 		Directory GetIncludeDirectory() const;
 		Directory GetLibraryDirectory() const;
+		Directory GetDocsDirectory() const;
+		Directory GetTestsDirectory() const;
+		Directory GetSourcesDirectory() const;
 
 	public:
 		/*!	\fn Merge

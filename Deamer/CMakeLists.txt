@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
-project(Deamer VERSION 1.0
-                  DESCRIPTION "Compiler generation framework"
+project(Deamer VERSION 2.1.0
+                  DESCRIPTION "Infrastructure for compiler and ecosystem generation."
                   LANGUAGES CXX)
 
 set(CMAKE_BUILD_WITH_INSTALL_NAME_DIR ON)
@@ -20,7 +20,7 @@ if(NOT DEFINED Deamer_VERSION_MAJOR)
   set(Deamer_VERSION_MAJOR 2)
 endif()
 if(NOT DEFINED Deamer_VERSION_MINOR)
-  set(Deamer_VERSION_MINOR 0)
+  set(Deamer_VERSION_MINOR 1)
 endif()
 if(NOT DEFINED Deamer_VERSION_PATCH)
   set(Deamer_VERSION_PATCH 0)

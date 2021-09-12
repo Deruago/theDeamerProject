@@ -35,6 +35,16 @@ namespace deamer::language::type::definition::object::main
 	class Name;
 	class Terminal;
 	class ObjectPrecedence;
+	class ColorTheme;
+	class ColorGroup;
+	class ColorCombination;
+	class TerminalColor;
+	class TerminalPatternColor;
+}
+
+namespace deamer::language::type::definition::object::main::threat
+{
+	class Threat;
 }
 
 namespace deamer::language::type::definition::property::main
@@ -51,6 +61,7 @@ namespace deamer::language::type::definition::property::main
 	class Lexicon;
 	class Precedence;
 	class Semantic;
+	class Threat;
 }
 
 namespace deamer::language::validator::definition
@@ -179,6 +190,72 @@ namespace deamer::language::validator::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Identity;
 		using type = type::definition::property::main::Identity;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ColorTheme>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Colorization;
+		using type = type::definition::property::main::Colorization;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ColorGroup>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Colorization;
+		using type = type::definition::property::main::Colorization;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ColorCombination>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Colorization;
+		using type = type::definition::property::main::Colorization;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::TerminalColor>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Colorization;
+		using type = type::definition::property::main::Colorization;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::TerminalPatternColor>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Colorization;
+		using type = type::definition::property::main::Colorization;
+	};
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::threat::Threat>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Threat;
+		using type = type::definition::property::main::Threat;
 	};
 }
 

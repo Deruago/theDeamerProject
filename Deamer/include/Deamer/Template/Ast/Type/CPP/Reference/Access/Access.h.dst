@@ -1,0 +1,92 @@
+#ifndef {{header_guard}}
+#define {{header_guard}}
+
+{{node_enum_to_type_relation_include}}
+{{node_type_to_enum_relation_include}}
+{{node_enum_isinlined_relation_include}}
+
+{{node_enum_include}}
+{{node_type_include.Variable_Field}}
+
+#include <vector>
+#include <utility>
+
+namespace {{language_name}} { namespace ast { namespace reference { 
+
+	struct {{class_name}}Base
+	{	
+	public:
+		{{class_name}}Base() = default;
+
+	protected:
+		template<{{node_enum_type}} T>
+		void Get(std::vector<{{const_qualifier}} {{node_enum_to_type}}{{left_angle_bracket}}T{{right_angle_bracket}}*>& foundNodes, {{const_qualifier}} ::deamer::external::cpp::ast::Node* currentNode)
+		{
+			for({{const_qualifier}} auto* const node : currentNode->GetNodes())
+			{
+				if (node->GetType() == static_cast{{left_angle_bracket}}::std::size_t{{right_angle_bracket}}(T))
+				{
+					foundNodes.push_back(static_cast{{left_angle_bracket}}{{const_qualifier}}  {{node_enum_to_type}}{{left_angle_bracket}}T{{right_angle_bracket}}*{{right_angle_bracket}}(node));
+				}
+				else if (::{{language_name}}::ast::relation::NodeIsInlined(static_cast{{left_angle_bracket}}{{node_enum_type}}{{right_angle_bracket}}(node->GetType())))
+				{
+					Get<T>(foundNodes, node);
+				}
+			}
+		}
+
+		template<{{node_enum_type}} T, typename Q>
+		inline std::vector<{{const_qualifier}} {{node_enum_to_type}}{{left_angle_bracket}}T{{right_angle_bracket}}*> Get(std::vector<{{const_qualifier}} Q*>& currentNodes)
+		{
+			std::vector<{{const_qualifier}} {{node_enum_to_type}}{{left_angle_bracket}}T{{right_angle_bracket}}*> foundNodes;
+
+			for ({{const_qualifier}} auto* const currentNode : currentNodes)
+			{
+				{{class_name}}Base::Get<T>(foundNodes, currentNode);
+			}
+
+			return foundNodes;
+		}
+	};
+
+	/*!	\class Access
+	 *
+	 *	\brief Used to access AST nodes. It contains various helper functions to ease navigation through AST nodes.
+	 */
+	template<typename T>
+	struct Access : public AccessBase
+	{
+		Access() = delete;
+		~Access() = delete;
+	};
+
+{{node_access_forward_declaration.Variable_Field}}
+
+	{{node_access.Variable_Field}}
+
+	{{target_retrievement_function_implementation.Variable_Field}}
+
+	/*!	\class Access_if
+	 *
+	 *	\brief Accesses the node if it is of the given type.
+	 *
+	 *	\note A lambda has to be supplied as second argument with paramater: "Access<T>".
+	 */
+	template<typename T>
+	struct Access_if
+	{
+		{{const_qualifier}} ::deamer::external::cpp::ast::Node* node;
+
+		template<typename FunctionType>
+		Access_if({{const_qualifier}} ::deamer::external::cpp::ast::Node* node_, FunctionType function) : node(node_)
+		{
+			if (node->GetType() == static_cast<::std::size_t>({{node_type_to_enum}}<T>))
+			{
+				function(Access<T>(static_cast<const T*>(node)));
+			}
+		}
+	};
+
+}}}
+
+#endif // {{header_guard}}

@@ -44,6 +44,13 @@ namespace deamer::tool::type
 		DeamerAST,
 
 		// External
+
+		// Syntax Highlighter
+		SyntaxHighlighter_UDL,		// used by notepad++
+		SyntaxHighlighter_TextMate,	// used by visual code, textmate
+
+		// Documentation generators
+		DeamerDocumentation,
 	};
 }
 
