@@ -18,6 +18,10 @@ Deamer is a definition based infrastructure, allowing extensions to easily reuse
 
 Deamer-Tools included in the Deamer Project: [Deamer](https://github.com/Deruago/theDeamerProject), Deamer-lang, [DLDL](https://github.com/Deruago/DLDL), DQSL, DCPP, [DST](https://github.com/Deruago/DeamerStringTemplate).
 
+## Examples
+
+For example go take a look at the example repo! This example repo contains various: examples, tutorials and projects: https://github.com/Deruago/DeamerExamples 
+
 ## Getting the source and building DeamerProject
 
 Deamer Project uses cmake for building the source code. You can install cmake [here](https://cmake.org/install/) by following the instructions.
@@ -182,10 +186,6 @@ All the projects in this repo. The main part of this repo is Deamer (CC), all ot
 | Deamer (CC)     | Required | Infrastructure for compiler and ecosystem generation    |
 | DLDL            | Required | Front-end of Deamer CC.                                 |
 | DST             | Optional | DSL for interpreting deamer string templates            |
-
-## Examples
-
-For example go take a look at the example repo! This example repo contains various: examples, tutorials and projects: https://github.com/Deruago/DeamerExamples 
 
 ## License
 
