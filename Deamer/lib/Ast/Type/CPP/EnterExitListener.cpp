@@ -46,8 +46,10 @@ deamer::file::tool::File deamer::ast::type::cpp::EnterExitListener::Generate() c
 		enterExitTemplate->terminal_name_->Set(terminal->Name);
 
 		enterExitTemplate->terminal_include_->ExpandVariableField();
-		enterExitTemplate->terminal_case_->ExpandVariableField();
+		enterExitTemplate->dispatch_entry_terminal_case_->ExpandVariableField();
+		enterExitTemplate->dispatch_exit_terminal_case_->ExpandVariableField();
 		enterExitTemplate->enter_terminal_listen_->ExpandVariableField();
+		enterExitTemplate->exit_terminal_listen_->ExpandVariableField();
 	}
 
 	for (const auto& nonterminal : nonTerminals)
@@ -55,7 +57,8 @@ deamer::file::tool::File deamer::ast::type::cpp::EnterExitListener::Generate() c
 		enterExitTemplate->nonterminal_name_->Set(nonterminal->Name);
 
 		enterExitTemplate->nonterminal_include_->ExpandVariableField();
-		enterExitTemplate->nonterminal_case_->ExpandVariableField();
+		enterExitTemplate->dispatch_entry_nonterminal_case_->ExpandVariableField();
+		enterExitTemplate->dispatch_exit_nonterminal_case_->ExpandVariableField();
 		enterExitTemplate->enter_nonterminal_listen_->ExpandVariableField();
 		enterExitTemplate->exit_nonterminal_listen_->ExpandVariableField();
 	}
