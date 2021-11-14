@@ -23,6 +23,7 @@
 
 #include "Deamer/File/Tool/Output.h"
 #include "Deamer/Language/Reference/PropertyDefinition.h"
+#include <optional>
 #include <vector>
 
 namespace deamer::file::compiler
@@ -42,11 +43,16 @@ namespace deamer::file::compiler
 		std::vector<deamer::file::tool::Output> LanguageOut;
 		std::vector<deamer::file::compiler::Output> CompilersOut;
 
+		std::optional<const Output*> parent;
+
 		const ReferenceType reference;
 
 	public:
 		Output(const ReferenceType reference_);
 		~Output() = default;
+
+		Output(const Output& rhs);
+		Output(const Output&& rhs) noexcept;
 
 	public:
 		void AddLanguageToolOutput(const deamer::file::tool::Output& newLanguageOutput);
@@ -57,6 +63,10 @@ namespace deamer::file::compiler
 		std::vector<deamer::file::tool::Output> GetLanguageOutputs() const;
 		std::vector<deamer::file::compiler::Output> GetCompilerOutputs() const;
 		ReferenceType GetLanguageReference() const;
+		std::optional<const Output*> GetParent() const;
+
+	private:
+		void ReconstructParentPointers(deamer::file::compiler::Output* output);
 	};
 }
 
