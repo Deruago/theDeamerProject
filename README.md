@@ -18,6 +18,10 @@ Deamer is a definition based infrastructure, allowing extensions to easily reuse
 
 Deamer-Tools included in the Deamer Project: [Deamer](https://github.com/Deruago/theDeamerProject), Deamer-lang, [DLDL](https://github.com/Deruago/DLDL), DQSL, DCPP, [DST](https://github.com/Deruago/DeamerStringTemplate).
 
+### Community
+
+There is an official discord server: https://discord.gg/YUwW2UdgM4
+
 ## Examples
 
 For example go take a look at the example repo! This example repo contains various: examples, tutorials and projects: https://github.com/Deruago/DeamerExamples 
