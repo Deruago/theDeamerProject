@@ -34,7 +34,7 @@ def install_project(name: str, install: bool):
         print(f"Installing {name}")
         
         make_directory(f"build/{name}")
-        os.system(f'cd build/{name} && cmake ../../{name} && cmake --build . --target install')
+        os.system(f'cd build/{name} && cmake ../../{name} -DINSTALL_GTEST=off && cmake --build . --target install')
         
         print(f"Done installing {name}")
  

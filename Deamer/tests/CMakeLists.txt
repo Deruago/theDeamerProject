@@ -1,3 +1,5 @@
+set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+set(INSTALL_GTEST off)
 add_subdirectory("${PROJECT_SOURCE_DIR}/extern/googletest" "extern/googletest")
 
 mark_as_advanced(
