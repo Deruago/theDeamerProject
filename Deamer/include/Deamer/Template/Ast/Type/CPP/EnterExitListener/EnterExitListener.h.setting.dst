@@ -18,26 +18,39 @@
 {{terminal_include}} = <#include "{{language_name}}/Ast/Node/{{terminal_name}}.h">
 {{nonterminal_include}} = <#include "{{language_name}}/Ast/Node/{{nonterminal_name}}.h">
 
-{{terminal_case}} = <
+{{dispatch_entry_terminal_case}} = <
 			case {{language_type}}::{{terminal_name}}:
 			{
+				// Entry terminal
 				EnterAnything(node);
 				EnterTerminal(node);
 				ListenEntry(static_cast{{left_angle_bracket}}const {{terminal_node}}*{{right_angle_bracket}}(node));
 				break;
 			}>
 
-{{nonterminal_case}} = <
+{{dispatch_entry_nonterminal_case}} = <
 			case {{language_type}}::{{nonterminal_name}}:
 			{
 				// Enter nonterminal
 				EnterAnything(node);
 				EnterNonTerminal(node);
 				ListenEntry(static_cast{{left_angle_bracket}}const {{nonterminal_node}}*{{right_angle_bracket}}(node));
-				
-				// Go through its children
-				DefaultAction(node);
+				break;
+			}>
+			
+{{dispatch_exit_terminal_case}} = <
+			case {{language_type}}::{{terminal_name}}:
+			{
+				// Exit terminal
+				ListenExit(static_cast{{left_angle_bracket}}const {{terminal_node}}*{{right_angle_bracket}}(node));
+				ExitTerminal(node);
+				ExitAnything(node);
+				break;
+			}>
 
+{{dispatch_exit_nonterminal_case}} = <
+			case {{language_type}}::{{nonterminal_name}}:
+			{
 				// Exit nonterminal
 				ListenExit(static_cast{{left_angle_bracket}}const {{nonterminal_node}}*{{right_angle_bracket}}(node));
 				ExitNonTerminal(node);
@@ -47,6 +60,11 @@
 
 {{enter_terminal_listen}} = <
 		virtual void ListenEntry(const {{terminal_node}}* node) {{const_qualifier}}
+		{
+		}>
+
+{{exit_terminal_listen}} = <
+		virtual void ListenExit(const {{terminal_node}}* node) {{const_qualifier}}
 		{
 		}>
 

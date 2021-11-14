@@ -1,13 +1,14 @@
 #ifndef {{header_guard}}
 #define {{header_guard}}
 
-#include <Deamer/External/Cpp/Ast/Listener.h>
 #include "{{language_name}}/Ast/Node/{{language_name}}.h"
 #include "{{language_name}}/Ast/Enum/Type.h"
 
 {{terminal_include.Variable_Field}}
 
 {{nonterminal_include.Variable_Field}}
+#include <Deamer/External/Cpp/Ast/Listener.h>
+#include <Deamer/Algorithm/Tree/DFS.h>
 
 namespace {{language_name}} { namespace ast { namespace listener { 
 
@@ -21,14 +22,37 @@ namespace {{language_name}} { namespace ast { namespace listener {
 	public:
 		void Dispatch(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}} override
 		{
+			::deamer::algorithm::tree::DFS::Execute::Heap::Search(node,
+				&::deamer::external::cpp::ast::Node::GetParent,
+				&::deamer::external::cpp::ast::Node::GetNodes,
+				&EnterExitListener::DispatchEntry,
+				&EnterExitListener::DispatchExit,
+				this);
+		}
+
+		void DispatchEntry(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}}
+		{
 			const auto enumeratedValue = static_cast<{{language_type}}>(node->GetType());
 			switch(enumeratedValue)
 			{
 			// Terminal cases
-			{{terminal_case.Variable_Field}}
+			{{dispatch_entry_terminal_case.Variable_Field}}
 
 			// Nonterminal cases
-			{{nonterminal_case.Variable_Field}}
+			{{dispatch_entry_nonterminal_case.Variable_Field}}
+			}
+		}
+
+		void DispatchExit(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}}
+		{
+			const auto enumeratedValue = static_cast<{{language_type}}>(node->GetType());
+			switch(enumeratedValue)
+			{
+			// Terminal cases
+			{{dispatch_exit_terminal_case.Variable_Field}}
+
+			// Nonterminal cases
+			{{dispatch_exit_nonterminal_case.Variable_Field}}
 			}
 		}
 
@@ -61,15 +85,6 @@ namespace {{language_name}} { namespace ast { namespace listener {
 
 		virtual void ExitAnything(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}}
 		{
-		}
-	
-	private:
-		void DefaultAction(const ::deamer::external::cpp::ast::Node* node) {{const_qualifier}}
-		{
-			for(const auto* child : node->GetNodes())
-			{
-				Dispatch(child);
-			}
 		}
 	};
 
