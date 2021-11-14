@@ -6,7 +6,7 @@ import subprocess
 subfolders = [ f.path for f in os.scandir("./") if f.is_dir() ]
 
 # installation groups
-# Deamer, DeamerExternal, DLDL
+# Deamer, DeamerExternal, DeamerAlgorithm, DLDL
 install_deamer_core = True
 
 # DST
@@ -43,9 +43,10 @@ def install_subprojects():
     print(subfolders)
     make_directory("build")
     
-    # Deamer External is dependency-less, and is used by
+    # Deamer External and Deamer Algorithm are dependency-less, and are used by
     # most subprojects. Thus should be installed first
     install_project("DeamerExternal", install_deamer_core)
+    install_project("DeamerAlgorithm", install_deamer_core)
     
     # Required
     install_project("Deamer", install_deamer_core)
