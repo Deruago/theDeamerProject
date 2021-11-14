@@ -1,0 +1,37 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <DefaultDeamer>
+{{file.namespace}} = <deamer::templates::cmake::single::main>
+{{file.extension}} = <h>
+
+{{const_qualifier}} = <const>
+
+{{CMAKE_VAR_INTRO}} = <${>
+{{add_subdirectory_sub_compiler}} = <add_subdirectory({{subproject_name}})>
+
+{{optional_root_external_library}} = <{{root_external_library}}>
+{{root_external_library}} = <
+add_library({{languageName}}_external_libraries STATIC "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/lib/{{languageName}}.cpp")
+target_link_libraries({{languageName}}_external_libraries PUBLIC Deamer_External)
+target_link_libraries({{languageName}}_external_libraries PUBLIC Deamer_Algorithm)
+target_include_directories({{languageName}}_external_libraries PUBLIC "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/extern" "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/include")
+
+add_library({{languageName}}_static_library STATIC)
+target_compile_features({{languageName}}_static_library PUBLIC cxx_std_17)
+set_target_properties({{languageName}}_static_library PROPERTIES LINKER_LANGUAGE CXX)
+
+target_link_libraries({{languageName}}_static_library PUBLIC {{languageName}}_external_libraries Deamer_External Deamer_Algorithm)
+
+add_library({{languageName}}_shared_library SHARED)
+target_compile_features({{languageName}}_shared_library PUBLIC cxx_std_17)
+set_target_properties({{languageName}}_shared_library PROPERTIES LINKER_LANGUAGE CXX)
+
+target_link_libraries({{languageName}}_shared_library PUBLIC {{languageName}}_external_libraries Deamer_External Deamer_Algorithm)
+
+function({{languageName}}_root_library_extend projectname extern_directory include_directory source_files)
+	target_sources({{languageName}}_static_library PRIVATE {{CMAKE_VAR_INTRO}}source_files})
+	target_sources({{languageName}}_shared_library PRIVATE {{CMAKE_VAR_INTRO}}source_files})
+
+	target_include_directories({{languageName}}_static_library PUBLIC {{CMAKE_VAR_INTRO}}extern_directory} {{CMAKE_VAR_INTRO}}include_directory})
+	target_include_directories({{languageName}}_shared_library PUBLIC {{CMAKE_VAR_INTRO}}extern_directory} {{CMAKE_VAR_INTRO}}include_directory})
+endfunction()
+>

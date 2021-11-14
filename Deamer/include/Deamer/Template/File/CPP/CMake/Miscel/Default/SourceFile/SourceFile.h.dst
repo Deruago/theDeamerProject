@@ -1,0 +1,3 @@
+#include "{{languageName}}/{{languageName}}.h"
+
+// This is a generated file for the language: {{languageName}}

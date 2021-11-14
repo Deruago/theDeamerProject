@@ -1,0 +1,9 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <DefaultDeamer>
+{{file.namespace}} = <deamer::templates::cmake::multi::main>
+{{file.extension}} = <h>
+
+{{const_qualifier}} = <const>
+
+{{CMAKE_VAR_INTRO}} = <${>
+{{add_subdirectory_sub_compiler}} = <add_subdirectory({{subproject_name}})>

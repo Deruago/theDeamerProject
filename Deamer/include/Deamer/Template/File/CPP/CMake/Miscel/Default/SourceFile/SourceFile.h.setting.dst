@@ -1,0 +1,6 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <SourceFile>
+{{file.namespace}} = <deamer::templates::cmake::miscel::standard>
+{{file.extension}} = <h>
+
+{{const_qualifier}} = <const>
