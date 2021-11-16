@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
-project(Deamer VERSION 2.1.0
+project(Deamer VERSION 2.1.1
                   DESCRIPTION "Infrastructure for compiler and ecosystem generation."
                   LANGUAGES CXX)
 
@@ -23,7 +23,7 @@ if(NOT DEFINED Deamer_VERSION_MINOR)
   set(Deamer_VERSION_MINOR 1)
 endif()
 if(NOT DEFINED Deamer_VERSION_PATCH)
-  set(Deamer_VERSION_PATCH 0)
+  set(Deamer_VERSION_PATCH 1)
 endif()
 
 add_subdirectory(lib)

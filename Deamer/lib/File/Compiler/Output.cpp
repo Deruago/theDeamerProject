@@ -20,8 +20,28 @@
 
 #include "Deamer/File/Compiler/Output.h"
 
-deamer::file::compiler::Output::Output(const ReferenceType reference_) : reference(reference_)
+deamer::file::compiler::Output::Output(const ReferenceType reference_)
+	: parent(std::nullopt),
+	  reference(reference_)
 {
+}
+
+deamer::file::compiler::Output::Output(const Output& rhs)
+	: LanguageOut(rhs.LanguageOut),
+	  CompilersOut(rhs.CompilersOut),
+	  parent(rhs.parent),
+	  reference(rhs.reference)
+{
+	ReconstructParentPointers(this);
+}
+
+deamer::file::compiler::Output::Output(const Output&& rhs) noexcept
+	: LanguageOut(rhs.LanguageOut),
+	  CompilersOut(rhs.CompilersOut),
+	  parent(rhs.parent),
+	  reference(rhs.reference)
+{
+	ReconstructParentPointers(this);
 }
 
 void deamer::file::compiler::Output::AddLanguageToolOutput(
@@ -42,7 +62,10 @@ void deamer::file::compiler::Output::AddLanguageToolOutput(
 void deamer::file::compiler::Output::AddCompilerOutput(
 	const deamer::file::compiler::Output& newCompilerOutput)
 {
-	CompilersOut.push_back(newCompilerOutput);
+	auto compilerOutput = newCompilerOutput;
+	compilerOutput.parent = this;
+	CompilersOut.push_back(compilerOutput);
+	ReconstructParentPointers(this);
 }
 
 std::vector<deamer::file::tool::Output> deamer::file::compiler::Output::GetLanguageOutputs() const
@@ -60,4 +83,20 @@ deamer::file::compiler::Output::ReferenceType
 deamer::file::compiler::Output::GetLanguageReference() const
 {
 	return reference;
+}
+
+std::optional<const deamer::file::compiler::Output*>
+deamer::file::compiler::Output::GetParent() const
+{
+	return parent;
+}
+
+void deamer::file::compiler::Output::ReconstructParentPointers(
+	deamer::file::compiler::Output* output)
+{
+	for (auto& compilerOutput : output->CompilersOut)
+	{
+		compilerOutput.parent = output;
+		ReconstructParentPointers(&compilerOutput);
+	}
 }

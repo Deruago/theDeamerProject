@@ -10,3 +10,6 @@
 [submodule "DeamerExternal"]
 	path = DeamerExternal
 	url = https://github.com/Deruago/DeamerExternal
+[submodule "DeamerAlgorithm"]
+	path = DeamerAlgorithm
+	url = https://github.com/Deruago/DeamerAlgorithm

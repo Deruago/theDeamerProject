@@ -2,11 +2,45 @@
 #define DEAMER_LANGUAGE_TYPE_DEFINITION_SPECIAL_UNINITIALIZED_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+#include <iostream>
 #include <string>
 #include <type_traits>
 
 namespace deamer::language::type::definition::object::special
 {
+	class BaseUninitialized
+	{
+	private:
+		std::string supposedType;
+		std::string supposedName;
+		std::string reasonForBeingUnInitialized;
+
+	public:
+		BaseUninitialized(std::string supposedType_, std::string supposedName_,
+						  std::string reasonForBeingUnInitialized_)
+			: supposedType(supposedType_),
+			  supposedName(supposedName_),
+			  reasonForBeingUnInitialized(reasonForBeingUnInitialized_)
+		{
+			// This warning is temporary.
+			// Later minor releases focussing on Uninitialized LDO's, should give better support.
+			if (supposedType == "unknown")
+			{
+				return;
+			}
+			std::cout << "Uninitialized LDO:: Type: " << supposedType_ << " Name: " << supposedName_
+					  << " Reason: " << reasonForBeingUnInitialized_ << "\n";
+		}
+
+		void Set(std::string supposedType_ = "unknown", std::string supposedName_ = "unknown",
+				 std::string reasonForBeingUnInitialized_ = "unknown")
+		{
+			supposedType = supposedType_;
+			supposedName = supposedName_;
+			reasonForBeingUnInitialized = reasonForBeingUnInitialized_;
+		}
+	};
+
 	/*!	\class Uninitialized
 	 *
 	 *	\brief Uninitialized is a special LDO to specify uninitialized LDO's
@@ -39,30 +73,15 @@ namespace deamer::language::type::definition::object::special
 			 std::enable_if_t<
 				 std::is_base_of_v<::deamer::language::type::definition::object::Base, Base_T>,
 				 bool> = true>
-	class Uninitialized : public Base_T
+	class Uninitialized : public Base_T, public BaseUninitialized
 	{
-	private:
-		std::string supposedType;
-		std::string supposedName;
-		std::string reasonForBeingUnInitialized;
-
 	public:
 		Uninitialized(std::string supposedType_ = "unknown", std::string supposedName_ = "unknown",
 					  std::string reasonForBeingUnInitialized_ = "unknown")
 			: Base_T(),
-			  supposedType(supposedType_),
-			  supposedName(supposedName_),
-			  reasonForBeingUnInitialized(reasonForBeingUnInitialized_)
+			  BaseUninitialized(supposedType_, supposedName_, reasonForBeingUnInitialized_)
 		{
 			this->SetAsUninitialized();
-		}
-
-		void Set(std::string supposedType_ = "unknown", std::string supposedName_ = "unknown",
-				 std::string reasonForBeingUnInitialized_ = "unknown")
-		{
-			supposedType = supposedType_;
-			supposedName = supposedName_;
-			reasonForBeingUnInitialized = reasonForBeingUnInitialized_;
 		}
 	};
 }

@@ -1,0 +1,8 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <DefaultDeamer>
+{{file.namespace}} = <deamer::templates::cmake::multi::lib>
+{{file.extension}} = <h>
+
+{{const_qualifier}} = <const>
+
+{{CMAKE_VAR_INTRO}} = <${{lef_bracket}}>

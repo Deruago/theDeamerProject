@@ -1,0 +1,10 @@
+#ifndef {{header_guard}}
+#define {{header_guard}}
+
+// This is a generated file for the language: {{languageName}}
+
+namespace {{languageName}}
+{
+}
+
+#endif // {{header_guard}}

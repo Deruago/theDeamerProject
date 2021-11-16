@@ -35,10 +35,18 @@ namespace deamer::file::generate
 	 */
 	class Compiler
 	{
+	public:
+		enum class ProjectType
+		{
+			multi,
+			single,
+		};
+
 	private:
 		const deamer::file::compiler::Output compilerOutput;
 		deamer::file::tool::OSType currentOs;
 		std::string languageName;
+		ProjectType projectType = ProjectType::single;
 
 		virtual void GenerateDirectory(const tool::Directory& directory,
 									   const std::string& pathFromRoot);
@@ -81,12 +89,17 @@ namespace deamer::file::generate
 		virtual ~Compiler() = default;
 
 	public:
+		std::string GetRootLanguageName() const;
+		bool RootProject() const;
 		void GenerateProjectCMakeLists(const std::string& compilerPath);
 		virtual void Generate(const std::string& pathFromRoot = "./");
 
 		std::vector<std::string> GetSubCompilerNames() const;
 
+		void SetProjectType(ProjectType projectType_);
+
 	private:
+		bool SingleProject() const;
 		void GenerateIfDirectoryIsNotUseless(
 			void (Compiler::*generateDirectory)(const std::string&, const tool::Directory&),
 			const std::string& path, const tool::Directory& directory);

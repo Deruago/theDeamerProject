@@ -23,6 +23,7 @@
 
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Analyzer/Deamer/Special/Type.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Warning.h"
+#include "Deamer/Language/Type/Definition/Object/Special/Uninitialized.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
 
 namespace deamer::language::type::definition::object::main::threat::deamer::special
@@ -35,13 +36,14 @@ namespace deamer::language::type::definition::object::main::threat::deamer::spec
 		friend ::deamer::type::SafeReserve<Uninitialized>;
 
 	public:
-		static constexpr auto id = Type::Uninitialized;
+		static constexpr auto id = Type::Base;
 		static constexpr auto analyzerType = analyzer::Type::Deamer_Special;
 
-		Uninitialized* uninitialized;
+		::deamer::language::type::definition::object::special::BaseUninitialized* uninitialized;
 
 	public:
-		Uninitialized(special::Uninitialized* uninitialized_);
+		Uninitialized(::deamer::language::type::definition::object::special::BaseUninitialized*
+						  uninitialized_);
 
 		~Uninitialized() override = default;
 

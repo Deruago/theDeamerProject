@@ -26,6 +26,7 @@
 #include "Deamer/Language/Convertor/Definition/PropertyTypeToEnum.h"
 #include "Deamer/Language/Generator/Definition/Property/BaseGenerator.h"
 #include "Deamer/Language/Reference/LanguageGenerator.h"
+#include "Deamer/Language/Type/Definition/Object/Special/Uninitialized.h"
 #include "Deamer/Language/Validator/Definition/GetObjectEnumsFromPropertyType.h"
 #include "Deamer/Type/Memory/Reserve.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
@@ -102,6 +103,20 @@ namespace deamer::language::generator::definition::property
 			{
 				return;
 			}
+			AddObjectToInternalStorage(enumValue, t.Pointer());
+		}
+
+		/*! \fn AddObject
+		 *
+		 *	\brief Add a specific object, to the internal storage.
+		 *
+		 *	\note Every uninitialized LDO is added no matter the type which is uninitialized.
+		 */
+		template<typename T>
+		void AddObject(const deamer::type::SafeReserve<
+					   ::deamer::language::type::definition::object::special::Uninitialized<T>>& t)
+		{
+			constexpr static auto enumValue = convertor::definition::ObjectTypeToEnum<T>::value;
 			AddObjectToInternalStorage(enumValue, t.Pointer());
 		}
 

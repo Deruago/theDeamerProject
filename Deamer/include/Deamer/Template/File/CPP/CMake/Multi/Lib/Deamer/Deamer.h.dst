@@ -1,0 +1,32 @@
+# This file is auto-generated and auto-maintained.
+# Please don't change code in this file, as new changes will be discarded,
+# when Deamer regenerates the project.
+#
+# If you want to contribute to Deamer.
+# Please visit: https://github.com/Deruago/theDeamerProject
+#
+# This file is part of the directory: lib
+
+find_package(Deamer_External REQUIRED)
+find_package(Deamer_Algorithm REQUIRED)
+
+# All source files of this project.
+file(GLOB_RECURSE SOURCE_LIST "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/lib/*.cpp")
+
+# Static library
+add_library({{languageName}}_static_library STATIC {{CMAKE_VAR_INTRO}}SOURCE_LIST})
+
+target_include_directories({{languageName}}_static_library PUBLIC {{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/extern {{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/include)
+target_compile_features({{languageName}}_static_library PUBLIC cxx_std_17)
+set_target_properties({{languageName}}_static_library PROPERTIES LINKER_LANGUAGE CXX)
+
+target_link_libraries({{languageName}}_static_library PUBLIC {{languageName}}_external_libraries)
+
+# Shared library
+add_library({{languageName}}_shared_library SHARED {{CMAKE_VAR_INTRO}}SOURCE_LIST})
+
+target_include_directories({{languageName}}_shared_library PUBLIC "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/extern" "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/include")
+target_compile_features({{languageName}}_shared_library PUBLIC cxx_std_17)
+set_target_properties({{languageName}}_shared_library PROPERTIES LINKER_LANGUAGE CXX)
+
+target_link_libraries({{languageName}}_shared_library PUBLIC {{languageName}}_external_libraries)
