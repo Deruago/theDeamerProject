@@ -39,6 +39,10 @@ namespace DST::setting
 			deamer::language::type::definition::object::main::GenerateArgument>
 			grammarVector;
 
+		deamer::type::SafeReserve<
+			deamer::language::type::definition::object::main::GenerateArgument>
+			dldlConverterAll;
+
 	public:
 		Generation(DST::setting::Language* language)
 			: deamer::language::generator::definition::property::user::Generation<
@@ -70,6 +74,8 @@ namespace DST::setting
 					deamer::tool::type::Tool::Bison, "Declare-deleted-terminals"));
 			/*grammarVector.Set(deamer::language::type::definition::object::main::GenerateArgument(
 				deamer::tool::type::Tool::Bison, "Vector"));*/
+			dldlConverterAll.Set(deamer::language::type::definition::object::main::GenerateArgument(
+				deamer::tool::type::Tool::DLDLConverter, "all"));
 
 			AddObject(generateLexer);
 			AddObject(generateParser);
@@ -83,6 +89,8 @@ namespace DST::setting
 			AddObject(grammarDebug);
 			AddObject(grammarDeclareDeletedTerminals);
 			AddObject(grammarVector);
+
+			AddObject(dldlConverterAll);
 		}
 		~Generation() override = default;
 	};

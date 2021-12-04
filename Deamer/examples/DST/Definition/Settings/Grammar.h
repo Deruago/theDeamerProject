@@ -33,6 +33,10 @@ namespace DST::setting
 			user_keyword;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
 			dst_keyword;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			alternative_field_nt_1;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::NonTerminal>
+			alternative_field_nt_2;
 
 		// Production rules
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
@@ -64,6 +68,10 @@ namespace DST::setting
 
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
 			main_assignment_USER_INPUT;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			main_assignment_alternative_field_nt_1;
+		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
+			main_assignment_alternative_field_nt_2;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>
 			keyword_assignment_user_keyword;
 		deamer::type::SafeReserve<deamer::language::type::definition::object::main::ProductionRule>

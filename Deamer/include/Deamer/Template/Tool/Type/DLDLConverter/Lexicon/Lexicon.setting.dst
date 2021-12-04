@@ -1,0 +1,8 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <Lexicon>
+{{file.namespace}} = <deamer::templates::dldlconverter::lexicon>
+{{file.extension}} = <h>
+
+{{version}} = <v1.0.0>
+
+{{terminal_declaration}} = <{{abstraction}}: {{name}} {{regex}}>

@@ -18,43 +18,32 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_TOOL_TYPE_TOOL_H
-#define DEAMER_TOOL_TYPE_TOOL_H
+#ifndef DEAMER_TOOL_TYPE_DLDLCONVERTER_LEXICON_LEXICON_H
+#define DEAMER_TOOL_TYPE_DLDLCONVERTER_LEXICON_LEXICON_H
 
-namespace deamer::tool::type
+#include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
+#include "Deamer/Template/Tool/Type/DLDLConverter/Lexicon/LexiconTemplate.h"
+#include "Deamer/Tool/Type/DLDLConverter/DLDLConverter.h"
+
+namespace deamer::tool::type::dldlconverter::lexicon
 {
-	/*!	\enum Tool
-	 *
-	 *	\brief Used to enumerate all available tools.
-	 */
-	enum class Tool
+	class Lexicon
 	{
-		// Unknown
-		Unknown,
+		using reference = DLDLConverter::reference;
 
-		// Lexer
-		Flex,
-		Antlr_Lexer,
+	private:
+		reference Reference;
 
-		// Parser
-		Bison,
-		Antlr_Parser,
+	public:
+		Lexicon(reference reference_);
 
-		// AST generators
-		DeamerAST,
+	public:
+		void Generate(::deamer::file::tool::Output& output);
 
-		// External
-
-		// Syntax Highlighter
-		SyntaxHighlighter_UDL,		// used by notepad++
-		SyntaxHighlighter_TextMate, // used by visual code, textmate
-
-		// Documentation generators
-		DeamerDocumentation,
-
-		// DLDL Converter, generates DLDL definitions
-		DLDLConverter,
+	private:
+		std::string GetAbstractionText(
+			const language::type::definition::object::main::SpecialType& special) const;
 	};
 }
 
-#endif // DEAMER_TOOL_TYPE_TOOL_H
+#endif // DEAMER_TOOL_TYPE_DLDLCONVERTER_LEXICON_LEXICON_H
