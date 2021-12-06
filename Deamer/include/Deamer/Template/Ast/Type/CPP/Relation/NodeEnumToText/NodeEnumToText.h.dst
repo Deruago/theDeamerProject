@@ -1,0 +1,22 @@
+#ifndef {{header_guard}}
+#define {{header_guard}}
+
+{{node_enum_include}}
+
+{{node_type_include.Variable_Field}}
+
+namespace {{language_name}} { namespace ast { namespace relation { 
+
+	static constexpr const char* ConvertEnumToText({{node_enum_type}} type)
+	{
+		switch(type)
+		{
+			{{node_conversion.Variable_Field}}
+		}
+		
+		return "";
+	}
+
+}}}
+
+#endif // {{header_guard}}

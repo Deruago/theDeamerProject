@@ -31,6 +31,7 @@
 #include "Deamer/Ast/Type/CPP/Relation/NodeIsNonTerminal.h"
 #include "Deamer/Ast/Type/CPP/Relation/NodeIsTerminal.h"
 #include "Deamer/Ast/Type/CPP/Relation/NodeTypeToEnum.h"
+#include "Deamer/Ast/Type/CPP/Relation/NodeEnumToText.h"
 #include "Deamer/Ast/Type/CPP/Visitor.h"
 #include "Deamer/Ast/Type/CPP/Visualisation/Graph.h"
 
@@ -63,6 +64,7 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 	type::cpp::Listener listener(reference);
 	type::cpp::Visitor visitor(reference);
 	type::cpp::NodeEnumToType nodeEnumToType(reference);
+	type::cpp::NodeEnumToText nodeEnumToText(reference);
 	type::cpp::NodeTypeToEnum nodeTypeToEnum(reference);
 	type::cpp::NodeIsInlined nodeIsInlined(reference);
 	type::cpp::NodeIsNonTerminal nodeIsNonTerminal(reference);
@@ -111,6 +113,7 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 	ast_visitor_directory.AddFileToInclude(visitor.Generate());
 	ast_relation_directory.AddFileToInclude(nodeEnumToType.Generate());
 	ast_relation_directory.AddFileToInclude(nodeTypeToEnum.Generate());
+	ast_relation_directory.AddFileToInclude(nodeEnumToText.Generate());
 	ast_relation_directory.AddFileToInclude(nodeIsInlined.Generate());
 	ast_relation_directory.AddFileToInclude(nodeIsNonTerminal.Generate());
 	ast_relation_directory.AddFileToInclude(nodeIsTerminal.Generate());
