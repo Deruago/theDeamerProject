@@ -24,7 +24,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
-#include "Deamer/Template/Tool/Type/DLDLConverter/Grammar/GRAMMARTemplate.h"
+#include "Deamer/Template/Tool/Type/DLDLConverter/Grammar/GrammarTemplate.h"
 #include "Deamer/Tool/Type/DLDLConverter/DLDLConverter.h"
 
 namespace deamer::tool::type::dldlconverter::grammar
