@@ -52,6 +52,9 @@ namespace deamer::tool::type
 		// Documentation generators
 		DeamerDocumentation,
 
+		// Default application generators
+		DeamerDefaultApplication,
+
 		// DLDL Converter, generates DLDL definitions
 		DLDLConverter,
 	};
