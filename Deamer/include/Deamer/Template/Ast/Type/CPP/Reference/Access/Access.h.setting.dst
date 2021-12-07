@@ -1,45 +1,45 @@
-{{file.target_language}} = <C++>
-{{file.file_name}} = <{{class_name}}>
-{{file.namespace}} = <deamer::templates::ast::type::cpp>
-{{file.extension}} = <h>
+{{file.target_language}} = @<C++>@
+{{file.file_name}} = @<Access>@
+{{file.namespace}} = @<deamer::templates::ast::type::cpp>@
+{{file.extension}} = @<h>@
 
-{{language_name_underscore}} = <{{language_name.Underscore}}>
+{{language_name_underscore}} = @<{{language_name.Underscore}}>@
 
-{{header_guard}} = <{{language_name_underscore.Upper}}_AST_REFERENCE_{{class_name.Upper}}_H>
+{{header_guard}} = @<{{language_name_underscore.Upper}}_AST_REFERENCE_{{class_name.Upper}}_H>@
 
-{{class_name}} = <Access>
-{{const_qualifier}} = <const>
-{{node_enum_to_type_relation_include}} = <#include "{{language_name}}/Ast/Relation/NodeEnumToType.h">
-{{node_type_to_enum_relation_include}} = <#include "{{language_name}}/Ast/Relation/NodeTypeToEnum.h">
-{{node_enum_isinlined_relation_include}} = <#include "{{language_name}}/Ast/Relation/NodeIsInlined.h">
-{{node_enum_include}} = <#include "{{language_name}}/Ast/Enum/Type.h">
-{{node_type_include}} = <#include "{{language_name}}/Ast/Node/{{node_name}}.h">
+{{class_name}} = @<AccessTemplateBase>@
+{{const_qualifier}} = @<const>@
+{{node_enum_to_type_relation_include}} = @<#include "{{language_name}}/Ast/Relation/NodeEnumToType.h">@
+{{node_type_to_enum_relation_include}} = @<#include "{{language_name}}/Ast/Relation/NodeTypeToEnum.h">@
+{{node_enum_isinlined_relation_include}} = @<#include "{{language_name}}/Ast/Relation/NodeIsInlined.h">@
+{{node_enum_include}} = @<#include "{{language_name}}/Ast/Enum/Type.h">@
+{{node_type_include}} = @<#include "{{language_name}}/Ast/Node/{{node_name}}.h">@
 
-{{node_enum_to_type}} = <::{{language_name}}::ast::relation::NodeEnumToType_t>
-{{node_type_to_enum}} = <::{{language_name}}::ast::relation::NodeTypeToEnum_v>
-{{node_enum_type}} = <::{{language_name}}::ast::Type>
-{{node_enum_value}} = <{{node_enum_type}}::{{node_name}}>
-{{node_enum_target_value}} = <{{node_enum_type}}::{{node_target_name}}>
+{{node_enum_to_type}} = @<::{{language_name}}::ast::relation::NodeEnumToType_t>@
+{{node_type_to_enum}} = @<::{{language_name}}::ast::relation::NodeTypeToEnum_v>@
+{{node_enum_type}} = @<::{{language_name}}::ast::Type>@
+{{node_enum_value}} = @<{{node_enum_type}}::{{node_name}}>@
+{{node_enum_target_value}} = @<{{node_enum_type}}::{{node_target_name}}>@
 
-{{node_type}} = <::{{language_name}}::ast::node::{{node_name}}>
-{{node_type_target}} = <::{{language_name}}::ast::node::{{node_target_name}}>
+{{node_type}} = @<::{{language_name}}::ast::node::{{node_name}}>@
+{{node_type_target}} = @<::{{language_name}}::ast::node::{{node_target_name}}>@
 
-{{class_name_node_type}} = <{{class_name}}{{left_angle_bracket}}{{node_type}}{{right_angle_bracket}}>
-{{class_name_node_target_type}} = <{{class_name}}{{left_angle_bracket}}{{node_type_target}}{{right_angle_bracket}}>
+{{class_name_node_type}} = @@<{{class_name}}<{{node_type}}>>@
+{{class_name_node_target_type}} = @<{{class_name}}<{{node_type_target}}>>@
 
 {{node_access_forward_declaration}} =
-<	template{{left_angle_bracket}}{{right_angle_bracket}}
-	struct {{class_name_node_type}};>
+@<	template<>
+	struct {{class_name_node_type}};>@
 
-{{node_access}} = <
-	template{{left_angle_bracket}}{{right_angle_bracket}}
+{{node_access}} = @<
+	template<>
 	struct {{class_name_node_type}} : public {{class_name}}Base
 	{
 	protected:
-		std::vector{{left_angle_bracket}}{{const_qualifier}} {{node_type}}*{{right_angle_bracket}} ts;
+		std::vector<{{const_qualifier}} {{node_type}}*> ts;
 
 	public:
-		{{class_name}}(std::vector{{left_angle_bracket}}{{const_qualifier}} {{node_type}}*{{right_angle_bracket}} ts_) : ts(std::move(ts_))
+		{{class_name}}(std::vector<{{const_qualifier}} {{node_type}}*> ts_) : ts(std::move(ts_))
 		{
 		}
 
@@ -56,7 +56,7 @@
 	public:
 		{{class_name_node_type}}& operator[](::std::size_t index)
 		{
-			if (index {{right_angle_bracket}}= ts.size())
+			if (index >= ts.size())
 			{
 				ts.clear();
 			}
@@ -73,21 +73,21 @@
 		{{class_name_node_type}}& operator()(::std::size_t indexBegin, ::std::size_t indexEnd)
 		{
 			// swap if the other is larger
-			if (indexBegin {{right_angle_bracket}} indexEnd)
+			if (indexBegin > indexEnd)
 			{
 				const auto tmp = indexBegin;
 				indexBegin = indexEnd;
 				indexEnd = tmp;
 			}
 
-			if (indexBegin {{right_angle_bracket}}= ts.size())
+			if (indexBegin >= ts.size())
 			{
 				ts.clear();
 			}
 			else
 			{
-				std::vector{{left_angle_bracket}}{{const_qualifier}} {{node_type}}*{{right_angle_bracket}} temporaries;
-				for (auto i = indexBegin; i {{left_angle_bracket}} ts.size() && i {{left_angle_bracket}}= indexEnd; i++)
+				std::vector<{{const_qualifier}} {{node_type}}*> temporaries;
+				for (auto i = indexBegin; i < ts.size() && i <= indexEnd; i++)
 				{
 					temporaries.push_back(ts[i]);
 				}
@@ -98,7 +98,7 @@
 			return *this;
 		}
 
-		std::vector{{left_angle_bracket}}{{const_qualifier}} {{node_type}}*{{right_angle_bracket}} GetContent()
+		std::vector<{{const_qualifier}} {{node_type}}*> GetContent()
 		{
 			return ts;
 		}
@@ -106,7 +106,7 @@
 	public:
 		{{target_retrievement_function_declaration.Variable_Field}}
 
-		template{{left_angle_bracket}}typename FunctionType{{right_angle_bracket}}
+		template<typename FunctionType>
 		{{class_name_node_type}}& for_all(FunctionType function)
 		{
 			for ({{const_qualifier}} auto* const t : ts)
@@ -116,15 +116,35 @@
 
 			return *this;
 		}
-	};>
 
-{{target_retrievement_function_implementation}} = <
+	public:
+		auto begin()
+		{
+			return ts.begin();
+		}
+		auto cbegin()
+		{
+			return ts.cbegin();
+		}
+		
+		auto end()
+		{
+			return ts.end();
+		}
+		
+		auto cend()
+		{
+			return ts.cend();
+		}
+	};>@
+
+{{target_retrievement_function_implementation}} = @<
 		inline {{class_name_node_target_type}} {{class_name_node_type}}::{{node_target_name}}()
 		{
 			// Optimized search, if it fails continue using unoptimized search.
 
 			// Unoptimized search
-			return {{class_name_node_target_type}}(Get{{left_angle_bracket}}{{node_enum_target_value}}{{right_angle_bracket}}(ts));
-		}>
+			return {{class_name_node_target_type}}(Get<{{node_enum_target_value}}>(ts));
+		}>@
 
-{{target_retrievement_function_declaration}} = <{{class_name_node_target_type}} {{node_target_name}}();>
+{{target_retrievement_function_declaration}} = @<{{class_name_node_target_type}} {{node_target_name}}();>@

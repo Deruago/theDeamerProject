@@ -49,15 +49,52 @@ namespace {{language_name}} { namespace ast { namespace reference {
 		}
 	};
 
-	/*!	\class Access
+	/*!	\class AccessTemplateBase
 	 *
 	 *	\brief Used to access AST nodes. It contains various helper functions to ease navigation through AST nodes.
+	 *
+	 *	\details This class contains the type dependent implementation of Access<T>.
+	 *	Refrain from using this class, as there is no backwards compatibility
+	 *	guarantee of this implementation class,
+	 *	Use Access<T> instead, this is backwards compatible and offers different benefits.
+	 *
+	 *	\see Access
 	 */
 	template<typename T>
-	struct Access : public AccessBase
+	struct {{class_name}} : public AccessBase
 	{
-		Access() = delete;
-		~Access() = delete;
+		{{class_name}}() = delete;
+		~{{class_name}}() = delete;
+	};
+
+	/*! \class Access
+	 *
+	 *	\brief Used to access AST nodes. It contains various helper functions to ease navigation through AST nodes.
+	 *
+	 *	\details Type dispatcher for logic.
+	 *
+	 *	\see AccessTemplateBase
+	 */
+	template<typename T>
+	struct Access : public {{class_name}}<T>
+	{
+		Access(std::vector<{{const_qualifier}} T*> ts_) : {{class_name}}<T>(ts_)
+		{
+		}
+
+		Access(const T& t) : {{class_name}}<T>(t)
+		{
+		}
+
+		Access({{const_qualifier}} T* t) : {{class_name}}<T>(t)
+		{
+		}
+
+		Access(const {{class_name}}<T>& rhs) : {{class_name}}<T>(rhs)
+		{
+		}
+
+		Access() = default;
 	};
 
 {{node_access_forward_declaration.Variable_Field}}
