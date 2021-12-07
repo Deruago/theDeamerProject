@@ -47,6 +47,9 @@ namespace deamer::lexer::type::flex
 		std::string OptionalReturn() const;
 		std::string HandleColumn() const;
 		std::string Generate() const override;
+
+	private:
+		std::string GetTerminalId() const;
 	};
 }
 
