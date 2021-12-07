@@ -1,0 +1,20 @@
+#ifndef {{header_guard}}
+#define {{header_guard}}
+
+{{node_enum_include}}
+
+namespace {{language_name}} { namespace ast { namespace relation { 
+
+	static constexpr {{node_enum_type}} ConvertEnumToText(const std::string& text)
+	{
+		static const std::map<std::string, {{node_enum_type}}> mapTextWithType = {
+			{"", {{node_enum_type}}::deamerreserved_unknown },
+			{{node_conversion.Variable_Field}}
+		};
+
+		return mapTextWithType[text];
+	}
+
+}}}
+
+#endif // {{header_guard}}
