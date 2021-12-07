@@ -1,0 +1,41 @@
+#ifndef {{header_guard}}
+#define {{header_guard}}
+
+#include <cstddef>
+
+namespace {{language_name}} { namespace ast { 
+
+	enum class Type : std::size_t
+	{
+		// Reserved
+		deamerreserved_unknown,
+
+		// Terminal
+{{terminal_enumeration.Variable_Field}}
+
+		// NonTerminal
+{{nonterminal_enumeration.Variable_Field}}
+	};
+
+	static inline bool operator==(std::size_t lhs, ::{{language_name}}::ast::Type rhs)
+	{
+		return lhs == static_cast<std::size_t>(rhs);
+	}
+
+	static inline bool operator==(::{{language_name}}::ast::Type lhs, std::size_t rhs)
+	{
+		return static_cast<std::size_t>(lhs) == rhs;
+	}
+
+	static inline bool operator==(int lhs, ::{{language_name}}::ast::Type rhs)
+	{
+		return lhs == static_cast<std::size_t>(rhs);
+	}
+
+	static inline bool operator==(::{{language_name}}::ast::Type lhs, int rhs)
+	{
+		return static_cast<std::size_t>(lhs) == rhs;
+	}
+}}
+
+#endif // {{header_guard}}

@@ -24,6 +24,7 @@
 #include "Deamer/File/Tool/File.h"
 #include "Deamer/Language/Reference/LDO.h"
 #include "Deamer/Language/Reference/PropertyDefinition.h"
+#include "Deamer/Template/Ast/Type/CPP/Enum/TypeTemplate.h"
 
 namespace deamer::ast::type::cpp
 {
@@ -41,27 +42,20 @@ namespace deamer::ast::type::cpp
 		ReferenceType reference;
 		std::string languageName;
 
-		std::vector<language::reference::LDO<language::type::definition::object::main::Terminal>>
-			terminals;
-
-		std::vector<language::reference::LDO<language::type::definition::object::main::NonTerminal>>
-			nonTerminals;
+		deamer::templates::ast::type::cpp::TypeTemplate typeTemplate;
 
 	public:
 		Enum(ReferenceType reference_);
 		~Enum() = default;
 
 	public:
-		deamer::file::tool::File Generate() const;
+		deamer::file::tool::File Generate();
 
 		void AddTerminal(
 			language::reference::LDO<language::type::definition::object::main::Terminal> terminal);
 		void AddNonTerminal(
 			language::reference::LDO<language::type::definition::object::main::NonTerminal>
 				nonTerminal);
-
-	private:
-		std::string GenerateEnumerations() const;
 	};
 }
 
