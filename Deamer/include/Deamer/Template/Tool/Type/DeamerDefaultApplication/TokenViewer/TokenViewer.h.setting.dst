@@ -1,0 +1,9 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <{{class_name}}>
+{{file.namespace}} = <deamer::templates::tool::deamerdefaultapplication::tokenviewer>
+{{file.extension}} = <h>
+
+{{language_name_underscore}} = <{{language_name.Underscore}}>
+
+{{class_name}} = <TokenViewer>
+
