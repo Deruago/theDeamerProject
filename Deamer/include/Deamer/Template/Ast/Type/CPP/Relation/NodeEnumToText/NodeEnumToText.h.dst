@@ -3,8 +3,6 @@
 
 {{node_enum_include}}
 
-{{node_type_include.Variable_Field}}
-
 namespace {{language_name}} { namespace ast { namespace relation { 
 
 	static constexpr const char* ConvertEnumToText({{node_enum_type}} type)
