@@ -43,8 +43,8 @@ deamer::tool::type::deamerdefaultapplication::DeamerDefaultApplication::Generate
 	auto astViewerDirectory = file::tool::Directory("AstViewer");
 	auto defaultCompilerDirectory = file::tool::Directory("Compiler");
 
-	TokenViewer(Reference).Generate(deamerDefaultApplicationDirectory);
-	AstViewer(Reference).Generate(deamerDefaultApplicationDirectory);
+	TokenViewer(Reference).Generate(tokenViewerDirectory);
+	AstViewer(Reference).Generate(astViewerDirectory);
 
 	deamerDefaultApplicationDirectory.AddDirectory(tokenViewerDirectory);
 	deamerDefaultApplicationDirectory.AddDirectory(astViewerDirectory);
