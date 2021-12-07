@@ -23,7 +23,7 @@
 
 // Defines the version of deamer that is installed.
 // If not defined Deamer is either v2.0.0 or older.
-#define DEAMER_CC_V2_RESERVED_MACRO_VALUE_VERSION_NUMBER 002'001'001UL
+#define DEAMER_CC_V2_RESERVED_MACRO_VALUE_VERSION_NUMBER 002'001'002UL
 
 /*! \namespace deamer
  *
@@ -31,7 +31,7 @@
  */
 namespace deamer
 {
-	static constexpr const char* version = "2.1.1";
+	static constexpr const char* version = "2.1.2";
 }
 
 #endif // DEAMER_H
