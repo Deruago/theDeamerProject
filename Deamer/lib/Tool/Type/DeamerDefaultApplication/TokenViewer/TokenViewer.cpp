@@ -46,8 +46,8 @@ void deamer::tool::type::deamerdefaultapplication::TokenViewer::Generate(
 		"\n"
 		"add_executable(" +
 		languageName +
-		"::deamer::TokenViewer main.cpp)\n"
+		"deamerTokenViewer main.cpp)\n"
 		"target_link_libraries(" +
-		languageName + "::deamer::TokenViewer " + languageName + "_static_library)\n");
+		languageName + "deamerTokenViewer " + languageName + "_static_library)\n");
 	output.AddFile(tokenViewerFile);
 }

@@ -46,9 +46,9 @@ void deamer::tool::type::deamerdefaultapplication::AstViewer::Generate(
 		"\n"
 		"add_executable(" +
 		languageName +
-		"::deamer::AstViewer main.cpp)\n"
+		"deamerAstViewer main.cpp)\n"
 		"target_link_libraries(" +
-		languageName + "::deamer::AstViewer " + languageName + "_static_library)\n");
+		languageName + "deamerAstViewer " + languageName + "_static_library)\n");
 
 	output.AddFile(astViewerFile);
 }
