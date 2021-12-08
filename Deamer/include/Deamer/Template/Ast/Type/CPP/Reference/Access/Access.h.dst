@@ -13,10 +13,10 @@
 
 namespace {{language_name}} { namespace ast { namespace reference { 
 
-	struct {{class_name}}Base
+	struct AccessBase
 	{	
 	public:
-		{{class_name}}Base() = default;
+		AccessBase() = default;
 
 	protected:
 		template<{{node_enum_type}} T>
@@ -42,7 +42,7 @@ namespace {{language_name}} { namespace ast { namespace reference {
 
 			for ({{const_qualifier}} auto* const currentNode : currentNodes)
 			{
-				{{class_name}}Base::Get<T>(foundNodes, currentNode);
+				AccessBase::Get<T>(foundNodes, currentNode);
 			}
 
 			return foundNodes;

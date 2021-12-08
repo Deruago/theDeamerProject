@@ -33,7 +33,7 @@
 
 {{node_access}} = @<
 	template<>
-	struct {{class_name_node_type}} : public {{class_name}}Base
+	struct {{class_name_node_type}} : public AccessBase
 	{
 	protected:
 		std::vector<{{const_qualifier}} {{node_type}}*> ts;
