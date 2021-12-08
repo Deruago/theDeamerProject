@@ -1,4 +1,5 @@
 #include "{{language_name}}/{{lexer}}/Lexer.h"
+#include "{{language_name}}/{{parser}}/Parser.h"
 #include "{{language_name}}/Ast/Relation/NodeEnumToText.h"
 #include <fstream>
 #include <iostream>
@@ -35,12 +36,13 @@ int main(int argc, const char* argv[])
 		std::cout << "\n";
 
 		auto lexer = {{language_name}}::lexer::Lexer();
-		auto tokens = lexer.Tokenize();
+		auto tokens = lexer.Tokenize(text);
+		{{language_name}}::parser::Parser();
 
-		std::cout << "Tokens:\n"
+		std::cout << "Tokens:\n";
 		for (auto token : tokens)
 		{
-			std::cout << "\tTokenName: " << {{language_name}}::ast::relation::NodeEnumToText(static_cast<{{language_name}}::ast::Type>(token->Type)) << "\n";
+			std::cout << "\tTokenName: " << {{language_name}}::ast::relation::ConvertEnumToText(static_cast<{{language_name}}::ast::Type>(token->Type)) << "\n";
 			std::cout << "\t\tValue: " << token->Value << "\n";
 			std::cout << "\t\tLine: " << std::to_string(token->LineNumber) << "\n";
 			std::cout << "\t\tColumn: " << std::to_string(token->ColumnNumber) << "\n";

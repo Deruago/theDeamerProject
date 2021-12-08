@@ -7,3 +7,5 @@
 
 {{class_name}} = <TokenViewer>
 
+{{lexer}} = <Flex>
+{{parser}} = <Bison>

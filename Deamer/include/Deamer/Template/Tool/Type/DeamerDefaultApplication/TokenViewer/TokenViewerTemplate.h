@@ -31,6 +31,7 @@ namespace deamer::templates::tool::deamerdefaultapplication::tokenviewer
 			left_bracket_,
 			left_curly_bracket_,
 			lexer_,
+			parser_,
 			right_angle_bracket_,
 			right_bracket_,
 			right_curly_bracket_,
@@ -103,6 +104,11 @@ namespace deamer::templates::tool::deamerdefaultapplication::tokenviewer
 			case ::deamer::templates::tool::deamerdefaultapplication::tokenviewer::
 				TokenViewerTemplate::Type::lexer_: {
 				return "lexer";
+			}
+
+			case ::deamer::templates::tool::deamerdefaultapplication::tokenviewer::
+				TokenViewerTemplate::Type::parser_: {
+				return "parser";
 			}
 
 			case ::deamer::templates::tool::deamerdefaultapplication::tokenviewer::
@@ -706,6 +712,12 @@ namespace deamer::templates::tool::deamerdefaultapplication::tokenviewer
 					 GenerateVariable("."),
 					 GenerateVariable("h\"\n#include \""),
 					 GenerateVariable(tokenviewertemplate_->language_name_->This()),
+					 GenerateVariable("/"),
+					 GenerateVariable(tokenviewertemplate_->parser_->This()),
+					 GenerateVariable("/Parser"),
+					 GenerateVariable("."),
+					 GenerateVariable("h\"\n#include \""),
+					 GenerateVariable(tokenviewertemplate_->language_name_->This()),
 					 GenerateVariable("/Ast/Relation/NodeEnumToText"),
 					 GenerateVariable("."),
 					 GenerateVariable("h\"\n#include <fstream>\n#include <iostream>\n#include "
@@ -750,15 +762,17 @@ namespace deamer::templates::tool::deamerdefaultapplication::tokenviewer
 					 GenerateVariable(tokenviewertemplate_->language_name_->This()),
 					 GenerateVariable("::lexer::Lexer();\n\t\tauto tokens = lexer"),
 					 GenerateVariable("."),
-					 GenerateVariable("Tokenize();\n\n\t\tstd::cout << \"Tokens:"),
+					 GenerateVariable("Tokenize(text);\n\t\t"),
+					 GenerateVariable(tokenviewertemplate_->language_name_->This()),
+					 GenerateVariable("::parser::Parser();\n\n\t\tstd::cout << \"Tokens:"),
 					 GenerateVariable("\\"),
-					 GenerateVariable("n\"\n\t\tfor (auto token : tokens)\n\t\t"),
+					 GenerateVariable("n\";\n\t\tfor (auto token : tokens)\n\t\t"),
 					 GenerateVariable("{"),
 					 GenerateVariable("\n\t\t\tstd::cout << \""),
 					 GenerateVariable("\\"),
 					 GenerateVariable("tTokenName: \" << "),
 					 GenerateVariable(tokenviewertemplate_->language_name_->This()),
-					 GenerateVariable("::ast::relation::NodeEnumToText(static_cast<"),
+					 GenerateVariable("::ast::relation::ConvertEnumToText(static_cast<"),
 					 GenerateVariable(tokenviewertemplate_->language_name_->This()),
 					 GenerateVariable("::ast::Type>(token->Type)) << \""),
 					 GenerateVariable("\\"),
@@ -1076,6 +1090,40 @@ namespace deamer::templates::tool::deamerdefaultapplication::tokenviewer
 			}
 		};
 
+		struct Variable_parser_ : public VariableScopes
+		{
+			static constexpr auto name = "parser_";
+
+			Variable_parser_() : VariableScopes()
+			{
+				type = ::deamer::templates::tool::deamerdefaultapplication::tokenviewer::
+					TokenViewerTemplate::Type::parser_;
+			}
+
+			virtual ~Variable_parser_() override = default;
+
+			Variable_parser_(TokenViewerTemplate* tokenviewertemplate_,
+							 const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::tool::deamerdefaultapplication::tokenviewer::
+					TokenViewerTemplate::Type::parser_;
+			}
+
+			Variable_parser_& operator=(const Variable_parser_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_right_angle_bracket_ : public VariableScopes
 		{
 			static constexpr auto name = "right_angle_bracket_";
@@ -1196,6 +1244,7 @@ namespace deamer::templates::tool::deamerdefaultapplication::tokenviewer
 		Variable_left_bracket_* left_bracket_ = new Variable_left_bracket_();
 		Variable_left_curly_bracket_* left_curly_bracket_ = new Variable_left_curly_bracket_();
 		Variable_lexer_* lexer_ = new Variable_lexer_();
+		Variable_parser_* parser_ = new Variable_parser_();
 		Variable_right_angle_bracket_* right_angle_bracket_ = new Variable_right_angle_bracket_();
 		Variable_right_bracket_* right_bracket_ = new Variable_right_bracket_();
 		Variable_right_curly_bracket_* right_curly_bracket_ = new Variable_right_curly_bracket_();
@@ -1215,7 +1264,9 @@ namespace deamer::templates::tool::deamerdefaultapplication::tokenviewer
 				Variable_left_bracket_(this, std::vector<VariableBase*>({GenerateVariable("{")}));
 			*left_curly_bracket_ = Variable_left_curly_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable("(")}));
-			*lexer_ = Variable_lexer_(this, std::vector<VariableBase*>({}));
+			*lexer_ = Variable_lexer_(this, std::vector<VariableBase*>({GenerateVariable("Flex")}));
+			*parser_ =
+				Variable_parser_(this, std::vector<VariableBase*>({GenerateVariable("Bison")}));
 			*right_angle_bracket_ = Variable_right_angle_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable(">")}));
 			*right_bracket_ =
@@ -1231,6 +1282,7 @@ namespace deamer::templates::tool::deamerdefaultapplication::tokenviewer
 			variables_.emplace_back(left_bracket_);
 			variables_.emplace_back(left_curly_bracket_);
 			variables_.emplace_back(lexer_);
+			variables_.emplace_back(parser_);
 			variables_.emplace_back(right_angle_bracket_);
 			variables_.emplace_back(right_bracket_);
 			variables_.emplace_back(right_curly_bracket_);
