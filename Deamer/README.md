@@ -54,7 +54,7 @@ sudo apt install flex
 #### Installing bison++
 
 ```bash
-sudo apt install bison++
+sudo apt install bison
 ```
 
 ## Examples
