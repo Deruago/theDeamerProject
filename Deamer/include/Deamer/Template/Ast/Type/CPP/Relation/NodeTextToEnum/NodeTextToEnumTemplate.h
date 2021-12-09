@@ -725,7 +725,7 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable(nodetexttoenumtemplate_->header_guard_->This()),
 					 GenerateVariable("\n\n"),
 					 GenerateVariable(nodetexttoenumtemplate_->node_enum_include_->This()),
-					 GenerateVariable("\n\nnamespace "),
+					 GenerateVariable("\n#include <string>\n#include <map>\n\nnamespace "),
 					 GenerateVariable(nodetexttoenumtemplate_->language_name_->This()),
 					 GenerateVariable(" "),
 					 GenerateVariable("{"),

@@ -2,6 +2,8 @@
 #define {{header_guard}}
 
 {{node_enum_include}}
+#include <string>
+#include <map>
 
 namespace {{language_name}} { namespace ast { namespace relation { 
 
