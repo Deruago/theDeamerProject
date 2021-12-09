@@ -19,6 +19,8 @@
  */
 
 #include "Deamer/Lexer/Type/Flex/TerminalAction.h"
+#include "Deamer/Language/Reference/LDO.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
 
 deamer::lexer::type::flex::TerminalAction::TerminalAction(
 	const language::type::definition::object::main::Terminal& terminal_,
@@ -30,8 +32,8 @@ deamer::lexer::type::flex::TerminalAction::TerminalAction(
 
 std::string deamer::lexer::type::flex::TerminalAction::Generate() const
 {
-	return braces(terminal.Name) + '\t' + braces(GetDebug() + OptionalAction() + HandleColumn() + OptionalReturn()) +
-		   '\n';
+	return braces(terminal.Name) + '\t' +
+		   braces(GetDebug() + OptionalAction() + HandleColumn() + OptionalReturn()) + '\n';
 }
 
 std::string deamer::lexer::type::flex::TerminalAction::GetDebug() const
@@ -44,6 +46,23 @@ std::string deamer::lexer::type::flex::TerminalAction::GetDebug() const
 	return "";
 }
 
+std::string deamer::lexer::type::flex::TerminalAction::GetTerminalId() const
+{
+	// 0 is reserved for unknown
+	std::size_t index = 1;
+	for (language::reference::LDO<language::type::definition::object::main::Terminal> rhs :
+		 reference.GetDefinition<language::type::definition::property::Type::Lexicon>().Terminals)
+	{
+		if (rhs.Get()->Name == terminal.Name)
+		{
+			return std::to_string(index);
+		}
+		index++;
+	}
+
+	return std::to_string(0);
+}
+
 std::string deamer::lexer::type::flex::TerminalAction::GetAction() const
 {
 	if (generation.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison}) ||
@@ -54,12 +73,14 @@ std::string deamer::lexer::type::flex::TerminalAction::GetAction() const
 		case language::type::definition::object::main::SpecialType::Standard:
 			return identity.name->value +
 				   "lval.Terminal = new deamer::external::cpp::lexer::TerminalObject(yyval, "
-				   "yylineno, column);";
+				   "yylineno, column, std::size_t(" +
+				   GetTerminalId() + "));";
 		case language::type::definition::object::main::SpecialType::Ignore:
 		case language::type::definition::object::main::SpecialType::NoValue:
 			return identity.name->value +
 				   "lval.Terminal = new deamer::external::cpp::lexer::TerminalObject(\"\", "
-				   "yylineno, column);";
+				   "yylineno, column, std::size_t(" +
+				   GetTerminalId() + "));";
 		case language::type::definition::object::main::SpecialType::Delete:
 			return "";
 		case language::type::definition::object::main::SpecialType::Crash:
@@ -86,13 +107,17 @@ std::string deamer::lexer::type::flex::TerminalAction::OptionalAction() const
 	{
 	case language::type::definition::object::main::SpecialType::Standard:
 		return "if (local_store) store(new deamer::external::cpp::lexer::TerminalObject(yyval, "
-			   "yylineno, column));"
+			   "yylineno, column, std::size_t(" +
+			   GetTerminalId() +
+			   ")));"
 			   "else " +
 			   GetAction() + ';';
 	case language::type::definition::object::main::SpecialType::Ignore:
 	case language::type::definition::object::main::SpecialType::NoValue:
 		return "if (local_store) store(new deamer::external::cpp::lexer::TerminalObject(\"\", "
-			   "yylineno, column));"
+			   "yylineno, column, std::size_t(" +
+			   GetTerminalId() +
+			   ")));"
 			   "else " +
 			   GetAction() + ';';
 	case language::type::definition::object::main::SpecialType::Delete:

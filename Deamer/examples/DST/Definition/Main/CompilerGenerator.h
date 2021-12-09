@@ -6,6 +6,7 @@
 #include "Deamer/Lexer/Generator/Flex/Flex.h"
 #include "Deamer/Parser/Generator/Bison/Bison.h"
 #include "Language.h"
+#include "Deamer/Tool/Type/DLDLConverter/DLDLConverter.h"
 
 namespace DST::main
 {
@@ -23,10 +24,12 @@ namespace DST::main
 			deamer::lexer::generator::flex::Flex flex(GetLanguageDefinition());
 			deamer::parser::generator::bison::Bison bison(GetLanguageDefinition());
 			deamer::ast::generation::cpp::CPP ast(GetLanguageDefinition());
+			deamer::tool::type::dldlconverter::DLDLConverter dldlConverter(GetLanguageDefinition());
 
 			output.AddLanguageToolOutput(flex.Generate());
 			output.AddLanguageToolOutput(bison.Generate());
 			output.AddLanguageToolOutput(ast.Generate());
+			output.AddLanguageToolOutput(dldlConverter.Generate());
 
 			return output;
 		}

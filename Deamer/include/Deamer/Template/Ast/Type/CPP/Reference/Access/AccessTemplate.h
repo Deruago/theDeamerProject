@@ -909,13 +909,10 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable("{"),
 					 GenerateVariable(" namespace reference "),
 					 GenerateVariable("{"),
-					 GenerateVariable(" \n\n\tstruct "),
-					 GenerateVariable(accesstemplate_->class_name_->This()),
-					 GenerateVariable("Base\n\t"),
+					 GenerateVariable(" \n\n\tstruct AccessBase\n\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\t\n\tpublic:\n\t\t"),
-					 GenerateVariable(accesstemplate_->class_name_->This()),
-					 GenerateVariable("Base() = default;\n\n\tprotected:\n\t\ttemplate<"),
+					 GenerateVariable("\t\n\tpublic:\n\t\tAccessBase() = "
+									  "default;\n\n\tprotected:\n\t\ttemplate<"),
 					 GenerateVariable(accesstemplate_->node_enum_type_->This()),
 					 GenerateVariable(" T>\n\t\tvoid Get(std::vector<"),
 					 GenerateVariable(accesstemplate_->const_qualifier_->This()),
@@ -990,15 +987,45 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable(accesstemplate_->const_qualifier_->This()),
 					 GenerateVariable(" auto* const currentNode : currentNodes)\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\t"),
-					 GenerateVariable(accesstemplate_->class_name_->This()),
-					 GenerateVariable("Base::Get<T>(foundNodes, currentNode);\n\t\t\t"),
+					 GenerateVariable(
+						 "\n\t\t\t\tAccessBase::Get<T>(foundNodes, currentNode);\n\t\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\n\t\t\treturn foundNodes;\n\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable(";\n\n\t/*!\t"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("class AccessTemplateBase\n\t *\n\t *\t"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("brief Used to access AST nodes"),
+					 GenerateVariable("."),
+					 GenerateVariable(" It contains various helper functions to ease navigation "
+									  "through AST nodes"),
+					 GenerateVariable("."),
+					 GenerateVariable("\n\t *\n\t *\t"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("details This class contains the type dependent "
+									  "implementation of Access<T>"),
+					 GenerateVariable("."),
+					 GenerateVariable("\n\t *\tRefrain from using this class, as there is no "
+									  "backwards compatibility\n\t *\tguarantee of this "
+									  "implementation class,\n\t *\tUse Access<T> instead, this is "
+									  "backwards compatible and offers different benefits"),
+					 GenerateVariable("."),
+					 GenerateVariable("\n\t *\n\t *\t"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("see Access\n\t */\n\ttemplate<typename T>\n\tstruct "),
+					 GenerateVariable(accesstemplate_->class_name_->This()),
+					 GenerateVariable(" : public AccessBase\n\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t"),
+					 GenerateVariable(accesstemplate_->class_name_->This()),
+					 GenerateVariable("() = delete;\n\t\t~"),
+					 GenerateVariable(accesstemplate_->class_name_->This()),
+					 GenerateVariable("() = delete;\n\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\n\t/*! "),
 					 GenerateVariable("\\"),
 					 GenerateVariable("class Access\n\t *\n\t *\t"),
 					 GenerateVariable("\\"),
@@ -1007,10 +1034,48 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable(" It contains various helper functions to ease navigation "
 									  "through AST nodes"),
 					 GenerateVariable("."),
-					 GenerateVariable("\n\t */\n\ttemplate<typename T>\n\tstruct Access : public "
-									  "AccessBase\n\t"),
+					 GenerateVariable("\n\t *\n\t *\t"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("details Type dispatcher for logic"),
+					 GenerateVariable("."),
+					 GenerateVariable("\n\t *\n\t *\t"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("see AccessTemplateBase\n\t */\n\ttemplate<typename "
+									  "T>\n\tstruct Access : public "),
+					 GenerateVariable(accesstemplate_->class_name_->This()),
+					 GenerateVariable("<T>\n\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\tAccess() = delete;\n\t\t~Access() = delete;\n\t"),
+					 GenerateVariable("\n\t\tAccess(std::vector<"),
+					 GenerateVariable(accesstemplate_->const_qualifier_->This()),
+					 GenerateVariable(" T*> ts_) : "),
+					 GenerateVariable(accesstemplate_->class_name_->This()),
+					 GenerateVariable("<T>(ts_)\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\tAccess(const T& t) : "),
+					 GenerateVariable(accesstemplate_->class_name_->This()),
+					 GenerateVariable("<T>(t)\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\tAccess("),
+					 GenerateVariable(accesstemplate_->const_qualifier_->This()),
+					 GenerateVariable(" T* t) : "),
+					 GenerateVariable(accesstemplate_->class_name_->This()),
+					 GenerateVariable("<T>(t)\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\tAccess(const "),
+					 GenerateVariable(accesstemplate_->class_name_->This()),
+					 GenerateVariable("<T>& rhs) : "),
+					 GenerateVariable(accesstemplate_->class_name_->This()),
+					 GenerateVariable("<T>(rhs)\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\tAccess() = default;\n\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable(";\n\n"),
 					 GenerateVariable(
@@ -1069,8 +1134,8 @@ namespace deamer::templates::ast::type::cpp
 					VariableBase(std::vector<VariableBase*>({GenerateVariable("h")}));
 				Extension_->type = ::deamer::templates::ast::type::cpp::AccessTemplate::Type::Scope;
 
-				*static_cast<VariableBase*>(File_name_) = VariableBase(std::vector<VariableBase*>(
-					{GenerateVariable(accesstemplate_->class_name_->This())}));
+				*static_cast<VariableBase*>(File_name_) =
+					VariableBase(std::vector<VariableBase*>({GenerateVariable("Access")}));
 				File_name_->type = ::deamer::templates::ast::type::cpp::AccessTemplate::Type::Scope;
 
 				*static_cast<VariableBase*>(Namespace_) = VariableBase(std::vector<VariableBase*>(
@@ -2096,17 +2161,15 @@ namespace deamer::templates::ast::type::cpp
 		AccessTemplate()
 		{
 			*class_name_ = Variable_class_name_(
-				this, std::vector<VariableBase*>({GenerateVariable("Access")}));
+				this, std::vector<VariableBase*>({GenerateVariable("AccessTemplateBase")}));
 			*class_name_node_target_type_ = Variable_class_name_node_target_type_(
-				this, std::vector<VariableBase*>({GenerateVariable(class_name_->This()),
-												  GenerateVariable(left_angle_bracket_->This()),
-												  GenerateVariable(node_type_target_->This()),
-												  GenerateVariable(right_angle_bracket_->This())}));
+				this, std::vector<VariableBase*>(
+						  {GenerateVariable(class_name_->This()), GenerateVariable("<"),
+						   GenerateVariable(node_type_target_->This()), GenerateVariable(">")}));
 			*class_name_node_type_ = Variable_class_name_node_type_(
-				this, std::vector<VariableBase*>({GenerateVariable(class_name_->This()),
-												  GenerateVariable(left_angle_bracket_->This()),
-												  GenerateVariable(node_type_->This()),
-												  GenerateVariable(right_angle_bracket_->This())}));
+				this, std::vector<VariableBase*>(
+						  {GenerateVariable(class_name_->This()), GenerateVariable("<"),
+						   GenerateVariable(node_type_->This()), GenerateVariable(">")}));
 			*const_qualifier_ = Variable_const_qualifier_(
 				this, std::vector<VariableBase*>({GenerateVariable("const")}));
 			*file_ = Variable_file_(this, std::vector<VariableBase*>({}));
@@ -2127,32 +2190,21 @@ namespace deamer::templates::ast::type::cpp
 			*node_access_ = Variable_node_access_(
 				this,
 				std::vector<VariableBase*>(
-					{GenerateVariable("\n\ttemplate"),
-					 GenerateVariable(left_angle_bracket_->This()),
-					 GenerateVariable(right_angle_bracket_->This()),
-					 GenerateVariable("\n\tstruct "),
+					{GenerateVariable("\n\ttemplate<>\n\tstruct "),
 					 GenerateVariable(class_name_node_type_->This()),
-					 GenerateVariable(" : public "),
-					 GenerateVariable(class_name_->This()),
-					 GenerateVariable("Base\n\t"),
+					 GenerateVariable(" : public AccessBase\n\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\tprotected:\n\t\tstd::vector"),
-					 GenerateVariable(left_angle_bracket_->This()),
+					 GenerateVariable("\n\tprotected:\n\t\tstd::vector<"),
 					 GenerateVariable(const_qualifier_->This()),
 					 GenerateVariable(" "),
 					 GenerateVariable(node_type_->This()),
-					 GenerateVariable("*"),
-					 GenerateVariable(right_angle_bracket_->This()),
-					 GenerateVariable(" ts;\n\n\tpublic:\n\t\t"),
+					 GenerateVariable("*> ts;\n\n\tpublic:\n\t\t"),
 					 GenerateVariable(class_name_->This()),
-					 GenerateVariable("(std::vector"),
-					 GenerateVariable(left_angle_bracket_->This()),
+					 GenerateVariable("(std::vector<"),
 					 GenerateVariable(const_qualifier_->This()),
 					 GenerateVariable(" "),
 					 GenerateVariable(node_type_->This()),
-					 GenerateVariable("*"),
-					 GenerateVariable(right_angle_bracket_->This()),
-					 GenerateVariable(" ts_) : ts(std::move(ts_))\n\t\t"),
+					 GenerateVariable("*> ts_) : ts(std::move(ts_))\n\t\t"),
 					 GenerateVariable("{"),
 					 GenerateVariable("\n\t\t"),
 					 GenerateVariable("}"),
@@ -2188,9 +2240,7 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable(class_name_node_type_->This()),
 					 GenerateVariable("& operator[](::std::size_t index)\n\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\tif (index "),
-					 GenerateVariable(right_angle_bracket_->This()),
-					 GenerateVariable("= ts"),
+					 GenerateVariable("\n\t\t\tif (index >= ts"),
 					 GenerateVariable("."),
 					 GenerateVariable("size())\n\t\t\t"),
 					 GenerateVariable("{"),
@@ -2215,17 +2265,13 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable(
 						 "& operator()(::std::size_t indexBegin, ::std::size_t indexEnd)\n\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\t// swap if the other is larger\n\t\t\tif (indexBegin "),
-					 GenerateVariable(right_angle_bracket_->This()),
-					 GenerateVariable(" indexEnd)\n\t\t\t"),
+					 GenerateVariable("\n\t\t\t// swap if the other is larger\n\t\t\tif "
+									  "(indexBegin > indexEnd)\n\t\t\t"),
 					 GenerateVariable("{"),
 					 GenerateVariable("\n\t\t\t\tconst auto tmp = indexBegin;\n\t\t\t\tindexBegin "
 									  "= indexEnd;\n\t\t\t\tindexEnd = tmp;\n\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\t\t\tif (indexBegin "),
-					 GenerateVariable(right_angle_bracket_->This()),
-					 GenerateVariable("= ts"),
+					 GenerateVariable("\n\n\t\t\tif (indexBegin >= ts"),
 					 GenerateVariable("."),
 					 GenerateVariable("size())\n\t\t\t"),
 					 GenerateVariable("{"),
@@ -2235,20 +2281,13 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\t\t\telse\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\tstd::vector"),
-					 GenerateVariable(left_angle_bracket_->This()),
+					 GenerateVariable("\n\t\t\t\tstd::vector<"),
 					 GenerateVariable(const_qualifier_->This()),
 					 GenerateVariable(" "),
 					 GenerateVariable(node_type_->This()),
-					 GenerateVariable("*"),
-					 GenerateVariable(right_angle_bracket_->This()),
-					 GenerateVariable(" temporaries;\n\t\t\t\tfor (auto i = indexBegin; i "),
-					 GenerateVariable(left_angle_bracket_->This()),
-					 GenerateVariable(" ts"),
+					 GenerateVariable("*> temporaries;\n\t\t\t\tfor (auto i = indexBegin; i < ts"),
 					 GenerateVariable("."),
-					 GenerateVariable("size() && i "),
-					 GenerateVariable(left_angle_bracket_->This()),
-					 GenerateVariable("= indexEnd; i++)\n\t\t\t\t"),
+					 GenerateVariable("size() && i <= indexEnd; i++)\n\t\t\t\t"),
 					 GenerateVariable("{"),
 					 GenerateVariable("\n\t\t\t\t\ttemporaries"),
 					 GenerateVariable("."),
@@ -2260,24 +2299,17 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\n\t\t\treturn *this;\n\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\t\tstd::vector"),
-					 GenerateVariable(left_angle_bracket_->This()),
+					 GenerateVariable("\n\n\t\tstd::vector<"),
 					 GenerateVariable(const_qualifier_->This()),
 					 GenerateVariable(" "),
 					 GenerateVariable(node_type_->This()),
-					 GenerateVariable("*"),
-					 GenerateVariable(right_angle_bracket_->This()),
-					 GenerateVariable(" GetContent()\n\t\t"),
+					 GenerateVariable("*> GetContent()\n\t\t"),
 					 GenerateVariable("{"),
 					 GenerateVariable("\n\t\t\treturn ts;\n\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\n\tpublic:\n\t\t"),
 					 GenerateVariable(target_retrievement_function_declaration_->Variable_Field()),
-					 GenerateVariable("\n\n\t\ttemplate"),
-					 GenerateVariable(left_angle_bracket_->This()),
-					 GenerateVariable("typename FunctionType"),
-					 GenerateVariable(right_angle_bracket_->This()),
-					 GenerateVariable("\n\t\t"),
+					 GenerateVariable("\n\n\t\ttemplate<typename FunctionType>\n\t\t"),
 					 GenerateVariable(class_name_node_type_->This()),
 					 GenerateVariable("& for_all(FunctionType function)\n\t\t"),
 					 GenerateVariable("{"),
@@ -2289,16 +2321,37 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\n\t\t\treturn *this;\n\t\t"),
 					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\tpublic:\n\t\tauto begin()\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\treturn ts"),
+					 GenerateVariable("."),
+					 GenerateVariable("begin();\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\tauto cbegin()\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\treturn ts"),
+					 GenerateVariable("."),
+					 GenerateVariable("cbegin();\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\n\t\tauto end()\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\treturn ts"),
+					 GenerateVariable("."),
+					 GenerateVariable("end();\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\n\t\tauto cend()\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\treturn ts"),
+					 GenerateVariable("."),
+					 GenerateVariable("cend();\n\t\t"),
+					 GenerateVariable("}"),
 					 GenerateVariable("\n\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable(";")}));
 			*node_access_forward_declaration_ = Variable_node_access_forward_declaration_(
-				this,
-				std::vector<VariableBase*>(
-					{GenerateVariable("\ttemplate"), GenerateVariable(left_angle_bracket_->This()),
-					 GenerateVariable(right_angle_bracket_->This()),
-					 GenerateVariable("\n\tstruct "),
-					 GenerateVariable(class_name_node_type_->This()), GenerateVariable(";")}));
+				this, std::vector<VariableBase*>({GenerateVariable("\ttemplate<>\n\tstruct "),
+												  GenerateVariable(class_name_node_type_->This()),
+												  GenerateVariable(";")}));
 			*node_enum_include_ = Variable_node_enum_include_(
 				this, std::vector<VariableBase*>({GenerateVariable("#include \""),
 												  GenerateVariable(language_name_->This()),
@@ -2383,10 +2436,9 @@ namespace deamer::templates::ast::type::cpp
 						 GenerateVariable("."),
 						 GenerateVariable("\n\n\t\t\t// Unoptimized search\n\t\t\treturn "),
 						 GenerateVariable(class_name_node_target_type_->This()),
-						 GenerateVariable("(Get"), GenerateVariable(left_angle_bracket_->This()),
+						 GenerateVariable("(Get<"),
 						 GenerateVariable(node_enum_target_value_->This()),
-						 GenerateVariable(right_angle_bracket_->This()),
-						 GenerateVariable("(ts));\n\t\t"), GenerateVariable("}")}));
+						 GenerateVariable(">(ts));\n\t\t"), GenerateVariable("}")}));
 
 			variables_.emplace_back(class_name_);
 			variables_.emplace_back(class_name_node_target_type_);

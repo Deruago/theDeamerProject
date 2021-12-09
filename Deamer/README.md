@@ -51,10 +51,10 @@ Deamer currently doesn't have an internal lexer-generator or parser-generator, t
 sudo apt install flex
 ```
 
-#### Installing bison++
+#### Installing bison
 
 ```bash
-sudo apt install bison++
+sudo apt install bison
 ```
 
 ## Examples

@@ -1,0 +1,13 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <Grammar>
+{{file.namespace}} = <deamer::templates::dldlconverter::grammar>
+{{file.extension}} = <h>
+
+{{version}} = <v1.0.0>
+
+{{nonterminal_declaration}} =
+<{{abstraction}}{{nonterminal}}
+{{productionrule.Variable_Field}}>
+
+{{productionrule}} = 
+<	{{productionrule_content}}>

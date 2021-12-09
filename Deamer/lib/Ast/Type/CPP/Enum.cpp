@@ -28,32 +28,13 @@ deamer::ast::type::cpp::Enum::Enum(ReferenceType reference_)
 {
 }
 
-deamer::file::tool::File deamer::ast::type::cpp::Enum::Generate() const
+deamer::file::tool::File deamer::ast::type::cpp::Enum::Generate()
 {
 	deamer::file::tool::File enumFile("Type", "h");
 
-	std::string output;
-	output += "#ifndef " + languageName +
-			  "_AST_ENUM_TYPE_H\n"
-			  "#define " +
-			  languageName +
-			  "_AST_ENUM_TYPE_H\n"
-			  "\n"
-			  "namespace " +
-			  languageName +
-			  " { namespace ast {\n"
-			  "\n"
-			  "\tenum class Type\n"
-			  "\t{\n" +
-			  GenerateEnumerations() +
-			  "\t};\n"
-			  "\n"
-			  "}}\n"
-			  "\n"
-			  "#endif // " +
-			  languageName + "_AST_ENUM_TYPE_H\n";
+	typeTemplate.language_name_->Set(languageName);
 
-	enumFile.SetFileContent(output);
+	enumFile.SetFileContent(typeTemplate.GetOutput());
 
 	return enumFile;
 }
@@ -61,34 +42,14 @@ deamer::file::tool::File deamer::ast::type::cpp::Enum::Generate() const
 void deamer::ast::type::cpp::Enum::AddTerminal(
 	language::reference::LDO<language::type::definition::object::main::Terminal> terminal)
 {
-	terminals.push_back(terminal);
+	typeTemplate.enum_name_->Set(terminal->Name);
+	typeTemplate.terminal_enumeration_->ExpandVariableField();
 }
 
 void deamer::ast::type::cpp::Enum::AddNonTerminal(
 	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal)
 
 {
-	nonTerminals.push_back(nonTerminal);
-}
-
-std::string deamer::ast::type::cpp::Enum::GenerateEnumerations() const
-{
-	std::string output = "\t\t// Reserved\n"
-	"\t\tdeamerreserved_unknown,\n"
-	"\n";
-
-	output += "\t\t// Terminals\n";
-	for (const auto& terminal : terminals)
-	{
-		output += "\t\t" + terminal->Name + ",\n";
-	}
-
-	output += "\n";
-	output += "\t\t// Non-Terminals\n";
-	for (const auto& nonTerminal : nonTerminals)
-	{
-		output += "\t\t" + nonTerminal->Name + ",\n";
-	}
-
-	return output;
+	typeTemplate.enum_name_->Set(nonTerminal->Name);
+	typeTemplate.nonterminal_enumeration_->ExpandVariableField();
 }

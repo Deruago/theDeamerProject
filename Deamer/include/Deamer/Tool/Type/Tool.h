@@ -47,10 +47,16 @@ namespace deamer::tool::type
 
 		// Syntax Highlighter
 		SyntaxHighlighter_UDL,		// used by notepad++
-		SyntaxHighlighter_TextMate,	// used by visual code, textmate
+		SyntaxHighlighter_TextMate, // used by visual code, textmate
 
 		// Documentation generators
 		DeamerDocumentation,
+
+		// Default application generators
+		DeamerDefaultApplication,
+
+		// DLDL Converter, generates DLDL definitions
+		DLDLConverter,
 	};
 }
 

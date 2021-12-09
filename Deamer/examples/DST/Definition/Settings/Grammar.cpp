@@ -29,7 +29,9 @@
 			 variable_declaration_LEFT_BRACKETS_VARNAME_RIGHT_BRACKETS.Pointer()}));
 
 	main_assignment.Set(new const deamer::language::type::definition::object::main::NonTerminal(
-		"main_assignment", {main_assignment_USER_INPUT.Pointer()}));
+		"main_assignment",
+		{main_assignment_USER_INPUT.Pointer(), main_assignment_alternative_field_nt_1.Pointer(),
+		 main_assignment_alternative_field_nt_2.Pointer()}));
 
 	keyword_assignment.Set(new const deamer::language::type::definition::object::main::NonTerminal(
 		"keyword_assignment",
@@ -45,6 +47,37 @@
 	user_keyword.Set(new const deamer::language::type::definition::object::main::NonTerminal(
 		"user_keyword", {user_keyword_LEFT_SQUARE_BRACKET_VARNAME_RIGHT_SQUARE_BRACKET.Pointer()}));
 
+	std::vector<deamer::language::type::definition::object::main::ProductionRule*> productionRules1;
+	std::vector<deamer::language::type::definition::object::main::ProductionRule*> productionRules2;
+	for (auto alternative_field_terminal : Language->ALTERNATE_FIELD_1)
+	{
+		auto productionRule = deamer::type::SafeReserve<
+			deamer::language::type::definition::object::main::ProductionRule>();
+		productionRule.Set(
+			new const deamer::language::type::definition::object::main::ProductionRule(
+				{alternative_field_terminal.Pointer()}));
+
+		productionRules1.push_back(productionRule.Pointer());
+		AddObject(productionRule);
+	}
+	for (auto alternative_field_terminal : Language->ALTERNATE_FIELD_2)
+	{
+		auto productionRule = deamer::type::SafeReserve<
+			deamer::language::type::definition::object::main::ProductionRule>();
+		productionRule.Set(
+			new const deamer::language::type::definition::object::main::ProductionRule(
+				{alternative_field_terminal.Pointer()}));
+
+		productionRules2.push_back(productionRule.Pointer());
+		AddObject(productionRule);
+	}
+	alternative_field_nt_1.Set(
+		new const deamer::language::type::definition::object::main::NonTerminal(
+			"alternative_field_nt_1", productionRules1));
+	alternative_field_nt_2.Set(
+		new const deamer::language::type::definition::object::main::NonTerminal(
+			"alternative_field_nt_2", productionRules2));
+
 	AddObject(program);
 	AddObject(stmts);
 	AddObject(stmt);
@@ -56,6 +89,8 @@
 	AddObject(scope);
 	AddObject(dst_keyword);
 	AddObject(user_keyword);
+	AddObject(alternative_field_nt_1);
+	AddObject(alternative_field_nt_2);
 
 	// Production Rules
 	program_stmts.Set(new const deamer::language::type::definition::object::main::ProductionRule(
@@ -103,6 +138,12 @@
 	main_assignment_USER_INPUT.Set(
 		new const deamer::language::type::definition::object::main::ProductionRule(
 			{language->USER_INPUT.Pointer()}));
+	main_assignment_alternative_field_nt_1.Set(
+		new const deamer::language::type::definition::object::main::ProductionRule(
+			{language->alternative_field_nt_1.Pointer()}));
+	main_assignment_alternative_field_nt_2.Set(
+		new const deamer::language::type::definition::object::main::ProductionRule(
+			{language->alternative_field_nt_2.Pointer()}));
 
 	keyword_assignment_user_keyword.Set(
 		new const deamer::language::type::definition::object::main::ProductionRule(
@@ -133,6 +174,8 @@
 	AddObject(scope_DOT_VARNAME_scope);
 	AddObject(scope_DOT_VARNAME);
 	AddObject(main_assignment_USER_INPUT);
+	AddObject(main_assignment_alternative_field_nt_1);
+	AddObject(main_assignment_alternative_field_nt_2);
 	AddObject(keyword_assignment_user_keyword);
 	AddObject(user_keyword_LEFT_SQUARE_BRACKET_VARNAME_RIGHT_SQUARE_BRACKET);
 	AddObject(keyword_assignment_dst_keyword);
