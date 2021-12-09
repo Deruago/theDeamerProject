@@ -735,7 +735,7 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable("{"),
 					 GenerateVariable(" \n\n\tstatic constexpr "),
 					 GenerateVariable(nodetexttoenumtemplate_->node_enum_type_->This()),
-					 GenerateVariable(" ConvertEnumToText(const std::string& text)\n\t"),
+					 GenerateVariable(" ConvertTextToEnum(const std::string& text)\n\t"),
 					 GenerateVariable("{"),
 					 GenerateVariable("\n\t\tstatic const std::map<std::string, "),
 					 GenerateVariable(nodetexttoenumtemplate_->node_enum_type_->This()),
