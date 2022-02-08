@@ -387,6 +387,10 @@ deamer::file::tool::File deamer::file::generate::Compiler::InitialiseLibraryCMak
 			deamer::templates::cmake::single::lib::DefaultDeamerTemplate();
 		deamerProjectFileTemplate.languageName_->Set(languageName);
 		deamerProjectFileTemplate.root_language_name_->Set(GetRootLanguageName());
+		if (RootProject())
+		{
+			deamerProjectFileTemplate.optional_if_not_root_alias_target_->Set("");
+		}
 
 		return tool::File("deamer", "cmake", deamerProjectFileTemplate.GetOutput(),
 						  tool::GenerationLevel::Always_regenerate);

@@ -6,3 +6,5 @@
 {{const_qualifier}} = <const>
 
 {{CMAKE_VAR_INTRO}} = <${>
+
+{{optional_if_not_root_alias_target}} = @<add_library({{languageName}}_static_library ALIAS {{root_language_name}}_static_library)>@

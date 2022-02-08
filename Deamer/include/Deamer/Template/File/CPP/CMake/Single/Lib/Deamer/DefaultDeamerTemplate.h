@@ -30,6 +30,7 @@ namespace deamer::templates::cmake::single::lib
 			left_angle_bracket_,
 			left_bracket_,
 			left_curly_bracket_,
+			optional_if_not_root_alias_target_,
 			right_angle_bracket_,
 			right_bracket_,
 			right_curly_bracket_,
@@ -96,6 +97,11 @@ namespace deamer::templates::cmake::single::lib
 			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
 				left_curly_bracket_: {
 				return "left_curly_bracket";
+			}
+
+			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+				optional_if_not_root_alias_target_: {
+				return "optional_if_not_root_alias_target";
 			}
 
 			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
@@ -768,7 +774,9 @@ namespace deamer::templates::cmake::single::lib
 					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
 					 GenerateVariable("SOURCE_LIST"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\")\n")}));
+					 GenerateVariable("\")\n\n"),
+					 GenerateVariable(
+						 defaultdeamertemplate_->optional_if_not_root_alias_target_->This())}));
 				Content_->type =
 					::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::Scope;
 
@@ -985,6 +993,42 @@ namespace deamer::templates::cmake::single::lib
 			}
 		};
 
+		struct Variable_optional_if_not_root_alias_target_ : public VariableScopes
+		{
+			static constexpr auto name = "optional_if_not_root_alias_target_";
+
+			Variable_optional_if_not_root_alias_target_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					optional_if_not_root_alias_target_;
+			}
+
+			virtual ~Variable_optional_if_not_root_alias_target_() override = default;
+
+			Variable_optional_if_not_root_alias_target_(
+				DefaultDeamerTemplate* defaultdeamertemplate_,
+				const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					optional_if_not_root_alias_target_;
+			}
+
+			Variable_optional_if_not_root_alias_target_&
+			operator=(const Variable_optional_if_not_root_alias_target_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_right_angle_bracket_ : public VariableScopes
 		{
 			static constexpr auto name = "right_angle_bracket_";
@@ -1137,6 +1181,8 @@ namespace deamer::templates::cmake::single::lib
 		Variable_left_angle_bracket_* left_angle_bracket_ = new Variable_left_angle_bracket_();
 		Variable_left_bracket_* left_bracket_ = new Variable_left_bracket_();
 		Variable_left_curly_bracket_* left_curly_bracket_ = new Variable_left_curly_bracket_();
+		Variable_optional_if_not_root_alias_target_* optional_if_not_root_alias_target_ =
+			new Variable_optional_if_not_root_alias_target_();
 		Variable_right_angle_bracket_* right_angle_bracket_ = new Variable_right_angle_bracket_();
 		Variable_right_bracket_* right_bracket_ = new Variable_right_bracket_();
 		Variable_right_curly_bracket_* right_curly_bracket_ = new Variable_right_curly_bracket_();
@@ -1157,6 +1203,12 @@ namespace deamer::templates::cmake::single::lib
 				Variable_left_bracket_(this, std::vector<VariableBase*>({GenerateVariable("{")}));
 			*left_curly_bracket_ = Variable_left_curly_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable("(")}));
+			*optional_if_not_root_alias_target_ = Variable_optional_if_not_root_alias_target_(
+				this, std::vector<VariableBase*>({GenerateVariable("add_library("),
+												  GenerateVariable(languageName_->This()),
+												  GenerateVariable("_static_library ALIAS "),
+												  GenerateVariable(root_language_name_->This()),
+												  GenerateVariable("_static_library)")}));
 			*right_angle_bracket_ = Variable_right_angle_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable(">")}));
 			*right_bracket_ =
@@ -1173,6 +1225,7 @@ namespace deamer::templates::cmake::single::lib
 			variables_.emplace_back(left_angle_bracket_);
 			variables_.emplace_back(left_bracket_);
 			variables_.emplace_back(left_curly_bracket_);
+			variables_.emplace_back(optional_if_not_root_alias_target_);
 			variables_.emplace_back(right_angle_bracket_);
 			variables_.emplace_back(right_bracket_);
 			variables_.emplace_back(right_curly_bracket_);
