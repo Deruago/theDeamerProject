@@ -1,0 +1,10 @@
+name: ProductionRule
+type: LDO
+description: <
+	ProductionRule, used in grammar definitions.
+	Designed by Thimo Böhmer
+>
+
+data: <
+	Vector<Base> Tokens
+>

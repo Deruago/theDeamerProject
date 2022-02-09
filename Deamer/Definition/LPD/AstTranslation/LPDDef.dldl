@@ -1,0 +1,15 @@
+name: AstTranslation
+type: main
+generate: false
+description: <
+	Language Property Definition of ast translation,
+	used to define how to translate the AST of language x to the AST of language y.
+>
+description_detailed: <
+>
+
+ldo: <
+>
+
+data: <
+>

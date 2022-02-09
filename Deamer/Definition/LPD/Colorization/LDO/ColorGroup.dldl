@@ -1,0 +1,19 @@
+name: ColorGroup
+type: LDO
+description: <
+	Describes a specific ColorGroup.
+	Designed by Thimo Böhmer
+>
+description_details: <
+	A color group is a set of terminals and patterns having the same color.
+	The color is however applied by the theme. This allows more versatility in defining colors.
+>
+note: <
+	The ColorGroup of value 0, is reserved.
+	0 indicates that the generator may fill it in for themselves.
+	So always use values > 0. Unless the other behaviour is preferred.
+>
+
+data: <
+	unsigned ColorId = 0
+>

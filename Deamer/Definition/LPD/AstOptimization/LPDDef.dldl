@@ -1,0 +1,15 @@
+name: AstOptimization
+type: main
+generate: false
+description: <
+	Language Property Definition of ast optimization,
+	used to define how to optimize the AST of language x.
+>
+description_detailed: <
+>
+
+ldo: <
+>
+
+data: <
+>

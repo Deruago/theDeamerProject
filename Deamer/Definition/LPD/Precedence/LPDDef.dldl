@@ -1,0 +1,16 @@
+name: Precedence
+type: main
+description: <
+	Language Property Definition of the Precedence,
+	used to define the Precedence of symbols in language x.
+>
+description_detailed: <
+>
+
+ldo: <
+	ObjectPrecedence
+>
+
+data: <
+	vector[ObjectPrecedence] PrecedenceObjects
+>

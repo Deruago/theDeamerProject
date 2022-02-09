@@ -1,0 +1,10 @@
+name: Name
+type: LDO
+description: <
+	Name, used in identity definitions.
+	Designed by Thimo Böhmer
+>
+
+data: <
+	String name
+>

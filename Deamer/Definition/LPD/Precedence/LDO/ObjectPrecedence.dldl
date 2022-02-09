@@ -1,0 +1,10 @@
+name: ObjectPrecedence
+type: ldo
+description: <
+	This object adds precedence to a LDO
+>
+
+data: <
+	Base Object
+	int Precedence
+>

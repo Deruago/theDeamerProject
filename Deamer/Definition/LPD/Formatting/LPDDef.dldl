@@ -1,0 +1,15 @@
+name: Formatting
+type: main
+generate: false
+description: <
+	Language Property Definition of formatting,
+	used to define the formatting of language x.
+>
+description_detailed: <
+>
+
+ldo: <
+>
+
+data: <
+>

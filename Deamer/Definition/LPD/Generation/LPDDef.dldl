@@ -1,0 +1,18 @@
+name: Generation
+type: special
+description: <
+	This language property definition, defines how to generate the language.
+	Designed by Thimo Böhmer
+>
+description_detailed: <
+	This LPD is part of a set of "special" LPD's, these LPD's are always available.
+	Generation contains several data about what should be generated, from default tools to other
+	ecosystem data.
+>
+
+ldo: <
+	OSTarget
+	Generate
+	GenerateArgument
+	Integrate
+>

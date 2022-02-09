@@ -1,0 +1,10 @@
+name: ObjectAssociativity
+type: ldo
+description: <
+	This object adds Associativity to a LDO.
+>
+
+data: <
+	Base Object
+	AssociativityType Associativity = AssociativityType::any
+>

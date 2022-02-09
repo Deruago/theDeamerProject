@@ -1,0 +1,30 @@
+name: Colorization
+type: main
+description: <
+	Language Property Definition of the colorization, used to define the colorization for language x.
+	Designed by Thimo Böhmer
+>
+dependency: <
+	Lexicon
+	Grammar
+>
+
+ldo: <
+	ColorGroup
+	ColorCombination
+	ColorTheme
+	TerminalColor
+	TerminalPatternColor
+>
+
+struct: <
+	Color
+>
+
+data: <
+	Vector[ColorGroup] ColorGroups
+	Vector[ColorCombination] ColorCombinations
+	Vector[ColorTheme] ColorThemes
+	Vector[TerminalColor] TerminalColors
+	Vector[TerminalPatternColor] TerminalPatternColors
+>

@@ -1,0 +1,18 @@
+name: Identity
+type: special
+description: <
+	This language property definition, defines the identity of a language.
+	Designed by Thimo Böhmer
+>
+description_detailed: <
+	This LPD is part of a set of "special" LPDs, these LPDs are always available.
+	Identity contains information about the language, such as its name.
+>
+
+ldo: <
+	Name
+>
+
+data: <
+	Name name
+>

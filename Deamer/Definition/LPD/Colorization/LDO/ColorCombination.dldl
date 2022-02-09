@@ -1,0 +1,14 @@
+name: ColorCombination
+type: LDO
+description: <
+	Describes what color a specific group should be.
+	Designed by Thimo Böhmer
+>
+description_details: <
+	Used by ColorTheme to specify color.
+>
+
+data: <
+	ColorGroup colorGroup
+	Color color
+>

@@ -1,0 +1,15 @@
+name: Semantic
+type: main
+generate: false
+description: <
+	Language Property Definition of semantic,
+	used to define the semantics of language x.
+>
+description_detailed: <
+>
+
+ldo: <
+>
+
+data: <
+>

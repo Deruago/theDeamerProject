@@ -1,0 +1,15 @@
+name: TerminalPatternColor
+type: LDO
+description: <
+	Describes a specific terminal color pattern.
+	Designed by Thimo Böhmer
+>
+description_details: <
+	Some generators allow patterns, e.g. "(" + VARNAME/COMMA + ")" can be overriden white.
+>
+
+data: <
+	Vector<TerminalColor> StartTerminals
+	Vector<TerminalColor> MiddleTerminals
+	Vector<TerminalColor> EndTerminals
+>

@@ -1,0 +1,15 @@
+name: Documentation
+type: main
+generate: false
+description: <
+	Language Property Definition of a documentation,
+	used to define the documentation for language x.
+>
+description_detailed: <
+>
+
+ldo: <
+>
+
+data: <
+>

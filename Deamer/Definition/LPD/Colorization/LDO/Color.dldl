@@ -1,0 +1,10 @@
+name: Color
+type: struct
+description: <
+>
+
+members: <
+	int r = -1
+	int g = -1
+	int b = -1
+>

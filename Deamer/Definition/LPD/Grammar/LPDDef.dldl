@@ -1,0 +1,23 @@
+name: Grammar
+type: main
+description: <
+	Language Property Definition of a grammar, used to define the grammar for language x.
+	Designed by Thimo Böhmer
+>
+dependency: <
+	Lexicon
+>
+
+ldo: <
+	NonTerminal
+	ProductionRule
+>
+
+enum: <
+	SpecialType
+>
+
+data: <
+	Vector[NonTerminal] NonTerminals
+	Vector[ProductionRule] ProductionRules
+>

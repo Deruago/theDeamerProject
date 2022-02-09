@@ -1,0 +1,23 @@
+name: TerminalColor
+type: LDO
+description: <
+	Describes a specific terminal color.
+	Designed by Thimo Böhmer
+>
+description_details: <
+	When a terminal is encountered this will be its default color.
+	Unless overriden by a higher precedence type. Higher precedence are more specialized types,
+	thus patterns when matched will color instead of this.
+>
+note: <
+	You don't give direct colors to via TerminalColor or TerminalPatternColor.
+	You specify which color group they belong to. You can then specify a default ColorTheme
+	giving actual color.
+	
+	Default color group is 0. This is unspecified meaning generators can override this value.
+>
+
+data: <
+	ColorGroup colorGroup
+	Terminal terminal
+>
