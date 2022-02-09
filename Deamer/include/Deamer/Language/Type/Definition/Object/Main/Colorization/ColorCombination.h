@@ -22,6 +22,7 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_COLORIZATION_COLORCOMBINATION_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/Color.h"
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
 #include <vector>
@@ -29,17 +30,6 @@
 namespace deamer::language::type::definition::object::main
 {
 	class ColorGroup;
-
-	struct Color
-	{
-		int r;
-		int g;
-		int b;
-
-		Color(int r_ = -1, int g_ = -1, int b_ = -1);
-
-		bool operator==(const Color& rhs) const;
-	};
 
 	/*! \class ColorCombination
 	 *

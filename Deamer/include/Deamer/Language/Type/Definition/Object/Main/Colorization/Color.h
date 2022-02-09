@@ -18,56 +18,22 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
 
-namespace deamer::language::type::definition::object
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_COLORIZATION_COLOR_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_COLORIZATION_COLOR_H
+
+namespace deamer::language::type::definition::object::main
 {
-	/*! \enum Type
-	 *
-	 *  \brief This enum lists all the different language definition object types.
-	 */
-	enum class Type
+	struct Color
 	{
-		Unknown,
-		Base,
+		int r;
+		int g;
+		int b;
 
-		// Lexicon
-		Terminal,
-		SpecialType,
+		Color(int r_ = -1, int g_ = -1, int b_ = -1);
 
-		// Grammar
-		NonTerminal,
-		ProductionRule,
-		NonTerminalAbstraction,
-		
-		// Precedence
-		ObjectPrecedence,
-
-		// Associativity
-		ObjectAssociativity,
-		AssociativityType,
-
-		// Generate
-		Generate,
-		GenerateArgument,
-		Integrate,
-		OSTarget,
-
-		// Identity
-		Name,
-
-		// Threat
-		Threat,
-
-		// Colorization
-		Color,
-		ColorGroup,
-		ColorCombination,
-		ColorTheme,
-		TerminalColor,
-		TerminalPatternColor,
+		bool operator==(const Color& rhs) const;
 	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_TYPE_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_COLORIZATION_COLOR_H

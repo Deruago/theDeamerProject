@@ -22,7 +22,7 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_PRECEDENCE_H
 
 #include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Precedence/ObjectPrecedence.h"
 #include <vector>
 
 namespace deamer::language::type::definition::property::main {

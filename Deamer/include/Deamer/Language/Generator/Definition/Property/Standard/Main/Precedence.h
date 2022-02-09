@@ -22,7 +22,7 @@
 #define DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_STANDARD_MAIN_PRECEDENCE_H
 
 #include "Deamer/Language/Generator/Definition/Property/Standard/Base.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Precedence/ObjectPrecedence.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 
 namespace deamer::language::generator::definition::property::standard
