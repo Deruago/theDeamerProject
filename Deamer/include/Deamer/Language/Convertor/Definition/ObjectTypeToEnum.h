@@ -28,29 +28,87 @@ namespace deamer::language::type::definition::object
 	class Base;
 }
 
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class AssociativityType;
+}
+
 namespace deamer::language::type::definition::object::main
 {
 	class ObjectAssociativity;
-	class Generate;
-	class GenerateArgument;
-	class Integrate;
-	class OSTarget;
-	class NonTerminal;
-	class ProductionRule;
-	class Name;
-	class Terminal;
-	class ObjectPrecedence;
-	class ColorTheme;
-	class ColorGroup;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class Color;
+}
+
+namespace deamer::language::type::definition::object::main
+{
 	class ColorCombination;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ColorGroup;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ColorTheme;
+}
+
+namespace deamer::language::type::definition::object::main
+{
 	class TerminalColor;
+}
+
+namespace deamer::language::type::definition::object::main
+{
 	class TerminalPatternColor;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class NonTerminal;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class NonTerminalAbstraction;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ProductionRule;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class Name;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class SpecialType;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class Terminal;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ObjectPrecedence;
 }
 
 namespace deamer::language::type::definition::object::main::threat
 {
 	class Threat;
 }
+
 
 namespace deamer::language::convertor::definition
 {
@@ -86,53 +144,19 @@ namespace deamer::language::convertor::definition
 	{
 	};
 
-	/*!
-	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
-	 */
-	template<>
-	class ObjectTypeToEnum<type::definition::object::main::Terminal>
-	{
-	public:
-		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::Terminal;
-		using type = type::definition::object::main::Terminal;
-	};
 
 	/*!
 	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
 	 */
 	template<>
-	class ObjectTypeToEnum<type::definition::object::main::NonTerminal>
+	class ObjectTypeToEnum<type::definition::object::main::AssociativityType>
 	{
 	public:
 		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::NonTerminal;
-		using type = type::definition::object::main::NonTerminal;
+			type::definition::object::Type::AssociativityType;
+		using type = type::definition::object::main::AssociativityType;
 	};
 
-	/*!
-	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
-	 */
-	template<>
-	class ObjectTypeToEnum<type::definition::object::main::ProductionRule>
-	{
-	public:
-		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::ProductionRule;
-		using type = type::definition::object::main::ProductionRule;
-	};
-
-	/*!
-	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
-	 */
-	template<>
-	class ObjectTypeToEnum<type::definition::object::main::ObjectPrecedence>
-	{
-	public:
-		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::ObjectPrecedence;
-		using type = type::definition::object::main::ObjectPrecedence;
-	};
 
 	/*!
 	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
@@ -146,101 +170,19 @@ namespace deamer::language::convertor::definition
 		using type = type::definition::object::main::ObjectAssociativity;
 	};
 
-	/*!
-	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
-	 */
-	template<>
-	class ObjectTypeToEnum<type::definition::object::main::Generate>
-	{
-	public:
-		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::Generate;
-		using type = type::definition::object::main::Generate;
-	};
 
 	/*!
 	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
 	 */
 	template<>
-	class ObjectTypeToEnum<type::definition::object::main::GenerateArgument>
+	class ObjectTypeToEnum<type::definition::object::main::Color>
 	{
 	public:
 		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::GenerateArgument;
-		using type = type::definition::object::main::GenerateArgument;
+			type::definition::object::Type::Color;
+		using type = type::definition::object::main::Color;
 	};
 
-	/*!
-	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
-	 */
-	template<>
-	class ObjectTypeToEnum<type::definition::object::main::Integrate>
-	{
-	public:
-		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::Integrate;
-		using type = type::definition::object::main::Integrate;
-	};
-
-	/*!
-	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
-	 */
-	template<>
-	class ObjectTypeToEnum<type::definition::object::main::OSTarget>
-	{
-	public:
-		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::OSTarget;
-		using type = type::definition::object::main::OSTarget;
-	};
-
-	/*!
-	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
-	 */
-	template<>
-	class ObjectTypeToEnum<type::definition::object::main::Name>
-	{
-	public:
-		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::Name;
-		using type = type::definition::object::main::Name;
-	};
-
-	/*!
-	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
-	 */
-	template<>
-	class ObjectTypeToEnum<type::definition::object::main::threat::Threat>
-	{
-	public:
-		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::Threat;
-		using type = type::definition::object::main::threat::Threat;
-	};
-
-	/*!
-	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
-	 */
-	template<>
-	class ObjectTypeToEnum<type::definition::object::main::ColorTheme>
-	{
-	public:
-		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::ColorTheme;
-		using type = type::definition::object::main::ColorTheme;
-	};
-
-	/*!
-	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
-	 */
-	template<>
-	class ObjectTypeToEnum<type::definition::object::main::ColorGroup>
-	{
-	public:
-		constexpr static type::definition::object::Type value =
-			type::definition::object::Type::ColorGroup;
-		using type = type::definition::object::main::ColorGroup;
-	};
 
 	/*!
 	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
@@ -254,6 +196,33 @@ namespace deamer::language::convertor::definition
 		using type = type::definition::object::main::ColorCombination;
 	};
 
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ColorGroup>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ColorGroup;
+		using type = type::definition::object::main::ColorGroup;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ColorTheme>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ColorTheme;
+		using type = type::definition::object::main::ColorTheme;
+	};
+
+
 	/*!
 	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
 	 */
@@ -265,6 +234,7 @@ namespace deamer::language::convertor::definition
 			type::definition::object::Type::TerminalColor;
 		using type = type::definition::object::main::TerminalColor;
 	};
+
 
 	/*!
 	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
@@ -278,6 +248,112 @@ namespace deamer::language::convertor::definition
 		using type = type::definition::object::main::TerminalPatternColor;
 	};
 
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::NonTerminal>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::NonTerminal;
+		using type = type::definition::object::main::NonTerminal;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::NonTerminalAbstraction>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::NonTerminalAbstraction;
+		using type = type::definition::object::main::NonTerminalAbstraction;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ProductionRule>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ProductionRule;
+		using type = type::definition::object::main::ProductionRule;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::Name>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Name;
+		using type = type::definition::object::main::Name;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::SpecialType>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::SpecialType;
+		using type = type::definition::object::main::SpecialType;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::Terminal>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Terminal;
+		using type = type::definition::object::main::Terminal;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ObjectPrecedence>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ObjectPrecedence;
+		using type = type::definition::object::main::ObjectPrecedence;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::threat::Threat>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Threat;
+		using type = type::definition::object::main::threat::Threat;
+	};
+
+
+
 	/*!
 	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
 	 */
@@ -289,6 +365,9 @@ namespace deamer::language::convertor::definition
 			type::definition::object::Type::Base;
 		using type = type::definition::object::Base;
 	};
+
+	template<type::definition::object::Type T>
+	using ObjectEnumToType_t = typename ObjectEnumToType<T>::type;
 }
 
 #endif // DEAMER_LANGUAGE_CONVERTOR_DEFINITION_OBJECTTYPETOENUM_H
