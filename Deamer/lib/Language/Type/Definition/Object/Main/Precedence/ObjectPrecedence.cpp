@@ -18,7 +18,7 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#include "Deamer/Language/Type/Definition/Object/Main/Precendence/ObjectPrecedence.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Precedence/ObjectPrecedence.h"
 
 deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence(
 	const object::Base* const object_, const int precedence_)

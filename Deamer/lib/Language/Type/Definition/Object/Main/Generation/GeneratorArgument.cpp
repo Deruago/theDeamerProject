@@ -18,7 +18,7 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#include "Deamer/Language/Type/Definition/Object/Main/Generation/GeneratorArgument.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/GenerateArgument.h"
 #include <utility>
 
 deamer::language::type::definition::object::main::GenerateArgument::GenerateArgument(
