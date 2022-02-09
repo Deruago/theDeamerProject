@@ -1,0 +1,1 @@
+ -lpd-map="./Definition/LPD/" -activate-lpd-generation=true        -lpd-generation-map-convertor="./include/Deamer/Language/Convertor/Definition/"      
