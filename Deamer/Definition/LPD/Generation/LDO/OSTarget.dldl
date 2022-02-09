@@ -1,0 +1,10 @@
+name: OSTarget
+type: LDO
+description: <
+	This object is used to specify what OS should be used as output target.
+	If no OSTarget is specified the OS Deamer is compiled in will be used as default.
+>
+
+data: <
+	deamer::file::tool::OSType os
+>

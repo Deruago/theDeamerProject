@@ -1,0 +1,10 @@
+name: GenerateArgument
+type: LDO
+description: <
+	This object is used to specify arguments for specific generators.
+>
+
+data: <
+	deamer::tool::type::Tool Generator
+	String Argument
+>

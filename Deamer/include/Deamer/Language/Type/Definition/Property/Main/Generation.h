@@ -23,7 +23,7 @@
 
 #include "Deamer/File/Tool/OSType.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Generation/GeneratorArgument.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/GenerateArgument.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/OSTarget.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Definition.h"

@@ -23,11 +23,19 @@
 
 #include "Deamer/Language/Type/Definition/Object/Type.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Associativity.h"
+#include "Deamer/Language/Type/Definition/Property/Main/AstOptimization.h"
+#include "Deamer/Language/Type/Definition/Property/Main/AstTranslation.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Colorization.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Documentation.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Formatting.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Generation.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Identity.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Semantic.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Threat.h"
+
 
 namespace deamer::language::validator::definition
 {
@@ -39,77 +47,136 @@ namespace deamer::language::validator::definition
 		using type = void;
 	};
 
-	template<>
-	class GetObjectEnumsFromPropertyType<type::definition::property::main::Lexicon>
-	{
-	public:
-		constexpr static auto value = {type::definition::object::Type::Terminal};
-		using type = type::definition::property::main::Lexicon;
-	};
-
-	template<>
-	class GetObjectEnumsFromPropertyType<type::definition::property::main::Grammar>
-	{
-	public:
-		constexpr static auto value = {type::definition::object::Type::NonTerminal,
-									   type::definition::object::Type::ProductionRule};
-		using type = type::definition::property::main::Lexicon;
-	};
-
-	template<>
-	class GetObjectEnumsFromPropertyType<type::definition::property::main::Precedence>
-	{
-	public:
-		constexpr static auto value = {type::definition::object::Type::ObjectPrecedence};
-		using type = type::definition::property::main::Precedence;
-	};
-
-	template<>
+	
+template<>
 	class GetObjectEnumsFromPropertyType<type::definition::property::main::Associativity>
 	{
 	public:
-		constexpr static auto value = {type::definition::object::Type::ObjectAssociativity};
+		constexpr static auto value = { type::definition::object::Type::AssociativityType,
+		type::definition::object::Type::ObjectAssociativity };
 		using type = type::definition::property::main::Associativity;
 	};
 
-	template<>
-	class GetObjectEnumsFromPropertyType<type::definition::property::main::Generation>
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::AstOptimization>
 	{
 	public:
-		constexpr static auto value = {type::definition::object::Type::Generate,
-									   type::definition::object::Type::GenerateArgument,
-									   type::definition::object::Type::Integrate,
-									   type::definition::object::Type::OSTarget};
-		using type = type::definition::property::main::Generation;
+		constexpr static auto value = { type::definition::object::Type::Unknown };
+		using type = type::definition::property::main::AstOptimization;
 	};
 
-	template<>
-	class GetObjectEnumsFromPropertyType<type::definition::property::main::Identity>
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::AstTranslation>
 	{
 	public:
-		constexpr static auto value = {type::definition::object::Type::Name};
-		using type = type::definition::property::main::Identity;
+		constexpr static auto value = { type::definition::object::Type::Unknown };
+		using type = type::definition::property::main::AstTranslation;
 	};
 
-	template<>
+
+template<>
 	class GetObjectEnumsFromPropertyType<type::definition::property::main::Colorization>
 	{
 	public:
-		constexpr static auto value = {type::definition::object::Type::ColorTheme,
-									   type::definition::object::Type::ColorGroup,
-									   type::definition::object::Type::ColorCombination,
-									   type::definition::object::Type::TerminalColor,
-									   type::definition::object::Type::TerminalPatternColor};
+		constexpr static auto value = { type::definition::object::Type::Color,
+		type::definition::object::Type::ColorCombination,
+		type::definition::object::Type::ColorGroup,
+		type::definition::object::Type::ColorTheme,
+		type::definition::object::Type::TerminalColor,
+		type::definition::object::Type::TerminalPatternColor };
 		using type = type::definition::property::main::Colorization;
 	};
 
-	template<>
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Documentation>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::Unknown };
+		using type = type::definition::property::main::Documentation;
+	};
+
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Formatting>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::Unknown };
+		using type = type::definition::property::main::Formatting;
+	};
+
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Generation>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::Generate,
+		type::definition::object::Type::GenerateArgument,
+		type::definition::object::Type::Integrate,
+		type::definition::object::Type::OSTarget };
+		using type = type::definition::property::main::Generation;
+	};
+
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Grammar>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::NonTerminal,
+		type::definition::object::Type::NonTerminalAbstraction,
+		type::definition::object::Type::ProductionRule };
+		using type = type::definition::property::main::Grammar;
+	};
+
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Identity>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::Name };
+		using type = type::definition::property::main::Identity;
+	};
+
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Lexicon>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::SpecialType,
+		type::definition::object::Type::Terminal };
+		using type = type::definition::property::main::Lexicon;
+	};
+
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Precedence>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::ObjectPrecedence };
+		using type = type::definition::property::main::Precedence;
+	};
+
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Semantic>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::Unknown };
+		using type = type::definition::property::main::Semantic;
+	};
+
+
+template<>
 	class GetObjectEnumsFromPropertyType<type::definition::property::main::Threat>
 	{
 	public:
-		constexpr static auto value = {type::definition::object::Type::Threat};
+		constexpr static auto value = { type::definition::object::Type::Threat };
 		using type = type::definition::property::main::Threat;
 	};
+
+
 }
 
 #endif // DEAMER_LANGUAGE_VALIDATOR_DEFINITION_GETOBJECTENUMSFROMPROPERTYTYPE_H

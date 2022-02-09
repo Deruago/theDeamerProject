@@ -29,6 +29,10 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorTheme.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalColor.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalPatternColor.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/GenerateArgument.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/OSTarget.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminalAbstraction.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
@@ -38,7 +42,6 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Precedence/ObjectPrecedence.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat.h"
 
-#include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat/Threat.h"
 #include "Deamer/Language/Type/Definition/Object/Type.h"
 
 namespace deamer::language::convertor::definition
@@ -160,6 +163,54 @@ namespace deamer::language::convertor::definition
 	 *	\see deamer::language::convertor::definition::ObjectEnumToType
 	 */
 	template<>
+	class ObjectEnumToType<type::definition::object::Type::Generate>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::Generate;
+		using type = type::definition::object::main::Generate;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::GenerateArgument>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::GenerateArgument;
+		using type = type::definition::object::main::GenerateArgument;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::Integrate>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::Integrate;
+		using type = type::definition::object::main::Integrate;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::OSTarget>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::OSTarget;
+		using type = type::definition::object::main::OSTarget;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
 	class ObjectEnumToType<type::definition::object::Type::NonTerminal>
 	{
 	public:
@@ -252,6 +303,9 @@ namespace deamer::language::convertor::definition
 	};
 
 
+
+	template<type::definition::object::Type T>
+	using ObjectEnumToType_t = typename ObjectEnumToType<T>::type;
 }
 
 #endif // DEAMER_LANGUAGE_CONVERTOR_DEFINITION_OBJECTENUMTOTYPE_H

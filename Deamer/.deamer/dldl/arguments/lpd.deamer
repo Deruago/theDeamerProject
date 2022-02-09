@@ -1,1 +1,1 @@
- -lpd-map="./Definition/LPD/" -activate-lpd-generation=true        -lpd-generation-map-convertor="./include/Deamer/Language/Convertor/Definition/"      
+ -lpd-map="./Definition/LPD/" -activate-lpd-generation=true        -lpd-generation-map-convertor="./include/Deamer/Language/Convertor/Definition/" -lpd-generation-map-validator="./include/Deamer/Language/Validator/Definition/"     

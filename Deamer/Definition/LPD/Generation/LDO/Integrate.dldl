@@ -1,0 +1,10 @@
+name: Integrate
+type: LDO
+description: <
+	This object is used to specify which generators should integrate each others.
+>
+
+data: <
+	deamer::tool::type::Tool SourceGenerator
+	deamer::tool::type::Tool TargetGenerator
+>

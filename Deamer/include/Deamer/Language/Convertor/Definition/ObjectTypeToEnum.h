@@ -71,6 +71,26 @@ namespace deamer::language::type::definition::object::main
 
 namespace deamer::language::type::definition::object::main
 {
+	class Generate;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class GenerateArgument;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class Integrate;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class OSTarget;
+}
+
+namespace deamer::language::type::definition::object::main
+{
 	class NonTerminal;
 }
 
@@ -253,6 +273,58 @@ namespace deamer::language::convertor::definition
 	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
 	 */
 	template<>
+	class ObjectTypeToEnum<type::definition::object::main::Generate>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Generate;
+		using type = type::definition::object::main::Generate;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::GenerateArgument>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::GenerateArgument;
+		using type = type::definition::object::main::GenerateArgument;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::Integrate>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::Integrate;
+		using type = type::definition::object::main::Integrate;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::OSTarget>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::OSTarget;
+		using type = type::definition::object::main::OSTarget;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
 	class ObjectTypeToEnum<type::definition::object::main::NonTerminal>
 	{
 	public:
@@ -366,8 +438,8 @@ namespace deamer::language::convertor::definition
 		using type = type::definition::object::Base;
 	};
 
-	template<type::definition::object::Type T>
-	using ObjectEnumToType_t = typename ObjectEnumToType<T>::type;
+	template<typename T>
+	using ObjectTypeToEnum_t = typename ObjectTypeToEnum<T>::type;
 }
 
 #endif // DEAMER_LANGUAGE_CONVERTOR_DEFINITION_OBJECTTYPETOENUM_H

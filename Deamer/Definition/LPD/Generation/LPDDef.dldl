@@ -16,3 +16,10 @@ ldo: <
 	GenerateArgument
 	Integrate
 >
+
+data: <
+	Vector[OSTarget] osTarget
+	Vector[Generate] generateStatements
+	Vector[GenerateArgument] generateArguments
+	Vector[Integrate] integrateStatements
+>

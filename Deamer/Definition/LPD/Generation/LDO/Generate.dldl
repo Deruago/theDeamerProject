@@ -1,0 +1,9 @@
+name: Generate
+type: LDO
+description: <
+	This object is used to specify which generators should be generated.
+>
+
+data: <
+	deamer::tool::type::Tool Generator
+>
