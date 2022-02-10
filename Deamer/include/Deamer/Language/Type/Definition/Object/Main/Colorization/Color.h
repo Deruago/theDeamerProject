@@ -18,21 +18,54 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_COLORIZATION_COLOR_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_COLORIZATION_COLOR_H
 
+#include "Deamer/Language/Type/Definition/Object/Base.h"
+
+
+#include "Deamer/Type/Memory/SafeReserve.h"
+#include <string>
+#include <vector>
+#include <optional>
+
 namespace deamer::language::type::definition::object::main
 {
-	struct Color
+	/*! \class Color
+	 *
+	 *	\brief 
+
+	 *	\details 
+
+	 */
+	class Color : public Base
 	{
+	private:
+		friend deamer::type::SafeReserve<Color>;
+	
+	public:
 		int r;
 		int g;
 		int b;
 
-		Color(int r_ = -1, int g_ = -1, int b_ = -1);
 
-		bool operator==(const Color& rhs) const;
+	public:
+		Color(int r_ = -1, 
+			int g_ = -1, 
+			int b_ = -1);
+
+		// Compares if two Color have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const Color& rhs) const noexcept;
+
+	public:
+
+
+	protected:
+		
 	};
 }
 

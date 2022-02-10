@@ -19,25 +19,36 @@
  */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
+
 #include <utility>
 
-deamer::language::type::definition::object::main::NonTerminal::NonTerminal(
-	std::string name_, std::vector<ProductionRule*> productionRules_,
-	NonTerminalAbstraction abstraction_, bool inline_)
+deamer::language::type::definition::object::main::NonTerminal::NonTerminal(std::string Name_, 
+			std::vector<object::main::ProductionRule*> ProductionRules_, 
+			object::main::NonTerminalAbstraction abstraction_, 
+			bool Inline_)
 	: Base(Type::NonTerminal),
-	  Name(std::move(name_)),
-	  ProductionRules(std::move(productionRules_)),
-	  abstraction(abstraction_),
-	  Inline(inline_)
+	Name(Name_),
+	ProductionRules(ProductionRules_),
+	abstraction(abstraction_),
+	Inline(Inline_)
 {
 	references.Add(ProductionRules);
+
 }
 
-bool deamer::language::type::definition::object::main::NonTerminal::operator==(
-	const NonTerminal& rhs) const noexcept
+bool deamer::language::type::definition::object::main::NonTerminal::operator==(const NonTerminal& rhs) const noexcept
 {
-	return this == &rhs || (this->Name == rhs.Name && this->ProductionRules == rhs.ProductionRules);
+	return this == &rhs || (this->Name == rhs.Name && this->ProductionRules == rhs.ProductionRules && this->abstraction == rhs.abstraction && this->Inline == rhs.Inline && true);
 }
+
+
+deamer::language::type::definition::object::main::NonTerminal::NonTerminal() : NonTerminal("", 
+			std::vector<object::main::ProductionRule*>{}, 
+			object::main::NonTerminalAbstraction::reserved_default_enum_option, 
+			false)
+{
+}
+
 
 bool deamer::language::type::definition::object::main::NonTerminal::IsInlined() const noexcept
 {
@@ -49,6 +60,3 @@ bool deamer::language::type::definition::object::main::NonTerminal::IsReserved()
 	return Name.find("deamerreserved") == 0;
 }
 
-deamer::language::type::definition::object::main::NonTerminal::NonTerminal() : NonTerminal("", {})
-{
-}

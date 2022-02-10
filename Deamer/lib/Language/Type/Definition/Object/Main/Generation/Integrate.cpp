@@ -20,22 +20,26 @@
 
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
 
-deamer::language::type::definition::object::main::Integrate::Integrate(
-	deamer::tool::type::Tool source_, deamer::tool::type::Tool target_)
+#include <utility>
+
+deamer::language::type::definition::object::main::Integrate::Integrate(deamer::tool::type::Tool SourceGenerator_, 
+			deamer::tool::type::Tool TargetGenerator_)
 	: Base(Type::Integrate),
-	  SourceGenerator(source_),
-	  TargetGenerator(target_)
+	SourceGenerator(SourceGenerator_),
+	TargetGenerator(TargetGenerator_)
+{
+
+}
+
+bool deamer::language::type::definition::object::main::Integrate::operator==(const Integrate& rhs) const noexcept
+{
+	return this == &rhs || (this->SourceGenerator == rhs.SourceGenerator && this->TargetGenerator == rhs.TargetGenerator && true);
+}
+
+
+deamer::language::type::definition::object::main::Integrate::Integrate() : Integrate(deamer::tool::type::Tool{}, 
+			deamer::tool::type::Tool{})
 {
 }
 
-bool deamer::language::type::definition::object::main::Integrate::operator==(
-	const Integrate& rhs) const
-{
-	return this->SourceGenerator == rhs.SourceGenerator &&
-		   this->TargetGenerator == rhs.TargetGenerator;
-}
 
-deamer::language::type::definition::object::main::Integrate::Integrate()
-	: Integrate(tool::type::Tool::Unknown, tool::type::Tool::Unknown)
-{
-}

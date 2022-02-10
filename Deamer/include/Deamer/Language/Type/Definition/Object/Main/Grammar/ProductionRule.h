@@ -22,33 +22,48 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_PRODUCTIONRULE_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+
+
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
 #include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class ProductionRule
 	 *
-	 *  ProductionRule, used in grammar definitions.
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class ProductionRule : public Base
 	{
 	private:
 		friend deamer::type::SafeReserve<ProductionRule>;
+	
+	public:
+		std::vector<object::Base*> Tokens;
+
 
 	public:
-		std::vector<Base*> Tokens;
+		ProductionRule(std::vector<object::Base*> Tokens_ = {});
 
-		ProductionRule(std::vector<Base*> tokens_);
-		ProductionRule();
+		// Compares if two ProductionRule have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const ProductionRule& rhs) const noexcept;
 
 	public:
-		bool IsEmpty() const;
+		bool IsEmpty() const;
+		std::string GetText() const;
 
-		std::string GetText() const;
 
-	private:
+	protected:
+		
 	};
 }
 

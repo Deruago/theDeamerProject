@@ -6,5 +6,40 @@ description: <
 >
 
 data: <
-	Vector<Base> Tokens
+	Vector<Base> Tokens = {}
+>
+
+source_include: <
+	#include "Deamer/Language/Reference/LDO.h"
+>
+
+function: <
+	bool IsEmpty() const
+	{
+		return Tokens.empty();
+	}
+>
+
+function: <
+	std::string GetText() const
+	{
+		std::string output;
+		for (auto* token : Tokens)
+		{
+			switch (token->Type_)
+			{
+			case Type::Terminal:
+				output += reference::LDO<Terminal>(token)->Name;
+				break;
+			case Type::NonTerminal:
+				output += reference::LDO<NonTerminal>(token)->Name;
+				break;
+			default:
+				break;
+			}
+			output += " ";
+		}
+
+		return output;
+	}
 >

@@ -20,14 +20,23 @@
 
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
 
-deamer::language::type::definition::object::main::Generate::Generate(
-	deamer::tool::type::Tool generator_)
+#include <utility>
+
+deamer::language::type::definition::object::main::Generate::Generate(deamer::tool::type::Tool Generator_)
 	: Base(Type::Generate),
-	  Generator(generator_)
+	Generator(Generator_)
+{
+
+}
+
+bool deamer::language::type::definition::object::main::Generate::operator==(const Generate& rhs) const noexcept
+{
+	return this == &rhs || (this->Generator == rhs.Generator && true);
+}
+
+
+deamer::language::type::definition::object::main::Generate::Generate() : Generate(deamer::tool::type::Tool{})
 {
 }
 
-deamer::language::type::definition::object::main::Generate::Generate()
-	: Generate(tool::type::Tool::Unknown)
-{
-}
+

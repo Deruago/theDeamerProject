@@ -18,33 +18,52 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATE_H
-#define DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATE_H
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATE_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATE_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+
 #include "Deamer/Tool/Type/Tool.h"
+
 #include "Deamer/Type/Memory/SafeReserve.h"
+#include <string>
+#include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class Generate
 	 *
-	 *  This object is used to specify which generators should be generated.
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class Generate : public Base
 	{
 	private:
 		friend deamer::type::SafeReserve<Generate>;
-
+	
 	public:
 		deamer::tool::type::Tool Generator;
 
-	public:
-		Generate(deamer::tool::type::Tool generator_);
 
-	private:
+	public:
+		Generate(deamer::tool::type::Tool Generator_);
+
+		// Compares if two Generate have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const Generate& rhs) const noexcept;
+
+	public:
+
+
+	protected:
 		Generate();
 	};
 }
 
-#endif // DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATE_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATE_H

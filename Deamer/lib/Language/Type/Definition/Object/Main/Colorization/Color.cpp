@@ -18,27 +18,25 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/Color.h"
 
-deamer::language::type::definition::property::main::Lexicon::Lexicon(std::vector<object::main::Terminal*> Terminals_)
-	: Definition(Type::Lexicon),
-	Terminals(Terminals_)
+#include <utility>
+
+deamer::language::type::definition::object::main::Color::Color(int r_, 
+			int g_, 
+			int b_)
+	: Base(Type::Color),
+	r(r_),
+	g(g_),
+	b(b_)
 {
-	references.Add(Terminals);
 
 }
 
-const deamer::language::type::definition::object::main::Terminal* deamer::language::type::definition::property::main::Lexicon::GetTerminal(const std::string& terminalName) const
+bool deamer::language::type::definition::object::main::Color::operator==(const Color& rhs) const noexcept
 {
-	for (const auto* const terminal : Terminals)
-	{
-		if (terminal->Name == terminalName)
-		{
-			return terminal;
-		}
-	}
-
-	return nullptr;
+	return this == &rhs || (this->r == rhs.r && this->g == rhs.g && this->b == rhs.b && true);
 }
+
 
 

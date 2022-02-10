@@ -18,37 +18,54 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATEARGUMENT_H
-#define DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATEARGUMENT_H
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATEARGUMENT_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATEARGUMENT_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+
 #include "Deamer/Tool/Type/Tool.h"
+
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
+#include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class GenerateArgument
 	 *
-	 *  This object is used to specify arguments for specific generators
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class GenerateArgument : public Base
 	{
 	private:
 		friend deamer::type::SafeReserve<GenerateArgument>;
-
+	
 	public:
 		deamer::tool::type::Tool Generator;
 		std::string Argument;
 
+
 	public:
-		GenerateArgument(deamer::tool::type::Tool generator_, std::string argument_);
+		GenerateArgument(deamer::tool::type::Tool Generator_, 
+			std::string Argument_);
 
-		bool operator==(const GenerateArgument& rhs) const;
+		// Compares if two GenerateArgument have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const GenerateArgument& rhs) const noexcept;
 
-	private:
+	public:
+
+
+	protected:
 		GenerateArgument();
 	};
 }
 
-#endif // DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATEARGUMENT_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GENERATION_GENERATEARGUMENT_H

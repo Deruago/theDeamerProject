@@ -63,16 +63,7 @@ namespace deamer::language::type::definition::property::main
 		virtual ~Colorization() = default;
 
 	public:
-		deamer::language::type::definition::object::main::ColorTheme* GetDefaultTheme() const
-{
-	if (ColorThemes.empty())
-	{
-		throw std::logic_error("There is no ColorTheme!");
-	}
-
-	return ColorThemes[0];
-}
-;
+		deamer::language::type::definition::object::main::ColorTheme* GetDefaultTheme() const;
 
 
 	public:

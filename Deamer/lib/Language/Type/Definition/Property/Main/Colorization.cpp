@@ -40,4 +40,14 @@ deamer::language::type::definition::property::main::Colorization::Colorization(s
 
 }
 
+deamer::language::type::definition::object::main::ColorTheme* deamer::language::type::definition::property::main::Colorization::GetDefaultTheme() const
+{
+	if (ColorThemes.empty())
+	{
+		throw std::logic_error("There is no ColorTheme!");
+	}
+
+	return ColorThemes[0];
+}
+
 

@@ -21,21 +21,23 @@
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_NONTERMINALABSTRACTION_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_NONTERMINALABSTRACTION_H
 
+#include "Deamer/Language/Type/Definition/Object/Base.h"
+
 namespace deamer::language::type::definition::object::main
 {
-	/*!	\enum NonTerminalAbstraction
+	/*! \class NonTerminalAbstraction
 	 *
-	 *	\brief Abstractions allows you to specify specific behaviour to nonterminals.
-	 *	These behaviours may modify code generation in later stages.
+	 *	\brief 
+	 *	\details 
 	 */
-	enum class NonTerminalAbstraction
-	{
-		// Standard nonterminal symbol
-		Standard,
+	 enum class NonTerminalAbstraction
+	 {
+		reserved_default_enum_option,
 
-		// Group allows underlying types to be subclass of this nonterminal
+		Standard,
 		Group,
-	};
+
+	 };
 }
 
 #endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_NONTERMINALABSTRACTION_H

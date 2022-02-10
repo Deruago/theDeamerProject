@@ -18,6 +18,6 @@ note: <
 >
 
 data: <
-	ColorGroup colorGroup
 	Terminal terminal
+	ColorGroup colorGroup
 >

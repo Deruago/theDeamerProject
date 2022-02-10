@@ -23,8 +23,7 @@ data: <
 >
 
 function: <
-	const deamer::language::type::definition::object::main::NonTerminal* GetNonTerminal(
-		const std::string& nonTerminalName) const
+	const deamer::language::type::definition::object::main::NonTerminal* GetNonTerminal(const std::string& nonTerminalName) const
 	{
 		for (auto* nonTerminal : NonTerminals)
 		{

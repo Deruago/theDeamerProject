@@ -19,23 +19,27 @@
  */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/GenerateArgument.h"
+
 #include <utility>
 
-deamer::language::type::definition::object::main::GenerateArgument::GenerateArgument(
-	deamer::tool::type::Tool generator_, std::string argument_)
+deamer::language::type::definition::object::main::GenerateArgument::GenerateArgument(deamer::tool::type::Tool Generator_, 
+			std::string Argument_)
 	: Base(Type::GenerateArgument),
-	  Generator(generator_),
-	  Argument(std::move(argument_))
+	Generator(Generator_),
+	Argument(Argument_)
+{
+
+}
+
+bool deamer::language::type::definition::object::main::GenerateArgument::operator==(const GenerateArgument& rhs) const noexcept
+{
+	return this == &rhs || (this->Generator == rhs.Generator && this->Argument == rhs.Argument && true);
+}
+
+
+deamer::language::type::definition::object::main::GenerateArgument::GenerateArgument() : GenerateArgument(deamer::tool::type::Tool{}, 
+			"")
 {
 }
 
-bool deamer::language::type::definition::object::main::GenerateArgument::operator==(
-	const GenerateArgument& rhs) const
-{
-	return this->Generator == rhs.Generator && this->Argument == rhs.Argument;
-}
 
-deamer::language::type::definition::object::main::GenerateArgument::GenerateArgument()
-	: GenerateArgument(tool::type::Tool::Unknown, "")
-{
-}

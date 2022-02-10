@@ -20,20 +20,23 @@
 
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
 #include "Deamer/Language/Reference/LDO.h"
+
 #include <utility>
 
-deamer::language::type::definition::object::main::ProductionRule::ProductionRule(
-	std::vector<Base*> tokens_)
+deamer::language::type::definition::object::main::ProductionRule::ProductionRule(std::vector<object::Base*> Tokens_)
 	: Base(Type::ProductionRule),
-	  Tokens(std::move(tokens_))
+	Tokens(Tokens_)
 {
 	references.Add(Tokens);
+
 }
 
-deamer::language::type::definition::object::main::ProductionRule::ProductionRule()
-	: ProductionRule(std::vector<Base*>{})
+bool deamer::language::type::definition::object::main::ProductionRule::operator==(const ProductionRule& rhs) const noexcept
 {
+	return this == &rhs || (this->Tokens == rhs.Tokens && true);
 }
+
+
 
 bool deamer::language::type::definition::object::main::ProductionRule::IsEmpty() const
 {
@@ -61,3 +64,4 @@ std::string deamer::language::type::definition::object::main::ProductionRule::Ge
 
 	return output;
 }
+

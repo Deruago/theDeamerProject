@@ -20,16 +20,27 @@
 
 #include "Deamer/Language/Type/Definition/Object/Main/Precedence/ObjectPrecedence.h"
 
-deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence(
-	const object::Base* const object_, const int precedence_)
-	: Base(object::Type::ObjectPrecedence),
-	  Object(object_),
-	  Precedence(precedence_)
+#include <utility>
+
+deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence(object::Base* Object_, 
+			int Precedence_)
+	: Base(Type::ObjectPrecedence),
+	Object(Object_),
+	Precedence(Precedence_)
 {
 	references.Add(Object);
+
 }
 
-deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence()
-	: ObjectPrecedence(nullptr, -1)
+bool deamer::language::type::definition::object::main::ObjectPrecedence::operator==(const ObjectPrecedence& rhs) const noexcept
+{
+	return this == &rhs || (this->Object == rhs.Object && this->Precedence == rhs.Precedence && true);
+}
+
+
+deamer::language::type::definition::object::main::ObjectPrecedence::ObjectPrecedence() : ObjectPrecedence(nullptr, 
+			0)
 {
 }
+
+

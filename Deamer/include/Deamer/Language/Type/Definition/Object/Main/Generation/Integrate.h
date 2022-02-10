@@ -18,36 +18,54 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_INTEGRATE_H
-#define DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_INTEGRATE_H
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GENERATION_INTEGRATE_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GENERATION_INTEGRATE_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+
 #include "Deamer/Tool/Type/Tool.h"
+
 #include "Deamer/Type/Memory/SafeReserve.h"
+#include <string>
+#include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class Integrate
 	 *
-	 *  This object is used to specify which generators should integrate each others.
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class Integrate : public Base
 	{
 	private:
 		friend deamer::type::SafeReserve<Integrate>;
-
+	
 	public:
 		deamer::tool::type::Tool SourceGenerator;
 		deamer::tool::type::Tool TargetGenerator;
 
+
 	public:
-		Integrate(deamer::tool::type::Tool source_, deamer::tool::type::Tool target_);
+		Integrate(deamer::tool::type::Tool SourceGenerator_, 
+			deamer::tool::type::Tool TargetGenerator_);
 
-		bool operator==(const Integrate& rhs) const;
+		// Compares if two Integrate have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const Integrate& rhs) const noexcept;
 
-	private:
+	public:
+
+
+	protected:
 		Integrate();
 	};
 }
 
-#endif // DEAMER_LANGUAGE_TYPE_DEFINITION_OBJECT_MAIN_GENERATION_INTEGRATE_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GENERATION_INTEGRATE_H

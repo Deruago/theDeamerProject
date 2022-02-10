@@ -51,19 +51,7 @@ namespace deamer::language::type::definition::property::main
 		virtual ~Lexicon() = default;
 
 	public:
-		const deamer::language::type::definition::object::main::Terminal* GetTerminal(const std::string& terminalName) const
-{
-	for (const auto* const terminal : Terminals)
-	{
-		if (terminal->Name == terminalName)
-		{
-			return terminal;
-		}
-	}
-
-	return nullptr;
-}
-;
+		const deamer::language::type::definition::object::main::Terminal* GetTerminal(const std::string& terminalName) const;
 
 
 	public:

@@ -22,35 +22,49 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_COLORIZATION_COLORCOMBINATION_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorGroup.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/Color.h"
+
+
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
 #include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
-	class ColorGroup;
-
 	/*! \class ColorCombination
 	 *
-	 *	\brief Describes what color a specific group should be.
-	 *
-	 *	\details Used by ColorTheme to specify color.
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class ColorCombination : public Base
 	{
 	private:
 		friend deamer::type::SafeReserve<ColorCombination>;
+	
+	public:
+		object::main::ColorGroup* colorGroup;
+		object::main::Color* color;
+
 
 	public:
-		ColorGroup* colorGroup;
-		Color color;
+		ColorCombination(object::main::ColorGroup* colorGroup_, 
+			object::main::Color* color_);
 
-		ColorCombination(ColorGroup* colorGroup_, Color color_);
+		// Compares if two ColorCombination have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const ColorCombination& rhs) const noexcept;
 
-		bool operator==(const ColorCombination& rhs) const;
+	public:
 
-	private:
+
+	protected:
 		ColorCombination();
 	};
 }

@@ -54,20 +54,7 @@ namespace deamer::language::type::definition::property::main
 		virtual ~Grammar() = default;
 
 	public:
-		const deamer::language::type::definition::object::main::NonTerminal* GetNonTerminal(
-	const std::string& nonTerminalName) const
-{
-	for (auto* nonTerminal : NonTerminals)
-	{
-		if (nonTerminal->Name == nonTerminalName)
-		{
-			return nonTerminal;
-		}
-	}
-
-	return nullptr;
-}
-;
+		const deamer::language::type::definition::object::main::NonTerminal* GetNonTerminal(const std::string& nonTerminalName) const;
 
 
 	public:

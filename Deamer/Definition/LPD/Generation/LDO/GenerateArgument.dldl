@@ -4,6 +4,10 @@ description: <
 	This object is used to specify arguments for specific generators.
 >
 
+include: <
+	#include "Deamer/Tool/Type/Tool.h"
+>
+
 data: <
 	deamer::tool::type::Tool Generator
 	String Argument

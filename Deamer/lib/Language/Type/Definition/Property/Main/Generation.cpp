@@ -37,4 +37,39 @@ deamer::language::type::definition::property::main::Generation::Generation(std::
 
 }
 
+bool deamer::language::type::definition::property::main::Generation::IsIntegrationSet(const object::main::Integrate& integrate) const
+{
+	for (const auto* integrateStatement : integrateStatements)
+	{
+		if (*integrateStatement == integrate)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool deamer::language::type::definition::property::main::Generation::IsArgumentSet(const object::main::GenerateArgument& generateArgument) const
+{
+	for (const auto* argument : generateArguments)
+	{
+		if (*argument == generateArgument)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+deamer::file::tool::OSType deamer::language::type::definition::property::main::Generation::GetOSTarget() const
+{
+	if (osTarget.empty())
+	{
+		return deamer::file::tool::os_used;
+	}
+
+	return osTarget[0]->os;
+}
+
 

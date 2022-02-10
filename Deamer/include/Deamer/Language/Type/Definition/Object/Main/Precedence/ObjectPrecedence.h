@@ -22,25 +22,47 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_PRECEDENCE_OBJECTPRECEDENCE_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+
+
 #include "Deamer/Type/Memory/SafeReserve.h"
+#include <string>
+#include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class ObjectPrecedence
 	 *
-	 *  \brief This object adds precedence to a LDO
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class ObjectPrecedence : public Base
 	{
+	private:
 		friend deamer::type::SafeReserve<ObjectPrecedence>;
-
+	
 	public:
-		const object::Base* Object;
+		object::Base* Object;
 		int Precedence;
 
-		ObjectPrecedence(const object::Base* const object_, const int precedence_);
 
-	private:
+	public:
+		ObjectPrecedence(object::Base* Object_, 
+			int Precedence_);
+
+		// Compares if two ObjectPrecedence have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const ObjectPrecedence& rhs) const noexcept;
+
+	public:
+
+
+	protected:
 		ObjectPrecedence();
 	};
 }

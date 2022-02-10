@@ -19,24 +19,28 @@
  */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorTheme.h"
+
 #include <utility>
 
-deamer::language::type::definition::object::main::ColorTheme::ColorTheme(
-	std::string themeName_, std::vector<ColorCombination*> colorCombinations_)
+deamer::language::type::definition::object::main::ColorTheme::ColorTheme(std::string ThemeName_, 
+			std::vector<object::main::ColorCombination*> ColorCombinations_)
 	: Base(Type::ColorTheme),
-	  ThemeName(std::move(themeName_)),
-	  ColorCombinations(std::move(colorCombinations_))
+	ThemeName(ThemeName_),
+	ColorCombinations(ColorCombinations_)
 {
 	references.Add(ColorCombinations);
+
 }
 
-bool deamer::language::type::definition::object::main::ColorTheme::operator==(
-	const ColorTheme& rhs) const
+bool deamer::language::type::definition::object::main::ColorTheme::operator==(const ColorTheme& rhs) const noexcept
 {
-	return this == &rhs ||
-		   (this->ThemeName == rhs.ThemeName && this->ColorCombinations == rhs.ColorCombinations);
+	return this == &rhs || (this->ThemeName == rhs.ThemeName && this->ColorCombinations == rhs.ColorCombinations && true);
 }
 
-deamer::language::type::definition::object::main::ColorTheme::ColorTheme() : ColorTheme("", {})
+
+deamer::language::type::definition::object::main::ColorTheme::ColorTheme() : ColorTheme("", 
+			std::vector<object::main::ColorCombination*>{})
 {
 }
+
+

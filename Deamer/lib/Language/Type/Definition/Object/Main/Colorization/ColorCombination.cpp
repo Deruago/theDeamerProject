@@ -19,36 +19,29 @@
  */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorCombination.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorGroup.h"
 
-deamer::language::type::definition::object::main::Color::Color(int r_, int g_, int b_)
-	: r(r_),
-	  g(g_),
-	  b(b_)
-{
-}
+#include <utility>
 
-bool deamer::language::type::definition::object::main::Color::operator==(const Color& rhs) const
-{
-	return this == &rhs || (this->r == rhs.r && this->g == rhs.g && this->b == rhs.b);
-}
-
-deamer::language::type::definition::object::main::ColorCombination::ColorCombination(
-	::deamer::language::type::definition::object::main::ColorGroup* colorGroup_, Color color_)
+deamer::language::type::definition::object::main::ColorCombination::ColorCombination(object::main::ColorGroup* colorGroup_, 
+			object::main::Color* color_)
 	: Base(Type::ColorCombination),
-	  colorGroup(colorGroup_),
-	  color(color_)
+	colorGroup(colorGroup_),
+	color(color_)
 {
 	references.Add(colorGroup);
+	references.Add(color);
+
 }
 
-bool deamer::language::type::definition::object::main::ColorCombination::operator==(
-	const ColorCombination& rhs) const
+bool deamer::language::type::definition::object::main::ColorCombination::operator==(const ColorCombination& rhs) const noexcept
 {
-	return this == &rhs || (this->colorGroup == rhs.colorGroup && this->color == rhs.color);
+	return this == &rhs || (this->colorGroup == rhs.colorGroup && this->color == rhs.color && true);
 }
 
-deamer::language::type::definition::object::main::ColorCombination::ColorCombination()
-	: ColorCombination(nullptr, {})
+
+deamer::language::type::definition::object::main::ColorCombination::ColorCombination() : ColorCombination(nullptr, 
+			nullptr)
 {
 }
+
+

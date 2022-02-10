@@ -23,36 +23,49 @@
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalColor.h"
+
+
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
 #include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class TerminalPatternColor
 	 *
-	 *	\brief Describes a specific terminal color pattern.
-	 *
-	 *	\details Some generators allow patterns, e.g. "(" + VARNAME/COMMA + ")" can be overriden
-	 *white.
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class TerminalPatternColor : public Base
 	{
 	private:
 		friend deamer::type::SafeReserve<TerminalPatternColor>;
+	
+	public:
+		std::vector<object::main::TerminalColor*> StartTerminals;
+		std::vector<object::main::TerminalColor*> MiddleTerminals;
+		std::vector<object::main::TerminalColor*> EndTerminals;
+
 
 	public:
-		std::vector<TerminalColor*> StartTerminals;
-		std::vector<TerminalColor*> MiddleTerminals;
-		std::vector<TerminalColor*> EndTerminals;
+		TerminalPatternColor(std::vector<object::main::TerminalColor*> StartTerminals_, 
+			std::vector<object::main::TerminalColor*> MiddleTerminals_, 
+			std::vector<object::main::TerminalColor*> EndTerminals_);
 
-		TerminalPatternColor(std::vector<TerminalColor*> StartTerminals_,
-							 std::vector<TerminalColor*> MiddleTerminals_,
-							 std::vector<TerminalColor*> EndTerminals_);
+		// Compares if two TerminalPatternColor have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const TerminalPatternColor& rhs) const noexcept;
 
-		bool operator==(const TerminalPatternColor& rhs) const;
+	public:
 
-	private:
+
+	protected:
 		TerminalPatternColor();
 	};
 }

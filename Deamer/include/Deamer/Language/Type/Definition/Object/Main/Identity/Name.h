@@ -22,27 +22,45 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_IDENTITY_NAME_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+
+
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
+#include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class Name
 	 *
-	 *  Name, used in identity definitions.
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class Name : public Base
 	{
 	private:
 		friend deamer::type::SafeReserve<Name>;
-
+	
 	public:
 		std::string value;
+
 
 	public:
 		Name(std::string value_);
 
-	private:
+		// Compares if two Name have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const Name& rhs) const noexcept;
+
+	public:
+
+
+	protected:
 		Name();
 	};
 }

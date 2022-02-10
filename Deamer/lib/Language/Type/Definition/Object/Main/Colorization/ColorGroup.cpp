@@ -20,19 +20,19 @@
 
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorGroup.h"
 
-deamer::language::type::definition::object::main::ColorGroup::ColorGroup(std::size_t colorId)
+#include <utility>
+
+deamer::language::type::definition::object::main::ColorGroup::ColorGroup(size_t ColorId_)
 	: Base(Type::ColorGroup),
-	  ColorId(colorId)
+	ColorId(ColorId_)
 {
+
+}
+
+bool deamer::language::type::definition::object::main::ColorGroup::operator==(const ColorGroup& rhs) const noexcept
+{
+	return this == &rhs || (this->ColorId == rhs.ColorId && true);
 }
 
 
-deamer::language::type::definition::object::main::ColorGroup::ColorGroup() : ColorGroup(0)
-{
-}
 
-bool deamer::language::type::definition::object::main::ColorGroup::operator==(
-	const ColorGroup& rhs) const
-{
-	return this == &rhs || (this->ColorId == rhs.ColorId);
-}

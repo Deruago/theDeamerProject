@@ -5,6 +5,10 @@ description: <
 	If no OSTarget is specified the OS Deamer is compiled in will be used as default.
 >
 
+include: <
+	#include "Deamer/File/Tool/OSType.h"
+>
+
 data: <
 	deamer::file::tool::OSType os
 >
