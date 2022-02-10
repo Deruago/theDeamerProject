@@ -16,3 +16,18 @@ enum: <
 data: <
 	Vector[Terminal] Terminals
 >
+
+function: <
+	const deamer::language::type::definition::object::main::Terminal* GetTerminal(const std::string& terminalName) const
+	{
+		for (const auto* const terminal : Terminals)
+		{
+			if (terminal->Name == terminalName)
+			{
+				return terminal;
+			}
+		}
+
+		return nullptr;
+	}
+>

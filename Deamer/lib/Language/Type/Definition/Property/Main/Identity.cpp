@@ -22,7 +22,10 @@
 
 deamer::language::type::definition::property::main::Identity::Identity(object::main::Name* name_)
 	: Definition(Type::Identity),
-	  name(name_)
+	name(name_)
 {
 	references.Add(name);
+
 }
+
+

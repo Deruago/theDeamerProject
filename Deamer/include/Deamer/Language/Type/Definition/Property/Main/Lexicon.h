@@ -22,25 +22,53 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_LEXICON_H
 
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
+
 #include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
+#include <optional>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 namespace deamer::language::type::definition::property::main
 {
 	/*! \class Lexicon
 	 *
-	 *  Language Property Definition of a lexicon, used to define a lexicon for language x.
+	 *	\brief 
+	 *	Language Property Definition of a lexicon, used to define a lexicon for language x.
+	 *	Designed by Thimo Böhmer
+
+	 *	\details 
+
 	 */
 	class Lexicon final : public Definition
 	{
 	public:
 		std::vector<object::main::Terminal*> Terminals;
 
-		Lexicon(std::vector<object::main::Terminal*> terminals_);
-
+	
+	public:
+		Lexicon(std::vector<object::main::Terminal*> Terminals_);
 		virtual ~Lexicon() = default;
 
-		const object::main::Terminal* GetTerminal(const std::string& terminalName) const;
+	public:
+		const deamer::language::type::definition::object::main::Terminal* GetTerminal(const std::string& terminalName) const
+{
+	for (const auto* const terminal : Terminals)
+	{
+		if (terminal->Name == terminalName)
+		{
+			return terminal;
+		}
+	}
+
+	return nullptr;
+}
+;
+
+
+	public:
+		
+
 	};
 }
 

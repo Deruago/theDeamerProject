@@ -28,9 +28,9 @@ namespace deamer::language::generator::definition::property::user
 {
 	/*!	\class Associativity
 	 *
-	 *	\brief Used to generate a Precedence definition.
+	 *	\brief Used to generate a Associativity definition.
 	 *
-	 *	\tparam LanguageDefinitionType The language the Precedence is made for.
+	 *	\tparam LanguageDefinitionType The language the Associativity is made for.
 	 */
 	template<typename LanguageDefinitionType>
 	class Associativity : public Base<LanguageDefinitionType, type::definition::property::main::Associativity>
@@ -38,19 +38,21 @@ namespace deamer::language::generator::definition::property::user
 	private:
 	public:
 		Associativity(LanguageDefinitionType* language_)
-			: Base<LanguageDefinitionType, type::definition::property::main::Precedence>(language_)
+			: Base<LanguageDefinitionType, type::definition::property::main::Associativity>(language_)
 		{
 		}
 
-		/*!	\fn Generate
+		/*! \fn Generate
 		 *
-		 *	\brief Generates a associativity property definition.
+		 *	\brief Generates Associativity property definition.
 		 */
 		void GenerateDefinition() override
 		{
-			this->generatedDefinition = new Associativity(Base<LanguageDefinitionType, type::definition::property::main::Associativity>::template GetObjects<type::definition::object::Type::ObjectAssociativity>());
+			const auto AssociativityObjects = Base<LanguageDefinitionType, type::definition::property::main::Associativity>::template GetObjects<type::definition::object::Type::ObjectAssociativity>();
+
+			this->generatedDefinition = new type::definition::property::main::Associativity(AssociativityObjects);
 		}
 	};
 }
 
-#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_ASSOCIATIVITY_H
+#endif // DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_ASSOCIATIVITY_H

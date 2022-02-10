@@ -19,36 +19,25 @@
  */
 
 #include "Deamer/Language/Type/Definition/Property/Main/Colorization.h"
-#include <stdexcept>
-#include <utility>
 
-deamer::language::type::definition::property::main::Colorization::Colorization(
-	std::vector<object::main::ColorGroup*> ColorGroups_,
-	std::vector<object::main::ColorCombination*> ColorCombinations_,
-	std::vector<object::main::ColorTheme*> ColorThemes_,
-	std::vector<object::main::TerminalColor*> TerminalColors_,
-	std::vector<object::main::TerminalPatternColor*> TerminalPatternColors_)
+deamer::language::type::definition::property::main::Colorization::Colorization(std::vector<object::main::ColorGroup*> ColorGroups_, 
+			std::vector<object::main::ColorCombination*> ColorCombinations_, 
+			std::vector<object::main::ColorTheme*> ColorThemes_, 
+			std::vector<object::main::TerminalColor*> TerminalColors_, 
+			std::vector<object::main::TerminalPatternColor*> TerminalPatternColors_)
 	: Definition(Type::Colorization),
-	  ColorGroups(std::move(ColorGroups_)),
-	  ColorCombinations(std::move(ColorCombinations_)),
-	  ColorThemes(std::move(ColorThemes_)),
-	  TerminalColors(std::move(TerminalColors_)),
-	  TerminalPatternColors(std::move(TerminalPatternColors_))
+	ColorGroups(ColorGroups_),
+	ColorCombinations(ColorCombinations_),
+	ColorThemes(ColorThemes_),
+	TerminalColors(TerminalColors_),
+	TerminalPatternColors(TerminalPatternColors_)
 {
 	references.Add(ColorGroups);
 	references.Add(ColorCombinations);
 	references.Add(ColorThemes);
 	references.Add(TerminalColors);
 	references.Add(TerminalPatternColors);
+
 }
 
-deamer::language::type::definition::object::main::ColorTheme*
-deamer::language::type::definition::property::main::Colorization::GetDefaultTheme() const
-{
-	if (ColorThemes.empty())
-	{
-		throw std::logic_error("There is no ColorTheme!");
-	}
 
-	return ColorThemes[0];
-}

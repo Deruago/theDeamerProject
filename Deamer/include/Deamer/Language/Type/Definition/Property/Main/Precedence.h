@@ -13,34 +13,50 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_PRECEDENCE_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_PRECEDENCE_H
 
-#include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Precedence/ObjectPrecedence.h"
+
+#include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
+#include <optional>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
-namespace deamer::language::type::definition::property::main {
+namespace deamer::language::type::definition::property::main
+{
 	/*! \class Precedence
 	 *
-	 *  Language Property Definition of the Precedence, used to define the Precedence of symbols in language x.
+	 *	\brief 
+	 *	Language Property Definition of the Precedence,
+	 *	used to define the Precedence of symbols in language x.
+
+	 *	\details 
+
 	 */
-	class Precedence : public Definition
+	class Precedence final : public Definition
 	{
 	public:
 		std::vector<object::main::ObjectPrecedence*> PrecedenceObjects;
-		
-		Precedence(std::vector<object::main::ObjectPrecedence*> precedenceObjects_);
-		Precedence();
-		
+
+	
+	public:
+		Precedence(std::vector<object::main::ObjectPrecedence*> PrecedenceObjects_);
 		virtual ~Precedence() = default;
-	private:
+
+	public:
+
+
+	public:
+		
+
 	};
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_PRECEDENCE_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_PRECEDENCE_H

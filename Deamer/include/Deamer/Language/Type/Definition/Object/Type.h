@@ -39,9 +39,15 @@ namespace deamer::language::type::definition::object
 		AssociativityType,
 		ObjectAssociativity,
 
+
+
 		// AstOptimization
 
+
+
 		// AstTranslation
+
+
 
 		// Colorization
 		Color,
@@ -51,9 +57,15 @@ namespace deamer::language::type::definition::object
 		TerminalColor,
 		TerminalPatternColor,
 
+
+
 		// Documentation
 
+
+
 		// Formatting
+
+
 
 		// Generation
 		Generate,
@@ -61,25 +73,39 @@ namespace deamer::language::type::definition::object
 		Integrate,
 		OSTarget,
 
+
+
 		// Grammar
 		NonTerminal,
 		NonTerminalAbstraction,
 		ProductionRule,
 
+
+
 		// Identity
 		Name,
+
+
 
 		// Lexicon
 		SpecialType,
 		Terminal,
 
+
+
 		// Precedence
 		ObjectPrecedence,
 
+
+
 		// Semantic
+
+
 
 		// Threat
 		Threat,
+
+
 
 	};
 }

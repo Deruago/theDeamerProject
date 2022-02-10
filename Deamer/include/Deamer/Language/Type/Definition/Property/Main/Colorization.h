@@ -21,22 +21,30 @@
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_COLORIZATION_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_COLORIZATION_H
 
-#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorCombination.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorGroup.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorCombination.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorTheme.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalColor.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalPatternColor.h"
+
 #include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
+#include <optional>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 namespace deamer::language::type::definition::property::main
 {
 	/*! \class Colorization
 	 *
-	 *  \brief Language Property Definition of the colorization, used to define the colorization for
-	 *	language x.
+	 *	\brief 
+	 *	Language Property Definition of the colorization, used to define the colorization for language x.
+	 *	Designed by Thimo Böhmer
+
+	 *	\details 
+
 	 */
-	class Colorization : public Definition
+	class Colorization final : public Definition
 	{
 	public:
 		std::vector<object::main::ColorGroup*> ColorGroups;
@@ -45,16 +53,31 @@ namespace deamer::language::type::definition::property::main
 		std::vector<object::main::TerminalColor*> TerminalColors;
 		std::vector<object::main::TerminalPatternColor*> TerminalPatternColors;
 
-		Colorization(std::vector<object::main::ColorGroup*> ColorGroups_,
-					 std::vector<object::main::ColorCombination*> ColorCombinations_,
-					 std::vector<object::main::ColorTheme*> ColorThemes_,
-					 std::vector<object::main::TerminalColor*> TerminalColors_,
-					 std::vector<object::main::TerminalPatternColor*> TerminalPatternColors_);
-
+	
+	public:
+		Colorization(std::vector<object::main::ColorGroup*> ColorGroups_, 
+			std::vector<object::main::ColorCombination*> ColorCombinations_, 
+			std::vector<object::main::ColorTheme*> ColorThemes_, 
+			std::vector<object::main::TerminalColor*> TerminalColors_, 
+			std::vector<object::main::TerminalPatternColor*> TerminalPatternColors_);
 		virtual ~Colorization() = default;
 
 	public:
-		object::main::ColorTheme* GetDefaultTheme() const;
+		deamer::language::type::definition::object::main::ColorTheme* GetDefaultTheme() const
+{
+	if (ColorThemes.empty())
+	{
+		throw std::logic_error("There is no ColorTheme!");
+	}
+
+	return ColorThemes[0];
+}
+;
+
+
+	public:
+		
+
 	};
 }
 

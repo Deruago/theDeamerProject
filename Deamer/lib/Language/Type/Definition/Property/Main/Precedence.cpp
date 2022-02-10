@@ -20,15 +20,12 @@
 
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 
-deamer::language::type::definition::property::main::Precedence::Precedence(
-	std::vector<object::main::ObjectPrecedence*> precedenceObjects_)
-	: Definition(property::Type::Precedence),
-	  PrecedenceObjects(std::move(precedenceObjects_))
+deamer::language::type::definition::property::main::Precedence::Precedence(std::vector<object::main::ObjectPrecedence*> PrecedenceObjects_)
+	: Definition(Type::Precedence),
+	PrecedenceObjects(PrecedenceObjects_)
 {
 	references.Add(PrecedenceObjects);
+
 }
 
-deamer::language::type::definition::property::main::Precedence::Precedence()
-	: Precedence(std::vector<object::main::ObjectPrecedence*>{})
-{
-}
+

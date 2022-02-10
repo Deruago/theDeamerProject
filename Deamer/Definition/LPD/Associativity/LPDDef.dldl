@@ -2,7 +2,7 @@ name: Associativity
 type: main
 description: <
 	Language Property Definition of the associativity,
-	used to define the associativity ofsymbols in language x.
+	used to define the associativity of symbols in language x.
 >
 description_detailed: <
 >

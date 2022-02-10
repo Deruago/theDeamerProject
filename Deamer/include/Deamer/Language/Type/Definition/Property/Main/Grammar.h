@@ -23,14 +23,23 @@
 
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
+
 #include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
+#include <optional>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 namespace deamer::language::type::definition::property::main
 {
 	/*! \class Grammar
 	 *
-	 *  \brief Language Property Definition of a grammar, used to define the grammar for language x.
+	 *	\brief 
+	 *	Language Property Definition of a grammar, used to define the grammar for language x.
+	 *	Designed by Thimo Böhmer
+
+	 *	\details 
+
 	 */
 	class Grammar final : public Definition
 	{
@@ -38,13 +47,32 @@ namespace deamer::language::type::definition::property::main
 		std::vector<object::main::NonTerminal*> NonTerminals;
 		std::vector<object::main::ProductionRule*> ProductionRules;
 
-		Grammar(std::vector<object::main::NonTerminal*> nonTerminals_,
-				std::vector<object::main::ProductionRule*> productionRules_);
-
+	
+	public:
+		Grammar(std::vector<object::main::NonTerminal*> NonTerminals_, 
+			std::vector<object::main::ProductionRule*> ProductionRules_);
 		virtual ~Grammar() = default;
 
 	public:
-		const object::main::NonTerminal* GetNonTerminal(const std::string& nonTerminalName) const;
+		const deamer::language::type::definition::object::main::NonTerminal* GetNonTerminal(
+	const std::string& nonTerminalName) const
+{
+	for (auto* nonTerminal : NonTerminals)
+	{
+		if (nonTerminal->Name == nonTerminalName)
+		{
+			return nonTerminal;
+		}
+	}
+
+	return nullptr;
+}
+;
+
+
+	public:
+		
+
 	};
 }
 

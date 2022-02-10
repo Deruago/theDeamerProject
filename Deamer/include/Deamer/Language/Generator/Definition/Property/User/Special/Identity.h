@@ -13,13 +13,13 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
-/*
- * Part of the DeamerProject.
- * For more information go to: https://github.com/Deruago/theDeamerProject
- */
+ /*
+  * Part of the DeamerProject.
+  * For more information go to: https://github.com/Deruago/theDeamerProject
+  */
 
-#ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_SPECIAL_IDENTITY_H
-#define DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_SPECIAL_IDENTITY_H
+#ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_IDENTITY_H
+#define DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_IDENTITY_H
 
 #include "Deamer/Language/Generator/Definition/Property/User/Base.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Identity.h"
@@ -28,9 +28,9 @@ namespace deamer::language::generator::definition::property::user
 {
 	/*!	\class Identity
 	 *
-	 *	\brief Used to generate a identity definition.
+	 *	\brief Used to generate a Identity definition.
 	 *
-	 *	\tparam LanguageDefinitionType The language the identity is made for.
+	 *	\tparam LanguageDefinitionType The language the Identity is made for.
 	 */
 	template<typename LanguageDefinitionType>
 	class Identity : public Base<LanguageDefinitionType, type::definition::property::main::Identity>
@@ -42,18 +42,17 @@ namespace deamer::language::generator::definition::property::user
 		{
 		}
 
-		/*!	\fn Generate
+		/*! \fn Generate
 		 *
-		 *	\brief Generates a Identity property definition.
-		 *
+		 *	\brief Generates Identity property definition.
 		 */
 		void GenerateDefinition() override
 		{
-			this->generatedDefinition = new type::definition::property::main::Identity(
-				Base<LanguageDefinitionType, type::definition::property::main::Identity>::
-					template GetObject<type::definition::object::Type::Name>());
+			const auto name = Base<LanguageDefinitionType, type::definition::property::main::Identity>::template GetObjects<type::definition::object::Type::Name>();
+
+			this->generatedDefinition = new type::definition::property::main::Identity(name);
 		}
 	};
 }
 
-#endif // DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_SPECIAL_IDENTITY_H
+#endif // DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_IDENTITY_H

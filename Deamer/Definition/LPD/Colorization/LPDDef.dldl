@@ -28,3 +28,15 @@ data: <
 	Vector[TerminalColor] TerminalColors
 	Vector[TerminalPatternColor] TerminalPatternColors
 >
+
+function: <
+	deamer::language::type::definition::object::main::ColorTheme* GetDefaultTheme() const
+	{
+		if (ColorThemes.empty())
+		{
+			throw std::logic_error("There is no ColorTheme!");
+		}
+
+		return ColorThemes[0];
+	}
+>
