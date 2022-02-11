@@ -11,7 +11,9 @@ deamer::tool::type::dldlconverter::DLDLConverter::DLDLConverter(reference refere
 deamer::file::tool::Output deamer::tool::type::dldlconverter::DLDLConverter::Generate()
 {
 	const auto language_name =
-		Reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
+		Reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			.GetName()
+			->value;
 
 	const auto generateAll =
 		Reference.GetDefinition<language::type::definition::property::Type::Generation>()

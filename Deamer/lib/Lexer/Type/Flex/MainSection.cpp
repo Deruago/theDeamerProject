@@ -23,7 +23,8 @@
 deamer::lexer::type::flex::MainSection::MainSection(const ReferenceType reference_)
 	: reference(reference_),
 	  name(reference.GetDefinition<language::type::definition::property::Type::Identity>()
-			   .name->value)
+			   .GetName()
+			   ->value)
 {
 }
 

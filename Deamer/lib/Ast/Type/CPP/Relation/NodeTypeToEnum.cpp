@@ -24,7 +24,8 @@
 deamer::ast::type::cpp::NodeTypeToEnum::NodeTypeToEnum(ReferenceType reference_)
 	: reference(reference_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .GetName()
+					   ->value)
 {
 	nodeTypeToEnumTemplate = new templates::ast::type::cpp::NodeTypeToEnumTemplate();
 }
@@ -51,8 +52,7 @@ deamer::file::tool::File deamer::ast::type::cpp::NodeTypeToEnum::Generate() cons
 	}
 
 	for (const auto* const terminal :
-		 reference.GetDefinition<language::type::definition::property::Type::Lexicon>()
-			 .Terminals)
+		 reference.GetDefinition<language::type::definition::property::Type::Lexicon>().Terminals)
 	{
 		nodeTypeToEnumTemplate->node_name_->Set(terminal->Name);
 

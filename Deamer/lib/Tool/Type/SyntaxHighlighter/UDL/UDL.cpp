@@ -1,7 +1,7 @@
 #include "Deamer/Tool/Type/SyntaxHighlighter/UDL/UDL.h"
-#include "Deamer/Template/Tool/Type/SyntaxHighlighter/UDL/UDLSyntaxHighlighterTemplate.h"
 #include "Deamer/Language/Reference/ReverseLookup.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalColor.h"
+#include "Deamer/Template/Tool/Type/SyntaxHighlighter/UDL/UDLSyntaxHighlighterTemplate.h"
 
 deamer::tool::type::syntaxhighlighter::udl::UDL::UDL(reference reference_)
 	: syntaxhighlighter::Base(Tool::SyntaxHighlighter_UDL),
@@ -12,7 +12,7 @@ deamer::tool::type::syntaxhighlighter::udl::UDL::UDL(reference reference_)
 deamer::file::tool::Output deamer::tool::type::syntaxhighlighter::udl::UDL::Generate()
 {
 	const auto language_name =
-		Reference.GetDefinition<language::type::definition::property::Type::Identity>().name;
+		Reference.GetDefinition<language::type::definition::property::Type::Identity>().GetName();
 
 	file::tool::Output output("SyntaxHighlighter_UDL");
 
@@ -21,7 +21,8 @@ deamer::file::tool::Output deamer::tool::type::syntaxhighlighter::udl::UDL::Gene
 
 	const auto colorGroups = colorization.ColorGroups;
 
-	auto udlFormat = ::deamer::templates::tool::type::syntaxhighligher::UDLSyntaxHighlighterTemplate();
+	auto udlFormat =
+		::deamer::templates::tool::type::syntaxhighligher::UDLSyntaxHighlighterTemplate();
 	udlFormat.language_name_->Set(language_name->value);
 	udlFormat.language_extension_->Set(language_name->value);
 
@@ -35,8 +36,8 @@ deamer::file::tool::Output deamer::tool::type::syntaxhighlighter::udl::UDL::Gene
 		const auto reverseLookupTerminalColors = ::deamer::language::reference::ReverseLookup<
 			::deamer::language::type::definition::object::main::TerminalColor>(&Reference);
 		const auto resultTerminalColors = reverseLookupTerminalColors.Get(currentColorGroup);
-		
-		if(resultTerminalColors.IsEmpty())
+
+		if (resultTerminalColors.IsEmpty())
 		{
 			continue;
 		}

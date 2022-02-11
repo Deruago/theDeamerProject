@@ -23,7 +23,8 @@
 deamer::ast::type::cpp::BaseNode::BaseNode(ReferenceType reference_)
 	: reference(reference_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .name[0]
+					   ->value)
 {
 }
 

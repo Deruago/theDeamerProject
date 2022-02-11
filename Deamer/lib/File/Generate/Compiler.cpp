@@ -52,9 +52,10 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 
 	languageName = compilerOutput.GetLanguageReference()
 					   .GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value;
+					   .GetName()
+					   ->value;
 
-	const auto compilerPath = pathFromRoot + identity.name->value + '/';
+	const auto compilerPath = pathFromRoot + identity.GetName()->value + '/';
 	std::filesystem::create_directory(compilerPath);
 
 	auto cmakelists_external = InitialiseExternalCMakeLists();
@@ -169,7 +170,8 @@ void deamer::file::generate::Compiler::GenerateIncludeDirectory(const std::strin
 		pathFromRoot + "include/" +
 		compilerOutput.GetLanguageReference()
 			.GetDefinition<language::type::definition::property::Type::Identity>()
-			.name->value +
+			.GetName()
+			->value +
 		"/";
 	const auto directoryPath = includeDirectory + directory.GetThisDirectory() + '/';
 
@@ -308,7 +310,8 @@ std::string deamer::file::generate::Compiler::GetRootLanguageName() const
 
 	return currentCompilerOutput->GetLanguageReference()
 		.GetDefinition<language::type::definition::property::Type::Identity>()
-		.name->value;
+		.GetName()
+		->value;
 }
 
 bool deamer::file::generate::Compiler::RootProject() const
@@ -452,7 +455,8 @@ std::vector<std::string> deamer::file::generate::Compiler::GetSubCompilerNames()
 	{
 		names.push_back(compiler.GetLanguageReference()
 							.GetDefinition<language::type::definition::property::Type::Identity>()
-							.name->value);
+							.GetName()
+							->value);
 	}
 
 	return names;

@@ -24,9 +24,11 @@
 deamer::ast::type::cpp::NodeIsNonTerminal::NodeIsNonTerminal(ReferenceType reference_)
 	: reference(reference_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .GetName()
+					   ->value)
 {
-	nodeIsNonTerminalTemplate = new ::deamer::templates::ast::type::cpp::NodeIsNonTerminalTemplate();
+	nodeIsNonTerminalTemplate =
+		new ::deamer::templates::ast::type::cpp::NodeIsNonTerminalTemplate();
 }
 
 deamer::ast::type::cpp::NodeIsNonTerminal::~NodeIsNonTerminal()

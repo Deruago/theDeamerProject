@@ -14,5 +14,12 @@ ldo: <
 >
 
 data: <
-	Name name
+	Vector[Name] name
+>
+
+function: <
+	deamer::language::type::definition::object::main::Name* GetName() const noexcept
+	{
+		return name[0];
+	}
 >

@@ -28,7 +28,7 @@ using namespace deamer::language::type::definition::property;
 deamer::lexer::generator::flex::Flex::Flex(ReferenceType reference_)
 	: Base(tool::type::Tool::Flex),
 	  reference(reference_),
-	  name(reference.GetDefinition<Type::Identity>().name->value)
+	  name(reference.GetDefinition<Type::Identity>().GetName()->value)
 {
 }
 

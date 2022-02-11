@@ -33,7 +33,9 @@ void deamer::tool::type::deamerdefaultapplication::AstViewer::Generate(
 		templates::tool::deamerdefaultapplication::astviewer::AstViewerTemplate();
 
 	auto languageName =
-		Reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
+		Reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			.GetName()
+			->value;
 	astViewerTemplate.language_name_->Set(languageName);
 	astViewerTemplate.parser_->Set("Bison");
 

@@ -33,7 +33,9 @@ deamer::tool::type::deamerdocumentation::DeamerDocumentation::DeamerDocumentatio
 deamer::file::tool::Output deamer::tool::type::deamerdocumentation::DeamerDocumentation::Generate()
 {
 	const auto language_name =
-		Reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
+		Reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			.GetName()
+			->value;
 
 	file::tool::Output output("DeamerDocumentation");
 

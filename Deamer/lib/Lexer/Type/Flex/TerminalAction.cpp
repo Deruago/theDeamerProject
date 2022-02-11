@@ -71,13 +71,13 @@ std::string deamer::lexer::type::flex::TerminalAction::GetAction() const
 		switch (terminal.Special)
 		{
 		case language::type::definition::object::main::SpecialType::Standard:
-			return identity.name->value +
+			return identity.GetName()->value +
 				   "lval.Terminal = new deamer::external::cpp::lexer::TerminalObject(yyval, "
 				   "yylineno, column, std::size_t(" +
 				   GetTerminalId() + "));";
 		case language::type::definition::object::main::SpecialType::Ignore:
 		case language::type::definition::object::main::SpecialType::NoValue:
-			return identity.name->value +
+			return identity.GetName()->value +
 				   "lval.Terminal = new deamer::external::cpp::lexer::TerminalObject(\"\", "
 				   "yylineno, column, std::size_t(" +
 				   GetTerminalId() + "));";

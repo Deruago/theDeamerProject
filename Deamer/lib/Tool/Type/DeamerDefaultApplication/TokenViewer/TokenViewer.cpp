@@ -33,7 +33,9 @@ void deamer::tool::type::deamerdefaultapplication::TokenViewer::Generate(
 		templates::tool::deamerdefaultapplication::tokenviewer::TokenViewerTemplate();
 
 	auto languageName =
-		Reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
+		Reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			.GetName()
+			->value;
 	tokenViewerTemplate.language_name_->Set(languageName);
 	tokenViewerTemplate.lexer_->Set("Flex");
 

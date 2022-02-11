@@ -24,7 +24,8 @@
 deamer::ast::type::cpp::NodeIsInlined::NodeIsInlined(ReferenceType reference_)
 	: reference(reference_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .GetName()
+					   ->value)
 {
 	NodeIsInlinedTemplate = new ::deamer::templates::ast::type::cpp::NodeIsInlinedTemplate();
 }
@@ -39,8 +40,10 @@ deamer::file::tool::File deamer::ast::type::cpp::NodeIsInlined::Generate() const
 	deamer::file::tool::File nodeIsInlined("NodeIsInlined", "h");
 
 	NodeIsInlinedTemplate->language_name_->Set(languageName);
-	
-	for (const auto* const nonterminal : reference.GetDefinition<language::type::definition::property::Type::Grammar>().NonTerminals)
+
+	for (const auto* const nonterminal :
+		 reference.GetDefinition<language::type::definition::property::Type::Grammar>()
+			 .NonTerminals)
 	{
 		NodeIsInlinedTemplate->node_name_->Set(nonterminal->Name);
 		if (nonterminal->IsInlined())

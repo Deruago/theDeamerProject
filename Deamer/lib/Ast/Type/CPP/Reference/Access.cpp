@@ -24,7 +24,8 @@
 deamer::ast::type::cpp::Access::Access(ReferenceType reference_)
 	: reference(reference_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .GetName()
+					   ->value)
 {
 	accessTemplate = new templates::ast::type::cpp::AccessTemplate();
 }

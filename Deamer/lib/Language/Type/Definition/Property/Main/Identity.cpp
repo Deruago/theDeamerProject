@@ -20,12 +20,17 @@
 
 #include "Deamer/Language/Type/Definition/Property/Main/Identity.h"
 
-deamer::language::type::definition::property::main::Identity::Identity(object::main::Name* name_)
+deamer::language::type::definition::property::main::Identity::Identity(std::vector<object::main::Name*> name_)
 	: Definition(Type::Identity),
 	name(name_)
 {
 	references.Add(name);
 
+}
+
+deamer::language::type::definition::object::main::Name* deamer::language::type::definition::property::main::Identity::GetName() const noexcept
+{
+	return name[0];
 }
 
 

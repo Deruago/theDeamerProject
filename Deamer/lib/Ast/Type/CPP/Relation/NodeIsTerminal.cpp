@@ -24,10 +24,10 @@
 deamer::ast::type::cpp::NodeIsTerminal::NodeIsTerminal(ReferenceType reference_)
 	: reference(reference_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .GetName()
+					   ->value)
 {
-	nodeIsTerminalTemplate =
-		new ::deamer::templates::ast::type::cpp::NodeIsTerminalTemplate();
+	nodeIsTerminalTemplate = new ::deamer::templates::ast::type::cpp::NodeIsTerminalTemplate();
 }
 
 deamer::ast::type::cpp::NodeIsTerminal::~NodeIsTerminal()
@@ -42,8 +42,7 @@ deamer::file::tool::File deamer::ast::type::cpp::NodeIsTerminal::Generate() cons
 	nodeIsTerminalTemplate->language_name_->Set(languageName);
 
 	for (const auto* const terminal :
-		 reference.GetDefinition<language::type::definition::property::Type::Lexicon>()
-			 .Terminals)
+		 reference.GetDefinition<language::type::definition::property::Type::Lexicon>().Terminals)
 	{
 		nodeIsTerminalTemplate->node_name_->Set(terminal->Name);
 		nodeIsTerminalTemplate->is_terminal_->Set("true");

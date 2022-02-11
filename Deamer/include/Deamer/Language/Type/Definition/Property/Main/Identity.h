@@ -43,14 +43,15 @@ namespace deamer::language::type::definition::property::main
 	class Identity final : public Definition
 	{
 	public:
-		object::main::Name* name;
+		std::vector<object::main::Name*> name;
 
 	
 	public:
-		Identity(object::main::Name* name_);
+		Identity(std::vector<object::main::Name*> name_);
 		virtual ~Identity() = default;
 
 	public:
+		deamer::language::type::definition::object::main::Name* GetName() const noexcept;
 
 
 	public:

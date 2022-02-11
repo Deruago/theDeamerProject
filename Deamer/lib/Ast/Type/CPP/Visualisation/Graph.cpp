@@ -24,7 +24,8 @@
 deamer::ast::type::cpp::Graph::Graph(ReferenceType reference_)
 	: reference(reference_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .GetName()
+					   ->value)
 {
 	GraphTemplate = new ::deamer::templates::ast::type::cpp::GraphTemplate();
 }
@@ -40,8 +41,10 @@ deamer::file::tool::File deamer::ast::type::cpp::Graph::Generate() const
 
 	GraphTemplate->language_name_->Set(languageName);
 
-	for (language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal :
-		 reference.GetDefinition<language::type::definition::property::Type::Grammar>().NonTerminals)
+	for (language::reference::LDO<language::type::definition::object::main::NonTerminal>
+			 nonTerminal :
+		 reference.GetDefinition<language::type::definition::property::Type::Grammar>()
+			 .NonTerminals)
 	{
 		GraphTemplate->object_->Set(nonTerminal->Name);
 		GraphTemplate->listen_object_entry_->ExpandVariableField();

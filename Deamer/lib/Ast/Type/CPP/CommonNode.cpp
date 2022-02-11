@@ -26,7 +26,8 @@ deamer::ast::type::cpp::CommonNode::CommonNode(
 	: reference(reference_),
 	  nonTerminal(nonTerminal_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .name[0]
+					   ->value)
 {
 }
 
