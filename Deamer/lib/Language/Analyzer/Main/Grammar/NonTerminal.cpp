@@ -20,7 +20,6 @@
 
 #include "Deamer/Language/Analyzer/Main/Grammar/NonTerminal.h"
 #include "Deamer/Language/Reference/ReverseLookup.h"
-#include "Deamer/Parser/Type/Bison/ActionSection.h"
 
 deamer::language::analyzer::main::NonTerminal::NonTerminal(
 	const reference::PropertyDefinitionBase* reference_,
@@ -525,14 +524,15 @@ deamer::language::analyzer ::main::NonTerminal::GetDirectNonTerminalAndTerminals
 std::set<deamer::language::type::definition::object::Base*>
 deamer::language::analyzer::main::NonTerminal::GetDirectNonTerminalAndTerminals(
 	std::set<deamer::language::type::definition::object::Base*>& symbols,
-	std::set<reference::LDO<deamer::language::type::definition::object::main::NonTerminal>> visitedNonTerminal) const
+	std::set<reference::LDO<deamer::language::type::definition::object::main::NonTerminal>>
+		visitedNonTerminal) const
 {
 	if (visitedNonTerminal.find(nonTerminal) != visitedNonTerminal.end())
 	{
 		return {};
 	}
 	visitedNonTerminal.insert(nonTerminal);
-	
+
 	for (const auto* const productionRule : nonTerminal->ProductionRules)
 	{
 		for (auto* symbol : productionRule->Tokens)
@@ -546,8 +546,8 @@ deamer::language::analyzer::main::NonTerminal::GetDirectNonTerminalAndTerminals(
 
 				if (nonterminal->IsInlined())
 				{
-					auto analyzer = ::deamer::language::analyzer::main::NonTerminal(this->language_reference,
-																	nonterminal.Get());
+					auto analyzer = ::deamer::language::analyzer::main::NonTerminal(
+						this->language_reference, nonterminal.Get());
 					analyzer.GetDirectNonTerminalAndTerminals(symbols, visitedNonTerminal);
 				}
 			}

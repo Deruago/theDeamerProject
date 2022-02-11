@@ -18,19 +18,23 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#include "Deamer/Parser/Type/Bison/NonTerminalDeclaration.h"
+#include "Deamer/Parser/Type/Bison/ParserHeader.h"
+#include "Deamer/Template/Parser/Bison/ParserHeader/ParserHeaderTemplate.h"
+#include <memory>
 
-deamer::parser::type::bison::NonTerminalDeclaration::NonTerminalDeclaration(
-	const generator::bison::Bison::ReferenceType reference_,
-	language::reference::LDO<language::type::definition::object::main::NonTerminal> nonTerminal_)
+deamer::parser::type::bison::ParserHeader::ParserHeader(
+	const generator::bison::Bison::ReferenceType reference_)
 	: reference(reference_),
-	  nonTerminal(nonTerminal_),
-	  name(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-			   .name->value)
+	  name(reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			   .GetName()
+			   ->value)
 {
 }
 
-std::string deamer::parser::type::bison::NonTerminalDeclaration::Generate() const
+std::string deamer::parser::type::bison::ParserHeader::Generate() const
 {
-	return "%nterm<" + name + "_" + nonTerminal->Name + "> " + nonTerminal->Name + '\n';
+	auto parserHeaderTemplate = std::make_unique<templates::bison::parser::ParserHeaderTemplate>();
+	parserHeaderTemplate->language_name_->Set(name);
+
+	return parserHeaderTemplate->GetOutput();
 }

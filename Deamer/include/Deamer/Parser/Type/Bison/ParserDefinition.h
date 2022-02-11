@@ -18,31 +18,28 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_PARSER_TYPE_BISON_TERMINALDECLARATION_H
-#define DEAMER_PARSER_TYPE_BISON_TERMINALDECLARATION_H
+#ifndef DEAMER_PARSER_TYPE_BISON_PARSERDEFINITION_H
+#define DEAMER_PARSER_TYPE_BISON_PARSERDEFINITION_H
 
 #include "Deamer/File/Tool/Data.h"
-#include "Deamer/Language/Reference/LDO.h"
+#include "Deamer/Language/Analyzer/Analyzer.h"
 #include "Deamer/Parser/Generator/Bison/Bison.h"
 
 namespace deamer::parser::type::bison
 {
-	class TerminalDeclaration : public file::tool::Data
+	class ParserDefinition : public file::tool::Data
 	{
 	private:
 		const generator::bison::Bison::ReferenceType reference;
-		language::reference::LDO<language::type::definition::object::main::Terminal> terminal;
-		std::string name;
+		const std::string name;
 
 	public:
-		TerminalDeclaration(
-			const generator::bison::Bison::ReferenceType reference_,
-			language::reference::LDO<language::type::definition::object::main::Terminal> terminal_);
-		virtual ~TerminalDeclaration() override = default;
+		ParserDefinition(const generator::bison::Bison::ReferenceType reference_);
+		virtual ~ParserDefinition() override = default;
 
 	public:
 		std::string Generate() const override;
 	};
 }
 
-#endif // DEAMER_PARSER_TYPE_BISON_TERMINALDECLARATION_H
+#endif // DEAMER_PARSER_TYPE_BISON_PARSERDEFINITION_H

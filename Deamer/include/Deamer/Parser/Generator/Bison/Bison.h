@@ -48,7 +48,6 @@ namespace deamer::parser::generator::bison
 		deamer::file::tool::Output Generate() override;
 
 	private:
-		std::string bisonParserFile() const;
 		deamer::file::tool::Action externalAction();
 		std::string externalCMakeLists();
 		std::string dependenciesCMakeLists();
