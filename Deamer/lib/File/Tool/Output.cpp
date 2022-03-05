@@ -106,22 +106,37 @@ void deamer::file::tool::Output::AddCMakeListsToLibrary(const CMakeLists& newFil
 	library.SetCMakeLists(newFile.GetCMakeLists().FileContent());
 }
 
-void deamer::file::tool::Output::AddActionToExternal(const deamer::file::tool::Action& action,
-													 const deamer::file::tool::OSType os)
+void deamer::file::tool::Output::AddActionToExternal(
+	std::unique_ptr<deamer::file::tool::action::Action> action)
 {
-	external.AddAction(action, os);
+	external.AddAction(std::move(action));
 }
 
-void deamer::file::tool::Output::AddActionToInclude(const deamer::file::tool::Action& action,
-													const deamer::file::tool::OSType os)
+void deamer::file::tool::Output::AddActionToInclude(
+	std::unique_ptr<deamer::file::tool::action::Action> action)
 {
-	include.AddAction(action, os);
+	include.AddAction(std::move(action));
 }
 
-void deamer::file::tool::Output::AddActionToLibrary(const deamer::file::tool::Action& action,
-													const deamer::file::tool::OSType os)
+void deamer::file::tool::Output::AddActionToLibrary(
+	std::unique_ptr<deamer::file::tool::action::Action> action)
 {
-	library.AddAction(action, os);
+	library.AddAction(std::move(action));
+}
+
+void deamer::file::tool::Output::AddActionToExternal(deamer::file::tool::Action action)
+{
+	external.AddAction(action);
+}
+
+void deamer::file::tool::Output::AddActionToInclude(deamer::file::tool::Action action)
+{
+	include.AddAction(action);
+}
+
+void deamer::file::tool::Output::AddActionToLibrary(deamer::file::tool::Action action)
+{
+	library.AddAction(action);
 }
 
 std::string deamer::file::tool::Output::GetToolDirectory() const
