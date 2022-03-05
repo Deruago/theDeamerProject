@@ -47,7 +47,7 @@ namespace deamer::lexer::generator::flex
 	private:
 		std::string GenerateDeamerLexer_HeaderFile() const;
 		std::string GenerateDeamerLexer_SourceFile() const;
-		deamer::file::tool::Action externalAction();
+		std::unique_ptr<deamer::file::tool::action::Action> externalAction();
 		std::string externalCMakeLists();
 		file::tool::File createDebugMain();
 	};

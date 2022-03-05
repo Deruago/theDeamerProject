@@ -19,6 +19,7 @@
  */
 
 #include "Deamer/Lexer/Generator/Flex/Flex.h"
+#include "Deamer/File/Tool/Action/Builder.h"
 #include "Deamer/Lexer/Type/Flex/Output.h"
 #include <iostream>
 #include <utility>
@@ -51,8 +52,7 @@ deamer::file::tool::Output deamer::lexer::generator::flex::Flex::Generate()
 
 	output.AddFileToExternal(flexFile);
 	output.AddFileToInclude(DeamerLexer_Header);
-	output.AddActionToExternal(externalAction(), file::tool::OSType::os_linux);
-	output.AddActionToExternal(externalAction(), file::tool::OSType::os_windows);
+	output.AddActionToExternal(externalAction());
 	output.AddCMakeListsToExternal(externalCMakeLists());
 
 	const bool debug = reference.GetDefinition<Type::Generation>().IsArgumentSet(
@@ -97,12 +97,17 @@ std::string deamer::lexer::generator::flex::Flex::GenerateDeamerLexer_SourceFile
 	return "";
 }
 
-deamer::file::tool::Action deamer::lexer::generator::flex::Flex::externalAction()
+std::unique_ptr<deamer::file::tool::action::Action>
+deamer::lexer::generator::flex::Flex::externalAction()
 {
-	return "flex -P" + name + " --header-file=./" + name + "_lexer.h ./" + name +
-		   "_lexer.l"
-		   " ; mv ./lex." +
-		   name + ".c ./lex." + name + ".cpp";
+	auto builder = file::tool::action::Builder();
+	builder
+		.PlatformSpecificCommand(
+			{{file::tool::OSType::os_linux,
+			  "flex -P" + name + " --header-file=./" + name + "_lexer.h ./" + name + "_lexer.l"}})
+		.MoveFile("./lex." + name + ".c", "./lex." + name + ".cpp");
+
+	return builder.GetAction();
 }
 
 std::string deamer::lexer::generator::flex::Flex::externalCMakeLists()

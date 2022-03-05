@@ -19,6 +19,7 @@
  */
 
 #include "Deamer/Parser/Generator/Bison/Bison.h"
+#include "Deamer/File/Tool/Action/Builder.h"
 #include "Deamer/Parser/Type/Bison/ParserDefinition.h"
 #include "Deamer/Parser/Type/Bison/ParserHeader.h"
 #include <memory>
@@ -44,17 +45,23 @@ deamer::file::tool::Output deamer::parser::generator::bison::Bison::Generate()
 
 	output.AddFileToExternal(bisonFile);
 	output.AddFileToInclude(bisonParser);
-	output.AddActionToExternal(externalAction(), file::tool::OSType::os_linux);
-	output.AddActionToExternal(externalAction(), file::tool::OSType::os_windows);
+	output.AddActionToExternal(externalAction());
 	output.AddCMakeListsToExternal({externalCMakeLists(), dependenciesCMakeLists()});
 
 	return output;
 }
 
-deamer::file::tool::Action deamer::parser::generator::bison::Bison::externalAction()
+std::unique_ptr<deamer::file::tool::action::Action>
+deamer::parser::generator::bison::Bison::externalAction()
 {
-	return "bison -p" + name + " -d ./" + name + "_parser.y" + " ; mv ./" + name +
-		   "_parser.tab.c ./" + name + "_parser.tab.cpp";
+	auto builder = file::tool::action::Builder();
+
+	builder
+		.PlatformSpecificCommand(
+			{{file::tool::OSType::os_linux, "bison -p" + name + " -d ./" + name + "_parser.y"}})
+		.MoveFile("./" + name + "_parser.tab.c", "./" + name + "_parser.tab.cpp");
+
+	return builder.GetAction();
 }
 
 std::string deamer::parser::generator::bison::Bison::externalCMakeLists()
