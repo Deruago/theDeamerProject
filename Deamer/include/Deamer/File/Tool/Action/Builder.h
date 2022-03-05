@@ -95,6 +95,16 @@ namespace deamer::file::tool::action
 		 */
 		Builder& CrossPlatformCommand(const std::string& command);
 
+		/*!	\fn RemoveDirectory
+		 *	\brief Removes the directory at "lhsPath"
+		 */
+		Builder& RemoveDirectory(const std::string& lhsPath);
+
+		/*!	\fn CreateDirectory
+		 *	\brief Creates the directory at "lhsPath"
+		 */
+		Builder& CreateDirectory(const std::string& lhsPath);
+
 		/*!	\fn PlatformSpecificCommand
 		 *	\brief Executes a platform specific command
 		 *
