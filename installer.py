@@ -12,6 +12,7 @@ install_deamer_core = True
 # DST
 install_deamer_optional = False
 
+build_dir = "build"
 
 def install_header():
     print("This will automatically install the several subprojects.")
@@ -33,15 +34,14 @@ def install_project(name: str, install: bool):
     if install and subdirectory_exists(name):
         print(f"Installing {name}")
         
-        make_directory(f"build/{name}")
-        os.system(f'cd build/{name} && cmake ../../{name} -DINSTALL_GTEST=off && cmake --build . --target install')
+        make_directory(f"{build_dir}/{name}")
+        os.system(f'cd {build_dir}/{name} && cmake ../../{name} -DINSTALL_GTEST=off && cmake --build . --target install')
         
         print(f"Done installing {name}")
  
 
 def install_subprojects():
     print(subfolders)
-    make_directory("build")
     
     # Deamer External and Deamer Algorithm are dependency-less, and are used by
     # most subprojects. Thus should be installed first
@@ -71,8 +71,24 @@ def handle_arguments():
             print("Also installing the optional parts")
             install_deamer_optional = True
             
+def handle_build_directory():
+    global build_dir
+    
+    # If the python script sees a different OS
+    # It will create a different build directory for that OS
+    # May not work for all different OSes
+    if os.name == 'nt':
+        build_dir = "build_windows"
+        make_directory("build_windows")
+    elif os.name == 'posix':
+        build_dir = "build_linux"
+        make_directory("build_linux")
+    else:
+        build_dir = "build"
+        make_directory("build")
 
 if __name__ == "__main__":
+    handle_build_directory()
     handle_arguments()
     install_header()
     install_subprojects()
