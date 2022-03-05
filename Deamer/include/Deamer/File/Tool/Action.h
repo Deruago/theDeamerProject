@@ -21,6 +21,7 @@
 #ifndef DEAMER_FILE_TOOL_ACTION_H
 #define DEAMER_FILE_TOOL_ACTION_H
 
+#include "Action/Action.h"
 #include "Deamer/File/Tool/OSType.h"
 #include <stdexcept>
 #include <string>
@@ -34,34 +35,17 @@ namespace deamer::file::tool
 		std::string action;
 
 	public:
-		Action(std::string action_ = "") : action(std::move(action_))
-		{
-		}
+		Action(std::string action_ = "");
 
 		~Action() = default;
 
 	public:
-		const std::string& GetAction() const
-		{
-			return action;
-		}
+		const std::string& GetAction() const;
 
-		std::string GetSubShellAction(const file::tool::OSType os, const std::string& directory = "./") const
-		{
-			switch (os)
-			{
-			case file::tool::OSType::unknown:
-			case file::tool::OSType::all:
-			case file::tool::OSType::os_linux:
-				return "( cd " + directory + " ; " + GetAction() + " )";
-			case file::tool::OSType::os_windows:
-				return "bash -c \"( cd " + directory + " ; " + GetAction() + " )\"";
-			case file::tool::OSType::os_mac:
-				return "( cd " + directory + " ; " + GetAction() + " )";
-			}
+		std::string GetSubShellAction(const file::tool::OSType os,
+									  const std::string& directory = "./") const;
 
-			throw std::logic_error("Unknown os given");
-		}
+		std::unique_ptr<deamer::file::tool::action::Action> GetGeneralAction() const;
 	};
 }
 
