@@ -1,0 +1,36 @@
+name: OOPSyntax
+type: main
+description: <
+	OOPSyntax can be used to specify what parts of your language correspond
+	with OOP concepts.
+	Designed by Thimo Böhmer.
+>
+
+description_details: <
+	This LPD uses a flavoring + DUPR like tactic for recognizing Oop concepts.
+	It is recommended to generate the official Oop concept recognizer as other tools
+	can depend on this when this LPD is present.
+>
+
+dependency: <
+	Lexicon
+	Grammar
+>
+
+ldo: <
+	OopConceptMember
+	OopEncapsulation
+	OopLink
+	OopConceptLink
+>
+
+enum: <
+	OopSyntaxScope
+>
+
+data: <
+	Vector[OopConceptMember] OopConceptMembers
+	Vector[OopEncapsulation] OopEncapsulations
+	Vector[OopLink] OopLinks
+	Vector[OopConceptLink] OopConceptLinks
+>

@@ -116,6 +116,36 @@ namespace deamer::language::type::definition::object::main
 
 namespace deamer::language::type::definition::object::main
 {
+	class OopConceptLink;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class OopConceptMember;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class OopConceptMemberType;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class OopEncapsulation;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class OopLink;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class OopSyntaxScope;
+}
+
+namespace deamer::language::type::definition::object::main
+{
 	class ObjectPrecedence;
 }
 
@@ -174,6 +204,11 @@ namespace deamer::language::type::definition::property::main
 namespace deamer::language::type::definition::property::main
 {
 	class Lexicon;
+}
+
+namespace deamer::language::type::definition::property::main
+{
+	class OOPSyntax;
 }
 
 namespace deamer::language::type::definition::property::main
@@ -424,6 +459,78 @@ namespace deamer::language::validator::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Lexicon;
 		using type = type::definition::property::main::Lexicon;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::OopConceptLink>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::OOPSyntax;
+		using type = type::definition::property::main::OOPSyntax;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::OopConceptMember>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::OOPSyntax;
+		using type = type::definition::property::main::OOPSyntax;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::OopConceptMemberType>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::OOPSyntax;
+		using type = type::definition::property::main::OOPSyntax;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::OopEncapsulation>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::OOPSyntax;
+		using type = type::definition::property::main::OOPSyntax;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::OopLink>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::OOPSyntax;
+		using type = type::definition::property::main::OOPSyntax;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::OopSyntaxScope>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::OOPSyntax;
+		using type = type::definition::property::main::OOPSyntax;
 	};
 
 

@@ -18,38 +18,30 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#include "Deamer/Language/Type/Definition/Object/Main/OOPSyntax/OopConceptLink.h"
 
-namespace deamer::language::type::definition::property
+#include <utility>
+
+deamer::language::type::definition::object::main::OopConceptLink::OopConceptLink(object::Base* object_, 
+			object::main::OopConceptMember* oopConceptMember_)
+	: Base(Type::OopConceptLink),
+	object(object_),
+	oopConceptMember(oopConceptMember_)
 {
-	/*! \enum Type
-	 *
-	 *  \brief Describes the different property definitions available.
-	 *
-	 *	\note You may not depend on the value of some enumeration.
-	 *	However, 0 is reserved for unknown enumerations.
-	 */
-	enum class Type
-	{
-		Unknown = 0,
+	references.Add(object);
+	references.Add(oopConceptMember);
 
-		Associativity,
-		AstOptimization,
-		AstTranslation,
-		Colorization,
-		Documentation,
-		Formatting,
-		Generation,
-		Grammar,
-		Identity,
-		Lexicon,
-		OOPSyntax,
-		Precedence,
-		Semantic,
-		Threat,
-
-	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+bool deamer::language::type::definition::object::main::OopConceptLink::operator==(const OopConceptLink& rhs) const noexcept
+{
+	return this == &rhs || (this->object == rhs.object && this->oopConceptMember == rhs.oopConceptMember && true);
+}
+
+
+deamer::language::type::definition::object::main::OopConceptLink::OopConceptLink() : OopConceptLink(nullptr, 
+			nullptr)
+{
+}
+
+

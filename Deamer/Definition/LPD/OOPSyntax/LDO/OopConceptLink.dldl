@@ -1,0 +1,14 @@
+name: OopConceptLink
+type: LDO
+description: <
+	Directly maps either a terminal or nonterminal with a Oop concept member.
+	Designed by Thimo Böhmer
+>
+
+data: <
+	// Terminal or Nonterminal otherwise it is ill-formed.
+	Base object
+
+	// It is required to only allow one instance for each concept.member
+	OopConceptMember oopConceptMember
+>

@@ -93,6 +93,16 @@ namespace deamer::language::type::definition::object
 
 
 
+		// OOPSyntax
+		OopConceptLink,
+		OopConceptMember,
+		OopConceptMemberType,
+		OopEncapsulation,
+		OopLink,
+		OopSyntaxScope,
+
+
+
 		// Precedence
 		ObjectPrecedence,
 

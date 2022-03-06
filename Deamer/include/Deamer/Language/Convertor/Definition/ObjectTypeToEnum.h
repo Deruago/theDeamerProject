@@ -121,6 +121,36 @@ namespace deamer::language::type::definition::object::main
 
 namespace deamer::language::type::definition::object::main
 {
+	class OopConceptLink;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class OopConceptMember;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class OopConceptMemberType;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class OopEncapsulation;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class OopLink;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class OopSyntaxScope;
+}
+
+namespace deamer::language::type::definition::object::main
+{
 	class ObjectPrecedence;
 }
 
@@ -396,6 +426,84 @@ namespace deamer::language::convertor::definition
 		constexpr static type::definition::object::Type value =
 			type::definition::object::Type::Terminal;
 		using type = type::definition::object::main::Terminal;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::OopConceptLink>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::OopConceptLink;
+		using type = type::definition::object::main::OopConceptLink;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::OopConceptMember>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::OopConceptMember;
+		using type = type::definition::object::main::OopConceptMember;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::OopConceptMemberType>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::OopConceptMemberType;
+		using type = type::definition::object::main::OopConceptMemberType;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::OopEncapsulation>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::OopEncapsulation;
+		using type = type::definition::object::main::OopEncapsulation;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::OopLink>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::OopLink;
+		using type = type::definition::object::main::OopLink;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::OopSyntaxScope>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::OopSyntaxScope;
+		using type = type::definition::object::main::OopSyntaxScope;
 	};
 
 

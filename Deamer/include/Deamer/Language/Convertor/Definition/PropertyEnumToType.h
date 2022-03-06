@@ -31,6 +31,7 @@
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Identity.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
+#include "Deamer/Language/Type/Definition/Property/Main/OOPSyntax.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Semantic.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Threat.h"
@@ -173,6 +174,18 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Lexicon;
 		using type = type::definition::property::main::Lexicon;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyEnumToType
+	 */
+	template<>
+	class PropertyEnumToType<type::definition::property::Type::OOPSyntax>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::OOPSyntax;
+		using type = type::definition::property::main::OOPSyntax;
 	};
 
 

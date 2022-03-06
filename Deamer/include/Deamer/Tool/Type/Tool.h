@@ -57,6 +57,9 @@ namespace deamer::tool::type
 
 		// DLDL Converter, generates DLDL definitions
 		DLDLConverter,
+
+		// OopSyntaxRecognizer, Used to recognize Oop Concepts via syntax
+		OopSyntaxRecognizer,
 	};
 }
 

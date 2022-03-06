@@ -18,38 +18,30 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#include "Deamer/Language/Type/Definition/Object/Main/OOPSyntax/OopLink.h"
 
-namespace deamer::language::type::definition::property
+#include <utility>
+
+deamer::language::type::definition::object::main::OopLink::OopLink(object::main::ProductionRule* productionRule_, 
+			std::vector<object::main::OopConceptLink*> OopConceptLinks_)
+	: Base(Type::OopLink),
+	productionRule(productionRule_),
+	OopConceptLinks(OopConceptLinks_)
 {
-	/*! \enum Type
-	 *
-	 *  \brief Describes the different property definitions available.
-	 *
-	 *	\note You may not depend on the value of some enumeration.
-	 *	However, 0 is reserved for unknown enumerations.
-	 */
-	enum class Type
-	{
-		Unknown = 0,
+	references.Add(productionRule);
+	references.Add(OopConceptLinks);
 
-		Associativity,
-		AstOptimization,
-		AstTranslation,
-		Colorization,
-		Documentation,
-		Formatting,
-		Generation,
-		Grammar,
-		Identity,
-		Lexicon,
-		OOPSyntax,
-		Precedence,
-		Semantic,
-		Threat,
-
-	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+bool deamer::language::type::definition::object::main::OopLink::operator==(const OopLink& rhs) const noexcept
+{
+	return this == &rhs || (this->productionRule == rhs.productionRule && this->OopConceptLinks == rhs.OopConceptLinks && true);
+}
+
+
+deamer::language::type::definition::object::main::OopLink::OopLink() : OopLink(nullptr, 
+			std::vector<object::main::OopConceptLink*>{})
+{
+}
+
+

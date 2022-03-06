@@ -76,6 +76,11 @@ namespace deamer::language::type::definition::property::main
 
 namespace deamer::language::type::definition::property::main
 {
+	class OOPSyntax;
+}
+
+namespace deamer::language::type::definition::property::main
+{
 	class Precedence;
 }
 
@@ -228,6 +233,18 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Lexicon;
 		using type = type::definition::property::main::Lexicon;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyTypeToEnum
+	 */
+	template<>
+	class PropertyTypeToEnum<type::definition::property::main::OOPSyntax>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::OOPSyntax;
+		using type = type::definition::property::main::OOPSyntax;
 	};
 
 

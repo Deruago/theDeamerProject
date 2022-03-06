@@ -18,38 +18,33 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_OOPSYNTAX_OOPSYNTAXSCOPE_H
+#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_OOPSYNTAX_OOPSYNTAXSCOPE_H
 
-namespace deamer::language::type::definition::property
+#include "Deamer/Language/Type/Definition/Object/Base.h"
+
+namespace deamer::language::type::definition::object::main
 {
-	/*! \enum Type
+	/*! \class OopSyntaxScope
 	 *
-	 *  \brief Describes the different property definitions available.
-	 *
-	 *	\note You may not depend on the value of some enumeration.
-	 *	However, 0 is reserved for unknown enumerations.
+	 *	\brief 
+	 *	\details 
 	 */
-	enum class Type
-	{
-		Unknown = 0,
+	 enum class OopSyntaxScope
+	 {
+		reserved_default_enum_option,
 
-		Associativity,
-		AstOptimization,
-		AstTranslation,
-		Colorization,
-		Documentation,
-		Formatting,
-		Generation,
-		Grammar,
-		Identity,
-		Lexicon,
-		OOPSyntax,
-		Precedence,
-		Semantic,
-		Threat,
+		Struct,
+		Interface,
+		Class,
+		BaseTypes,
+		Function,
+		FunctionArguments,
+		Property,
+		Enum,
+		Any,
 
-	};
+	 };
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_OOPSYNTAX_OOPSYNTAXSCOPE_H

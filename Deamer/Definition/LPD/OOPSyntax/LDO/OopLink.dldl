@@ -1,0 +1,17 @@
+name: OopLink
+type: LDO
+
+description: <
+	Used to match a production rule with Oop Concepts.
+	Designed by Thimo Böhmer.
+>
+description_note: <
+	It is desirable to only have 1 category of Oop concepts for each
+	production rule.
+	Multiple Production rules may implement the same Oop concepts.
+>
+
+data: <
+	ProductionRule productionRule
+	Vector[OopConceptLink] OopConceptLinks
+>

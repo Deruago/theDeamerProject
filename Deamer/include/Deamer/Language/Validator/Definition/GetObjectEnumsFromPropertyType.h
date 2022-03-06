@@ -32,6 +32,7 @@
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Identity.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
+#include "Deamer/Language/Type/Definition/Property/Main/OOPSyntax.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Semantic.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Threat.h"
@@ -147,6 +148,20 @@ template<>
 		constexpr static auto value = { type::definition::object::Type::SpecialType,
 		type::definition::object::Type::Terminal };
 		using type = type::definition::property::main::Lexicon;
+	};
+
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::OOPSyntax>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::OopConceptLink,
+		type::definition::object::Type::OopConceptMember,
+		type::definition::object::Type::OopConceptMemberType,
+		type::definition::object::Type::OopEncapsulation,
+		type::definition::object::Type::OopLink,
+		type::definition::object::Type::OopSyntaxScope };
+		using type = type::definition::property::main::OOPSyntax;
 	};
 
 

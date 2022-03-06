@@ -18,38 +18,29 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#include "Deamer/Language/Type/Definition/Object/Main/OOPSyntax/OopEncapsulation.h"
 
-namespace deamer::language::type::definition::property
+#include <utility>
+
+deamer::language::type::definition::object::main::OopEncapsulation::OopEncapsulation(object::main::NonTerminal* nonTerminal_, 
+			object::main::OopSyntaxScope scope_)
+	: Base(Type::OopEncapsulation),
+	nonTerminal(nonTerminal_),
+	scope(scope_)
 {
-	/*! \enum Type
-	 *
-	 *  \brief Describes the different property definitions available.
-	 *
-	 *	\note You may not depend on the value of some enumeration.
-	 *	However, 0 is reserved for unknown enumerations.
-	 */
-	enum class Type
-	{
-		Unknown = 0,
+	references.Add(nonTerminal);
 
-		Associativity,
-		AstOptimization,
-		AstTranslation,
-		Colorization,
-		Documentation,
-		Formatting,
-		Generation,
-		Grammar,
-		Identity,
-		Lexicon,
-		OOPSyntax,
-		Precedence,
-		Semantic,
-		Threat,
-
-	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+bool deamer::language::type::definition::object::main::OopEncapsulation::operator==(const OopEncapsulation& rhs) const noexcept
+{
+	return this == &rhs || (this->nonTerminal == rhs.nonTerminal && this->scope == rhs.scope && true);
+}
+
+
+deamer::language::type::definition::object::main::OopEncapsulation::OopEncapsulation() : OopEncapsulation(nullptr, 
+			object::main::OopSyntaxScope::reserved_default_enum_option)
+{
+}
+
+

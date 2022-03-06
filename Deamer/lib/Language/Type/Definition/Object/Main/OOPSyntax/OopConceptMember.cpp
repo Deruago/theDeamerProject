@@ -18,38 +18,28 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#include "Deamer/Language/Type/Definition/Object/Main/OOPSyntax/OopConceptMember.h"
 
-namespace deamer::language::type::definition::property
+#include <utility>
+
+deamer::language::type::definition::object::main::OopConceptMember::OopConceptMember(object::main::OopSyntaxScope scope_, 
+			object::main::OopConceptMemberType member_)
+	: Base(Type::OopConceptMember),
+	scope(scope_),
+	member(member_)
 {
-	/*! \enum Type
-	 *
-	 *  \brief Describes the different property definitions available.
-	 *
-	 *	\note You may not depend on the value of some enumeration.
-	 *	However, 0 is reserved for unknown enumerations.
-	 */
-	enum class Type
-	{
-		Unknown = 0,
 
-		Associativity,
-		AstOptimization,
-		AstTranslation,
-		Colorization,
-		Documentation,
-		Formatting,
-		Generation,
-		Grammar,
-		Identity,
-		Lexicon,
-		OOPSyntax,
-		Precedence,
-		Semantic,
-		Threat,
-
-	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+bool deamer::language::type::definition::object::main::OopConceptMember::operator==(const OopConceptMember& rhs) const noexcept
+{
+	return this == &rhs || (this->scope == rhs.scope && this->member == rhs.member && true);
+}
+
+
+deamer::language::type::definition::object::main::OopConceptMember::OopConceptMember() : OopConceptMember(object::main::OopSyntaxScope::reserved_default_enum_option, 
+			object::main::OopConceptMemberType::reserved_default_enum_option)
+{
+}
+
+

@@ -1,0 +1,23 @@
+name: OopEncapsulation
+type: LDO
+
+description: <
+	Used to specify the scope of some OOP concept.
+	Designed by Thimo Böhmer.
+>
+description_details: <
+	The OOP Syntax LPD utilizes the flavoring model to recognize and match
+	OOP concepts.
+
+	The encapsulations can be seen as flavorings for specific OOP concepts such as:
+		- Class
+		- Function
+		- Base types
+		- Constructors
+		- Function arguments
+>
+
+data: <
+	NonTerminal nonTerminal
+	OopSyntaxScope scope
+>

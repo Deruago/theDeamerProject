@@ -1,0 +1,16 @@
+name: OopConceptMemberType
+type: Enumeration
+description: <
+	Specifies all Oop Member types.
+	Designed by Thimo Böhmer
+>
+description_details: <
+	Some Types cannot be used with specific Concepts.
+	These combinations are ignored.
+>
+
+members: <
+	Name,
+	Type,
+	Member,
+>

@@ -18,38 +18,23 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
-#define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+#include "Deamer/Language/Type/Definition/Property/Main/OOPSyntax.h"
 
-namespace deamer::language::type::definition::property
+deamer::language::type::definition::property::main::OOPSyntax::OOPSyntax(std::vector<object::main::OopConceptMember*> OopConceptMembers_, 
+			std::vector<object::main::OopEncapsulation*> OopEncapsulations_, 
+			std::vector<object::main::OopLink*> OopLinks_, 
+			std::vector<object::main::OopConceptLink*> OopConceptLinks_)
+	: Definition(Type::OOPSyntax),
+	OopConceptMembers(OopConceptMembers_),
+	OopEncapsulations(OopEncapsulations_),
+	OopLinks(OopLinks_),
+	OopConceptLinks(OopConceptLinks_)
 {
-	/*! \enum Type
-	 *
-	 *  \brief Describes the different property definitions available.
-	 *
-	 *	\note You may not depend on the value of some enumeration.
-	 *	However, 0 is reserved for unknown enumerations.
-	 */
-	enum class Type
-	{
-		Unknown = 0,
+	references.Add(OopConceptMembers);
+	references.Add(OopEncapsulations);
+	references.Add(OopLinks);
+	references.Add(OopConceptLinks);
 
-		Associativity,
-		AstOptimization,
-		AstTranslation,
-		Colorization,
-		Documentation,
-		Formatting,
-		Generation,
-		Grammar,
-		Identity,
-		Lexicon,
-		OOPSyntax,
-		Precedence,
-		Semantic,
-		Threat,
-
-	};
 }
 
-#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_TYPE_H
+
