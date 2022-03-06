@@ -105,6 +105,11 @@ namespace deamer::file::tool::action
 		 */
 		Builder& CreateDirectory(const std::string& lhsPath);
 
+		/*!	\fn FindAndExecute
+		 *	\brief Find an executable and executes that executable
+		 */
+		Builder& FindAndExecute(const std::string& lhsPath);
+
 		/*!	\fn PlatformSpecificCommand
 		 *	\brief Executes a platform specific command
 		 *

@@ -18,31 +18,33 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_FILE_TOOL_ACTION_COMMANDTYPE_H
-#define DEAMER_FILE_TOOL_ACTION_COMMANDTYPE_H
+#ifndef DEAMER_FILE_TOOL_ACTION_COMMAND_FINDANDEXECUTE_H
+#define DEAMER_FILE_TOOL_ACTION_COMMAND_FINDANDEXECUTE_H
+
+#include "Deamer/File/Tool/Action/Command.h"
+#include "Deamer/File/Tool/Action/CommandTarget.h"
+#include "Deamer/File/Tool/OSType.h"
+#include <stdexcept>
+#include <string>
+#include <utility>
 
 namespace deamer::file::tool::action
 {
-	/*! \enum CommandType
-	 *	\brief Defines all command types
+	/*! \class FindAndExecute
 	 */
-	enum class CommandType
+	class FindAndExecute : public Command
 	{
-		unknown = 0,
+	private:
+		std::string lhsPath;
 
-		setup_setting,
+	public:
+		FindAndExecute(const std::string& lhsPath_);
+		virtual ~FindAndExecute() override = default;
 
-		move_file,
-		remove_file,
-		copy_file,
-
-		change_directory,
-		create_directory,
-		remove_directory,
-
-		crossplatformcommand,
-		platformdependentcommand,
+	public:
+		virtual std::string CompileArgument(CommandTarget commandTarget) override;
+		virtual std::unique_ptr<Command> Copy() override;
 	};
 }
 
-#endif // DEAMER_FILE_TOOL_ACTION_COMMANDTYPE_H
+#endif // DEAMER_FILE_TOOL_ACTION_COMMAND_FINDANDEXECUTE_H

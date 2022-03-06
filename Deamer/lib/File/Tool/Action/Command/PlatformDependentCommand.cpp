@@ -99,13 +99,13 @@ std::string deamer::file::tool::action::PlatformDependentCommand::CompileWindows
 		auto windowsCommand = GetWindowsCommand();
 		if (windowsCommand.has_value())
 		{
-			return PythonCommand("windows PCOMMAND" + windowsCommand.value().command);
+			return PythonCommand("windows PCOMMAND " + windowsCommand.value().command);
 		}
 
 		auto linuxCommand = GetLinuxCommand();
 		if (linuxCommand.has_value())
 		{
-			return PythonCommand("linux PCOMMAND" + linuxCommand.value().command);
+			return PythonCommand("linux PCOMMAND " + linuxCommand.value().command);
 		}
 		throw std::logic_error("No Conversion Possible");
 	}
@@ -139,7 +139,7 @@ std::string deamer::file::tool::action::PlatformDependentCommand::CompileLinuxAr
 		auto linuxCommand = GetLinuxCommand();
 		if (linuxCommand.has_value())
 		{
-			return PythonCommand("linux PCOMMAND" + linuxCommand.value().command);
+			return PythonCommand("linux PCOMMAND " + linuxCommand.value().command);
 		}
 
 		throw std::logic_error("No Conversion Possible");
@@ -174,7 +174,7 @@ std::string deamer::file::tool::action::PlatformDependentCommand::CompileMacArgu
 		auto macCommand = GetMacCommand();
 		if (macCommand.has_value())
 		{
-			return PythonCommand("mac PCOMMAND" + macCommand.value().command);
+			return PythonCommand("mac PCOMMAND " + macCommand.value().command);
 		}
 
 		throw std::logic_error("No Conversion Possible");

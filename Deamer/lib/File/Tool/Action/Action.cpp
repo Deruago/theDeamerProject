@@ -36,19 +36,16 @@ static void LoadInDeamerDir()
 	{
 		loader.Upper();
 	}
-
 	if (loader.ReachedRoot())
 	{
 		return;
 	}
+	loader.Enter(".deamer").Enter("dldl").Enter("scripts").DirectLoad();
 
-	loader.Enter("./dldl");
-	loader.Enter("./scripts");
-	loader.DirectLoad();
 	bool exists = false;
-	for (const auto& file : loader.GetDirectFiles())
+	for (const auto& file : dir.GetFiles())
 	{
-		if (file == "Console.py")
+		if (file.GetFilename() == "Console" && file.GetExtension() == "py")
 		{
 			exists = true;
 			break;
@@ -219,6 +216,11 @@ bool deamer::file::tool::action::Action::IsEmpty() const
 void deamer::file::tool::action::Action::SetCommands(
 	std::vector<std::unique_ptr<Command>> commands_)
 {
+	if (commands_.empty())
+	{
+		return;
+	}
+
 	empty = false;
 	commands = std::move(commands_);
 }
@@ -279,7 +281,7 @@ deamer::file::tool::action::Action::ConstructForWindows(CommandTarget commandTar
 {
 	if (commandTarget == CommandTarget::os_linux)
 	{
-		return "bash - c \"(" + commands + ")\"";
+		return "bash -c \"(" + commands + ")\"";
 	}
 	if (commandTarget == CommandTarget::python)
 	{

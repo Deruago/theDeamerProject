@@ -23,6 +23,7 @@
 #include "Deamer/File/Tool/Action/Command/CopyFile.h"
 #include "Deamer/File/Tool/Action/Command/CreateDirectory.h"
 #include "Deamer/File/Tool/Action/Command/CrossPlatformCommand.h"
+#include "Deamer/File/Tool/Action/Command/FindAndExecute.h"
 #include "Deamer/File/Tool/Action/Command/MoveFile.h"
 #include "Deamer/File/Tool/Action/Command/PlatformDependentCommand.h"
 #include "Deamer/File/Tool/Action/Command/RemoveDirectory.h"
@@ -111,6 +112,15 @@ deamer::file::tool::action::Builder&
 deamer::file::tool::action::Builder::CreateDirectory(const std::string& lhsPath)
 {
 	auto newCommand = std::make_unique<action::CreateDirectory>(lhsPath);
+	commands.push_back(std::move(newCommand));
+
+	return *this;
+}
+
+deamer::file::tool::action::Builder&
+deamer::file::tool::action::Builder::FindAndExecute(const std::string& lhsPath)
+{
+	auto newCommand = std::make_unique<action::FindAndExecute>(lhsPath);
 	commands.push_back(std::move(newCommand));
 
 	return *this;
