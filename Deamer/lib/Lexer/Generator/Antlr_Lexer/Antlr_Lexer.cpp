@@ -47,7 +47,8 @@ deamer::file::tool::Output deamer::lexer::generator::antlr_lexer::Antlr_Lexer::G
 	return output;
 }
 
-deamer::file::tool::Action deamer::lexer::generator::antlr_lexer::Antlr_Lexer::externalAction()
+std::unique_ptr<deamer::file::tool::action::Action>
+deamer::lexer::generator::antlr_lexer::Antlr_Lexer::externalAction()
 {
 	return {};
 }

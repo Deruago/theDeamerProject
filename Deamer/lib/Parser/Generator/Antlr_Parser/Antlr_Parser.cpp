@@ -45,7 +45,8 @@ deamer::file::tool::Output deamer::parser::generator::antlr_parser::Antlr_Parser
 	return output;
 }
 
-deamer::file::tool::Action deamer::parser::generator::antlr_parser::Antlr_Parser::externalAction()
+std::unique_ptr<deamer::file::tool::action::Action>
+deamer::parser::generator::antlr_parser::Antlr_Parser::externalAction()
 {
 	return {};
 }
