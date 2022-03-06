@@ -40,6 +40,14 @@ std::string deamer::parser::type::bison::ParserDefinition::Generate() const
 		std::make_unique<templates::bison::parser::ParserDefinitionTemplate>();
 	parserDefinitionTemplate->language_name_->Set(name);
 
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsArgumentSet({tool::type::Tool::Bison, "activate-glr"}))
+	{
+		parserDefinitionTemplate->optional_parse_lac_->Set("");
+		parserDefinitionTemplate->optional_glr_setting_->Set(
+			parserDefinitionTemplate->glr_setting_);
+	}
+	
 	const auto lexicon =
 		reference.GetDefinition<language::type::definition::property::Type::Lexicon>();
 	const auto grammar =

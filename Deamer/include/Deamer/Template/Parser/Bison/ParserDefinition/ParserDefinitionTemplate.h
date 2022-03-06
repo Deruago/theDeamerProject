@@ -24,7 +24,9 @@ Unknown,
 Scope,
 
 // User defined types
+extended_error_,
 file_,
+glr_setting_,
 ignore_section_,
 language_name_,
 left_angle_bracket_,
@@ -35,9 +37,13 @@ nonterminal_implementation_,
 nonterminal_include_,
 nonterminal_token_name_,
 optional_comma_,
+optional_extended_error_,
+optional_glr_setting_,
 optional_or_,
+optional_parse_lac_,
 optional_top_nonterminal_output_,
 or_,
+parse_lac_,
 production_rule_,
 production_rule_implementation_,
 production_rule_index_,
@@ -88,9 +94,19 @@ Function_Field_Separator_,
 {
 	switch(enumerationValue)
 	{
-	case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::file_:
+	case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::extended_error_:
+{
+	return "extended_error";
+}
+
+case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::file_:
 {
 	return "file";
+}
+
+case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::glr_setting_:
+{
+	return "glr_setting";
 }
 
 case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::ignore_section_:
@@ -143,9 +159,24 @@ case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optiona
 	return "optional_comma";
 }
 
+case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optional_extended_error_:
+{
+	return "optional_extended_error";
+}
+
+case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optional_glr_setting_:
+{
+	return "optional_glr_setting";
+}
+
 case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optional_or_:
 {
 	return "optional_or";
+}
+
+case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optional_parse_lac_:
+{
+	return "optional_parse_lac";
 }
 
 case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optional_top_nonterminal_output_:
@@ -156,6 +187,11 @@ case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optiona
 case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::or_:
 {
 	return "or";
+}
+
+case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::parse_lac_:
+{
+	return "parse_lac";
 }
 
 case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::production_rule_:
@@ -715,6 +751,45 @@ case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::union_d
 
 	public:
 		
+struct Variable_extended_error_ : public VariableScopes
+{
+
+static constexpr auto name = "extended_error_";
+
+
+
+Variable_extended_error_() : VariableScopes()
+{
+	type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::extended_error_;
+}
+
+virtual ~Variable_extended_error_() override = default;
+
+Variable_extended_error_(ParserDefinitionTemplate* parserdefinitiontemplate_, const std::vector<VariableBase*>& variables) : VariableScopes(variables)
+{
+type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::extended_error_;
+
+}
+
+
+
+Variable_extended_error_& operator=(const Variable_extended_error_& variable)
+{
+	if (&variable == this)
+	{
+		return *this;
+	}
+
+	value = variable.value;
+	isString = variable.isString;
+
+	
+
+	return *this;
+}
+
+};
+
 struct Variable_file_ : public VariableScopes
 {
 
@@ -738,7 +813,7 @@ virtual ~Variable_file_() override = default;
 Variable_file_(ParserDefinitionTemplate* parserdefinitiontemplate_, const std::vector<VariableBase*>& variables) : VariableScopes(variables)
 {
 type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::file_;
-*static_cast<VariableBase*>(Content_) = VariableBase(std::vector<VariableBase*>({ GenerateVariable("%define parse"), GenerateVariable("."), GenerateVariable("error verbose\n%define parse"), GenerateVariable("."), GenerateVariable("lac full\n\n%"), GenerateVariable("{"), GenerateVariable("\n#include <iostream>\n#include <vector>\n#include <cstring>\n#include <stdio"), GenerateVariable("."), GenerateVariable("h>\n#include <Deamer/External/Cpp/Lexer/TerminalObject"), GenerateVariable("."), GenerateVariable("h>\n#include <Deamer/External/Cpp/Ast/Node"), GenerateVariable("."), GenerateVariable("h>\n#include \""), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("/Bison/Parser"), GenerateVariable("."), GenerateVariable("h\"\n#define YY_NO_UNISTD_H\n#include \"Flex/"), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("_lexer"), GenerateVariable("."), GenerateVariable("h\"\n#undef YY_NO_UNISTD_H\n#include \""), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("/Ast/Enum/Type"), GenerateVariable("."), GenerateVariable("h\"\n"), GenerateVariable(parserdefinitiontemplate_->terminal_include_->Variable_Field()), GenerateVariable("\n\n"), GenerateVariable(parserdefinitiontemplate_->nonterminal_include_->Variable_Field()), GenerateVariable("\n\n#ifndef YY_parse_NERRS\n#define YY_parse_NERRS "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("nerrs\n#endif //YY_parse_NERRS\n#ifndef YY_parse_LLOC\n#define YY_parse_LLOC "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("lloc\n#endif //YY_parse_LLOC\n#define YYERROR_VERBOSE\n\nvoid "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("error(const char* s);\nint "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("lex();\nstatic ::deamer::external::cpp::ast::Tree* outputTree = nullptr;\n%"), GenerateVariable("}"), GenerateVariable("\n\n"), GenerateVariable(parserdefinitiontemplate_->terminal_declaration_->Variable_Field()), GenerateVariable("\n\n"), GenerateVariable(parserdefinitiontemplate_->nonterminal_declaration_->Variable_Field()), GenerateVariable("\n\n%union"), GenerateVariable("{"), GenerateVariable("\n\t::deamer::external::cpp::lexer::TerminalObject* Terminal;\n"), GenerateVariable(parserdefinitiontemplate_->union_declaration_->Variable_Field()), GenerateVariable("\n"), GenerateVariable("}"), GenerateVariable("\n\n%%\n\n"), GenerateVariable(parserdefinitiontemplate_->nonterminal_implementation_->Variable_Field()), GenerateVariable("\n\n%%\n\nvoid "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("error(const char* s)\n"), GenerateVariable("{"), GenerateVariable("\n\tstd::cout << \"Syntax error on line: \" << s << '"), GenerateVariable("\\"), GenerateVariable("n';\n"), GenerateVariable("}"), GenerateVariable("\n\ndeamer::external::cpp::ast::Tree* "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("::parser::Parser::Parse(const std::string& text) const\n"), GenerateVariable("{"), GenerateVariable("\n\toutputTree = nullptr;\n\tYY_BUFFER_STATE buf;\n\tbuf = "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("_scan_string(text"), GenerateVariable("."), GenerateVariable("c_str());\n\t"), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("parse();\n\t"), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("_delete_buffer(buf);\n\t"), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("lex_destroy();\n\n\treturn outputTree;\n"), GenerateVariable("}"), GenerateVariable("\n") }));
+*static_cast<VariableBase*>(Content_) = VariableBase(std::vector<VariableBase*>({ GenerateVariable(parserdefinitiontemplate_->optional_extended_error_->This()), GenerateVariable("\n"), GenerateVariable(parserdefinitiontemplate_->optional_parse_lac_->This()), GenerateVariable("\n"), GenerateVariable(parserdefinitiontemplate_->optional_glr_setting_->This()), GenerateVariable("\n\n%"), GenerateVariable("{"), GenerateVariable("\n#include <iostream>\n#include <vector>\n#include <cstring>\n#include <stdio"), GenerateVariable("."), GenerateVariable("h>\n#include <Deamer/External/Cpp/Lexer/TerminalObject"), GenerateVariable("."), GenerateVariable("h>\n#include <Deamer/External/Cpp/Ast/Node"), GenerateVariable("."), GenerateVariable("h>\n#include \""), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("/Bison/Parser"), GenerateVariable("."), GenerateVariable("h\"\n#define YY_NO_UNISTD_H\n#include \"Flex/"), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("_lexer"), GenerateVariable("."), GenerateVariable("h\"\n#undef YY_NO_UNISTD_H\n#include \""), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("/Ast/Enum/Type"), GenerateVariable("."), GenerateVariable("h\"\n"), GenerateVariable(parserdefinitiontemplate_->terminal_include_->Variable_Field()), GenerateVariable("\n\n"), GenerateVariable(parserdefinitiontemplate_->nonterminal_include_->Variable_Field()), GenerateVariable("\n\n#ifndef YY_parse_NERRS\n#define YY_parse_NERRS "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("nerrs\n#endif //YY_parse_NERRS\n#ifndef YY_parse_LLOC\n#define YY_parse_LLOC "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("lloc\n#endif //YY_parse_LLOC\n#define YYERROR_VERBOSE\n\nvoid "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("error(const char* s);\nint "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("lex();\nstatic ::deamer::external::cpp::ast::Tree* outputTree = nullptr;\n%"), GenerateVariable("}"), GenerateVariable("\n\n"), GenerateVariable(parserdefinitiontemplate_->terminal_declaration_->Variable_Field()), GenerateVariable("\n\n"), GenerateVariable(parserdefinitiontemplate_->nonterminal_declaration_->Variable_Field()), GenerateVariable("\n\n%union"), GenerateVariable("{"), GenerateVariable("\n\t::deamer::external::cpp::lexer::TerminalObject* Terminal;\n"), GenerateVariable(parserdefinitiontemplate_->union_declaration_->Variable_Field()), GenerateVariable("\n"), GenerateVariable("}"), GenerateVariable("\n\n%%\n\n"), GenerateVariable(parserdefinitiontemplate_->nonterminal_implementation_->Variable_Field()), GenerateVariable("\n\n%%\n\nvoid "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("error(const char* s)\n"), GenerateVariable("{"), GenerateVariable("\n\tstd::cout << \"Syntax error on line: \" << s << '"), GenerateVariable("\\"), GenerateVariable("n';\n"), GenerateVariable("}"), GenerateVariable("\n\ndeamer::external::cpp::ast::Tree* "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("::parser::Parser::Parse(const std::string& text) const\n"), GenerateVariable("{"), GenerateVariable("\n\toutputTree = nullptr;\n\tYY_BUFFER_STATE buf;\n\tbuf = "), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("_scan_string(text"), GenerateVariable("."), GenerateVariable("c_str());\n\t"), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("parse();\n\t"), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("_delete_buffer(buf);\n\t"), GenerateVariable(parserdefinitiontemplate_->language_name_->This()), GenerateVariable("lex_destroy();\n\n\treturn outputTree;\n"), GenerateVariable("}"), GenerateVariable("\n") }));
 Content_->type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::Scope;
 
 *static_cast<VariableBase*>(Class_postfix_) = VariableBase(std::vector<VariableBase*>({  }));
@@ -808,6 +883,45 @@ Variable_file_& operator=(const Variable_file_& variable)
 *Namespace_ = *variable.Namespace_;
 *Target_language_ = *variable.Target_language_;
 
+
+	return *this;
+}
+
+};
+
+struct Variable_glr_setting_ : public VariableScopes
+{
+
+static constexpr auto name = "glr_setting_";
+
+
+
+Variable_glr_setting_() : VariableScopes()
+{
+	type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::glr_setting_;
+}
+
+virtual ~Variable_glr_setting_() override = default;
+
+Variable_glr_setting_(ParserDefinitionTemplate* parserdefinitiontemplate_, const std::vector<VariableBase*>& variables) : VariableScopes(variables)
+{
+type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::glr_setting_;
+
+}
+
+
+
+Variable_glr_setting_& operator=(const Variable_glr_setting_& variable)
+{
+	if (&variable == this)
+	{
+		return *this;
+	}
+
+	value = variable.value;
+	isString = variable.isString;
+
+	
 
 	return *this;
 }
@@ -1204,6 +1318,84 @@ Variable_optional_comma_& operator=(const Variable_optional_comma_& variable)
 
 };
 
+struct Variable_optional_extended_error_ : public VariableScopes
+{
+
+static constexpr auto name = "optional_extended_error_";
+
+
+
+Variable_optional_extended_error_() : VariableScopes()
+{
+	type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optional_extended_error_;
+}
+
+virtual ~Variable_optional_extended_error_() override = default;
+
+Variable_optional_extended_error_(ParserDefinitionTemplate* parserdefinitiontemplate_, const std::vector<VariableBase*>& variables) : VariableScopes(variables)
+{
+type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optional_extended_error_;
+
+}
+
+
+
+Variable_optional_extended_error_& operator=(const Variable_optional_extended_error_& variable)
+{
+	if (&variable == this)
+	{
+		return *this;
+	}
+
+	value = variable.value;
+	isString = variable.isString;
+
+	
+
+	return *this;
+}
+
+};
+
+struct Variable_optional_glr_setting_ : public VariableScopes
+{
+
+static constexpr auto name = "optional_glr_setting_";
+
+
+
+Variable_optional_glr_setting_() : VariableScopes()
+{
+	type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optional_glr_setting_;
+}
+
+virtual ~Variable_optional_glr_setting_() override = default;
+
+Variable_optional_glr_setting_(ParserDefinitionTemplate* parserdefinitiontemplate_, const std::vector<VariableBase*>& variables) : VariableScopes(variables)
+{
+type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optional_glr_setting_;
+
+}
+
+
+
+Variable_optional_glr_setting_& operator=(const Variable_optional_glr_setting_& variable)
+{
+	if (&variable == this)
+	{
+		return *this;
+	}
+
+	value = variable.value;
+	isString = variable.isString;
+
+	
+
+	return *this;
+}
+
+};
+
 struct Variable_optional_or_ : public VariableScopes
 {
 
@@ -1227,6 +1419,45 @@ type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optio
 
 
 Variable_optional_or_& operator=(const Variable_optional_or_& variable)
+{
+	if (&variable == this)
+	{
+		return *this;
+	}
+
+	value = variable.value;
+	isString = variable.isString;
+
+	
+
+	return *this;
+}
+
+};
+
+struct Variable_optional_parse_lac_ : public VariableScopes
+{
+
+static constexpr auto name = "optional_parse_lac_";
+
+
+
+Variable_optional_parse_lac_() : VariableScopes()
+{
+	type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optional_parse_lac_;
+}
+
+virtual ~Variable_optional_parse_lac_() override = default;
+
+Variable_optional_parse_lac_(ParserDefinitionTemplate* parserdefinitiontemplate_, const std::vector<VariableBase*>& variables) : VariableScopes(variables)
+{
+type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::optional_parse_lac_;
+
+}
+
+
+
+Variable_optional_parse_lac_& operator=(const Variable_optional_parse_lac_& variable)
 {
 	if (&variable == this)
 	{
@@ -1305,6 +1536,45 @@ type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::or_;
 
 
 Variable_or_& operator=(const Variable_or_& variable)
+{
+	if (&variable == this)
+	{
+		return *this;
+	}
+
+	value = variable.value;
+	isString = variable.isString;
+
+	
+
+	return *this;
+}
+
+};
+
+struct Variable_parse_lac_ : public VariableScopes
+{
+
+static constexpr auto name = "parse_lac_";
+
+
+
+Variable_parse_lac_() : VariableScopes()
+{
+	type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::parse_lac_;
+}
+
+virtual ~Variable_parse_lac_() override = default;
+
+Variable_parse_lac_(ParserDefinitionTemplate* parserdefinitiontemplate_, const std::vector<VariableBase*>& variables) : VariableScopes(variables)
+{
+type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::parse_lac_;
+
+}
+
+
+
+Variable_parse_lac_& operator=(const Variable_parse_lac_& variable)
 {
 	if (&variable == this)
 	{
@@ -1994,7 +2264,9 @@ Variable_union_declaration_& operator=(const Variable_union_declaration_& variab
 	public:
 		// Members that one can directly access.
 		// e.g. ParserDefinitionTemplate.member = "auto-generated";
-		Variable_file_* file_ = new Variable_file_();
+		Variable_extended_error_* extended_error_ = new Variable_extended_error_();
+Variable_file_* file_ = new Variable_file_();
+Variable_glr_setting_* glr_setting_ = new Variable_glr_setting_();
 Variable_ignore_section_* ignore_section_ = new Variable_ignore_section_();
 Variable_language_name_* language_name_ = new Variable_language_name_();
 Variable_left_angle_bracket_* left_angle_bracket_ = new Variable_left_angle_bracket_();
@@ -2005,9 +2277,13 @@ Variable_nonterminal_implementation_* nonterminal_implementation_ = new Variable
 Variable_nonterminal_include_* nonterminal_include_ = new Variable_nonterminal_include_();
 Variable_nonterminal_token_name_* nonterminal_token_name_ = new Variable_nonterminal_token_name_();
 Variable_optional_comma_* optional_comma_ = new Variable_optional_comma_();
+Variable_optional_extended_error_* optional_extended_error_ = new Variable_optional_extended_error_();
+Variable_optional_glr_setting_* optional_glr_setting_ = new Variable_optional_glr_setting_();
 Variable_optional_or_* optional_or_ = new Variable_optional_or_();
+Variable_optional_parse_lac_* optional_parse_lac_ = new Variable_optional_parse_lac_();
 Variable_optional_top_nonterminal_output_* optional_top_nonterminal_output_ = new Variable_optional_top_nonterminal_output_();
 Variable_or_* or_ = new Variable_or_();
+Variable_parse_lac_* parse_lac_ = new Variable_parse_lac_();
 Variable_production_rule_* production_rule_ = new Variable_production_rule_();
 Variable_production_rule_implementation_* production_rule_implementation_ = new Variable_production_rule_implementation_();
 Variable_production_rule_index_* production_rule_index_ = new Variable_production_rule_index_();
@@ -2030,7 +2306,9 @@ Variable_union_declaration_* union_declaration_ = new Variable_union_declaration
 	public:
 		ParserDefinitionTemplate()
 		{
-			*file_ = Variable_file_(this, std::vector<VariableBase*>({  }));
+			*extended_error_ = Variable_extended_error_(this, std::vector<VariableBase*>({ GenerateVariable("%define parse"), GenerateVariable("."), GenerateVariable("error verbose") }));
+*file_ = Variable_file_(this, std::vector<VariableBase*>({  }));
+*glr_setting_ = Variable_glr_setting_(this, std::vector<VariableBase*>({ GenerateVariable("%glr-parser") }));
 *ignore_section_ = Variable_ignore_section_(this, std::vector<VariableBase*>({ GenerateVariable("\n\t\tdelete $"), GenerateVariable(token_index_->This()), GenerateVariable(";") }));
 *language_name_ = Variable_language_name_(this, std::vector<VariableBase*>({  }));
 *left_angle_bracket_ = Variable_left_angle_bracket_(this, std::vector<VariableBase*>({ GenerateVariable("<") }));
@@ -2041,9 +2319,13 @@ Variable_union_declaration_* union_declaration_ = new Variable_union_declaration
 *nonterminal_include_ = Variable_nonterminal_include_(this, std::vector<VariableBase*>({ GenerateVariable("#include \""), GenerateVariable(language_name_->This()), GenerateVariable("/Ast/Node/"), GenerateVariable(token_name_->This()), GenerateVariable("."), GenerateVariable("h\"") }));
 *nonterminal_token_name_ = Variable_nonterminal_token_name_(this, std::vector<VariableBase*>({  }));
 *optional_comma_ = Variable_optional_comma_(this, std::vector<VariableBase*>({  }));
+*optional_extended_error_ = Variable_optional_extended_error_(this, std::vector<VariableBase*>({ GenerateVariable(extended_error_->This()) }));
+*optional_glr_setting_ = Variable_optional_glr_setting_(this, std::vector<VariableBase*>({  }));
 *optional_or_ = Variable_optional_or_(this, std::vector<VariableBase*>({  }));
+*optional_parse_lac_ = Variable_optional_parse_lac_(this, std::vector<VariableBase*>({ GenerateVariable(parse_lac_->This()) }));
 *optional_top_nonterminal_output_ = Variable_optional_top_nonterminal_output_(this, std::vector<VariableBase*>({  }));
 *or_ = Variable_or_(this, std::vector<VariableBase*>({ GenerateVariable("| ") }));
+*parse_lac_ = Variable_parse_lac_(this, std::vector<VariableBase*>({ GenerateVariable("%define parse"), GenerateVariable("."), GenerateVariable("lac full") }));
 *production_rule_ = Variable_production_rule_(this, std::vector<VariableBase*>({ GenerateVariable("\n\t"), GenerateVariable(optional_or_->This()), GenerateVariable(production_rule_implementation_->This()), GenerateVariable(" "), GenerateVariable("{"), GenerateVariable("\n\t\tauto* const newNode = new "), GenerateVariable(language_name_->This()), GenerateVariable("::ast::node::"), GenerateVariable(nonterminal_token_name_->This()), GenerateVariable("("), GenerateVariable("{"), GenerateVariable("::"), GenerateVariable(language_name_->This()), GenerateVariable("::ast::Type::"), GenerateVariable(nonterminal_token_name_->This()), GenerateVariable(", ::deamer::external::cpp::ast::NodeValue::nonterminal, "), GenerateVariable("{"), GenerateVariable(" "), GenerateVariable(production_rule_index_->This()), GenerateVariable(", ::deamer::external::cpp::ast::ProductionRuleType::"), GenerateVariable(production_rule_type_->This()), GenerateVariable(" "), GenerateVariable("}}"), GenerateVariable(", "), GenerateVariable("{"), GenerateVariable(" "), GenerateVariable(production_rule_retrieved_tokens_->Variable_Field()), GenerateVariable(" "), GenerateVariable("}"), GenerateVariable(");\n\t\t$$ = newNode;\n\n\t\t// Ignored, Deleted, tokens are deleted"), GenerateVariable(ignore_section_->Variable_Field()), GenerateVariable(optional_top_nonterminal_output_->This()), GenerateVariable("\n\t"), GenerateVariable("}") }));
 *production_rule_implementation_ = Variable_production_rule_implementation_(this, std::vector<VariableBase*>({  }));
 *production_rule_index_ = Variable_production_rule_index_(this, std::vector<VariableBase*>({  }));
@@ -2063,7 +2345,9 @@ Variable_union_declaration_* union_declaration_ = new Variable_union_declaration
 *union_declaration_ = Variable_union_declaration_(this, std::vector<VariableBase*>({ GenerateVariable("\t::"), GenerateVariable(language_name_->This()), GenerateVariable("::ast::node::"), GenerateVariable(token_name_->This()), GenerateVariable("* "), GenerateVariable(language_name_->This()), GenerateVariable("_"), GenerateVariable(token_name_->This()), GenerateVariable(";") }));
 
 
-			variables_.emplace_back(file_);
+			variables_.emplace_back(extended_error_);
+variables_.emplace_back(file_);
+variables_.emplace_back(glr_setting_);
 variables_.emplace_back(ignore_section_);
 variables_.emplace_back(language_name_);
 variables_.emplace_back(left_angle_bracket_);
@@ -2074,9 +2358,13 @@ variables_.emplace_back(nonterminal_implementation_);
 variables_.emplace_back(nonterminal_include_);
 variables_.emplace_back(nonterminal_token_name_);
 variables_.emplace_back(optional_comma_);
+variables_.emplace_back(optional_extended_error_);
+variables_.emplace_back(optional_glr_setting_);
 variables_.emplace_back(optional_or_);
+variables_.emplace_back(optional_parse_lac_);
 variables_.emplace_back(optional_top_nonterminal_output_);
 variables_.emplace_back(or_);
+variables_.emplace_back(parse_lac_);
 variables_.emplace_back(production_rule_);
 variables_.emplace_back(production_rule_implementation_);
 variables_.emplace_back(production_rule_index_);

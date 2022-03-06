@@ -3,6 +3,14 @@
 {{file.namespace}} = <deamer::templates::bison::parser>
 {{file.extension}} = <h>
 
+{{optional_extended_error}} = @<{{extended_error}}>@
+{{optional_parse_lac}} = @<{{parse_lac}}>@
+{{optional_glr_setting}} = @<>@
+
+{{extended_error}} = @<%define parse.error verbose>@
+{{parse_lac}} = @<%define parse.lac full>@
+{{glr_setting}} = @<%glr-parser>@
+
 {{union_declaration}} =
 	@<	::{{language_name}}::ast::node::{{token_name}}* {{language_name}}_{{token_name}};>@
 
