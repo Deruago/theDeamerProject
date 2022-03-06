@@ -211,7 +211,7 @@ void deamer::file::tool::LoadFilesystem::LoadPath(bool loadContent)
 		}
 	}
 
-	outputDir = std::move(::deamer::file::tool::Directory("./"));
+	outputDir = directory;
 }
 
 deamer::file::tool::Directory

@@ -64,6 +64,10 @@ namespace deamer::file::tool
 
 		/*!	\fn Enter
 		 *	\brief Enters direct subdirectory
+		 *
+		 *	\note Only use the directory name. Do not append any directory:
+		 *		Good: ".deamer"
+		 *		Bad:  "./.deamer"
 		 */
 		LoadFilesystem& Enter(const std::string& path);
 
