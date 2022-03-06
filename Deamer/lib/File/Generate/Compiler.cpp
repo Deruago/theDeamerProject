@@ -292,6 +292,10 @@ void deamer::file::generate::Compiler::ExecuteDirectoryAction(
 	// as this is run on the platform installed, we require to use the global
 	// deamer::file::tool::os_used variable.
 	const deamer::file::tool::action::Action& action = directory.GetAction();
+	if (action.IsEmpty()) // It is useless to call nothing
+	{
+		return;
+	}
 	const std::string console_action =
 		action.ConstructArgument(tool::action::CommandTarget::python, directoryPath);
 	const char* console_action_char_ptr = console_action.c_str();
