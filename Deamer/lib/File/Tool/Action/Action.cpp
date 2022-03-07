@@ -20,57 +20,8 @@
 
 #include "Deamer/File/Tool/Action/Action.h"
 #include "Deamer/File/Tool/Action/Command/ChangeDirectory.h"
-#include "Deamer/File/Tool/Directory.h"
+#include "Deamer/File/Tool/Action/PythonConsole.h"
 #include "Deamer/File/Tool/LoadFilesystem.h"
-#include <iostream>
-
-static bool loadedDeamerDir = false;
-static bool deamerDirExists = false;
-static std::string consoleLocation = "./";
-
-static void LoadInDeamerDir()
-{
-	deamer::file::tool::Directory dir;
-	auto loader = deamer::file::tool::LoadFilesystem(dir);
-	while (!loader.DirectContainsDirectory(".deamer") && !loader.ReachedRoot())
-	{
-		loader.Upper();
-	}
-	if (loader.ReachedRoot())
-	{
-		return;
-	}
-	loader.Enter(".deamer").Enter("dldl").Enter("scripts").DirectLoad();
-
-	bool exists = false;
-	for (const auto& file : dir.GetFiles())
-	{
-		if (file.GetFilename() == "Console" && file.GetExtension() == "py")
-		{
-			exists = true;
-			break;
-		}
-	}
-
-	consoleLocation = loader.GetPath() + "Console.py";
-	deamerDirExists = exists;
-}
-
-static bool CheckIfConsoleScriptIsAvailable()
-{
-	if (!loadedDeamerDir)
-	{
-		loadedDeamerDir = true;
-		LoadInDeamerDir();
-	}
-
-	return deamerDirExists;
-}
-
-static std::string GetPathToConsoleScript()
-{
-	return consoleLocation;
-}
 
 deamer::file::tool::action::Action::Action(OSType used_os_) : used_os(used_os_)
 {
@@ -143,7 +94,7 @@ std::string deamer::file::tool::action::Action::ConstructArgument(CommandTarget 
 {
 	if (commandTarget == CommandTarget::python && !force)
 	{
-		if (!CheckIfConsoleScriptIsAvailable())
+		if (!PythonConsole::IsAvailable())
 		{
 			commandTarget = CommandTarget::os_linux; // Linux compatibility mode is default behavior
 													 // of Deamer CC
@@ -268,7 +219,7 @@ std::string deamer::file::tool::action::Action::ConstructForLinux(CommandTarget 
 {
 	if (commandTarget == CommandTarget::python)
 	{
-		return "(python3 " + GetPathToConsoleScript() + " " + commands + ")";
+		return "(python3 " + PythonConsole::GetConsoleLocation() + " " + commands + ")";
 	}
 
 	// if (commandTarget == CommandTarget::linux)
@@ -281,11 +232,11 @@ deamer::file::tool::action::Action::ConstructForWindows(CommandTarget commandTar
 {
 	if (commandTarget == CommandTarget::os_linux)
 	{
-		return "bash -c \"(" + commands + ")\"";
+		return "bash -c '( " + commands + " )'";
 	}
 	if (commandTarget == CommandTarget::python)
 	{
-		return "(python3 " + GetPathToConsoleScript() + " " + commands + ")";
+		return "(python3 " + PythonConsole::GetConsoleLocation() + " " + commands + ")";
 	}
 
 	// if (commandTarget == CommandTarget::windows)
@@ -297,7 +248,7 @@ std::string deamer::file::tool::action::Action::ConstructForMac(CommandTarget co
 {
 	if (commandTarget == CommandTarget::python)
 	{
-		return "(python3 " + GetPathToConsoleScript() + " " + commands + ")";
+		return "(python3 " + PythonConsole::GetConsoleLocation() + " " + commands + ")";
 	}
 
 	// if (commandTarget == CommandTarget::mac)

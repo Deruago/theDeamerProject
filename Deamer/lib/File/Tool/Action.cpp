@@ -20,6 +20,7 @@
 
 #include "Deamer/File/Tool/Action.h"
 #include "Deamer/File/Tool/Action/Builder.h"
+#include <iostream>
 
 deamer::file::tool::Action::Action(std::string action_) : action(std::move(action_))
 {
@@ -40,7 +41,7 @@ std::string deamer::file::tool::Action::GetSubShellAction(const file::tool::OSTy
 	case file::tool::OSType::os_linux:
 		return "( cd " + directory + " ; " + GetAction() + " )";
 	case file::tool::OSType::os_windows:
-		return "bash -c \"( cd " + directory + " ; " + GetAction() + " )\"";
+		return "bash -c '( cd " + directory + " ; " + GetAction() + " )'";
 	case file::tool::OSType::os_mac:
 		return "( cd " + directory + " ; " + GetAction() + " )";
 	}
