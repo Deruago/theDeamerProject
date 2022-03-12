@@ -26,6 +26,9 @@ if(NOT DEFINED Deamer_VERSION_PATCH)
   set(Deamer_VERSION_PATCH 0)
 endif()
 
+# Options
+option(DEAMER_CREATE_SHARED_LIB "Enables the shared libraries" OFF)
+
 add_subdirectory(lib)
 add_custom_target(build_and_test ${CMAKE_CTEST_COMMAND} -V)
 
