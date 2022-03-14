@@ -26,52 +26,33 @@ if(NOT DEFINED Deamer_VERSION_PATCH)
   set(Deamer_VERSION_PATCH 0)
 endif()
 
-# Options
-option(DEAMER_CREATE_SHARED_LIB "Enables the shared libraries" OFF)
-
 add_subdirectory(lib)
-add_custom_target(build_and_test ${CMAKE_CTEST_COMMAND} -V)
 
-find_package(Doxygen)
-if(Doxygen_FOUND)
-	add_subdirectory(docs)
-else()
-	message(STATUS "Doxygen not found, not building docs")
-endif()
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+	option(DEAMER_BUILD_EXAMPLES "Build the examples" OFF)
+	option(DEAMER_BUILD_TESTS "Build the tests" ON)
 
-
-option(EXAMPLES "Build the examples" OFF)
-if(EXAMPLES)
-	message(STATUS "Examples can now be build")
-	add_subdirectory(examples)
-endif()
-
-option(PACKAGE_TESTS "Build the tests" ON)
-if(PACKAGE_TESTS)
-	find_package(GTest)
-	if (GTEST_FOUND)
-		enable_testing()
-		add_subdirectory(tests)
+	find_package(Doxygen)
+	if(Doxygen_FOUND)
+		add_subdirectory(docs)
 	else()
-		enable_testing()
-		include(GoogleTest)
-		add_subdirectory(tests)
+		message(STATUS "Doxygen not found, not building docs")
+	endif()
+
+	if(DEAMER_BUILD_EXAMPLES)
+		message(STATUS "Examples can now be build")
+		add_subdirectory(examples)
+	endif()
+
+	if(DEAMER_BUILD_TESTS)
+		find_package(GTest)
+		if (GTEST_FOUND)
+			enable_testing()
+			add_subdirectory(tests)
+		else()
+			enable_testing()
+			include(GoogleTest)
+			add_subdirectory(tests)
+		endif()
 	endif()
 endif()
-
-install(DIRECTORY ${Deamer_SOURCE_DIR}/include/Deamer
-    DESTINATION include
-    FILES_MATCHING
-    PATTERN "*.h"
-    PATTERN "LICENSE"
-    )
-
-export(TARGETS
-	Deamer
-	FILE "${CMAKE_CURRENT_BINARY_DIR}/DeamerConfig.cmake"
-)
-
-install(EXPORT
-	DeamerConfig
-	DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/Deamer"
-)
