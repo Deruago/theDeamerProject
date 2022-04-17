@@ -88,6 +88,13 @@ bool deamer::language::analyzer::main::NonTerminal::DoesNonTerminalHaveEmptyAsIt
 	return DoesNonTerminalHaveEmptyAsItsNode(visitedNonTerminals);
 }
 
+bool deamer::language::analyzer::main::NonTerminal::CanNonTerminalMatchEmpty() const
+{
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>> visitedNonTerminals;
+
+	return CanNonTerminalMatchEmpty(visitedNonTerminals);
+}
+
 void deamer::language::analyzer::main::NonTerminal::GetLeftNeighboringTokens(
 	std::set<type::definition::object::Base*>& neighboringTokens) const
 {
@@ -219,14 +226,15 @@ void deamer::language::analyzer::main::NonTerminal::GetRightNeighboringTokens(
 	const reference::ReverseLookup<type::definition::object::main::ProductionRule>
 		reverseLookupProductionRules(language_reference);
 
+	// Get all production rules that are referencing the analyzed nonterminal.
 	const auto& resultReferencingProductionRules = reverseLookupProductionRules.Get(nonTerminal);
 
 	for (const auto& productionRule : resultReferencingProductionRules.GetObjects())
 	{
 		std::vector<std::size_t> indexes;
 		std::size_t currentIndex = 0;
-		for (reference::LDO<type::definition::object::main::Terminal> token :
-			 productionRule->Tokens)
+		// Identify self injection of analyzed NonTerminal
+		for (reference::LDO<type::definition::object::Base> token : productionRule->Tokens)
 		{
 			if (token == nonTerminal)
 			{
@@ -236,22 +244,24 @@ void deamer::language::analyzer::main::NonTerminal::GetRightNeighboringTokens(
 			currentIndex += 1;
 		}
 
-		bool topExpanded = false;
 		reference::ReverseLookup<type::definition::object::main::NonTerminal>
 			reverseLookupProductionRuleNonTerminal(language_reference);
+
+		// Get all nonterminals that reference this production rule.
 		auto productionRuleTokenResult = reverseLookupProductionRuleNonTerminal.Get(productionRule);
-		for (auto index : indexes)
+
+		for (auto index : indexes) // Check what is right of our index
 		{
+			// If index is at the end of the production rule
 			if (index == productionRule->Tokens.size() - 1)
 			{
-				if (!topExpanded && !productionRuleTokenResult.IsEmpty())
+				// Check if there is a nonterminal which we can expand to.
+				if (!productionRuleTokenResult.IsEmpty())
 				{
-					topExpanded = true;
-
 					if (visitedNonTerminals.find(productionRuleTokenResult.GetObject()) !=
 						visitedNonTerminals.end())
 					{
-						return;
+						continue;
 					}
 
 					visitedNonTerminals.insert(productionRuleTokenResult.GetObject());
@@ -261,49 +271,40 @@ void deamer::language::analyzer::main::NonTerminal::GetRightNeighboringTokens(
 
 					visitedNonTerminals.erase(productionRuleTokenResult.GetObject());
 				}
+				else
+				{
+					// Right hand side is epsilon
+				}
 			}
-			else if (index < productionRule->Tokens.size() - 1)
+			else
 			{
-				bool shouldBeFurtherAnalyzed = false;
-				bool done = false;
-				std::size_t currentElementIndex = index + 1;
-				do
+				for (auto i = index + 1; i < productionRule->Tokens.size(); i++)
 				{
-					auto* const currentToken = productionRule->Tokens[currentElementIndex];
-					neighboringTokens.insert(currentToken);
+					reference::LDO<type::definition::object::Base> currentToken =
+						productionRule->Tokens[i];
+					neighboringTokens.insert(currentToken.GetRawPointer());
 
-					if (currentToken->Type_ == type::definition::object::Type::NonTerminal &&
-						NonTerminal(language_reference, currentToken)
-							.DoesNonTerminalHaveEmptyAsItsNode())
+					if (currentToken->Type_ == type::definition::object::Type::Terminal)
 					{
-						if (currentElementIndex < productionRule->Tokens.size() - 1)
-						{
-							currentElementIndex++;
-						}
-						else
-						{
-							shouldBeFurtherAnalyzed = true;
-							done = true;
-						}
+						break;
 					}
-					else
+
+					NonTerminal nonTerminalAnalyzer(
+						language_reference,
+						currentToken.Promote<type::definition::object::main::NonTerminal>()
+							.GetRawPointer());
+
+					if (!nonTerminalAnalyzer.CanNonTerminalMatchEmpty())
 					{
-						done = true;
+						break;
 					}
-				} while (!done && currentElementIndex >= 0 &&
-						 currentElementIndex < productionRule->Tokens.size());
 
-				if (currentElementIndex == productionRule->Tokens.size() - 1 &&
-					shouldBeFurtherAnalyzed)
-				{
-					if (!topExpanded && !productionRuleTokenResult.IsEmpty())
+					if (i == productionRule->Tokens.size() - 1)
 					{
-						topExpanded = true;
-
 						if (visitedNonTerminals.find(productionRuleTokenResult.GetObject()) !=
 							visitedNonTerminals.end())
 						{
-							return;
+							continue;
 						}
 
 						visitedNonTerminals.insert(productionRuleTokenResult.GetObject());
@@ -358,6 +359,74 @@ bool deamer::language::analyzer::main::NonTerminal::DoesNonTerminalHaveEmptyAsIt
 	return false;
 }
 
+bool deamer::language::analyzer::main::NonTerminal::CanNonTerminalMatchEmpty(
+	std::set<reference::LDO<type::definition::object::main::NonTerminal>>& visitedNonTerminal) const
+{
+	if (visitedNonTerminal.find(nonTerminal) != visitedNonTerminal.end())
+	{
+		return false;
+	}
+
+	visitedNonTerminal.insert(nonTerminal);
+
+	for (reference::LDO<type::definition::object::main::ProductionRule> productionrule :
+		 nonTerminal->ProductionRules)
+	{
+		if (productionrule->Tokens.size() > 1)
+		{
+			// If all tokens can be empty, then this production rule can match empty
+			bool continue_ = false;
+			for (reference::LDO<type::definition::object::Base> token : productionrule->Tokens)
+			{
+				if (token->Type_ != type::definition::object::Type::NonTerminal)
+				{
+					continue_ = true;
+					break;
+				}
+
+				NonTerminal analyzer(language_reference, token.Get());
+				if (!analyzer.CanNonTerminalMatchEmpty(visitedNonTerminal))
+				{
+					continue_ = true;
+					break;
+				}
+			}
+
+			if (continue_) // Cannot match empty, continuing to next production rule
+			{
+				continue;
+			}
+
+			return true;
+		}
+
+		// Definition of having an EMPTY (epsilon) terminal
+		if (productionrule->Tokens.empty())
+		{
+			return true;
+		}
+
+		const auto* const token =
+			productionrule->Tokens[0]; // Take the token in productionRule there is only 1
+
+		if (token->Type_ != type::definition::object::Type::NonTerminal)
+		{
+			continue;
+		}
+
+		reference::LDO<type::definition::object::main::NonTerminal> currentNonTerminal(token);
+		NonTerminal analyzer(language_reference, currentNonTerminal.Get());
+		if (analyzer.CanNonTerminalMatchEmpty(visitedNonTerminal))
+		{
+			return true;
+		}
+	}
+
+	visitedNonTerminal.erase(nonTerminal);
+
+	return false;
+}
+
 void deamer::language::analyzer::main::NonTerminal::GetStartingTerminals(
 
 	std::set<reference::LDO<type::definition::object::main::Terminal>>& startingTerminals,
@@ -398,7 +467,7 @@ void deamer::language::analyzer::main::NonTerminal::GetStartingTerminals(
 				reference::LDO<type::definition::object::main::NonTerminal> lastTokenAsNT(
 					firstToken);
 				auto lastTokenAnalyzer = NonTerminal(language_reference, lastTokenAsNT.Get());
-				isEmptyEnding = lastTokenAnalyzer.DoesNonTerminalHaveEmptyAsItsNode();
+				isEmptyEnding = lastTokenAnalyzer.CanNonTerminalMatchEmpty();
 
 				lastTokenAnalyzer.GetStartingTerminals(startingTerminals, nonTerminalsVisited);
 			}

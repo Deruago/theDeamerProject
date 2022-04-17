@@ -64,6 +64,10 @@ namespace deamer::language::analyzer::main
 		std::size_t GetProductionRuleId(
 			reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const;
 
+		/*!	\fn GetNonTerminal
+		 *
+		 *	\brief Returns the nonterminal the production rule belongs to.
+		 */
 		deamer::language::reference::LDO<
 			deamer::language::type::definition::object::main::NonTerminal>
 		GetNonTerminal() const;

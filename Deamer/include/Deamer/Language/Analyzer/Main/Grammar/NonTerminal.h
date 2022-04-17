@@ -107,6 +107,8 @@ namespace deamer::language::analyzer::main
 		 */
 		bool DoesNonTerminalHaveEmptyAsItsNode() const;
 
+		bool CanNonTerminalMatchEmpty() const;
+
 		/*!	\fn GetLeftNeighbouringTokens
 		 *
 		 *	\brief Finds out all subtrees left of this nonterminal.
@@ -114,6 +116,10 @@ namespace deamer::language::analyzer::main
 		void GetLeftNeighboringTokens(
 			std::set<type::definition::object::Base*>& neighboringTokens) const;
 
+		/*!	\fn GetRightNeighboringTokens
+		 *
+		 *	\brief Finds out all subtrees right of this nonterminal.
+		 */
 		void GetRightNeighboringTokens(
 			std::set<type::definition::object::Base*>& neighboringTokens) const;
 
@@ -123,8 +129,9 @@ namespace deamer::language::analyzer::main
 		 * \brief Returns all direct accessible (non) terminals.
 		 *
 		 * \details This function takes in the property of inlined nonterminals.
-		*/
-		std::set<deamer::language::type::definition::object::Base*> GetDirectNonTerminalAndTerminals() const;
+		 */
+		std::set<deamer::language::type::definition::object::Base*>
+		GetDirectNonTerminalAndTerminals() const;
 
 	private:
 		void GetStartingTerminals(
@@ -148,6 +155,10 @@ namespace deamer::language::analyzer::main
 				visitedNonTerminals) const;
 
 		bool DoesNonTerminalHaveEmptyAsItsNode(
+			std::set<reference::LDO<type::definition::object::main::NonTerminal>>&
+				visitedNonTerminal) const;
+
+		bool CanNonTerminalMatchEmpty(
 			std::set<reference::LDO<type::definition::object::main::NonTerminal>>&
 				visitedNonTerminal) const;
 
