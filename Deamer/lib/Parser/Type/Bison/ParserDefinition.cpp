@@ -47,7 +47,7 @@ std::string deamer::parser::type::bison::ParserDefinition::Generate() const
 		parserDefinitionTemplate->optional_glr_setting_->Set(
 			parserDefinitionTemplate->glr_setting_);
 	}
-	
+
 	const auto lexicon =
 		reference.GetDefinition<language::type::definition::property::Type::Lexicon>();
 	const auto grammar =
