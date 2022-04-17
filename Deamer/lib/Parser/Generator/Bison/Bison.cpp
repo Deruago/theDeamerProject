@@ -72,15 +72,5 @@ std::string deamer::parser::generator::bison::Bison::externalCMakeLists()
 
 std::string deamer::parser::generator::bison::Bison::dependenciesCMakeLists()
 {
-	const auto flex =
-		reference.GetDefinition<language::type::definition::property::Type::Generation>()
-			.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison});
-
-	if (flex)
-	{
-		return "target_link_libraries(" + name + "_Bison_static_library PUBLIC " + name +
-			   "_Flex_static_library)\n";
-	}
-
 	return "";
 }

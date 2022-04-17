@@ -3,7 +3,7 @@
 
 #include <Deamer/External/Cpp/Parser/Interface/Parser.h>
 
-namespace {{language_name}} { namespace parser {
+namespace {{language_name}} { namespace bison { namespace parser {
 
     class Parser : public deamer::external::cpp::parser::Parser
     {
@@ -13,8 +13,12 @@ namespace {{language_name}} { namespace parser {
 
     public:
         deamer::external::cpp::ast::Tree* Parse(const std::string& text) const override;
+		::deamer::external::cpp::ast::Tree* Parse(std::vector<const ::deamer::external::cpp::lexer::TerminalObject*> terminalObjects) const override
+        {
+            return this->::deamer::external::cpp::parser::Parser::Parse(terminalObjects);
+        }
     };
 
-}}
+}}}
 
 #endif // {{header_guard}}

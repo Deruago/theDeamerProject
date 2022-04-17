@@ -648,6 +648,8 @@ namespace deamer::templates::bison::parser
 					 GenerateVariable(parserheadertemplate_->language_name_->This()),
 					 GenerateVariable(" "),
 					 GenerateVariable("{"),
+					 GenerateVariable(" namespace bison "),
+					 GenerateVariable("{"),
 					 GenerateVariable(" namespace parser "),
 					 GenerateVariable("{"),
 					 GenerateVariable("\n\n    class Parser : public "
@@ -656,10 +658,20 @@ namespace deamer::templates::bison::parser
 					 GenerateVariable(
 						 "\n    public:\n        Parser() = default;\n        ~Parser() override = "
 						 "default;\n\n    public:\n        deamer::external::cpp::ast::Tree* "
-						 "Parse(const std::string& text) const override;\n    "),
+						 "Parse(const std::string& text) const "
+						 "override;\n\t\t::deamer::external::cpp::ast::Tree* "
+						 "Parse(std::vector<const ::deamer::external::cpp::lexer::TerminalObject*> "
+						 "terminalObjects) const override\n        "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n            return "
+									  "this->::deamer::external::cpp::parser::Parser::Parse("
+									  "terminalObjects);\n        "),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n    "),
 					 GenerateVariable("}"),
 					 GenerateVariable(";\n\n"),
 					 GenerateVariable("}}"),
+					 GenerateVariable("}"),
 					 GenerateVariable("\n\n#endif // "),
 					 GenerateVariable(parserheadertemplate_->header_guard_->This()),
 					 GenerateVariable("\n")}));

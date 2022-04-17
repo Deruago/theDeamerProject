@@ -51,7 +51,7 @@ void {{language_name}}error(const char* s)
 	std::cout << "Syntax error on line: " << s << '\n';
 }
 
-deamer::external::cpp::ast::Tree* {{language_name}}::parser::Parser::Parse(const std::string& text) const
+deamer::external::cpp::ast::Tree* {{language_name}}::bison::parser::Parser::Parse(const std::string& text) const
 {
 	outputTree = nullptr;
 	YY_BUFFER_STATE buf;
