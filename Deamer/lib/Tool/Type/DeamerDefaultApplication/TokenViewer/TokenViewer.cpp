@@ -41,15 +41,12 @@ void deamer::tool::type::deamerdefaultapplication::TokenViewer::Generate(
 
 	auto tokenViewerFile = file::tool::File("main", "cpp", tokenViewerTemplate.GetOutput());
 
-	output.SetCMakeLists(
-		"# Auto-generated, do not changed this code\n"
-		"# Part of: DeamerDefaultApplication tool\n"
-		"# More information: https://github.com/Deruago/theDeamerProject\n"
-		"\n"
-		"add_executable(" +
-		languageName +
-		"deamerTokenViewer main.cpp)\n"
-		"target_link_libraries(" +
-		languageName + "deamerTokenViewer " + languageName + "_static_library)\n");
+	output.SetCMakeLists("add_executable(" + languageName +
+						 "deamerTokenViewer main.cpp)\n"
+						 "target_link_libraries(" +
+						 languageName +
+						 "deamerTokenViewer  PRIVATE Deamer::External Deamer::Algorithm "
+						 "deamer_reserved_" +
+						 languageName + "_core_library)\n ");
 	output.AddFile(tokenViewerFile);
 }

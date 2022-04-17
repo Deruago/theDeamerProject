@@ -41,16 +41,13 @@ void deamer::tool::type::deamerdefaultapplication::AstViewer::Generate(
 
 	auto astViewerFile = file::tool::File("main", "cpp", astViewerTemplate.GetOutput());
 
-	output.SetCMakeLists(
-		"# Auto-generated, do not changed this code\n"
-		"# Part of: DeamerDefaultApplication tool\n"
-		"# More information: https://github.com/Deruago/theDeamerProject\n"
-		"\n"
-		"add_executable(" +
-		languageName +
-		"deamerAstViewer main.cpp)\n"
-		"target_link_libraries(" +
-		languageName + "deamerAstViewer " + languageName + "_static_library)\n");
+	output.SetCMakeLists("add_executable(" + languageName +
+						 "deamerAstViewer main.cpp)\n"
+						 "target_link_libraries(" +
+						 languageName +
+						 "deamerAstViewer PRIVATE Deamer::External Deamer::Algorithm "
+						 "deamer_reserved_" +
+						 languageName + "_core_library)\n");
 
 	output.AddFile(astViewerFile);
 }
