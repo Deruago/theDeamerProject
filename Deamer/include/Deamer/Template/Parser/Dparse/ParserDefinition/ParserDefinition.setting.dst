@@ -1,0 +1,20 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <ParserDefinition>
+{{file.namespace}} = <deamer::templates::dparse::parser>
+{{file.extension}} = <h>
+
+{{optional_better_syntax_errors}} = @<true>@
+
+{{production_size_entry}} = @<{{production_rule_size}},>@
+{{production_id_entry}} = @<{{production_rule_id}},>@
+{{production_output_entry}} = @<::{{language_name}}::ast::Type::{{production_output}},>@
+{{production_type_entry}} = @<::deamer::external::cpp::ast::ProductionRuleType::{{production_rule_type}},>@
+{{production_rule_type_user}}         = @<user>@
+{{production_rule_type_translation}}  = @<translation>@
+{{production_rule_type_optimization}} = @<optimization>@
+
+{{goto_table_2d_entry}} = @<{ {{goto_table_entry.Variable_Field}} },>@
+{{goto_table_entry}} = @<{ {{goto_table_field}} },>@
+
+{{action_table_2d_entry}} = @<{ {{action_table_entry.Variable_Field}} },>@
+{{action_table_entry}} = @<{ {{action_table_type_field}}, {{action_table_specialization_field}} },>@
