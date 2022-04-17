@@ -223,7 +223,7 @@ namespace deamer::language::reference
 		 *	\brief Promotes the base LDO to any given subtype LDO.
 		 */
 		template<typename T_>
-		LDO<T_, false> Promote()
+		LDO<T_, false> Promote() const
 		{
 			return LDO<T_, false>(this->base);
 		}
