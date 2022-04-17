@@ -13,3 +13,6 @@
 [submodule "DeamerAlgorithm"]
 	path = DeamerAlgorithm
 	url = https://github.com/Deruago/DeamerAlgorithm
+[submodule "DREGX"]
+	path = DREGX
+	url = https://github.com/Deruago/DREGX

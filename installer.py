@@ -48,6 +48,10 @@ def install_subprojects():
     install_project("DeamerExternal", install_deamer_core)
     install_project("DeamerAlgorithm", install_deamer_core)
     
+    # Dregx Depends on DeamerExternal
+    # Deamer uses Dregx for DFA Construction and Regex Fuzzing
+    install_project("Dregx", install_deamer_core)
+    
     # Required
     install_project("Deamer", install_deamer_core)
     install_project("DLDL", install_deamer_core)
