@@ -7,14 +7,11 @@
 #
 # This file is part of the directory: lib
 
-find_package(Deamer_External REQUIRED)
-find_package(Deamer_Algorithm REQUIRED)
-
 # All source and header files of this project.
 file(GLOB_RECURSE SOURCE_LIST "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/lib/*.cpp")
 file(GLOB_RECURSE HEADER_LIST "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/include/*.h")
 
 # Root library extension
-{{root_language_name}}_root_library_extend("{{languageName}}" "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/extern" "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/include" "{{CMAKE_VAR_INTRO}}SOURCE_LIST}")
+{{root_language_name}}_root_library_extend("{{languageName}}" "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/extern" "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/include" "${SOURCE_LIST}")
 
 {{optional_if_not_root_alias_target}}
