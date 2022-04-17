@@ -35,10 +35,12 @@ namespace deamer::tool::type
 		// Lexer
 		Flex,
 		Antlr_Lexer,
+		Dleg,
 
 		// Parser
 		Bison,
 		Antlr_Parser,
+		Dparse,
 
 		// AST generators
 		DeamerAST,
