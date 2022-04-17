@@ -54,41 +54,16 @@ namespace deamer::file::tool
 		~CMakeLists() = default;
 
 	public:
-		void SetCMakeLists(const std::string& text)
-		{
-			type = CMakeListsType::custom_;
-			fileData = text;
-		}
+		void SetCMakeLists(const std::string& text);
 
-		void Clear()
-		{
-			type = CMakeListsType::default_;
-			fileData.clear();
-		}
+		void Clear();
 
 	public:
-		bool IsDefault() const
-		{
-			return type == CMakeListsType::default_;
-		}
+		bool IsDefault() const;
 
-		File GetCMakeLists() const
-		{
-			switch (CMG_Variant)
-			{
-			case CMakeListsGenerationVariant::user_excluded:
-				return File("deamer", "cmake", fileData + dependencies, generationLevel_);
-			case CMakeListsGenerationVariant::default_:
-				return File("CMakeLists", "txt", fileData + dependencies, generationLevel_);
-			default:
-				return File("CMakeLists", "txt", fileData + dependencies, generationLevel_);
-			}
-		}
+		File GetCMakeLists() const;
 
-		bool IsUserMaintained() const
-		{
-			return CMG_Variant == CMakeListsGenerationVariant::user_maintained;
-		}
+		bool IsUserMaintained() const;
 	};
 }
 

@@ -38,3 +38,38 @@ deamer::file::tool::CMakeLists::CMakeLists(std::string fileData_, std::string de
 	  generationLevel_(generationLevel)
 {
 }
+
+void deamer::file::tool::CMakeLists::SetCMakeLists(const std::string& text)
+{
+	type = CMakeListsType::custom_;
+	fileData = text;
+}
+
+void deamer::file::tool::CMakeLists::Clear()
+{
+	type = CMakeListsType::default_;
+	fileData.clear();
+}
+
+bool deamer::file::tool::CMakeLists::IsDefault() const
+{
+	return type == CMakeListsType::default_;
+}
+
+deamer::file::tool::File deamer::file::tool::CMakeLists::GetCMakeLists() const
+{
+	switch (CMG_Variant)
+	{
+	case CMakeListsGenerationVariant::user_excluded:
+		return File("deamer", "cmake", fileData + dependencies, generationLevel_);
+	case CMakeListsGenerationVariant::default_:
+		return File("CMakeLists", "txt", fileData + dependencies, generationLevel_);
+	default:
+		return File("CMakeLists", "txt", fileData + dependencies, generationLevel_);
+	}
+}
+
+bool deamer::file::tool::CMakeLists::IsUserMaintained() const
+{
+	return CMG_Variant == CMakeListsGenerationVariant::user_maintained;
+}
