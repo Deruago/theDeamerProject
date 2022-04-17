@@ -47,6 +47,7 @@ namespace deamer::file::generate
 		deamer::file::tool::OSType currentOs;
 		std::string languageName;
 		ProjectType projectType = ProjectType::single;
+		bool useLegacyLibraryNames = false;
 
 		virtual void GenerateDirectory(const tool::Directory& directory,
 									   const std::string& pathFromRoot);
@@ -97,6 +98,7 @@ namespace deamer::file::generate
 		std::vector<std::string> GetSubCompilerNames() const;
 
 		void SetProjectType(ProjectType projectType_);
+		void SetLegacyNaming(bool legacyNaming = true);
 
 	private:
 		bool SingleProject() const;
