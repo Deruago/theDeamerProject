@@ -38,9 +38,9 @@ deamer::file::tool::Output deamer::lexer::generator::antlr_lexer::Antlr_Lexer::G
 	file::tool::Output output("Antlr_Lexer");
 
 	const auto lexerDefinitionGenerator = ::deamer::lexer::type::antlr::LexerDefinition(reference);
-	const auto lexerDefinition = file::tool::File(Identity.GetName()->value + "Lexer", "g4",
-												  lexerDefinitionGenerator.Generate(),
-												  file::tool::GenerationLevel::Always_regenerate);
+	const auto lexerDefinition =
+		file::tool::File(name + "Lexer", "g4", lexerDefinitionGenerator.Generate(),
+						 file::tool::GenerationLevel::Always_regenerate);
 
 	output.AddFileToExternal(lexerDefinition);
 
