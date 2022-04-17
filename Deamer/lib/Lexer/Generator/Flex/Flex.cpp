@@ -20,7 +20,6 @@
 
 #include "Deamer/Lexer/Generator/Flex/Flex.h"
 #include "Deamer/File/Tool/Action/Builder.h"
-#include "Deamer/Lexer/Type/Flex/Output.h"
 #include "Deamer/Template/Lexer/Flex/LexerDefinition/FlexDefinitionTemplate.h"
 #include "Deamer/Template/Lexer/Flex/LexerHeader/FlexHeaderTemplate.h"
 
@@ -38,13 +37,6 @@ deamer::file::tool::Output deamer::lexer::generator::flex::Flex::Generate()
 	const auto Identity = reference.GetDefinition<Type::Identity>();
 	const auto Lexicon = reference.GetDefinition<Type::Lexicon>();
 	file::tool::Output output("Flex");
-
-	type::flex::Output flexFileData(reference);
-
-	for (auto* const terminal : Lexicon.Terminals)
-	{
-		flexFileData.AddTerminal(*terminal);
-	}
 
 	const std::string fileName = name + "_lexer";
 	const file::tool::File flexFile(fileName, "l", GenerateFlexInputFile());
