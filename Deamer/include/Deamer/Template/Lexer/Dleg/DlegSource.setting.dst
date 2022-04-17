@@ -1,0 +1,34 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <LexerSource>
+{{file.namespace}} = <deamer::templates::dleg>
+{{file.extension}} = <h>
+
+{{alphabet_size}} = @<{{ascii_size}}>@
+{{ascii_size}} = @<256>@
+
+{{state_transition}} =
+@<	{{optional_state_index}}
+	{ {{state_transition_entry.Variable_Field}} },>@
+
+{{optional_state_index}} = @<{{state_index_impl}}>@
+{{state_index_impl}} = @</*{{state_index}}*/>@
+{{state_char_impl}} = @</*{{state_char}}*/>@
+
+{{state_transition_entry}} = @< {{optional_state_char}}{{out_state}}, >@
+{{state_type}} = @<{{state_enumeration}}, >@
+
+{{state_name}} = @<"{{state_name_entry}}", >@
+
+{{state_skip}} = @<{{state_skip_value}}, >@
+{{state_id}} = @<{{state_id_entry}}, >@
+
+{{state_bool}} = @<true>@
+{{state_bool}} = @<false>@
+
+{{state_type_empty}} = @<0>@
+{{state_type_accept}} = @<1>@
+{{state_type_reject}} = @<2>@
+
+{{state_skip_default}} = @<0>@
+{{state_skip_ignore}} = @<1>@
+{{state_skip_delete}} = @<2>@

@@ -1,0 +1,167 @@
+#include "{{language_name}}/Dleg/Lexer.h"
+#include <vector>
+#include <string>
+
+/* Transition table.
+ * table[state_count][alphabet_size]
+ * 
+ */
+static constexpr unsigned table[{{state_count}}][{{alphabet_size}}] = {
+{{state_transition.Variable_Field}}
+};
+
+/* State Type
+ * - 0: Standard State (Non Accepting)
+ * - 1: Accept State
+ * - 2: Reject State
+ *
+ */
+static constexpr unsigned stateType[{{state_count}}] = {
+	{{state_type.Variable_Field}}
+};
+
+/* State Name
+ * The Name of the accepted Terminal
+ *
+ */
+static constexpr const char* stateName[{{state_count}}] = {
+	{{state_name.Variable_Field}}
+
+};
+
+/* State Skip
+ * The Terminal Type
+ * - Standard Terminal
+ * - Valueless Terminal
+ * - Deleted Terminal
+ */
+static constexpr std::size_t stateSkipContent[{{state_count}}] = {
+	{{state_skip.Variable_Field}}
+
+};
+
+/* State Id
+ * The Terminal Id
+ *
+ */
+static constexpr std::size_t stateId[{{state_count}}] = {
+	{{state_id.Variable_Field}}
+};
+
+std::vector<const deamer::external::cpp::lexer::TerminalObject*> {{language_name}}::dleg::lexer::Lexer::Tokenize(const std::string& text, ::deamer::external::cpp::lexer::TerminalConstructionPolicy constructionPolicy) const
+{
+	std::vector<const deamer::external::cpp::lexer::TerminalObject*> outputTerminalObjects;
+
+	auto c_str = text.c_str();
+	const char* element = &c_str[0];
+
+	int line_number = 0;
+	int column = 0;
+	int new_column = 0;
+
+	std::string current_text;
+	int current_state = 0; // start state is 0
+	auto reset = [&]()
+	{
+		current_text.clear();
+		current_state = 0;	
+		column = new_column;
+	};
+
+	auto ConstructTerminal = [&]() {
+		switch (stateSkipContent[current_state])
+		{
+		case 0: { // Standard Terminal
+			outputTerminalObjects.push_back(new deamer::external::cpp::lexer::TerminalObject(
+				current_text, line_number, column, stateId[current_state]));
+			break;
+		}
+		case 1: { // Valueless Terminal
+			if (constructionPolicy == ::deamer::external::cpp::lexer::TerminalConstructionPolicy::ignore_deleted_terminals)
+			{
+				outputTerminalObjects.push_back(new deamer::external::cpp::lexer::TerminalObject(
+					"", line_number, column, stateId[current_state]));
+			}
+			else
+			{
+				outputTerminalObjects.push_back(new deamer::external::cpp::lexer::TerminalObject(
+					current_text, line_number, column, stateId[current_state]));
+			}
+			break;
+		}
+		case 2: { // Deleted Token
+			if (constructionPolicy == ::deamer::external::cpp::lexer::TerminalConstructionPolicy::ignore_deleted_terminals)
+			{
+				// No Token Creation
+			}
+			else if (constructionPolicy == ::deamer::external::cpp::lexer::TerminalConstructionPolicy::include_deleted_terminals)
+			{
+				outputTerminalObjects.push_back(new deamer::external::cpp::lexer::TerminalObject(
+					current_text, line_number, column, stateId[current_state]));
+			}
+			break;
+		}
+		}
+	};
+
+	while (*element != '\0')
+	{
+		new_column++;
+		
+		if (*element == '\n')
+		{
+			line_number++;
+			new_column = 0;
+		}
+
+		auto new_state = table[current_state][static_cast<int>(*element)];
+
+		if (stateType[new_state] == {{state_type_reject}})
+		{
+			new_column--; // As the state is not progressed
+
+			if (stateType[current_state] == {{state_type_accept}})
+			{
+				ConstructTerminal();
+			}
+			else
+			{
+				std::cout << "Unknown Sequence, internally resetting state\n";
+
+				if (current_text.empty())
+				{
+					current_text += *element;
+					// Going to next element as the element otherwise an infinite loop occurs due to unrecognized patterns.
+					element++;
+				}
+
+				if (constructionPolicy == deamer::external::cpp::lexer::TerminalConstructionPolicy::include_deleted_terminals)
+				{
+					// Create terminal with unknown type to indicate unrecognized sequence.
+					outputTerminalObjects.push_back(new deamer::external::cpp::lexer::TerminalObject(
+					current_text, line_number, column, 0));
+				}
+			}
+			
+			reset();
+		}
+		else
+		{
+			// No exit condition thus continuing
+
+			current_state = new_state;
+			current_text += *element;
+			element++;
+		}
+	}
+	
+	if (!current_text.empty())
+	{
+		if (stateType[current_state] == 1)
+		{
+			ConstructTerminal();
+		}
+	}
+
+	return outputTerminalObjects;
+}
