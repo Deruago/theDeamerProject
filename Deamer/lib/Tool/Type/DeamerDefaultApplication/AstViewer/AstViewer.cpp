@@ -37,7 +37,22 @@ void deamer::tool::type::deamerdefaultapplication::AstViewer::Generate(
 			.GetName()
 			->value;
 	astViewerTemplate.language_name_->Set(languageName);
-	astViewerTemplate.parser_->Set("Bison");
+	if (Reference.GetDefinition<language::type::definition::property::Type::Generation>().IsToolSet(
+			Tool::Bison))
+	{
+		astViewerTemplate.parser_->Set("Bison");
+	}
+	else if (Reference.GetDefinition<language::type::definition::property::Type::Generation>()
+				 .IsToolSet(Tool::Dparse))
+	{
+		astViewerTemplate.parser_->Set("Dparse");
+	}
+	else
+	{
+		const auto tmp = file::tool::File("main", "cpp", "");
+		output.AddFile(tmp);
+		return;
+	}
 
 	auto astViewerFile = file::tool::File("main", "cpp", astViewerTemplate.GetOutput());
 

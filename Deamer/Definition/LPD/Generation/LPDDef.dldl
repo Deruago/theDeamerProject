@@ -54,6 +54,20 @@ function: <
 >
 
 function: <
+	bool IsToolSet(const object::main::Generate& generate) const
+	{
+		for (const auto* generateTool : generateStatements)
+		{
+			if (*generateTool == generate)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+>
+
+function: <
 	deamer::file::tool::OSType GetOSTarget() const
 	{
 		if (osTarget.empty())

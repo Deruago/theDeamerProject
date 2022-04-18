@@ -62,6 +62,18 @@ bool deamer::language::type::definition::property::main::Generation::IsArgumentS
 	return false;
 }
 
+bool deamer::language::type::definition::property::main::Generation::IsToolSet(const object::main::Generate& generate) const
+{
+	for (const auto* generateTool : generateStatements)
+	{
+		if (*generateTool == generate)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 deamer::file::tool::OSType deamer::language::type::definition::property::main::Generation::GetOSTarget() const
 {
 	if (osTarget.empty())

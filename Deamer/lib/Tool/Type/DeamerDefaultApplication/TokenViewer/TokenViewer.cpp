@@ -37,7 +37,39 @@ void deamer::tool::type::deamerdefaultapplication::TokenViewer::Generate(
 			.GetName()
 			->value;
 	tokenViewerTemplate.language_name_->Set(languageName);
-	tokenViewerTemplate.lexer_->Set("Flex");
+	if (Reference.GetDefinition<language::type::definition::property::Type::Generation>().IsToolSet(
+			Tool::Bison))
+	{
+		tokenViewerTemplate.parser_->Set("Bison");
+	}
+	else if (Reference.GetDefinition<language::type::definition::property::Type::Generation>()
+				 .IsToolSet(Tool::Dparse))
+	{
+		tokenViewerTemplate.parser_->Set("Dparse");
+	}
+	else
+	{
+		const auto tmp = file::tool::File("main", "cpp", "");
+		output.AddFile(tmp);
+		return;
+	}
+
+	if (Reference.GetDefinition<language::type::definition::property::Type::Generation>().IsToolSet(
+			Tool::Flex))
+	{
+		tokenViewerTemplate.lexer_->Set("Flex");
+	}
+	else if (Reference.GetDefinition<language::type::definition::property::Type::Generation>()
+				 .IsToolSet(Tool::Dleg))
+	{
+		tokenViewerTemplate.lexer_->Set("Dleg");
+	}
+	else
+	{
+		const auto tmp = file::tool::File("main", "cpp", "");
+		output.AddFile(tmp);
+		return;
+	}
 
 	auto tokenViewerFile = file::tool::File("main", "cpp", tokenViewerTemplate.GetOutput());
 

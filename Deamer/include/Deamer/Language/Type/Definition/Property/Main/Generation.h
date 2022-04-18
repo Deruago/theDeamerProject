@@ -62,6 +62,7 @@ namespace deamer::language::type::definition::property::main
 	public:
 		bool IsIntegrationSet(const object::main::Integrate& integrate) const;
 		bool IsArgumentSet(const object::main::GenerateArgument& generateArgument) const;
+		bool IsToolSet(const object::main::Generate& generate) const;
 		deamer::file::tool::OSType GetOSTarget() const;
 
 
