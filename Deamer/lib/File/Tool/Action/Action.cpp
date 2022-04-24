@@ -88,9 +88,10 @@ deamer::file::tool::action::Action::operator+=(Action&& action) noexcept
 	return *this;
 }
 
-std::string deamer::file::tool::action::Action::ConstructArgument(CommandTarget commandTarget,
-																  const std::string& directoryPath,
-																  bool force) const
+std::string
+deamer::file::tool::action::Action::ConstructArgument(CommandTarget commandTarget,
+													  const std::string& directoryPath, bool force,
+													  const std::string forceConsolePath) const
 {
 	if (commandTarget == CommandTarget::python && !force)
 	{
@@ -143,15 +144,15 @@ std::string deamer::file::tool::action::Action::ConstructArgument(CommandTarget 
 
 	if (used_os == OSType::os_linux)
 	{
-		return ConstructForLinux(commandTarget, commandList);
+		return ConstructForLinux(commandTarget, commandList, forceConsolePath);
 	}
 	else if (used_os == OSType::os_windows)
 	{
-		return ConstructForWindows(commandTarget, commandList);
+		return ConstructForWindows(commandTarget, commandList, forceConsolePath);
 	}
 	else if (used_os == OSType::os_mac)
 	{
-		return ConstructForMac(commandTarget, commandList);
+		return ConstructForMac(commandTarget, commandList, forceConsolePath);
 	}
 	else
 	{
@@ -214,12 +215,24 @@ std::string deamer::file::tool::action::Action::ConstructPythonConsoleSpecialSet
 	return "\"SETTING OUR_OS " + ourOs + "\"";
 }
 
-std::string deamer::file::tool::action::Action::ConstructForLinux(CommandTarget commandTarget,
-																  const std::string& commands) const
+std::string
+deamer::file::tool::action::Action::ConstructForLinux(CommandTarget commandTarget,
+													  const std::string& commands,
+													  const std::string forceConsolePath) const
 {
+	std::string consolePath;
+	if (forceConsolePath.empty())
+	{
+		consolePath = PythonConsole::GetConsoleLocation();
+	}
+	else
+	{
+		consolePath = forceConsolePath;
+	}
+
 	if (commandTarget == CommandTarget::python)
 	{
-		return "(python3 " + PythonConsole::GetConsoleLocation() + " " + commands + ")";
+		return "(python3 " + consolePath + " " + commands + ")";
 	}
 
 	// if (commandTarget == CommandTarget::linux)
@@ -228,7 +241,8 @@ std::string deamer::file::tool::action::Action::ConstructForLinux(CommandTarget 
 
 std::string
 deamer::file::tool::action::Action::ConstructForWindows(CommandTarget commandTarget,
-														const std::string& commands) const
+														const std::string& commands,
+														const std::string forceConsolePath) const
 {
 	if (commandTarget == CommandTarget::os_linux)
 	{
@@ -236,19 +250,39 @@ deamer::file::tool::action::Action::ConstructForWindows(CommandTarget commandTar
 	}
 	if (commandTarget == CommandTarget::python)
 	{
-		return "(python3 " + PythonConsole::GetConsoleLocation() + " " + commands + ")";
+		std::string consolePath;
+		if (forceConsolePath.empty())
+		{
+			consolePath = PythonConsole::GetConsoleLocation();
+		}
+		else
+		{
+			consolePath = forceConsolePath;
+		}
+		return "(python3 " + consolePath + " " + commands + ")";
 	}
 
 	// if (commandTarget == CommandTarget::windows)
 	return "(" + commands + ")"; // Not tested
 }
 
-std::string deamer::file::tool::action::Action::ConstructForMac(CommandTarget commandTarget,
-																const std::string& commands) const
+std::string
+deamer::file::tool::action::Action::ConstructForMac(CommandTarget commandTarget,
+													const std::string& commands,
+													const std::string forceConsolePath) const
 {
 	if (commandTarget == CommandTarget::python)
 	{
-		return "(python3 " + PythonConsole::GetConsoleLocation() + " " + commands + ")";
+		std::string consolePath;
+		if (forceConsolePath.empty())
+		{
+			consolePath = PythonConsole::GetConsoleLocation();
+		}
+		else
+		{
+			consolePath = forceConsolePath;
+		}
+		return "(python3 " + consolePath + " " + commands + ")";
 	}
 
 	// if (commandTarget == CommandTarget::mac)

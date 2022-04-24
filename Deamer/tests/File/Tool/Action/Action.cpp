@@ -19,8 +19,9 @@ TEST_F(TestAction, ChangeDirectory_LinuxPython_CorrectCommand)
 	const std::string expected_command =
 		R"((python3 ./ "SETTING OUR_OS linux" "any CD \"./\"" "any CD \"./other_directory\""))";
 
-	EXPECT_EQ(expected_command, action->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
+	EXPECT_EQ(expected_command,
+			  action->ConstructArgument(deamer::file::tool::action::CommandTarget::python, "./",
+										true, "./"));
 }
 
 TEST_F(TestAction, ChangeDirectory_WindowsPython_CorrectCommand)
@@ -31,8 +32,9 @@ TEST_F(TestAction, ChangeDirectory_WindowsPython_CorrectCommand)
 	const std::string expected_command =
 		R"((python3 ./ "SETTING OUR_OS windows" "any CD \"./\"" "any CD \"./other_directory\""))";
 
-	EXPECT_EQ(expected_command, action->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
+	EXPECT_EQ(expected_command,
+			  action->ConstructArgument(deamer::file::tool::action::CommandTarget::python, "./",
+										true, "./"));
 }
 
 TEST_F(TestAction, ChangeDirectory_LinuxLinux_CorrectCommand)
@@ -42,9 +44,9 @@ TEST_F(TestAction, ChangeDirectory_LinuxLinux_CorrectCommand)
 	const auto action = builder.GetAction();
 	const std::string expected_command = R"((cd "./" ; cd "./other_directory"))";
 
-	EXPECT_EQ(
-		expected_command,
-		action->ConstructArgument(deamer::file::tool::action::CommandTarget::os_linux, "./", true));
+	EXPECT_EQ(expected_command,
+			  action->ConstructArgument(deamer::file::tool::action::CommandTarget::os_linux, "./",
+										true, "./"));
 }
 
 TEST_F(TestAction, ChangeDirectory_WindowsWindows_CorrectCommand)
@@ -67,8 +69,9 @@ TEST_F(TestAction, MoveFile_LinuxPython_CorrectCommand)
 	const std::string expected_command =
 		R"((python3 ./ "SETTING OUR_OS linux" "any CD \"./\"" "any MOVEFILE \"./other_directory1\" \"./other_directory2\""))";
 
-	EXPECT_EQ(expected_command, action->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
+	EXPECT_EQ(expected_command,
+			  action->ConstructArgument(deamer::file::tool::action::CommandTarget::python, "./",
+										true, "./"));
 }
 
 TEST_F(TestAction, RemoveFile_LinuxPython_CorrectCommand)
@@ -79,8 +82,9 @@ TEST_F(TestAction, RemoveFile_LinuxPython_CorrectCommand)
 	const std::string expected_command =
 		R"((python3 ./ "SETTING OUR_OS linux" "any CD \"./\"" "any REMFILE \"./other_directory\""))";
 
-	EXPECT_EQ(expected_command, action->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
+	EXPECT_EQ(expected_command,
+			  action->ConstructArgument(deamer::file::tool::action::CommandTarget::python, "./",
+										true, "./"));
 }
 
 TEST_F(TestAction, MoveFile_WindowsPython_CorrectCommand)
@@ -91,8 +95,9 @@ TEST_F(TestAction, MoveFile_WindowsPython_CorrectCommand)
 	const std::string expected_command =
 		R"((python3 ./ "SETTING OUR_OS windows" "any CD \"./\"" "any MOVEFILE \"./other_directory1\" \"./other_directory2\""))";
 
-	EXPECT_EQ(expected_command, action->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
+	EXPECT_EQ(expected_command,
+			  action->ConstructArgument(deamer::file::tool::action::CommandTarget::python, "./",
+										true, "./"));
 }
 
 TEST_F(TestAction, RemoveFile_WindowsPython_CorrectCommand)
@@ -103,8 +108,9 @@ TEST_F(TestAction, RemoveFile_WindowsPython_CorrectCommand)
 	const std::string expected_command =
 		R"((python3 ./ "SETTING OUR_OS windows" "any CD \"./\"" "any REMFILE \"./other_directory\""))";
 
-	EXPECT_EQ(expected_command, action->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
+	EXPECT_EQ(expected_command,
+			  action->ConstructArgument(deamer::file::tool::action::CommandTarget::python, "./",
+										true, "./"));
 }
 
 TEST_F(TestAction, CopyAction_ActionIsCorrectlyCopied)
@@ -120,10 +126,12 @@ TEST_F(TestAction, CopyAction_ActionIsCorrectlyCopied)
 
 	EXPECT_FALSE(action->IsEmpty());
 	EXPECT_FALSE(actionCopy->IsEmpty());
-	EXPECT_EQ(expected_command, action->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
-	EXPECT_EQ(expected_command, actionCopy->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
+	EXPECT_EQ(expected_command,
+			  action->ConstructArgument(deamer::file::tool::action::CommandTarget::python, "./",
+										true, "./"));
+	EXPECT_EQ(expected_command,
+			  actionCopy->ConstructArgument(deamer::file::tool::action::CommandTarget::python, "./",
+											true, "./"));
 }
 
 TEST_F(TestAction, DoubleCopyAction_ActionIsCorrectlyCopied)
@@ -141,12 +149,15 @@ TEST_F(TestAction, DoubleCopyAction_ActionIsCorrectlyCopied)
 	EXPECT_FALSE(action->IsEmpty());
 	EXPECT_FALSE(actionCopy->IsEmpty());
 	EXPECT_FALSE(actionCopyCopy->IsEmpty());
-	EXPECT_EQ(expected_command, action->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
-	EXPECT_EQ(expected_command, actionCopy->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
-	EXPECT_EQ(expected_command, actionCopyCopy->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
+	EXPECT_EQ(expected_command,
+			  action->ConstructArgument(deamer::file::tool::action::CommandTarget::python, "./",
+										true, "./"));
+	EXPECT_EQ(expected_command,
+			  actionCopy->ConstructArgument(deamer::file::tool::action::CommandTarget::python, "./",
+											true, "./"));
+	EXPECT_EQ(expected_command,
+			  actionCopyCopy->ConstructArgument(deamer::file::tool::action::CommandTarget::python,
+												"./", true, "./"));
 }
 
 TEST_F(TestAction, AddAction_ActionIsCorrectlyAdded)
@@ -165,6 +176,7 @@ TEST_F(TestAction, AddAction_ActionIsCorrectlyAdded)
 		R"((python3 ./ "SETTING OUR_OS linux" "any CD \"./\"" "any CD \"./other_directory1\"" "any CD \"./other_directory2\""))";
 
 	EXPECT_FALSE(action1->IsEmpty());
-	EXPECT_EQ(expected_command, action1->ConstructArgument(
-									deamer::file::tool::action::CommandTarget::python, "./", true));
+	EXPECT_EQ(expected_command,
+			  action1->ConstructArgument(deamer::file::tool::action::CommandTarget::python, "./",
+										 true, "./"));
 }

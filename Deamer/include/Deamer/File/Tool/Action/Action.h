@@ -55,8 +55,8 @@ namespace deamer::file::tool::action
 
 	public:
 		std::string ConstructArgument(CommandTarget commandTarget,
-									  const std::string& directoryPath = "./",
-									  bool force = false) const;
+									  const std::string& directoryPath = "./", bool force = false,
+									  const std::string forceConsolePath = "") const;
 		bool IsEmpty() const;
 
 	public:
@@ -66,11 +66,12 @@ namespace deamer::file::tool::action
 	private:
 		std::string ConstructPythonConsoleSpecialSettings(CommandTarget commandTarget) const;
 
-		std::string ConstructForLinux(CommandTarget commandTarget,
-									  const std::string& commands) const;
-		std::string ConstructForWindows(CommandTarget commandTarget,
-										const std::string& commands) const;
-		std::string ConstructForMac(CommandTarget commandTarget, const std::string& commands) const;
+		std::string ConstructForLinux(CommandTarget commandTarget, const std::string& commands,
+									  const std::string forceConsolePath) const;
+		std::string ConstructForWindows(CommandTarget commandTarget, const std::string& commands,
+										const std::string forceConsolePath) const;
+		std::string ConstructForMac(CommandTarget commandTarget, const std::string& commands,
+									const std::string forceConsolePath) const;
 	};
 }
 
