@@ -43,6 +43,8 @@ def install_project(name: str, install: bool, test_argument: str, extra_args: st
     # Test argument specifies the option to enable/disable testing
     if test_argument is not None:
         test_argument = f"-D{test_argument}=OFF"
+    else:
+        test_argument = ""
         
     if install and subdirectory_exists(name):
         print(f"Installing {name}")
