@@ -2163,7 +2163,9 @@ namespace deamer::templates::flex
 							   "Terminal = new deamer::external::cpp::lexer::TerminalObject(yyval, "
 							   "yylineno, column, std::size_t("),
 						   GenerateVariable(terminal_id_->This()),
-						   GenerateVariable(")); else "),
+						   GenerateVariable(")); else if ("),
+						   GenerateVariable(terminal_is_transferred_->This()),
+						   GenerateVariable(") "),
 						   GenerateVariable(language_name_->This()),
 						   GenerateVariable("lval"),
 						   GenerateVariable("."),
