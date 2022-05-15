@@ -21,7 +21,7 @@
 #include "Deamer/Language/Analyzer/Main/Grammar/ProductionRule.h"
 #include "Deamer/Language/Analyzer/Main/Grammar/NonTerminal.h"
 #include "Deamer/Language/Reference/ReverseLookup.h"
-#include <iostream>
+#include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
 
 deamer::language::analyzer::main::ProductionRule::ProductionRule(
 	const reference::PropertyDefinitionBase* reference_,
@@ -61,7 +61,7 @@ bool deamer::language::analyzer::main::ProductionRule::IsDirectRecursive(
 	return false;
 }
 
-size_t deamer::language::analyzer::main::ProductionRule::GetDirectRecursionPoint() const
+std::size_t deamer::language::analyzer::main::ProductionRule::GetDirectRecursionPoint() const
 {
 	const reference::ReverseLookup<type::definition::object::main::NonTerminal> reverseLookup(
 		language_reference);
@@ -76,10 +76,10 @@ size_t deamer::language::analyzer::main::ProductionRule::GetDirectRecursionPoint
 	return IsDirectRecursive(result.GetObject());
 }
 
-size_t deamer::language::analyzer::main::ProductionRule::GetDirectRecursionPoint(
+std::size_t deamer::language::analyzer::main::ProductionRule::GetDirectRecursionPoint(
 	reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const
 {
-	size_t i = 0;
+	std::size_t i = 0;
 
 	for (reference::LDO<type::definition::object::main::NonTerminal> ldo : productionRule->Tokens)
 	{
@@ -108,7 +108,7 @@ bool deamer::language::analyzer::main::ProductionRule::IsNonTerminalOwnerOfThisP
 	return false;
 }
 
-size_t deamer::language::analyzer::main::ProductionRule::GetProductionRuleId() const
+std::size_t deamer::language::analyzer::main::ProductionRule::GetProductionRuleId() const
 {
 	const reference::ReverseLookup<type::definition::object::main::NonTerminal> reverseLookup(
 		language_reference);
@@ -123,10 +123,10 @@ size_t deamer::language::analyzer::main::ProductionRule::GetProductionRuleId() c
 	return GetProductionRuleId(result.GetObject());
 }
 
-size_t deamer::language::analyzer::main::ProductionRule::GetProductionRuleId(
+std::size_t deamer::language::analyzer::main::ProductionRule::GetProductionRuleId(
 	reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const
 {
-	size_t count = 0;
+	std::size_t count = 0;
 
 	for (auto* productionRule_ : nonTerminal->ProductionRules)
 	{
@@ -139,4 +139,29 @@ size_t deamer::language::analyzer::main::ProductionRule::GetProductionRuleId(
 	}
 
 	throw std::runtime_error("Production rule is not in nonterminal!");
+}
+
+deamer::language::reference::LDO<deamer::language::type::definition::object::main::NonTerminal>
+deamer::language::analyzer::main::ProductionRule::GetNonTerminal() const
+{
+	const auto result =
+		reference::ReverseLookup<deamer::language::type::definition::object::main::NonTerminal>(
+			language_reference)
+			.Get(productionRule);
+
+	if (result.IsEmpty())
+	{
+		throw std::logic_error("There is no NonTerminal which owns this ProductionRule!");
+	}
+
+	return result.GetObject();
+}
+
+bool deamer::language::analyzer::main::ProductionRule::IsProductionRuleBelongToSomeNonTerminal()
+	const
+{
+	return !reference::ReverseLookup<type::definition::object::main::NonTerminal>(
+				language_reference)
+				.Get(productionRule)
+				.IsEmpty();
 }

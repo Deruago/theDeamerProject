@@ -34,7 +34,9 @@ deamer::parser::type::antlr::ParserDefinition::ParserDefinition(ReferenceType re
 std::string deamer::parser::type::antlr::ParserDefinition::Generate() const
 {
 	const auto language_name =
-		reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
+		reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			.GetName()
+			->value;
 
 	auto parserDefinition = templates::antlr::parser::ParserDefinitionTemplate();
 	parserDefinition.language_name_->Set(language_name);

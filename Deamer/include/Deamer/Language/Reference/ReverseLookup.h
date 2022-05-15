@@ -29,6 +29,20 @@
 
 namespace deamer::language::reference
 {
+	/*!	\class ReverseLookup
+	 *
+	 *	\brief Used to reverse lookup T_lookup given some object.
+	 *
+	 *	\details Reverse lookup is the search of any T_lookup which references the given object.
+	 *	This search thus looks for references of the object. Thus reverse lookup.
+	 *
+	 *	\note Depending on which search method is used. The outputted LDO order is different:
+	 *	- Primary Cache: LDO ordered by memory address
+	 *	- Direct Search: LDO ordered by index in LPD LDO vector.
+	 *
+	 *	\warning The user may not depend on the order of the LDOs returned by the ReverseLookup<T>
+	 *	class. This can lead to unexpected behaviour.
+	 */
 	template<typename T_lookup>
 	class ReverseLookup
 	{

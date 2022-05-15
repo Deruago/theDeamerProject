@@ -1,0 +1,6 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <FlexHeader>
+{{file.namespace}} = <deamer::templates::flex>
+{{file.extension}} = <h>
+
+{{header_guard}} = @<{{language_name}}_FLEX_LEXER_H>@

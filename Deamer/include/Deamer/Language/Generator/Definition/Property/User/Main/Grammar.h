@@ -30,7 +30,7 @@ namespace deamer::language::generator::definition::property::user
 	 *
 	 *	\brief Used to generate a Grammar definition.
 	 *
-	 *	\tparam LanguageDefinitionType The language the grammar is made for.
+	 *	\tparam LanguageDefinitionType The language the Grammar is made for.
 	 */
 	template<typename LanguageDefinitionType>
 	class Grammar : public Base<LanguageDefinitionType, type::definition::property::main::Grammar>
@@ -44,15 +44,17 @@ namespace deamer::language::generator::definition::property::user
 
 		/*! \fn Generate
 		 *
-		 *	\brief Generates grammar property definition.
+		 *	\brief Generates Grammar property definition.
 		 */
 		void GenerateDefinition() override
 		{
-			const auto nonterminals = Base<LanguageDefinitionType, type::definition::property::main::Grammar>::template GetObjects<type::definition::object::Type::NonTerminal>();
-			const auto productionrules = Base<LanguageDefinitionType, type::definition::property::main::Grammar>::template GetObjects<type::definition::object::Type::ProductionRule>();
-			this->generatedDefinition = new type::definition::property::main::Grammar(nonterminals, productionrules);
+			const auto NonTerminals = Base<LanguageDefinitionType, type::definition::property::main::Grammar>::template GetObjects<type::definition::object::Type::NonTerminal>();
+			const auto ProductionRules = Base<LanguageDefinitionType, type::definition::property::main::Grammar>::template GetObjects<type::definition::object::Type::ProductionRule>();
+
+			this->generatedDefinition = new type::definition::property::main::Grammar(NonTerminals,
+				ProductionRules);
 		}
 	};
 }
 
-#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_GRAMMAR_H
+#endif // DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_GRAMMAR_H

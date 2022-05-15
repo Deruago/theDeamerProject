@@ -1,0 +1,300 @@
+#include "{{language_name}}/Dparse/Parser.h"
+#include "{{language_name}}/Ast/Utility/CreateNode.h"
+#include "{{language_name}}/Ast/Relation/NodeEnumToText.h"
+#include "{{language_name}}/Ast/Relation/NodeIsDeleted.h"
+#include "{{language_name}}/Ast/Relation/NodeIsIgnored.h"
+#include <Deamer/External/Cpp/Ast/Node.h>
+#include <Deamer/External/Cpp/Ast/Tree.h>
+#include <memory>
+#include <vector>
+#include <tuple>
+
+static constexpr ::{{language_name}}::ast::Type productionRuleOutput[{{production_rule_count}}] = {
+{{production_output_entry.Variable_Field}}
+};
+
+static constexpr ::deamer::external::cpp::ast::ProductionRuleType productionTypeTable[{{production_rule_count}}] = {
+{{production_type_entry.Variable_Field}}
+};
+
+static constexpr std::size_t productionSizeTable[{{production_rule_count}}] = {
+{{production_size_entry.Variable_Field}}
+};
+
+static constexpr std::size_t productionRuleId[{{production_rule_count}}] = {
+{{production_id_entry.Variable_Field}}
+};
+
+static constexpr std::size_t gotoTable[{{state_count}}][{{nonterminal_count}}] = {
+{{goto_table_2d_entry.Variable_Field}}
+};
+
+/*	The field has a type containing two parts:
+ *	- Type of action
+ *	- Action specialization
+ *
+ *	There are 4 types:
+ *	- 0: Unknown (Reject due to not being accessible)
+ *	- 1: Shift
+ *	- 2: Reduce
+ *	- 3: Accept
+ *	- 4: Reject (Formally specified to reject)
+ *
+ *	The specialization value defines the operation given the type:
+ *	- Shift: The value defines the next state
+ *	- Reduce: The value defines the production rule index
+ *	- Other: The value is unused
+ */
+static constexpr std::tuple<std::size_t, std::size_t> actionTable[{{state_count}}][{{terminal_count}}] = {
+{{action_table_2d_entry.Variable_Field}}
+};
+
+deamer::external::cpp::ast::Tree* {{language_name}}::dparse::parser::Parser::Parse(std::vector<const ::deamer::external::cpp::lexer::TerminalObject*> terminalObjects,
+			  ::deamer::external::cpp::parser::ASTConstructionPolicy constructionPolicy) const
+{
+	// Add Epsilon token (EOF) at end of input
+	std::unique_ptr<deamer::external::cpp::lexer::TerminalObject> epsilon =
+		std::make_unique<deamer::external::cpp::lexer::TerminalObject>("");
+	terminalObjects.push_back(epsilon.get());
+
+	std::size_t lookahead = 0;
+	std::vector<std::size_t> stateStack = {0};
+	std::vector<::deamer::external::cpp::ast::Node*> stateItems = { nullptr };
+	
+	auto UninitializeStack = [&]() {
+		for (auto node : stateItems)
+		{
+			delete node;
+		}
+	};
+
+	auto GetCurrentLookaheadTokenObject = [&]() {
+			return terminalObjects[lookahead];
+	};
+
+	auto GetCurrentLookaheadToken = [&]() {
+		if (lookahead < terminalObjects.size())
+		{
+			return static_cast<std::size_t>(terminalObjects[lookahead]->GetType());
+		}
+		
+		return std::size_t{0};
+	};
+
+	auto GetLineNumberOfLookaheadToken = [&]() {
+		if (lookahead < terminalObjects.size())
+		{
+			return terminalObjects[lookahead]->GetLineNumber();
+		}
+		
+		return -1;
+	};
+	
+	auto GetColumnNumberOfLookaheadToken = [&]() {
+		if (lookahead < terminalObjects.size())
+		{
+			return terminalObjects[lookahead]->GetColumnNumber();
+		}
+		
+		return -1;
+	};
+
+	auto GetValueOfLookaheadToken = [&]() {
+		if (lookahead < terminalObjects.size())
+		{
+			return terminalObjects[lookahead]->GetValue();
+		}
+		
+		return std::string{};
+	};
+
+	auto GetCurrentState = [&]() {
+		return stateStack[stateStack.size() - 1];
+	};
+
+	auto LookaheadIsUnrecognizedToken = [&]() {
+		return lookahead < terminalObjects.size() && terminalObjects[lookahead]->GetType() == 0 &&
+			   terminalObjects[lookahead] != epsilon.get();
+	};
+
+	std::size_t deletedItemCount = 0;
+	while(true)
+	{
+		if (constructionPolicy == ::deamer::external::cpp::parser::ASTConstructionPolicy::cst && LookaheadIsUnrecognizedToken())
+		{
+			stateItems.push_back(
+				::{{language_name}}::ast::utility::CreateNode()
+				.Node(GetCurrentLookaheadTokenObject())
+				.GetNode()
+			);
+			stateStack.push_back(GetCurrentState());
+			lookahead++;
+			deletedItemCount++;
+			continue;
+		}
+
+		const auto currentLookahead = GetCurrentLookaheadToken();
+		const auto currentState = GetCurrentState();
+
+		const auto currentAction = actionTable[currentState][currentLookahead];
+		auto actionType = std::get<0>(currentAction);
+		auto actionValue = std::get<1>(currentAction);
+		
+		if (LookaheadIsUnrecognizedToken())
+		{
+			actionType = 0; // Reject as the terminal is not used in the table.
+		}
+
+		auto PopItemCount = [&]() {
+			return productionSizeTable[actionValue] + deletedItemCount;
+		};
+
+		auto Reduce = [&]() {
+			::{{language_name}}::ast::utility::CreateNode createNode{};
+			createNode.Node(static_cast<std::size_t>(productionRuleOutput[actionValue]));
+			createNode.ProductionRule(productionRuleId[actionValue], productionTypeTable[actionValue]);
+
+			if (PopItemCount() > stateStack.size())
+			{
+				throw std::logic_error("Dparse.Parse(): Syntax error, reduced production rule size is larger than stack size.");
+			}
+
+			for (auto iter = std::end(stateItems) - PopItemCount(); iter != std::end(stateItems); iter++)
+			{
+				if (*iter == nullptr)
+				{
+					continue;
+				}
+
+				createNode.SubNode(*iter);
+			}
+
+			return createNode.GetNode();
+		};
+
+		switch(actionType)
+		{
+		case 0: {
+			// Reject
+			if (constructionPolicy == ::deamer::external::cpp::parser::ASTConstructionPolicy::cst && ::{{language_name}}::ast::relation::NodeIsDeleted(static_cast<::{{language_name}}::ast::Type>(GetCurrentLookaheadToken())))
+			{
+				stateItems.push_back(
+					::{{language_name}}::ast::utility::CreateNode()
+					.Node(GetCurrentLookaheadTokenObject())
+					.GetNode()
+				);
+				stateStack.push_back(GetCurrentState());
+				lookahead++;
+				deletedItemCount++;
+				break;
+			}
+
+			if constexpr ({{optional_better_syntax_errors}})
+			{
+				std::cout << "Syntax error, unexpected token: ";
+				
+				const std::string text_ = ::{{language_name}}::ast::relation::ConvertEnumToText(static_cast<::{{language_name}}::ast::Type>(GetCurrentLookaheadToken()));
+				if (text_.empty())
+				{
+					std::cout << "$";
+				}
+				else
+				{
+					std::cout << text_;
+				}
+
+				std::cout << " expected the following tokens: ";
+				for (auto i = 0; i < {{terminal_count}}; i++)
+				{
+					auto action_ = actionTable[currentState][i];
+					if (std::get<0>(action_) == 0)
+					{
+						continue;
+					}
+					const std::string text = ::{{language_name}}::ast::relation::ConvertEnumToText(static_cast<::{{language_name}}::ast::Type>(i));
+					if (text.empty())
+					{
+						std::cout << "$";
+					}
+					else
+					{
+						std::cout << text;
+					}
+
+					std::cout << ", ";
+				}
+
+				std::cout << "\n";
+
+			}
+
+			UninitializeStack();
+			return nullptr;
+		}
+		case 1: {
+			// Shift
+			auto currentLookaheadToken_ = GetCurrentLookaheadTokenObject();
+			if (constructionPolicy == ::deamer::external::cpp::parser::ASTConstructionPolicy::ast && ::{{language_name}}::ast::relation::NodeIsIgnored(static_cast<::{{language_name}}::ast::Type>(currentLookaheadToken_->GetType())))
+			{
+				stateItems.push_back(nullptr);
+				stateStack.push_back(actionValue);
+				lookahead++;
+			}
+			else
+			{
+				stateItems.push_back(
+					::{{language_name}}::ast::utility::CreateNode()
+					.Node(GetCurrentLookaheadTokenObject())
+					.GetNode()
+				);
+				stateStack.push_back(actionValue);
+				lookahead++;
+			}
+			break;
+		}
+		case 2: {
+			// Reduce
+			auto newNonTerminal = Reduce();
+			if (PopItemCount() > 0)
+			{
+				stateItems.erase(std::end(stateItems) - PopItemCount(), std::end(stateItems));
+				stateStack.erase(std::end(stateStack) - PopItemCount(), std::end(stateStack));
+			}
+			stateItems.push_back(newNonTerminal);
+
+			auto newCurrentState = GetCurrentState();
+			stateStack.push_back(gotoTable[newCurrentState][newNonTerminal->GetType() - {{terminal_count}}]);
+			deletedItemCount = 0;
+			break;
+		}
+		case 3: {
+			// Accept
+			if (1 >= stateItems.size())
+			{
+				throw std::logic_error("Stack is in an impossible state.");
+			}
+			
+			auto topNode = stateItems[1];
+			auto tree = new ::deamer::external::cpp::ast::Tree(topNode);
+			
+			return tree;
+		}
+		case 4: {
+			// Reject
+			UninitializeStack();
+			throw std::logic_error("Rejected input");
+		}
+		}
+	}
+
+	throw std::logic_error("Dparse.Parse(): Unexpected error not captured internally.");
+}
+
+deamer::external::cpp::ast::Tree* {{language_name}}::dparse::parser::Parser::Parse(const std::string& text,
+			  ::deamer::external::cpp::parser::ASTConstructionPolicy constructionPolicy) const
+{
+	// Pass through lexer to get Terminal Objects
+	// And use those objects;
+
+	return nullptr;
+}

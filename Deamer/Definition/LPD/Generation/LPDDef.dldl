@@ -1,0 +1,80 @@
+name: Generation
+type: special
+description: <
+	This language property definition, defines how to generate the language.
+	Designed by Thimo Böhmer
+>
+description_detailed: <
+	This LPD is part of a set of "special" LPD's, these LPD's are always available.
+	Generation contains several data about what should be generated, from default tools to other
+	ecosystem data.
+>
+
+ldo: <
+	OSTarget
+	Generate
+	GenerateArgument
+	Integrate
+>
+
+data: <
+	Vector[OSTarget] osTarget
+	Vector[Generate] generateStatements
+	Vector[GenerateArgument] generateArguments
+	Vector[Integrate] integrateStatements
+>
+
+function: <
+	bool IsIntegrationSet(const object::main::Integrate& integrate) const
+	{
+		for (const auto* integrateStatement : integrateStatements)
+		{
+			if (*integrateStatement == integrate)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+>
+
+function: <
+	bool IsArgumentSet(const object::main::GenerateArgument& generateArgument) const
+	{
+		for (const auto* argument : generateArguments)
+		{
+			if (*argument == generateArgument)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+>
+
+function: <
+	bool IsToolSet(const object::main::Generate& generate) const
+	{
+		for (const auto* generateTool : generateStatements)
+		{
+			if (*generateTool == generate)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+>
+
+function: <
+	deamer::file::tool::OSType GetOSTarget() const
+	{
+		if (osTarget.empty())
+		{
+			return deamer::file::tool::os_used;
+		}
+
+		return osTarget[0]->os;
+	}
+>

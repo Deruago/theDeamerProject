@@ -22,6 +22,7 @@
 #define DEAMER_FILE_TOOL_DIRECTORY_H
 
 #include "Deamer/File/Tool/Action.h"
+#include "Deamer/File/Tool/Action/Action.h"
 #include "Deamer/File/Tool/CMakeLists.h"
 #include "Deamer/File/Tool/File.h"
 #include "Deamer/File/Tool/OSType.h"
@@ -37,7 +38,7 @@ namespace deamer::file::tool
 
 		std::vector<File> files;
 		std::vector<Directory> directories;
-		std::vector<std::pair<deamer::file::tool::Action, deamer::file::tool::OSType>> actions;
+		std::unique_ptr<deamer::file::tool::action::Action> action;
 
 		mutable const Directory* parent = nullptr;
 
@@ -45,17 +46,22 @@ namespace deamer::file::tool
 
 	public:
 		// Use this to generate an empty directory.
-		Directory() = default;
+		Directory();
 
 		Directory(const std::string& directoryName_);
 		Directory(const Directory& rhs);
 		virtual ~Directory() = default;
 
 	public:
+		Directory& operator=(const Directory& rhs);
+		Directory& operator=(Directory&& rhs) noexcept;
+
+	public:
 		void AddFile(const File& newFile);
 		void AddDirectory(const Directory& newDirectory);
-		void AddAction(const deamer::file::tool::Action& action,
-					   const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
+		void AddAction(std::unique_ptr<deamer::file::tool::action::Action> action_);
+		void AddAction(deamer::file::tool::Action action_);
+
 		void SetCMakeLists(const std::string& cmakeLists_);
 		void SetCMakeLists(const CMakeLists& cmakeLists_);
 
@@ -69,8 +75,7 @@ namespace deamer::file::tool
 		std::vector<File> GetFiles() const;
 		std::vector<Directory> GetDirectories() const;
 		std::string GetThisDirectory() const;
-		deamer::file::tool::Action
-		GetAction(deamer::file::tool::OSType os = deamer::file::tool::OSType::all) const;
+		const deamer::file::tool::action::Action& GetAction() const;
 		CMakeLists GetCMakeLists() const;
 
 		deamer::file::tool::Directory& operator+=(const Directory& directory);

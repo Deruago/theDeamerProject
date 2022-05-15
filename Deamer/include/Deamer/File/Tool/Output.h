@@ -66,17 +66,13 @@ namespace deamer::file::tool
 		void AddCMakeListsToInclude(const CMakeLists& newFile);
 		void AddCMakeListsToLibrary(const CMakeLists& newFile);
 
-		void
-		AddActionToExternal(const deamer::file::tool::Action& action,
-							const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
+		void AddActionToExternal(std::unique_ptr<deamer::file::tool::action::Action> action);
+		void AddActionToInclude(std::unique_ptr<deamer::file::tool::action::Action> action);
+		void AddActionToLibrary(std::unique_ptr<deamer::file::tool::action::Action> action);
 
-		void
-		AddActionToInclude(const deamer::file::tool::Action& action,
-						   const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
-
-		void
-		AddActionToLibrary(const deamer::file::tool::Action& action,
-						   const deamer::file::tool::OSType os = deamer::file::tool::OSType::all);
+		void AddActionToExternal(deamer::file::tool::Action action);
+		void AddActionToInclude(deamer::file::tool::Action action);
+		void AddActionToLibrary(deamer::file::tool::Action action);
 
 	public:
 		std::string GetToolDirectory() const;

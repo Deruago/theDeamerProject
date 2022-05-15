@@ -52,9 +52,10 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 
 	languageName = compilerOutput.GetLanguageReference()
 					   .GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value;
+					   .GetName()
+					   ->value;
 
-	const auto compilerPath = pathFromRoot + identity.name->value + '/';
+	const auto compilerPath = pathFromRoot + identity.GetName()->value + '/';
 	std::filesystem::create_directory(compilerPath);
 
 	auto cmakelists_external = InitialiseExternalCMakeLists();
@@ -123,6 +124,8 @@ void deamer::file::generate::Compiler::Generate(const std::string& pathFromRoot)
 	for (const auto& compiler : compilerOutput.GetCompilerOutputs())
 	{
 		Compiler newCompiler(compiler);
+		newCompiler.SetProjectType(projectType);
+		newCompiler.SetLegacyNaming(useLegacyLibraryNames);
 		newCompiler.Generate(compilerPath);
 	}
 }
@@ -169,7 +172,8 @@ void deamer::file::generate::Compiler::GenerateIncludeDirectory(const std::strin
 		pathFromRoot + "include/" +
 		compilerOutput.GetLanguageReference()
 			.GetDefinition<language::type::definition::property::Type::Identity>()
-			.name->value +
+			.GetName()
+			->value +
 		"/";
 	const auto directoryPath = includeDirectory + directory.GetThisDirectory() + '/';
 
@@ -289,26 +293,32 @@ void deamer::file::generate::Compiler::ExecuteDirectoryAction(
 {
 	// as this is run on the platform installed, we require to use the global
 	// deamer::file::tool::os_used variable.
-	const deamer::file::tool::Action action = directory.GetAction(deamer::file::tool::os_used);
+	const deamer::file::tool::action::Action& action = directory.GetAction();
+	if (action.IsEmpty()) // It is useless to call nothing
+	{
+		return;
+	}
 	const std::string console_action =
-		action.GetSubShellAction(deamer::file::tool::os_used, directoryPath);
+		action.ConstructArgument(tool::action::CommandTarget::python, directoryPath);
 	const char* console_action_char_ptr = console_action.c_str();
 
 	std::system(console_action_char_ptr);
 }
-#include <iostream>
+
 std::string deamer::file::generate::Compiler::GetRootLanguageName() const
 {
 	const auto* currentCompilerOutput = &compilerOutput;
 	while (currentCompilerOutput->GetParent().has_value() &&
 		   currentCompilerOutput->GetParent().value() != nullptr)
 	{
-		currentCompilerOutput = currentCompilerOutput->GetParent().value();
+		const auto* const tmp = currentCompilerOutput->GetParent().value();
+		currentCompilerOutput = tmp;
 	}
 
 	return currentCompilerOutput->GetLanguageReference()
 		.GetDefinition<language::type::definition::property::Type::Identity>()
-		.name->value;
+		.GetName()
+		->value;
 }
 
 bool deamer::file::generate::Compiler::RootProject() const
@@ -326,8 +336,20 @@ void deamer::file::generate::Compiler::GenerateProjectCMakeLists(const std::stri
 		deamerProjectFileTemplate.root_language_name_->Set(GetRootLanguageName());
 		if (!RootProject())
 		{
-			deamerProjectFileTemplate.optional_root_external_library_->Set("");
+			deamerProjectFileTemplate.optional_root_dependency_include_->Set("");
+			deamerProjectFileTemplate.optional_root_library_->Set("");
 		}
+
+		if (useLegacyLibraryNames)
+		{
+			deamerProjectFileTemplate.language_library_->Set(
+				deamerProjectFileTemplate.language_library_legacy_);
+		}
+
+		// Installation and Exportation is currently the task for the User
+		// Later this might be optionally auto configurable
+		deamerProjectFileTemplate.optional_root_export_->Set("");
+		deamerProjectFileTemplate.optional_root_install_->Set("");
 
 		const auto names = GetSubCompilerNames();
 
@@ -387,6 +409,16 @@ deamer::file::tool::File deamer::file::generate::Compiler::InitialiseLibraryCMak
 			deamer::templates::cmake::single::lib::DefaultDeamerTemplate();
 		deamerProjectFileTemplate.languageName_->Set(languageName);
 		deamerProjectFileTemplate.root_language_name_->Set(GetRootLanguageName());
+		if (RootProject())
+		{
+			deamerProjectFileTemplate.optional_if_not_root_alias_target_->Set("");
+		}
+
+		if (useLegacyLibraryNames)
+		{
+			deamerProjectFileTemplate.language_library_->Set(
+				deamerProjectFileTemplate.language_library_legacy_);
+		}
 
 		return tool::File("deamer", "cmake", deamerProjectFileTemplate.GetOutput(),
 						  tool::GenerationLevel::Always_regenerate);
@@ -448,7 +480,8 @@ std::vector<std::string> deamer::file::generate::Compiler::GetSubCompilerNames()
 	{
 		names.push_back(compiler.GetLanguageReference()
 							.GetDefinition<language::type::definition::property::Type::Identity>()
-							.name->value);
+							.GetName()
+							->value);
 	}
 
 	return names;
@@ -457,6 +490,11 @@ std::vector<std::string> deamer::file::generate::Compiler::GetSubCompilerNames()
 void deamer::file::generate::Compiler::SetProjectType(ProjectType projectType_)
 {
 	projectType = projectType_;
+}
+
+void deamer::file::generate::Compiler::SetLegacyNaming(bool legacyNaming)
+{
+	useLegacyLibraryNames = legacyNaming;
 }
 
 bool deamer::file::generate::Compiler::SingleProject() const

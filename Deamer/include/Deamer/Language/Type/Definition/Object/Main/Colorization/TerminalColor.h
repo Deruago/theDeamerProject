@@ -22,41 +22,49 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_COLORIZATION_TERMINALCOLOR_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorGroup.h"
+
+
 #include "Deamer/Type/Memory/SafeReserve.h"
+#include <string>
 #include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
-	class ColorGroup;
-
 	/*! \class TerminalColor
 	 *
-	 *	\brief Describes a specific terminal color.
-	 *
-	 *	\details When a terminal is encountered this will be its default color.
-	 *	Unless overriden by a higher precedence type. Higher precedence are more specialized types,
-	 *	thus patterns when matched will color instead of this.
-	 *
-	 *	\note You don't give direct colors to via TerminalColor or TerminalPatternColor.
-	 *	You specify which color group they belong to. You can then specify a default ColorTheme
-	 *	giving actual color.
-	 *
-	 *	Default color group is 0. This is unspecified meaning generators can override this value.
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class TerminalColor : public Base
 	{
 	private:
 		friend deamer::type::SafeReserve<TerminalColor>;
+	
+	public:
+		object::main::Terminal* terminal;
+		object::main::ColorGroup* colorGroup;
+
 
 	public:
-		ColorGroup* colorGroup;
-		Terminal* terminal;
+		TerminalColor(object::main::Terminal* terminal_, 
+			object::main::ColorGroup* colorGroup_);
 
-		TerminalColor(Terminal* terminal_, ColorGroup* colorGroup_);
+		// Compares if two TerminalColor have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const TerminalColor& rhs) const noexcept;
 
-		bool operator==(const TerminalColor& rhs) const;
+	public:
 
-	private:
+
+	protected:
 		TerminalColor();
 	};
 }

@@ -22,25 +22,40 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_ASSOCIATIVITY_H
 
 #include "Deamer/Language/Type/Definition/Object/Main/Associativity/ObjectAssociativity.h"
+
 #include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
+#include <optional>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 namespace deamer::language::type::definition::property::main
 {
 	/*! \class Associativity
 	 *
-	 *  Language Property Definition of the associativity, used to define the associativity of
-	 * symbols in language x.
+	 *	\brief 
+	 *	Language Property Definition of the associativity,
+	 *	used to define the associativity of symbols in language x.
+
+	 *	\details 
+
 	 */
-	class Associativity : public Definition
+	class Associativity final : public Definition
 	{
 	public:
 		std::vector<object::main::ObjectAssociativity*> AssociativityObjects;
 
-		Associativity(std::vector<object::main::ObjectAssociativity*> associativityObjects_);
-		Associativity();
-
+	
+	public:
+		Associativity(std::vector<object::main::ObjectAssociativity*> AssociativityObjects_);
 		virtual ~Associativity() = default;
+
+	public:
+
+
+	public:
+		
+
 	};
 }
 

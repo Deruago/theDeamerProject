@@ -13,28 +13,29 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_TYPE_VECTOR_SMALLVECTOR_H
 #define DEAMER_TYPE_VECTOR_SMALLVECTOR_H
 
 /*
- * SmallVector<class T, size_t vector_size> is a template that allocates vector_size elements in front.
- * This results in better time and space complexity.
+ * SmallVector<class T, size_t vector_size> is a template that allocates vector_size elements in
+ * front. This results in better time and space complexity.
  *
- * When using SmallVector as function argument, or you dont know the what kind of SmallVector to expect. Always use SmallVectorBase.
- * Thus using SmallVector only when initializing.
+ * When using SmallVector as function argument, or you dont know the what kind of SmallVector to
+ * expect. Always use SmallVectorBase. Thus using SmallVector only when initializing.
  */
 
 #include <algorithm>
 #include <cstring>
 #include <utility>
+
 namespace deamer::type
 {
-	template <class T>
+	template<class T>
 	class SmallVectorBase
 	{
 	public:
@@ -44,6 +45,7 @@ namespace deamer::type
 		using const_reference = const T&;
 
 		constexpr size_t element_size() const;
+
 	private:
 		iterator BeginX = nullptr;
 		size_t Size = 0;
@@ -63,8 +65,7 @@ namespace deamer::type
 
 		void DeleteBegin()
 		{
-			if (BeginX != nullptr)
-				delete[] BeginX;
+			delete[] BeginX;
 			BeginX = nullptr;
 		}
 
@@ -77,9 +78,7 @@ namespace deamer::type
 		}
 
 	public:
-		SmallVectorBase() = default;
-		SmallVectorBase(const size_t newVectorCapacity)
-			: vector_capacity(newVectorCapacity)
+		SmallVectorBase(const size_t newVectorCapacity = 1) : vector_capacity(newVectorCapacity)
 		{
 			InitialiseBegin(vector_capacity);
 		}
@@ -88,11 +87,10 @@ namespace deamer::type
 		{
 			operator=(smallVector);
 		}
-		SmallVectorBase(SmallVectorBase&& smallVector, const size_t newVectorCapacity)
-		{
-		};
+		SmallVectorBase(SmallVectorBase&& smallVector, const size_t newVectorCapacity){};
 
-		SmallVectorBase(const SmallVectorBase& smallVector) : SmallVectorBase(smallVector, smallVector.capacity()) {};
+		SmallVectorBase(const SmallVectorBase& smallVector)
+			: SmallVectorBase(smallVector, smallVector.capacity()){};
 
 		SmallVectorBase& operator=(const SmallVectorBase& smallVector)
 		{
@@ -121,6 +119,7 @@ namespace deamer::type
 		{
 			DeleteBegin();
 		}
+
 	public:
 		iterator begin() const;
 		iterator end() const;
@@ -145,33 +144,57 @@ namespace deamer::type
 			return begin()[0];
 		}
 
+		bool operator==(const SmallVectorBase<T>& rhs) const
+		{
+			if (this == &rhs)
+			{
+				return true;
+			}
+
+			if (this->size() != rhs.size())
+			{
+				return false;
+			}
+
+			for (auto i = 0; i < this->size(); i++)
+			{
+				if (this->operator[](i) != rhs[i])
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		bool empty() const;
 		unsigned capacity() const;
 		unsigned size() const;
 	};
 
-	template <class T, size_t vector_size>
+	template<class T, size_t vector_size>
 	class SmallVector : public SmallVectorBase<T>
 	{
 	public:
-		SmallVector() : SmallVectorBase<T>(vector_size) {};
-		SmallVector(const SmallVector& smallVector) : SmallVectorBase<T>(smallVector, vector_size) { };
+		SmallVector() : SmallVectorBase<T>(vector_size){};
+		SmallVector(const SmallVector& smallVector)
+			: SmallVectorBase<T>(smallVector, vector_size){};
 	};
 
-	template <class T>
+	template<class T>
 	constexpr size_t SmallVectorBase<T>::element_size() const
 	{
 		return sizeof(T);
 	}
 
-	template <class T>
+	template<class T>
 	void SmallVectorBase<T>::set_size(const size_t newSize)
 	{
 		if (newSize <= capacity())
 			Size = newSize;
 	}
 
-	template <class T>
+	template<class T>
 	void SmallVectorBase<T>::push_back(const T& t)
 	{
 		if (Size == capacity())
@@ -180,7 +203,7 @@ namespace deamer::type
 		set_size(Size + 1);
 	}
 
-	template <class T>
+	template<class T>
 	void SmallVectorBase<T>::push_back(T&& t)
 	{
 		if (Size == capacity())
@@ -189,21 +212,21 @@ namespace deamer::type
 		set_size(Size + 1);
 	}
 
-	template <class T>
+	template<class T>
 	void SmallVectorBase<T>::pop_back()
 	{
 		set_size(Size - 1);
 		end()->~T();
 	}
 
-	template <class T>
+	template<class T>
 	void SmallVectorBase<T>::clear()
 	{
 		destroy_range(begin(), end());
 		set_size(0);
 	}
 
-	template <class T>
+	template<class T>
 	void SmallVectorBase<T>::destroy_range(const T* start, T* end)
 	{
 		while (start != end)
@@ -213,8 +236,9 @@ namespace deamer::type
 		}
 	}
 
-	template <class T>
-	void SmallVectorBase<T>::grow(const size_t newCapacity, const size_t oldCapacity, const size_t elementSize)
+	template<class T>
+	void SmallVectorBase<T>::grow(const size_t newCapacity, const size_t oldCapacity,
+								  const size_t elementSize)
 	{
 		T* newArray = new T[newCapacity];
 		if (newArray == nullptr)
@@ -226,54 +250,54 @@ namespace deamer::type
 		vector_capacity = newCapacity;
 	}
 
-	template <class T>
+	template<class T>
 	void SmallVectorBase<T>::ReplaceBegin()
 	{
 		ReplaceBegin(nullptr);
 	}
 
-	template <class T>
+	template<class T>
 	void SmallVectorBase<T>::ReplaceBegin(iterator newBegin)
 	{
 		delete[] BeginX;
 		UpdateBegin(newBegin);
 	}
 
-	template <class T>
+	template<class T>
 	void SmallVectorBase<T>::UpdateBegin(const iterator newBegin)
 	{
 		BeginX = newBegin;
 	}
 
-	template <class T>
+	template<class T>
 	typename SmallVectorBase<T>::iterator SmallVectorBase<T>::begin() const
 	{
 		return BeginX;
 	}
 
-	template <class T>
+	template<class T>
 	typename SmallVectorBase<T>::iterator SmallVectorBase<T>::end() const
 	{
 		return begin() + Size;
 	}
 
-	template <class T>
+	template<class T>
 	bool SmallVectorBase<T>::empty() const
 	{
 		return Size == 0;
 	}
 
-	template <class T>
+	template<class T>
 	unsigned SmallVectorBase<T>::capacity() const
 	{
 		return vector_capacity;
 	}
 
-	template <class T>
+	template<class T>
 	unsigned SmallVectorBase<T>::size() const
 	{
 		return Size;
 	}
 }
 
-#endif //DEAMER_TYPE_VECTOR_SMALLVECTOR_H
+#endif // DEAMER_TYPE_VECTOR_SMALLVECTOR_H

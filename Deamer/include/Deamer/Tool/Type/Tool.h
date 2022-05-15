@@ -35,10 +35,12 @@ namespace deamer::tool::type
 		// Lexer
 		Flex,
 		Antlr_Lexer,
+		Dleg,
 
 		// Parser
 		Bison,
 		Antlr_Parser,
+		Dparse,
 
 		// AST generators
 		DeamerAST,
@@ -57,6 +59,9 @@ namespace deamer::tool::type
 
 		// DLDL Converter, generates DLDL definitions
 		DLDLConverter,
+
+		// OopSyntaxRecognizer, Used to recognize Oop Concepts via syntax
+		OopSyntaxRecognizer,
 	};
 }
 

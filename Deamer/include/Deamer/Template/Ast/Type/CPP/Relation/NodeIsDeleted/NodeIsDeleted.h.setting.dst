@@ -1,0 +1,21 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <{{class_name}}>
+{{file.namespace}} = <deamer::templates::ast::type::cpp>
+{{file.extension}} = <h>
+
+{{language_name_underscore}} = <{{language_name.Underscore}}>
+
+{{header_guard}} = <{{language_name_underscore.Upper}}_AST_RELATION_{{class_name.Upper}}_H>
+
+{{class_name}} = <NodeIsDeleted>
+
+{{node_enum_include}} = <#include "{{language_name}}/Ast/Enum/Type.h">
+
+{{node_enum_type}} = <::{{language_name}}::ast::Type>
+{{node_enum_value_type}} = <{{node_enum_type}}::{{node_name}}>
+
+{{node_conversion}} = <
+		if (t == {{node_enum_value_type}})
+		{
+			return {{is_deleted}};
+		}>

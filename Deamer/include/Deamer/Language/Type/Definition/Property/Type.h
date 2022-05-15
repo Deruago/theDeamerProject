@@ -26,27 +26,29 @@ namespace deamer::language::type::definition::property
 	/*! \enum Type
 	 *
 	 *  \brief Describes the different property definitions available.
+	 *
+	 *	\note You may not depend on the value of some enumeration.
+	 *	However, 0 is reserved for unknown enumerations.
 	 */
 	enum class Type
 	{
 		Unknown = 0,
-		Lexicon,
-		Grammar,
-		Semantic,
 
 		Associativity,
-		Precedence,
-
 		AstOptimization,
 		AstTranslation,
-
 		Colorization,
-		Formatting,
 		Documentation,
-
+		Formatting,
 		Generation,
+		Grammar,
 		Identity,
+		Lexicon,
+		OOPSyntax,
+		Precedence,
+		Semantic,
 		Threat,
+
 	};
 }
 

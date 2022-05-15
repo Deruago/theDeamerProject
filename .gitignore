@@ -1,1 +1,39 @@
-/build/
+*.o
+*.a
+.vs/*
+*.vs/*
+CppProperties.json
+*.log
+*.out
+*.gch
+/.dep
+/.obj
+
+/build
+/build_linux
+/build_windows
+
+/out
+
+
+# CMake
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+CMakeUserPresets.json
+CMakeSettings.json
+
+# CMake Patch
+# External projects
+*-prefix/
+
+# Visual Studio
+*.DotSettings.user

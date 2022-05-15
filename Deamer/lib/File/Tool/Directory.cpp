@@ -19,6 +19,12 @@
  */
 
 #include "Deamer/File/Tool/Directory.h"
+#include <iostream>
+
+deamer::file::tool::Directory::Directory()
+{
+	this->action = std::make_unique<action::Action>();
+}
 
 deamer::file::tool::Directory::Directory(const std::string& directoryName_)
 	: directoryName(directoryName_)
@@ -27,6 +33,7 @@ deamer::file::tool::Directory::Directory(const std::string& directoryName_)
 	{
 		throw std::logic_error("Directory name is empty");
 	}
+	this->action = std::make_unique<action::Action>();
 }
 
 deamer::file::tool::Directory::Directory(const Directory& rhs)
@@ -34,9 +41,57 @@ deamer::file::tool::Directory::Directory(const Directory& rhs)
 	this->directoryName = rhs.directoryName;
 	this->files = rhs.files;
 	this->directories = rhs.directories;
-	this->actions = rhs.actions;
+	if (rhs.action == nullptr)
+	{
+		this->action = nullptr;
+	}
+	else
+	{
+		this->action = rhs.action->Copy();
+	}
 	this->parent = rhs.parent;
 	this->cmakeLists = rhs.cmakeLists;
+}
+
+deamer::file::tool::Directory& deamer::file::tool::Directory::operator=(const Directory& rhs)
+{
+	if (&rhs == this)
+	{
+		return *this;
+	}
+
+	this->directoryName = rhs.directoryName;
+	this->files = rhs.files;
+	this->directories = rhs.directories;
+	if (rhs.action == nullptr)
+	{
+		this->action = nullptr;
+	}
+	else
+	{
+		this->action = rhs.action->Copy();
+	}
+	this->parent = rhs.parent;
+	this->cmakeLists = rhs.cmakeLists;
+
+	return *this;
+}
+
+deamer::file::tool::Directory& deamer::file::tool::Directory::operator=(Directory&& rhs) noexcept
+{
+	if (&rhs == this)
+	{
+		return *this;
+	}
+
+	this->directoryName = std::move(rhs.directoryName);
+	this->files = std::move(rhs.files);
+	this->directories = std::move(rhs.directories);
+	this->action = std::move(rhs.action);
+	this->parent = std::move(rhs.parent);
+	this->cmakeLists = std::move(rhs.cmakeLists);
+
+	return *this;
 }
 
 void deamer::file::tool::Directory::AddFile(const File& newFile)
@@ -50,19 +105,22 @@ void deamer::file::tool::Directory::AddDirectory(const Directory& newDirectory)
 	directories.push_back(newDirectory);
 }
 
-void deamer::file::tool::Directory::AddAction(const deamer::file::tool::Action& action,
-											  const deamer::file::tool::OSType os)
+void deamer::file::tool::Directory::AddAction(
+	std::unique_ptr<deamer::file::tool::action::Action> action_)
 {
-	for (auto existingAction : actions)
+	if (action == nullptr)
 	{
-		if (existingAction.second == os)
-		{
-			existingAction.first = existingAction.first.GetAction() + ";" + action.GetAction();
-			return;
-		}
+		action = std::move(action_);
 	}
+	else
+	{
+		*action += *action_;
+	}
+}
 
-	actions.emplace_back(action, os);
+void deamer::file::tool::Directory::AddAction(deamer::file::tool::Action action_)
+{
+	AddAction(action_.GetGeneralAction());
 }
 
 void deamer::file::tool::Directory::SetCMakeLists(const std::string& cmakeLists_)
@@ -77,12 +135,12 @@ void deamer::file::tool::Directory::SetCMakeLists(const CMakeLists& cmakeLists_)
 
 bool deamer::file::tool::Directory::Empty() const
 {
-	return directories.empty() && files.empty() && actions.empty();
+	return directories.empty() && files.empty() && action->IsEmpty();
 }
 
 bool deamer::file::tool::Directory::Useless() const
 {
-	if (!files.empty() || !actions.empty())
+	if (!files.empty() || !action->IsEmpty())
 	{
 		return false;
 	}
@@ -119,25 +177,9 @@ std::string deamer::file::tool::Directory::GetThisDirectory() const
 	return directoryName;
 }
 
-deamer::file::tool::Action
-deamer::file::tool::Directory::GetAction(deamer::file::tool::OSType os) const
+const deamer::file::tool::action::Action& deamer::file::tool::Directory::GetAction() const
 {
-	deamer::file::tool::Action currentAction = deamer::file::tool::Action();
-
-	for (const auto& [action, action_os] : actions)
-	{
-		if (action_os == os)
-		{
-			currentAction = action;
-			break;
-		}
-		if (action_os == deamer::file::tool::OSType::all)
-		{
-			currentAction = action;
-		}
-	}
-
-	return currentAction;
+	return *action;
 }
 
 deamer::file::tool::CMakeLists deamer::file::tool::Directory::GetCMakeLists() const

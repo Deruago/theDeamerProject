@@ -1,0 +1,6 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <ParserHeader>
+{{file.namespace}} = <deamer::templates::bison::parser>
+{{file.extension}} = <h>
+
+{{header_guard}} = @<{{language_name}}_BISON_PARSER_H>@

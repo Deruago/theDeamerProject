@@ -22,38 +22,46 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_COLORIZATION_COLORGROUP_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+
+
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
 #include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class ColorGroup
 	 *
-	 *	\brief Describes a specific ColorGroup.
-	 *
-	 *	\details A color group is a set of terminals and patterns having the same color.
-	 *	The color is however applied by the theme. This allows more versatility in defining colors.
-	 *
-	 *	\note The ColorGroup of value 0, is reserved.
-	 *	0 indicates that the generator may fill it in for themselves.
-	 *	So always use values > 0. Unless the other behaviour is preferred.
+	 *	\brief 
+
+	 *	\details 
+
 	 */
-	class ColorGroup : public ::deamer::language::type::definition::object::Base
+	class ColorGroup : public Base
 	{
 	private:
 		friend deamer::type::SafeReserve<ColorGroup>;
+	
+	public:
+		size_t ColorId;
+
 
 	public:
-		std::size_t ColorId;
+		ColorGroup(size_t ColorId_ = 0);
 
-		ColorGroup();
-		ColorGroup(std::size_t colorId);
+		// Compares if two ColorGroup have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const ColorGroup& rhs) const noexcept;
 
-		bool operator==(const ColorGroup& rhs) const;
+	public:
 
-		~ColorGroup() override = default;
 
+	protected:
+		
 	};
 }
 

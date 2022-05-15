@@ -1,0 +1,64 @@
+{{optional_extended_error}}
+{{optional_parse_lac}}
+{{optional_glr_setting}}
+
+%{
+#include <iostream>
+#include <vector>
+#include <cstring>
+#include <stdio.h>
+#include <Deamer/External/Cpp/Lexer/TerminalObject.h>
+#include <Deamer/External/Cpp/Ast/Node.h>
+#include "{{language_name}}/Bison/Parser.h"
+#define YY_NO_UNISTD_H
+#include "Flex/{{language_name}}_lexer.h"
+#undef YY_NO_UNISTD_H
+#include "{{language_name}}/Ast/Enum/Type.h"
+{{terminal_include.Variable_Field}}
+
+{{nonterminal_include.Variable_Field}}
+
+#ifndef YY_parse_NERRS
+#define YY_parse_NERRS {{language_name}}nerrs
+#endif //YY_parse_NERRS
+#ifndef YY_parse_LLOC
+#define YY_parse_LLOC {{language_name}}lloc
+#endif //YY_parse_LLOC
+#define YYERROR_VERBOSE
+
+void {{language_name}}error(const char* s);
+int {{language_name}}lex();
+static ::deamer::external::cpp::ast::Tree* outputTree = nullptr;
+%}
+
+{{terminal_declaration.Variable_Field}}
+
+{{nonterminal_declaration.Variable_Field}}
+
+%union{
+	::deamer::external::cpp::lexer::TerminalObject* Terminal;
+{{union_declaration.Variable_Field}}
+}
+
+%%
+
+{{nonterminal_implementation.Variable_Field}}
+
+%%
+
+void {{language_name}}error(const char* s)
+{
+	std::cout << "Syntax error on line: " << s << '\n';
+}
+
+deamer::external::cpp::ast::Tree* {{language_name}}::bison::parser::Parser::Parse(const std::string& text) const
+{
+	outputTree = nullptr;
+	YY_BUFFER_STATE buf;
+	buf = {{language_name}}_scan_string(text.c_str());
+	{{language_name}}parse();
+	{{language_name}}_delete_buffer(buf);
+	{{language_name}}lex_destroy();
+
+	return outputTree;
+}

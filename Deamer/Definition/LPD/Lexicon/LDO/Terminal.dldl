@@ -1,0 +1,15 @@
+name: Terminal
+type: LDO
+description: <
+	Terminal symbol, used in lexicon definitions.
+	Designed by Thimo Böhmer
+>
+data: <
+	String Name
+	String Regex
+	SpecialType Special = SpecialType::Standard
+>
+
+Unique: <
+	Name
+>

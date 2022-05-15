@@ -20,16 +20,27 @@
 
 #include "Deamer/Language/Type/Definition/Object/Main/Associativity/ObjectAssociativity.h"
 
-deamer::language::type::definition::object::main::ObjectAssociativity::ObjectAssociativity(
-	object::Base* const object_, const AssociativityType associativity)
+#include <utility>
+
+deamer::language::type::definition::object::main::ObjectAssociativity::ObjectAssociativity(object::Base* Object_, 
+			object::main::AssociativityType Associativity_)
 	: Base(Type::ObjectAssociativity),
-	  Object(object_),
-	  Associativity(associativity)
+	Object(Object_),
+	Associativity(Associativity_)
 {
 	references.Add(Object);
+
 }
 
-deamer::language::type::definition::object::main::ObjectAssociativity::ObjectAssociativity()
-	: ObjectAssociativity(nullptr)
+bool deamer::language::type::definition::object::main::ObjectAssociativity::operator==(const ObjectAssociativity& rhs) const noexcept
+{
+	return this == &rhs || (this->Object == rhs.Object && this->Associativity == rhs.Associativity && true);
+}
+
+
+deamer::language::type::definition::object::main::ObjectAssociativity::ObjectAssociativity() : ObjectAssociativity(nullptr, 
+			object::main::AssociativityType::reserved_default_enum_option)
 {
 }
+
+

@@ -19,14 +19,24 @@
  */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Identity/Name.h"
+
 #include <utility>
 
 deamer::language::type::definition::object::main::Name::Name(std::string value_)
 	: Base(Type::Name),
-	  value(std::move(value_))
+	value(value_)
 {
+
 }
+
+bool deamer::language::type::definition::object::main::Name::operator==(const Name& rhs) const noexcept
+{
+	return this == &rhs || (this->value == rhs.value && true);
+}
+
 
 deamer::language::type::definition::object::main::Name::Name() : Name("")
 {
 }
+
+

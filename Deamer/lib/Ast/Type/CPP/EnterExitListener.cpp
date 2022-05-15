@@ -24,7 +24,8 @@
 deamer::ast::type::cpp::EnterExitListener::EnterExitListener(ReferenceType reference_)
 	: reference(reference_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .GetName()
+					   ->value)
 {
 	enterExitTemplate = new deamer::templates::ast::type::cpp::EnterExitListenerTemplate();
 }

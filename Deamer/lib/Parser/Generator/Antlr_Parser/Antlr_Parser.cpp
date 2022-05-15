@@ -20,13 +20,13 @@
 
 #include "Deamer/Parser/Generator/Antlr_Parser/Antlr_Parser.h"
 #include "Deamer/Parser/Type/Antlr/ParserDefinition.h"
-#include "Deamer/Parser/Type/Bison/Output.h"
 
 deamer::parser::generator::antlr_parser::Antlr_Parser::Antlr_Parser(const ReferenceType reference_)
 	: Base(tool::type::Tool::Antlr_Parser),
 	  reference(reference_),
 	  name(reference.GetDefinition<language::type::definition::property::Type::Identity>()
-			   .name->value)
+			   .GetName()
+			   ->value)
 {
 }
 
@@ -45,7 +45,8 @@ deamer::file::tool::Output deamer::parser::generator::antlr_parser::Antlr_Parser
 	return output;
 }
 
-deamer::file::tool::Action deamer::parser::generator::antlr_parser::Antlr_Parser::externalAction()
+std::unique_ptr<deamer::file::tool::action::Action>
+deamer::parser::generator::antlr_parser::Antlr_Parser::externalAction()
 {
 	return {};
 }

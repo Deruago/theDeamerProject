@@ -1,0 +1,38 @@
+name: Grammar
+type: main
+description: <
+	Language Property Definition of a grammar, used to define the grammar for language x.
+	Designed by Thimo Böhmer
+>
+dependency: <
+	Lexicon
+>
+
+ldo: <
+	NonTerminal
+	ProductionRule
+>
+
+enum: <
+	SpecialType
+>
+
+data: <
+	Vector[NonTerminal] NonTerminals
+	Vector[ProductionRule] ProductionRules
+>
+
+function: <
+	const deamer::language::type::definition::object::main::NonTerminal* GetNonTerminal(const std::string& nonTerminalName) const
+	{
+		for (auto* nonTerminal : NonTerminals)
+		{
+			if (nonTerminal->Name == nonTerminalName)
+			{
+				return nonTerminal;
+			}
+		}
+
+		return nullptr;
+	}
+>

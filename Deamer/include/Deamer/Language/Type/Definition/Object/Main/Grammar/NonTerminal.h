@@ -22,51 +22,53 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_GRAMMAR_NONTERMINAL_H
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminalAbstraction.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminalAbstraction.h"
+
+
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
 #include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class NonTerminal
 	 *
-	 *  \brief NonTerminal symbol, used in grammar definitions.
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class NonTerminal : public Base
 	{
 	private:
 		friend deamer::type::SafeReserve<NonTerminal>;
-
+	
 	public:
 		std::string Name;
-		std::vector<ProductionRule*> ProductionRules;
-		NonTerminalAbstraction abstraction;
+		std::vector<object::main::ProductionRule*> ProductionRules;
+		object::main::NonTerminalAbstraction abstraction;
 		bool Inline;
 
-		NonTerminal(std::string name_, std::vector<ProductionRule*> productionRules_,
-					NonTerminalAbstraction abstraction_ = NonTerminalAbstraction::Standard,
-					bool inline_ = false);
 
+	public:
+		NonTerminal(std::string Name_, 
+			std::vector<object::main::ProductionRule*> ProductionRules_, 
+			object::main::NonTerminalAbstraction abstraction_ = NonTerminalAbstraction::Standard, 
+			bool Inline_ = false);
+
+		// Compares if two NonTerminal have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
 		bool operator==(const NonTerminal& rhs) const noexcept;
 
 	public:
-		/*!
-		 * \fn IsInlined
-		 *
-		 * \brief Returns whether the NonTerminal should be inlined.
-		 *
-		 * \details An Inlined nonterminal is not visible for the user, unless explicitly wanted.
-		 */
-		bool IsInlined() const noexcept;
+		bool IsInlined() const noexcept;
+		bool IsReserved() const noexcept;
 
-		/*!
-		 * \fn IsReserved
-		 *
-		 *	\brief Checks if the nonterminal is using a reserved name. E.g. "deamerreserved".
-		 */
-		bool IsReserved() const noexcept;
 
 	protected:
 		NonTerminal();

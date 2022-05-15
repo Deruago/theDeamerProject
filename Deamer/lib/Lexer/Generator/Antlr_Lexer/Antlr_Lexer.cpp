@@ -27,7 +27,7 @@ using namespace deamer::language::type::definition::property;
 deamer::lexer::generator::antlr_lexer::Antlr_Lexer::Antlr_Lexer(ReferenceType reference_)
 	: Base(tool::type::Tool::Antlr_Lexer),
 	  reference(reference_),
-	  name(reference.GetDefinition<Type::Identity>().name->value)
+	  name(reference.GetDefinition<Type::Identity>().GetName()->value)
 {
 }
 
@@ -39,7 +39,7 @@ deamer::file::tool::Output deamer::lexer::generator::antlr_lexer::Antlr_Lexer::G
 
 	const auto lexerDefinitionGenerator = ::deamer::lexer::type::antlr::LexerDefinition(reference);
 	const auto lexerDefinition =
-		file::tool::File(Identity.name->value + "Lexer", "g4", lexerDefinitionGenerator.Generate(),
+		file::tool::File(name + "Lexer", "g4", lexerDefinitionGenerator.Generate(),
 						 file::tool::GenerationLevel::Always_regenerate);
 
 	output.AddFileToExternal(lexerDefinition);
@@ -47,7 +47,8 @@ deamer::file::tool::Output deamer::lexer::generator::antlr_lexer::Antlr_Lexer::G
 	return output;
 }
 
-deamer::file::tool::Action deamer::lexer::generator::antlr_lexer::Antlr_Lexer::externalAction()
+std::unique_ptr<deamer::file::tool::action::Action>
+deamer::lexer::generator::antlr_lexer::Antlr_Lexer::externalAction()
 {
 	return {};
 }

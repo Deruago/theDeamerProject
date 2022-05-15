@@ -18,8 +18,8 @@ macro(package_add_test TESTNAME)
     add_executable(${TESTNAME} ${ARGN})
 
     # link the Google test infrastructure, mocking library
-    target_link_libraries(${TESTNAME} gtest gmock gtest_main)
-    target_link_libraries(${TESTNAME} Deamer)
+    target_link_libraries(${TESTNAME} PRIVATE gtest gmock gtest_main)
+    target_link_libraries(${TESTNAME} PRIVATE Deamer)
 	target_include_directories(${TESTNAME} PUBLIC ${Deamer_SOURCE_DIR}/include/ ${Deamer_SOURCE_DIR}/extern/googletest)
 
     gtest_discover_tests(${TESTNAME}
@@ -27,8 +27,6 @@ macro(package_add_test TESTNAME)
         PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_DIR}"
     )
     set_target_properties(${TESTNAME} PROPERTIES FOLDER tests)
-	
-	add_dependencies(build_and_test ${TESTNAME})
 	
 	target_compile_features(${TESTNAME} PUBLIC cxx_std_17)
 endmacro()

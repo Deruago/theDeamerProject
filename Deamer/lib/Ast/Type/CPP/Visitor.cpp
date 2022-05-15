@@ -23,7 +23,8 @@
 deamer::ast::type::cpp::Visitor::Visitor(ReferenceType reference_)
 	: reference(reference_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .GetName()
+					   ->value)
 {
 }
 

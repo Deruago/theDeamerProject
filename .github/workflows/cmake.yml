@@ -18,13 +18,17 @@ jobs:
       with:
         submodules: true
 
+    - name: Install Dependencies
+      shell: bash
+      run: sudo python ${{github.workspace}}/installer.py -external-only -no-confirm-with-enter
+
     - name: Create Build Environment
       run: cmake -E make_directory ${{github.workspace}}/build
 
     - name: Configure CMake
       shell: bash
       working-directory: ${{github.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDEAMER_BUILD_TESTS=ON
 
     - name: Build production code
       working-directory: ${{github.workspace}}/build

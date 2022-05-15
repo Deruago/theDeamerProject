@@ -23,34 +23,47 @@
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/SpecialType.h"
+
+
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
+#include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class Terminal
 	 *
-	 *  Terminal symbol, used in lexicon definitions.
-	 */
-	class Terminal : public ::deamer::language::type::definition::object::Base
-	{
-		friend deamer::type::SafeReserve<Terminal>;
+	 *	\brief 
 
+	 *	\details 
+
+	 */
+	class Terminal : public Base
+	{
+	private:
+		friend deamer::type::SafeReserve<Terminal>;
+	
 	public:
 		std::string Name;
 		std::string Regex;
-		SpecialType Special;
+		object::main::SpecialType Special;
 
-		Terminal(std::string name_, std::string regex_,
-				 SpecialType special_ = SpecialType::Standard);
 
-		Terminal(const Terminal& terminal);
-		Terminal(Terminal&& terminal) noexcept;
+	public:
+		Terminal(std::string Name_, 
+			std::string Regex_, 
+			object::main::SpecialType Special_ = SpecialType::Standard);
 
-		Terminal& operator=(const Terminal& terminal);
-		Terminal& operator=(Terminal&& terminal) noexcept;
+		// Compares if two Terminal have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const Terminal& rhs) const noexcept;
 
-		~Terminal() = default;
+	public:
+
 
 	protected:
 		Terminal();

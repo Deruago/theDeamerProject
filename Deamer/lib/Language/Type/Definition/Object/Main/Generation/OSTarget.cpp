@@ -20,20 +20,23 @@
 
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/OSTarget.h"
 
+#include <utility>
+
 deamer::language::type::definition::object::main::OSTarget::OSTarget(deamer::file::tool::OSType os_)
 	: Base(Type::OSTarget),
-	  os(os_)
+	os(os_)
+{
+
+}
+
+bool deamer::language::type::definition::object::main::OSTarget::operator==(const OSTarget& rhs) const noexcept
+{
+	return this == &rhs || (this->os == rhs.os && true);
+}
+
+
+deamer::language::type::definition::object::main::OSTarget::OSTarget() : OSTarget(deamer::file::tool::OSType{})
 {
 }
 
-bool deamer::language::type::definition::object::main::OSTarget::operator==(
-	const OSTarget& rhs) const
-{
-	return os == rhs.os;
-}
 
-deamer::language::type::definition::object::main::OSTarget::OSTarget()
-	: Base(Type::OSTarget),
-	  os(deamer::file::tool::os_used)
-{
-}

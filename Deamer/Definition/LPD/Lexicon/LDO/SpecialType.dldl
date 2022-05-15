@@ -1,0 +1,23 @@
+name: SpecialType
+type: Enumeration
+description: <
+	Enumerates all special variants of Terminals, that are available.
+>
+members: <
+	// A normal terminal
+	Standard 0
+	
+	// Used to specify if we should remove this terminal
+	// from the Terminal sequence
+	Delete 1
+	
+	// Used to specify that its value should be ignored.
+	// And discard the terminal after production rule deduction
+	Ignore 2
+	
+	// Used to specify that its value should be ignored (has no value)
+	NoValue 4
+	
+	// When encountering this terminal crash the program
+	Crash 8
+>

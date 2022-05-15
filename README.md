@@ -2,149 +2,135 @@
 
 [![CMake](https://github.com/Deruago/theDeamerProject/actions/workflows/cmake.yml/badge.svg?branch=development)](https://github.com/Deruago/theDeamerProject/actions/workflows/cmake.yml)[![](https://tokei.rs/b1/github/Deruago/theDeamerProject)](https://github.com/Deruago/theDeamerProject)
 
-# The DeamerProject
+# Deamer Project
 
-This directory and subdirectories contain source code and documentation regarding the DeamerProject. The goal of this readme file is to briefly explain what the "DeamerProject" is, and how to install Deamer.
+## Welcome!
 
-## Getting started with the Deamer Project
+Deamer Project is a Cross-Platform Language and Ecosystem Generation Toolchain.
 
-### Overview
+Inside Deamer you find Tooling, Extensions, and DSLs allowing you to deeply express your language.
+Deamer understands what you express using its Language Definition System, this allows Deamer to generate and maintain Great Compilers and Ecosystems for your language.
 
-Welcome to the DeamerProject!
+Deamer Ecosystem Generation gives a lot of possibilities for your Language Ecosystem, examples:
 
-DeamerProject exists of multiple components that as whole count as the DeamerProject. The core of this project is "Deamer", Deamer is an infrastructure for compiler and ecosystem generation. This means that you can generate complete compilers, and complete ecosystems for your compilers (syntax highlighting, refactoring, auto-completion, etc).
+- Syntax Highlighter Generation for various IDEs and Text Editors
+- Language Documentation Generation
+- Generation of UML Class Diagram Reverse Engineering Tooling
+- And more
 
-Deamer is a definition based infrastructure, allowing extensions to easily reuse existing definitions. This way Deamer is capable of supporting a lot of extensions.
+## Quick Start Guide
 
-Deamer-Tools included in the Deamer Project: [Deamer](https://github.com/Deruago/theDeamerProject), Deamer-lang, [DLDL](https://github.com/Deruago/DLDL), DQSL, DCPP, [DST](https://github.com/Deruago/DeamerStringTemplate).
-
-### Community
-
-There is an official discord server: https://discord.gg/YUwW2UdgM4
-
-## Examples
-
-For example go take a look at the example repo! This example repo contains various: examples, tutorials and projects: https://github.com/Deruago/DeamerExamples 
-
-## Getting the source and building DeamerProject
-
-Deamer Project uses cmake for building the source code. You can install cmake [here](https://cmake.org/install/) by following the instructions.
-
-There are several subprojects in Deamer Project. To install them all, you first need to get the source code:
+Clone the Repo and Run the Installer, for linux:
 
 ```bash
 git clone --recursive https://github.com/Deruago/theDeamerProject.git
-cd ./theDeamerProject
+cd theDeamerProject
+sudo python3 ./installer.py
 ```
 
-If you have python v3 installed, you can easily run the file 'installer.py'. This will install all the subprojects using cmake. It basically automates the calling of the various CMake calls.
+For Windows:
+
+```bash
+git clone --recursive https://github.com/Deruago/theDeamerProject.git
+cd theDeamerProject
+python3 ./installer.py
+```
+
+More information about installation can be found at: "[How To Install Deamer?](https://github.com/Deruago/theDeamerProject#how-to-install-deamer)".
+
+To start up generating compilers and ecosystems, it is highly recommended to visit the example repo: https://github.com/Deruago/DeamerExamples.
+
+## Examples and Tutorials
+
+For Examples and Tutorials go to the Example Repo: "https://github.com/Deruago/DeamerExamples"
+
+
+
+## Discord Community
+
+Official Discord Server: https://discord.gg/YUwW2UdgM4
+
+If you have questions about Deamer, feel free to join the server and ask them!
+
+
+
+## Getting the Deamer Source Code
+
+Run the ```git clone``` command on this repo:
+
+```bash
+git clone --recursive https://github.com/Deruago/theDeamerProject.git
+```
+
+The above will retrieve the Deamer source code and its dependencies, so that you can easily install it.
+
+
+
+## How To Install Deamer
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- CMake
+- Python
+- C++ Compiler (Compatible with C++17)
+
+### Installing
+
+To quickly get started with Deamer Project. Run the Installer. The installer automates the installing of all projects in Deamer.
+
+To run the installer simply do (for linux):
 
 ```bash
 sudo python3 ./installer.py
 ```
 
-### Installation via installer.py
-
-The base installer command  is as follows, this will install the required subprojects:
+And for Windows users run the python installer as adminstrator:
 
 ```bash
-sudo python3 ./installer.py
+python3 .\installer.py
 ```
 
-The installer using the "complete" argument, this will install every subproject:
+
+
+### Installing extensions
+
+The installer will only install the neccessary development tools for languages, this excludes optional extensions such as DST. In order to install the full project add the flag ```-complete```:
 
 ```bash
 sudo python3 ./installer.py -complete
 ```
 
-The installer using the "optional" argument, this will also install all optional subprojects:
 
-```bash
-sudo python3 ./installer.py -optional
-```
 
-### Deamer CC
+### Installing without installer
 
-Deamer CC uses cmake for building the source code. You can install cmake [here](https://cmake.org/install/) by following the instructions.
-When you have cmake, installing the project is as simple as using the following commands:
+If you want to install it without the helpers, you can do so by going to each project and following its install instructions.
 
-- ``````bash
-  git clone --recursive https://github.com/Deruago/theDeamerProject.git
-  cd ./theDeamerProject
-  ``````
 
-- ``````bash
-  cd ./Deamer
-  ``````
 
-- ``````bash
-  mkdir build
-  cd ./build
-  ``````
+## Projects
 
-- ```bash
-  cmake ..
-  sudo cmake --build . --target install
-  ```
+| Subproject                                                   | Type     | Short Description                                       |
+| ------------------------------------------------------------ | -------- | ------------------------------------------------------- |
+| [Deamer (CC)](https://github.com/Deruago/theDeamerProject)   | Required | Infrastructure for compiler and ecosystem generation    |
+| [DLDL](https://github.com/Deruago/DLDL)                      | Required | Front-end of Deamer CC.                                 |
+| [DREGX](https://github.com/Deruago/DREGX)                    | Required | Regex fuzzer for Deamer CC.                             |
+| [Deamer External](https://github.com/Deruago/DeamerExternal) | Required | External library used by output generated by Deamer CC. |
+| [Deamer Algorithm](https://github.com/Deruago/DeamerAlgorithm) | Required | Algorithm library used by both output and Deamer CC.    |
+| [DST](https://github.com/Deruago/DeamerStringTemplate)       | Optional | DSL for interpreting deamer string templates            |
 
-#### Cmake
 
-Cmake is used for installing, building, and running the tests. Currently the following targets can be used for cmake:
 
-- ```bash
-  examples		# builds all the examples, see the examples directory for more information
-  ```
+## Contributing
 
-- ``````bash
-  install			# installs the library
-  ``````
+If you want to contribute to Deamer you can do so in many ways:
 
-- ``````bash
-  Deamer			# builds the library
-  ``````
+- Extending the Language Definition System, by adding or expanding Language Property Definitions (LPDs)
+- Reporting bugs or issues in any project in the Deamer toolchain
+- Expanding the documentation of Deamer
+- Fixing issues
+- Adding new features
 
-- ``````bash
-  build_and_test	# build and run the tests
-  ``````
-
-- ``````bash
-  test			# run the last build tests
-  ``````
-
-### Manually install Subprojects
-
-To manually install the subprojects, go to their corresponding directories, and read their README.MD files. The README.MD will contain the installation instructions.
-
-## Subprojects
-
-All the projects in this repo. The main part of this repo is Deamer (CC), all other projects are added as submodule.
-
-| Subproject       | Type     | Short Description                                       |
-| ---------------- | -------- | ------------------------------------------------------- |
-| Deamer External  | Required | External library used by output generated by Deamer CC. |
-| Deamer Algorithm | Required | Algorithm library used by both output and Deamer CC.    |
-| Deamer (CC)      | Required | Infrastructure for compiler and ecosystem generation    |
-| DLDL             | Required | Front-end of Deamer CC.                                 |
-| DST              | Optional | DSL for interpreting deamer string templates            |
-
-## License
-
-DeamerProject is distributed under the [GNU General Public License](http://www.gnu.org/copyleft/gpl.html) (GPL, or “free software”).
-
-This license grants people a number of freedoms:
-
-- You are free to use DeamerProject , for any purpose
-- You are free to distribute DeamerProject 
-- You can study how DeamerProject works and change it
-- You can distribute changed versions of DeamerProject 
-
-The GPL strictly aims at protecting these freedoms, requiring everyone  to share their modifications when they also share the software in  public. That aspect is commonly referred to as [Copyleft](http://en.wikipedia.org/wiki/Copyleft).
-
-The default license is GPL v3 unless other is specified.
-
-### Contributing
-
-Feel free to contribute to the DeamerProject! But there are some things to note:
-
-- All contributions through pull-requests, issues, or otherwise, you accept to release your contribution to the license terms described in [LICENSE](https://github.com/Deruago/theDeamerProject/blob/master/LICENSE).
-- If a contributor wants to further state their copyright on any of their contributions, they can do so by indicating their copyright in the commit message.
+If you want to add new features, please contact me through discord.

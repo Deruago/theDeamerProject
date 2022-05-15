@@ -20,20 +20,18 @@
 
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
 
-deamer::language::type::definition::property::main::Grammar::Grammar(
-	std::vector<object::main::NonTerminal*> nonTerminals_,
-	std::vector<object::main::ProductionRule*> productionRules_)
+deamer::language::type::definition::property::main::Grammar::Grammar(std::vector<object::main::NonTerminal*> NonTerminals_, 
+			std::vector<object::main::ProductionRule*> ProductionRules_)
 	: Definition(Type::Grammar),
-	  NonTerminals(std::move(nonTerminals_)),
-	  ProductionRules(std::move(productionRules_))
+	NonTerminals(NonTerminals_),
+	ProductionRules(ProductionRules_)
 {
 	references.Add(NonTerminals);
 	references.Add(ProductionRules);
+
 }
 
-const deamer::language::type::definition::object::main::NonTerminal*
-deamer::language::type::definition::property::main ::Grammar::GetNonTerminal(
-	const std::string& nonTerminalName) const
+const deamer::language::type::definition::object::main::NonTerminal* deamer::language::type::definition::property::main::Grammar::GetNonTerminal(const std::string& nonTerminalName) const
 {
 	for (auto* nonTerminal : NonTerminals)
 	{
@@ -45,3 +43,5 @@ deamer::language::type::definition::property::main ::Grammar::GetNonTerminal(
 
 	return nullptr;
 }
+
+

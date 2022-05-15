@@ -1,0 +1,429 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <Recognizer>
+{{file.namespace}} = <deamer::templates::oopsyntaxrecognizer>
+{{file.extension}} = <h>
+
+{{header_guard}} = @<{{language_name}}_AST_LISTENER_TOOL_OOPSYNTAXRECOGNIZER_RECOGNIZER_H>@
+
+{{tool_type_namespace}} = @<::deamer::external::cpp::tool::oopsyntaxrecognizer::>@
+{{type_object}}         = @<{{tool_type_namespace}}Type>@
+{{class_object}}        = @<{{tool_type_namespace}}ClassObject>@
+{{struct_object}}       = @<{{tool_type_namespace}}StructObject>@
+{{interface_object}}    = @<{{tool_type_namespace}}InterfaceObject>@
+{{enum_object}}         = @<{{tool_type_namespace}}EnumObject>@
+{{function_object}}     = @<{{tool_type_namespace}}FunctionObject>@
+{{function_argument}}   = @<{{tool_type_namespace}}FunctionArgument>@
+{{property_object}}     = @<{{tool_type_namespace}}PropertyObject>@
+{{basetype_object}}     = @<{{tool_type_namespace}}BaseTypeObject>@
+{{oopmodel_object}}     = @<{{tool_type_namespace}}OopModel>@
+
+{{listen_class_entry}} = @<
+		void ListenEntry(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			ClassFlavor++;
+			FlavorStack.push_back(FlavorType::Class);
+			currentClassObject = new {{class_object}}();
+			createdTypes.push_back(currentClassObject);
+		}>@
+
+{{listen_class_exit}} = @<
+		void ListenExit(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			ClassFlavor--;
+			FlavorStack.pop_back();
+			currentClassObject = nullptr;
+		}>@
+
+{{listen_basetype_entry}} = @<
+		void ListenEntry(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			BaseTypeFlavor++;
+			FlavorStack.push_back(FlavorType::BaseType);
+			currentBaseTypeObject = new {{basetype_object}}();
+			createdBaseTypes.push_back(currentBaseTypeObject);
+		}>@
+
+{{listen_basetype_exit}} = @<
+		void ListenExit(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			BaseTypeFlavor--;
+			FlavorStack.pop_back();
+			
+			if (ClassFlavor > 0 && currentClassObject != nullptr && GetTopOfFlavorStack() == FlavorType::Class)
+			{
+				currentClassObject->AddBaseType(currentBaseTypeObject);
+			}
+			else if (StructFlavor > 0 && currentStructObject != nullptr && GetTopOfFlavorStack() == FlavorType::Struct)
+			{
+				currentStructObject->AddBaseType(currentBaseTypeObject);
+			}
+			else if (InterfaceFlavor > 0 && currentInterfaceObject != nullptr && GetTopOfFlavorStack() == FlavorType::Interface)
+			{
+				currentInterfaceObject->AddBaseType(currentBaseTypeObject);
+			}
+
+			currentBaseTypeObject = nullptr;
+		}>@
+
+{{listen_property_entry}} = @<
+		void ListenEntry(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			PropertyFlavor++;
+			FlavorStack.push_back(FlavorType::Property);
+			currentPropertyObject = new {{property_object}}();
+		}>@
+
+{{listen_property_exit}} = @<
+		void ListenExit(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			PropertyFlavor--;
+			FlavorStack.pop_back();
+
+			if (ClassFlavor > 0 && FunctionFlavor > 0)
+			{
+				// Add to function
+			}
+			else if (StructFlavor > 0 && FunctionFlavor > 0)
+			{
+				// Add to function
+			}
+			else if (ClassFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Class && currentClassObject != nullptr)
+			{
+				currentClassObject->AddProperty(currentPropertyObject);
+			}
+			else if (StructFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Struct && currentStructObject != nullptr)
+			{
+				currentStructObject->AddProperty(currentPropertyObject);
+			}
+			else
+			{
+				globalProperties.push_back(currentPropertyObject);
+			}
+
+			currentPropertyObject = nullptr;
+		}>@
+
+{{listen_struct_entry}} = @<
+		void ListenEntry(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			StructFlavor++;
+			FlavorStack.push_back(FlavorType::Struct);
+			currentStructObject = new {{struct_object}}();
+			createdTypes.push_back(currentStructObject);
+		}>@
+
+{{listen_struct_exit}} = @<
+		void ListenExit(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			StructFlavor--;
+			FlavorStack.pop_back();
+			currentStructObject = nullptr;
+		}>@
+		
+
+{{listen_interface_entry}} = @<
+		void ListenEntry(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			InterfaceFlavor++;
+			FlavorStack.push_back(FlavorType::Interface);
+			currentInterfaceObject = new {{interface_object}}();
+			createdTypes.push_back(currentInterfaceObject);
+		}>@
+
+{{listen_interface_exit}} = @<
+		void ListenExit(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			InterfaceFlavor--;
+			FlavorStack.pop_back();
+			currentInterfaceObject = nullptr;
+		}>@
+
+{{listen_function_entry}} = @<
+		void ListenEntry(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			FunctionFlavor++;
+			FlavorStack.push_back(FlavorType::Function);
+			currentFunctionObject = new {{function_object}}();
+			createdFunctions.push_back(currentFunctionObject);
+		}>@
+
+{{listen_function_exit}} = @<
+		void ListenExit(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			if (ClassFlavor > 0) // We are in some Class => It is a member function
+			{
+				currentClassObject->AddFunction(currentFunctionObject);
+			}
+			else if (StructFlavor > 0) // We are in some Struct => It is a member function
+			{
+				currentStructObject->AddFunction(currentFunctionObject);
+			}
+			else if (EnumFlavor > 0) // We are in a enumeration => Something went wrong
+			{
+				// Error
+			}
+			else // It is a global function
+			{
+				globalFunctions.push_back(currentFunctionObject);
+			}
+
+			FunctionFlavor--;
+			FlavorStack.pop_back();
+			currentFunctionObject = nullptr;
+		}>@
+
+
+{{listen_enumeration_entry}} = @<
+		void ListenEntry(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			EnumFlavor++;
+			FlavorStack.push_back(FlavorType::Enum);
+			currentEnumObject =
+				new ::deamer::external::cpp::tool::oopsyntaxrecognizer::EnumObject();
+			createdTypes.push_back(currentEnumObject);
+		}>@
+
+{{listen_enumeration_exit}} = @<
+		void ListenExit(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			EnumFlavor--;
+			FlavorStack.pop_back();
+			currentEnumObject = nullptr;
+		}>@
+
+{{listen_functionargument_entry}} = @<
+		void ListenEntry(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			FunctionArgumentFlavor++;
+			FlavorStack.push_back(FlavorType::FunctionArgument);
+			currentFunctionArgumentObject = new {{function_argument}}();
+			createdFunctionsArguments.push_back(currentFunctionArgumentObject);
+		}>@
+
+{{listen_functionargument_exit}} = @<
+		void ListenExit(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+			if (FunctionFlavor > 0 && currentFunctionObject != nullptr)
+			{
+				currentFunctionObject->AddArgument(currentFunctionArgumentObject);
+			}
+			else
+			{
+				// Error
+			}
+
+			FunctionArgumentFlavor--;
+			FlavorStack.pop_back();
+			currentFunctionArgumentObject = nullptr;
+		}>@
+
+{{listen_property_assignment}} = @<
+		void ListenEntry(const {{language_name}}::ast::node::{{ast_node}}* node) override
+		{
+{{listen_property_assignment_impl.Variable_Field}}
+		}
+>@
+
+{{listen_property_assignment_impl}} = @<>@
+{{listen_property_assign_class_name}} = 
+@<			if (ClassFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Class &&
+				currentClassObject != nullptr)
+			{
+				currentClassObject->SetTypeName(node->GetText());
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_struct_name}} = 
+@<			if (StructFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Struct &&
+				currentStructObject != nullptr)
+			{
+				currentStructObject->SetTypeName(node->GetText());
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_interface_name}} = 
+@<			if (InterfaceFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Interface &&
+				currentInterfaceObject != nullptr)
+			{
+				currentInterfaceObject->SetTypeName(node->GetText());
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_function_name}} = 
+@<			if (FunctionFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Function &&
+				currentFunctionObject != nullptr)
+			{
+				currentFunctionObject->SetName(node->GetText());
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_function_returntype}} = 
+@<			if (FunctionFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Function &&
+				currentFunctionObject != nullptr)
+			{
+				// Assumes the type is predefined
+				// Can be updated to insert temporary forward declaration
+				// This requires a final check which replaces forward declarations
+				currentFunctionObject->SetReturnType(GetType(node->GetText()));
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_function_argument_type}} = 
+@<			if (FunctionArgumentFlavor > 0 && GetTopOfFlavorStack() == FlavorType::FunctionArgument &&
+				currentFunctionArgumentObject != nullptr)
+			{
+				currentFunctionArgumentObject->SetType(GetType(node->GetText()));
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_basetype_type}} = 
+@<			if (BaseTypeFlavor > 0 && GetTopOfFlavorStack() == FlavorType::BaseType &&
+				currentBaseTypeObject != nullptr)
+			{
+				currentBaseTypeObject->SetType(GetType(node->GetText()));
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_function_argument_name}} = 
+@<			if (FunctionArgumentFlavor > 0 && GetTopOfFlavorStack() == FlavorType::FunctionArgument &&
+				currentFunctionArgumentObject != nullptr)
+			{
+				currentFunctionArgumentObject->SetName(node->GetText());
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_property_type}} = 
+@<			if (PropertyFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Property &&
+				currentPropertyObject != nullptr)
+			{
+				currentPropertyObject->SetType(GetType(node->GetText()));
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_property_name}} = 
+@<			if (PropertyFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Property &&
+				currentPropertyObject != nullptr)
+			{
+				currentPropertyObject->SetName(node->GetText());
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_enum_name}} = 
+@<			if (EnumFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Enum &&
+				currentEnumObject != nullptr)
+			{
+				currentEnumObject->SetTypeName(node->GetText());
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_enum_member}} = 
+@<			if (EnumFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Enum &&
+				currentEnumObject != nullptr)
+			{
+				currentEnumObject->AddMember(node->GetText());
+			}
+			else
+			{
+				// Error
+			}>@
+{{listen_property_assign_any_name}} = 
+@<			switch(GetTopOfFlavorStack())
+			{
+			case FlavorType::FunctionArgument: {
+				if (FunctionArgumentFlavor > 0 && currentFunctionArgumentObject != nullptr)
+				{
+					currentFunctionArgumentObject->SetName(node->GetText());
+				}
+				else
+				{
+					// Error
+				}
+				break;
+			}
+			case FlavorType::Function: {
+				if (FunctionFlavor > 0 && currentFunctionObject != nullptr)
+				{
+					currentFunctionObject->SetName(node->GetText());
+				}
+				else
+				{
+					// Error
+				}
+				break;
+			}
+			case FlavorType::Class: {
+				if (ClassFlavor > 0 && currentClassObject != nullptr)
+				{
+					currentClassObject->SetTypeName(node->GetText());
+				}
+				else
+				{
+					// Error
+				}
+				break;
+			}
+			case FlavorType::Struct: {
+				if (StructFlavor > 0 && currentStructObject != nullptr)
+				{
+					currentStructObject->SetTypeName(node->GetText());
+				}
+				else
+				{
+					// Error
+				}
+				break;
+			}
+			case FlavorType::Enum: {
+				if (EnumFlavor > 0 && currentEnumObject != nullptr)
+				{
+					currentEnumObject->SetTypeName(node->GetText());
+				}
+				else
+				{
+					// Error
+				}
+				break;
+			}
+			}>@
+
+{{property_assignment_conditional}} = @<(parent != nullptr) && (parent->GetType() == {{language_name}}::ast::Type::{{required_ast_node}}) && (parent->GetMatchedProductionRule().id == {{required_production_rule_index}})>@
+
+{{listen_property_assign_specific_production_rule_action}} = 
+@<{{optional_parent_initializer}}{{optional_parent_continuation}}
+			if ({{property_assignment_conditional}})
+			{
+				// If the conditional was True, checks if the next conditions are correct
+				// And executes the logic.
+				{{listen_property_assign_specific_production_rule_action_logic.Variable_Field}}
+			}
+>@
+
+{{optional_parent_continuation}} = @<{{parent_continuation}}>@
+{{optional_parent_initializer}} = @<{{parent_initializer}}>@
+{{parent_initializer}} =
+@<			// This is extended each time a new specialization
+			const ::deamer::external::cpp::ast::Node* parent = node;
+>@
+{{parent_continuation}} = @<parent = parent->GetParent();>@

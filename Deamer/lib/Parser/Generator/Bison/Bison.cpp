@@ -19,87 +19,49 @@
  */
 
 #include "Deamer/Parser/Generator/Bison/Bison.h"
-#include "Deamer/Parser/Type/Bison/Output.h"
+#include "Deamer/File/Tool/Action/Builder.h"
+#include "Deamer/Parser/Type/Bison/ParserDefinition.h"
+#include "Deamer/Parser/Type/Bison/ParserHeader.h"
+#include <memory>
 
 deamer::parser::generator::bison::Bison::Bison(const ReferenceType reference_)
 	: Base(tool::type::Tool::Bison),
 	  reference(reference_),
 	  name(reference.GetDefinition<language::type::definition::property::Type::Identity>()
-			   .name->value)
+			   .GetName()
+			   ->value)
 {
 }
 
 deamer::file::tool::Output deamer::parser::generator::bison::Bison::Generate()
 {
 	file::tool::Output output("Bison");
-	type::bison::Output bisonFileData(reference);
+	auto parserHeader = type::bison::ParserHeader(reference);
+	auto parserDefinition = type::bison::ParserDefinition(reference);
 
-	const auto& lexicon =
-		reference.GetDefinition<language::type::definition::property::Type::Lexicon>();
-	const auto& grammar =
-		reference.GetDefinition<language::type::definition::property::Type::Grammar>();
-	const auto& identity =
-		reference.GetDefinition<language::type::definition::property::Type::Identity>();
-
-	for (language::reference::LDO<language::type::definition::object::main::Terminal> terminal :
-		 lexicon.Terminals)
-	{
-		bisonFileData.AddTerminal(terminal);
-	}
-
-	for (language::reference::LDO<language::type::definition::object::main::NonTerminal>
-			 nonTerminal : grammar.NonTerminals)
-	{
-		bisonFileData.AddNonTerminal(nonTerminal);
-	}
-
-	const std::string fileName = identity.name->value + "_parser";
-	const file::tool::File bisonFile(fileName, "y", bisonFileData.Generate());
-	const file::tool::File bisonParser("Parser", "h", bisonParserFile());
+	const std::string fileName = name + "_parser";
+	const file::tool::File bisonFile(fileName, "y", parserDefinition.Generate());
+	const file::tool::File bisonParser("Parser", "h", parserHeader.Generate());
 
 	output.AddFileToExternal(bisonFile);
 	output.AddFileToInclude(bisonParser);
-	output.AddActionToExternal(externalAction(), file::tool::OSType::os_linux);
-	output.AddActionToExternal(externalAction(), file::tool::OSType::os_windows);
+	output.AddActionToExternal(externalAction());
 	output.AddCMakeListsToExternal({externalCMakeLists(), dependenciesCMakeLists()});
 
 	return output;
 }
 
-std::string deamer::parser::generator::bison::Bison::bisonParserFile() const
+std::unique_ptr<deamer::file::tool::action::Action>
+deamer::parser::generator::bison::Bison::externalAction()
 {
-	return "#ifndef " + name +
-		   "_BISON_PARSER_H\n"
-		   "#define " +
-		   name +
-		   "_BISON_PARSER_H\n"
-		   "\n"
-		   "#include <Deamer/External/Cpp/Parser/Interface/Parser.h>\n"
-		   "\n"
-		   "namespace " +
-		   name +
-		   "{ namespace parser {\n"
-		   "\n"
-		   "\t class Parser : public deamer::external::cpp::parser::Parser\n"
-		   "\t{\n"
-		   "\tpublic:\n"
-		   "\t\tParser() = default;\n"
-		   "\t\t~Parser() override = default;\n"
-		   "\n"
-		   "\tpublic:\n"
-		   "\t\tdeamer::external::cpp::ast::Tree* Parse(const std::string& text) const override;\n"
-		   "\t};\n"
-		   "\n"
-		   "}}\n"
-		   "\n"
-		   "#endif // " +
-		   name + "_BISON_PARSER_H\n";
-}
+	auto builder = file::tool::action::Builder();
 
-deamer::file::tool::Action deamer::parser::generator::bison::Bison::externalAction()
-{
-	return "bison -p" + name + " -d ./" + name + "_parser.y" + " ; mv ./" + name +
-		   "_parser.tab.c ./" + name + "_parser.tab.cpp";
+	builder
+		.PlatformSpecificCommand(
+			{{file::tool::OSType::os_linux, "bison -p" + name + " -d ./" + name + "_parser.y"}})
+		.MoveFile("./" + name + "_parser.tab.c", "./" + name + "_parser.tab.cpp");
+
+	return builder.GetAction();
 }
 
 std::string deamer::parser::generator::bison::Bison::externalCMakeLists()
@@ -110,15 +72,5 @@ std::string deamer::parser::generator::bison::Bison::externalCMakeLists()
 
 std::string deamer::parser::generator::bison::Bison::dependenciesCMakeLists()
 {
-	const auto flex =
-		reference.GetDefinition<language::type::definition::property::Type::Generation>()
-			.IsIntegrationSet({tool::type::Tool::Flex, tool::type::Tool::Bison});
-
-	if (flex)
-	{
-		return "target_link_libraries(" + name + "_Bison_static_library PUBLIC " + name +
-			   "_Flex_static_library)\n";
-	}
-
 	return "";
 }

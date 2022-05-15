@@ -24,14 +24,14 @@
             <Keywords name="Folders in comment, open"></Keywords>
             <Keywords name="Folders in comment, middle"></Keywords>
             <Keywords name="Folders in comment, close"></Keywords>
-            <Keywords name="Keywords1">{{keywords_1}}</Keywords>
-            <Keywords name="Keywords2">{{keywords_2}}</Keywords>
-            <Keywords name="Keywords3">{{keywords_3}}</Keywords>
-            <Keywords name="Keywords4">{{keywords_4}}</Keywords>
-            <Keywords name="Keywords5">{{keywords_5}}</Keywords>
-            <Keywords name="Keywords6">{{keywords_6}}</Keywords>
-            <Keywords name="Keywords7">{{keywords_7}}</Keywords>
-            <Keywords name="Keywords8">{{keywords_8}}</Keywords>
+            <Keywords name="Keywords1">{{keywords_1.Variable_Field}}</Keywords>
+            <Keywords name="Keywords2">{{keywords_2.Variable_Field}}</Keywords>
+            <Keywords name="Keywords3">{{keywords_3.Variable_Field}}</Keywords>
+            <Keywords name="Keywords4">{{keywords_4.Variable_Field}}</Keywords>
+            <Keywords name="Keywords5">{{keywords_5.Variable_Field}}</Keywords>
+            <Keywords name="Keywords6">{{keywords_6.Variable_Field}}</Keywords>
+            <Keywords name="Keywords7">{{keywords_7.Variable_Field}}</Keywords>
+            <Keywords name="Keywords8">{{keywords_8.Variable_Field}}</Keywords>
             <Keywords name="Delimiters">00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23</Keywords>
         </KeywordLists>
         <Styles>

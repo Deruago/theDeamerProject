@@ -21,51 +21,54 @@
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_GENERATION_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_GENERATION_H
 
-#include "Deamer/File/Tool/OSType.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Generation/GeneratorArgument.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/OSTarget.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/GenerateArgument.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
+
 #include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
 #include <optional>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 namespace deamer::language::type::definition::property::main
 {
 	/*! \class Generation
 	 *
-	 *  \brief This language property definition, defines how to generate the language.
-	 *
-	 *  \details This LPD is part of a set of "special" LPD's, these LPD's are always available.
-	 *  Generation contains several data about what should be generated, from default tools to other
-	 * ecosystem data.
+	 *	\brief 
+	 *	This language property definition, defines how to generate the language.
+	 *	Designed by Thimo Böhmer
+
+	 *	\details 
+
 	 */
 	class Generation final : public Definition
 	{
 	public:
-		// std::vector<object::main::Stages*> stages;
-		std::optional<object::main::OSTarget*> osTarget;
-
+		std::vector<object::main::OSTarget*> osTarget;
 		std::vector<object::main::Generate*> generateStatements;
 		std::vector<object::main::GenerateArgument*> generateArguments;
 		std::vector<object::main::Integrate*> integrateStatements;
 
+	
 	public:
-		Generation(std::vector<object::main::Generate*> generateStatements_,
-				   std::vector<object::main::GenerateArgument*> generateArguments_,
-				   std::vector<object::main::Integrate*> integrateStatements_);
-
-		Generation(std::vector<object::main::Generate*> generateStatements_,
-				   std::vector<object::main::GenerateArgument*> generateArguments_,
-				   std::vector<object::main::Integrate*> integrateStatements_,
-				   std::vector<object::main::OSTarget*> osTarget_);
-
-		~Generation() = default;
+		Generation(std::vector<object::main::OSTarget*> osTarget_, 
+			std::vector<object::main::Generate*> generateStatements_, 
+			std::vector<object::main::GenerateArgument*> generateArguments_, 
+			std::vector<object::main::Integrate*> integrateStatements_);
+		virtual ~Generation() = default;
 
 	public:
-		bool IsIntegrationSet(const object::main::Integrate& integrate) const;
-		bool IsArgumentSet(const object::main::GenerateArgument& generateArgument) const;
-		deamer::file::tool::OSType GetOSTarget() const;
+		bool IsIntegrationSet(const object::main::Integrate& integrate) const;
+		bool IsArgumentSet(const object::main::GenerateArgument& generateArgument) const;
+		bool IsToolSet(const object::main::Generate& generate) const;
+		deamer::file::tool::OSType GetOSTarget() const;
+
+
+	public:
+		
+
 	};
 }
 

@@ -26,43 +26,97 @@ namespace deamer::language::type::definition::object
 	/*! \enum Type
 	 *
 	 *  \brief This enum lists all the different language definition object types.
+	 *
+	 *	\note You may not depend on the value of some enumeration.
+	 *	However, 0 is reserved for unknown enumerations.
 	 */
 	enum class Type
 	{
-		Unknown,
+		Unknown = 0,
 		Base,
 
-		// Lexicon
-		Terminal,
-
-		// Grammar
-		NonTerminal,
-		ProductionRule,
-
-		// Precedence
-		ObjectPrecedence,
-
 		// Associativity
+		AssociativityType,
 		ObjectAssociativity,
 
-		// Generate
+
+
+		// AstOptimization
+
+
+
+		// AstTranslation
+
+
+
+		// Colorization
+		Color,
+		ColorCombination,
+		ColorGroup,
+		ColorTheme,
+		TerminalColor,
+		TerminalPatternColor,
+
+
+
+		// Documentation
+
+
+
+		// Formatting
+
+
+
+		// Generation
 		Generate,
 		GenerateArgument,
 		Integrate,
 		OSTarget,
 
+
+
+		// Grammar
+		NonTerminal,
+		NonTerminalAbstraction,
+		ProductionRule,
+
+
+
 		// Identity
 		Name,
+
+
+
+		// Lexicon
+		SpecialType,
+		Terminal,
+
+
+
+		// OOPSyntax
+		OopConceptLink,
+		OopConceptMember,
+		OopConceptMemberType,
+		OopEncapsulation,
+		OopLink,
+		OopSyntaxScope,
+
+
+
+		// Precedence
+		ObjectPrecedence,
+
+
+
+		// Semantic
+
+
 
 		// Threat
 		Threat,
 
-		// Colorization
-		ColorGroup,
-		ColorCombination,
-		ColorTheme,
-		TerminalColor,
-		TerminalPatternColor,
+
+
 	};
 }
 

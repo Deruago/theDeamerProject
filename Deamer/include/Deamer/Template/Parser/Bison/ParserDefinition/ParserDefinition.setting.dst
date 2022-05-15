@@ -1,0 +1,60 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <ParserDefinition>
+{{file.namespace}} = <deamer::templates::bison::parser>
+{{file.extension}} = <h>
+
+{{optional_extended_error}} = @<{{extended_error}}>@
+{{optional_parse_lac}} = @<{{parse_lac}}>@
+{{optional_glr_setting}} = @<>@
+
+{{extended_error}} = @<%define parse.error verbose>@
+{{parse_lac}} = @<%define parse.lac full>@
+{{glr_setting}} = @<%glr-parser>@
+
+{{union_declaration}} =
+	@<	::{{language_name}}::ast::node::{{token_name}}* {{language_name}}_{{token_name}};>@
+
+{{terminal_declaration}} = 
+	@<%token<Terminal> {{token_name}}>@
+
+{{nonterminal_declaration}} = 
+	@<%nterm<{{language_name}}_{{token_name}}> {{token_name}}>@
+
+{{terminal_include}} = 
+	@<#include "{{language_name}}/Ast/Node/{{token_name}}.h">@
+	
+{{terminal_include}} = 
+	@<#include "{{language_name}}/Ast/Node/{{token_name}}.h">@
+
+{{nonterminal_include}} = 
+	@<#include "{{language_name}}/Ast/Node/{{token_name}}.h">@
+
+{{nonterminal_implementation}} = @<
+{{nonterminal_token_name}}:{{production_rule.Variable_Field}}
+;
+>@
+
+{{production_rule}} = @<
+	{{optional_or}}{{production_rule_implementation}} {
+		auto* const newNode = new {{language_name}}::ast::node::{{nonterminal_token_name}}({::{{language_name}}::ast::Type::{{nonterminal_token_name}}, ::deamer::external::cpp::ast::NodeValue::nonterminal, { {{production_rule_index}}, ::deamer::external::cpp::ast::ProductionRuleType::{{production_rule_type}} }}, { {{production_rule_retrieved_tokens.Variable_Field}} });
+		$$ = newNode;
+
+		// Ignored, Deleted, tokens are deleted{{ignore_section.Variable_Field}}{{optional_top_nonterminal_output}}
+	}>@
+
+{{ignore_section}} = @<
+		delete ${{token_index}};>@
+
+{{optional_or}} = @<>@
+{{or}} = @<| >@
+
+{{production_rule_retrieved_tokens}} = @<{{optional_comma}}{{production_rule_retrieved_tokens_impl}}>@
+{{production_rule_retrieved_tokens_impl}} = @<>@
+
+{{transfer_terminal}} = @<new {{language_name}}::ast::node::{{token_name}}({::{{language_name}}::ast::Type::{{token_name}}, ::deamer::external::cpp::ast::NodeValue::terminal, ${{token_index}} })>@
+{{transfer_nonterminal}} = @<${{token_index}}>@
+
+{{optional_top_nonterminal_output}} = @<>@
+
+{{top_nonterminal_output}} = @<
+		outputTree = new ::deamer::external::cpp::ast::Tree(newNode);>@

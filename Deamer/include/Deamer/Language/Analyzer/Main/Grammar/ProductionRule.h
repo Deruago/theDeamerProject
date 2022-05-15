@@ -48,21 +48,31 @@ namespace deamer::language::analyzer::main
 		 *
 		 *	\brief Returns the index it is recursive for the reverse looked up nonterminal.
 		 */
-		size_t GetDirectRecursionPoint() const;
+		std::size_t GetDirectRecursionPoint() const;
 
 		/*!	\fn GetDirectRecursionPoint
 		 *
 		 *	\brief Returns the index it is recursive for the given nonterminal.
 		 */
-		size_t GetDirectRecursionPoint(
+		std::size_t GetDirectRecursionPoint(
 			reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const;
 
 		bool IsNonTerminalOwnerOfThisProductionRule(
 			reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const;
 
-		size_t GetProductionRuleId() const;
-		size_t GetProductionRuleId(
+		std::size_t GetProductionRuleId() const;
+		std::size_t GetProductionRuleId(
 			reference::LDO<type::definition::object::main::NonTerminal> nonTerminal) const;
+
+		/*!	\fn GetNonTerminal
+		 *
+		 *	\brief Returns the nonterminal the production rule belongs to.
+		 */
+		deamer::language::reference::LDO<
+			deamer::language::type::definition::object::main::NonTerminal>
+		GetNonTerminal() const;
+
+		bool IsProductionRuleBelongToSomeNonTerminal() const;
 
 	private:
 	};

@@ -1,0 +1,94 @@
+%option yylineno
+%option noyywrap
+{{optional_option_interactive}}
+{{optional_option_unistd}}
+
+%{
+#include <iostream>
+#include <string>
+#include <stdio.h>
+#include <string.h>
+#include <vector>
+#include <Deamer/External/Cpp/Lexer/TerminalObject.h>
+{{flex_header_include}}
+{{ast_include}}
+{{optional_bison_integration_header}}
+void showError();
+extern int {{language_name}}lex();
+
+static bool local_store = false;
+static bool include_deleted = false;
+static int column = 0;
+static void handleColumn(const std::string& text);
+static void store(const deamer::external::cpp::lexer::TerminalObject* const newObject);
+static std::vector<const deamer::external::cpp::lexer::TerminalObject*> 
+local_objects;
+
+{{optional_flex_yylval_override}}
+#ifndef yyval
+#define yyval yytext
+#endif // yyval
+%}
+
+{{terminal_declaration.Variable_Field}}
+{{unrecognized_terminal_regex}}
+
+%%
+
+{{terminal_action.Variable_Field}}
+{{unrecognized_terminal_action}}
+
+%%
+
+static void store(const deamer::external::cpp::lexer::TerminalObject* const newObject)
+{
+	local_objects.push_back(newObject);
+}
+
+static void clear()
+{
+	local_objects.clear();
+}
+
+static void handleColumn(const std::string& text)
+{
+	int& currentColumn = column;
+	currentColumn += text.size();
+	for (auto character : text)
+	{
+		if (character == '\n')
+		{
+			currentColumn = 0;
+			break;
+		}
+	}
+}
+
+std::vector<const ::deamer::external::cpp::lexer::TerminalObject*> {{language_name}}::flex::lexer::Lexer::Tokenize(const std::string& text, ::deamer::external::cpp::lexer::TerminalConstructionPolicy constructionPolicy) const
+{
+	if (constructionPolicy == ::deamer::external::cpp::lexer::TerminalConstructionPolicy::include_deleted_terminals)
+	{
+		include_deleted = true;
+	}
+	else
+	{
+		include_deleted = false;
+	}
+
+	local_store = true;
+	column = 0;
+
+	YY_BUFFER_STATE buf;
+	buf = yy_scan_string(text.c_str());
+	yylex();
+	yy_delete_buffer(buf);
+	yylex_destroy();
+
+	local_store = false;
+	include_deleted = false;
+
+	auto local_objects_copy = local_objects;
+	clear();
+
+	return local_objects_copy;
+}

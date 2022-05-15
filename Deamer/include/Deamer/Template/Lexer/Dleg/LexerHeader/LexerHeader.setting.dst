@@ -1,0 +1,6 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <LexerHeader>
+{{file.namespace}} = <deamer::templates::dleg>
+{{file.extension}} = <h>
+
+{{header_guard}} = @<{{language_name}}_DLEG_LEXER_H>@

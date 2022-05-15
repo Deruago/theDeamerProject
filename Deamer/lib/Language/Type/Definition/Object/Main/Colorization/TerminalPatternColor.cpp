@@ -19,30 +19,33 @@
  */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalPatternColor.h"
+
 #include <utility>
 
-deamer::language::type::definition::object::main::TerminalPatternColor::TerminalPatternColor(
-	std::vector<TerminalColor*> StartTerminals_, std::vector<TerminalColor*> MiddleTerminals_,
-	std::vector<TerminalColor*> EndTerminals_)
+deamer::language::type::definition::object::main::TerminalPatternColor::TerminalPatternColor(std::vector<object::main::TerminalColor*> StartTerminals_, 
+			std::vector<object::main::TerminalColor*> MiddleTerminals_, 
+			std::vector<object::main::TerminalColor*> EndTerminals_)
 	: Base(Type::TerminalPatternColor),
-	  StartTerminals(std::move(StartTerminals_)),
-	  MiddleTerminals(std::move(MiddleTerminals_)),
-	  EndTerminals(std::move(EndTerminals_))
+	StartTerminals(StartTerminals_),
+	MiddleTerminals(MiddleTerminals_),
+	EndTerminals(EndTerminals_)
 {
 	references.Add(StartTerminals);
 	references.Add(MiddleTerminals);
 	references.Add(EndTerminals);
+
 }
 
-bool deamer::language::type::definition::object::main::TerminalPatternColor::operator==(
-	const TerminalPatternColor& rhs) const
+bool deamer::language::type::definition::object::main::TerminalPatternColor::operator==(const TerminalPatternColor& rhs) const noexcept
 {
-	return this == &rhs || (this->StartTerminals == rhs.StartTerminals &&
-							this->MiddleTerminals == rhs.MiddleTerminals &&
-							this->EndTerminals == rhs.MiddleTerminals);
+	return this == &rhs || (this->StartTerminals == rhs.StartTerminals && this->MiddleTerminals == rhs.MiddleTerminals && this->EndTerminals == rhs.EndTerminals && true);
 }
 
-deamer::language::type::definition::object::main::TerminalPatternColor::TerminalPatternColor()
-	: TerminalPatternColor({}, {}, {})
+
+deamer::language::type::definition::object::main::TerminalPatternColor::TerminalPatternColor() : TerminalPatternColor(std::vector<object::main::TerminalColor*>{}, 
+			std::vector<object::main::TerminalColor*>{}, 
+			std::vector<object::main::TerminalColor*>{})
 {
 }
+
+

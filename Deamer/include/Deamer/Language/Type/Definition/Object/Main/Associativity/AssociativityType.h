@@ -13,26 +13,32 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_ASSOCIATIVITY_ASSOCIATIVITYTYPE_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_ASSOCIATIVITY_ASSOCIATIVITYTYPE_H
 
-namespace deamer::language::type::definition::object::main {
-	
-	/*! \enum AssociativityType
+#include "Deamer/Language/Type/Definition/Object/Base.h"
+
+namespace deamer::language::type::definition::object::main
+{
+	/*! \class AssociativityType
 	 *
-	 *  Terminal symbol, used in lexicon definitions.
+	 *	\brief 
+	 *	\details 
 	 */
-	enum class AssociativityType
-	{
+	 enum class AssociativityType
+	 {
+		reserved_default_enum_option,
+
 		left,
 		right,
 		any,
-	};
+
+	 };
 }
 
-#endif //DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_ASSOCIATIVITY_ASSOCIATIVITYTYPE_H
+#endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_ASSOCIATIVITY_ASSOCIATIVITYTYPE_H

@@ -21,31 +21,26 @@
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_SPECIALTYPE_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_SPECIALTYPE_H
 
+#include "Deamer/Language/Type/Definition/Object/Base.h"
+
 namespace deamer::language::type::definition::object::main
 {
-	/*!	\enum SpecialType
+	/*! \class SpecialType
 	 *
-	 *	\brief Enumerates all special variants of Terminals, that are available.
+	 *	\brief 
+	 *	\details 
 	 */
-	enum class SpecialType
-	{
-		// A normal terminal
+	 enum class SpecialType
+	 {
+		reserved_default_enum_option,
+
 		Standard = 0,
-
-		// Used to specify, if we should remove this terminal,
-		// from the Terminal sequence.
 		Delete = 1,
-
-		// Used to specify that its value should be ignored.
-		// And discard the terminal, after production rule deduction
 		Ignore = 2,
-
-		// Used to specify that its value should be ignored (has no value).
 		NoValue = 4,
-
-		// When encountering this terminal, crash the program
 		Crash = 8,
-	};
+
+	 };
 }
 
 #endif // DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_LEXICON_SPECIALTYPE_H

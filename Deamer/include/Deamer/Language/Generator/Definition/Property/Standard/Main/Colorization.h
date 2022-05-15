@@ -21,15 +21,16 @@
 #ifndef DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_STANDARD_MAIN_COLORIZATION_H
 #define DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_STANDARD_MAIN_COLORIZATION_H
 
-#include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
 #include "Deamer/Language/Analyzer/Main/Lexicon/Terminal.h"
 #include "Deamer/Language/Generator/Definition/Property/Standard/Base.h"
+#include "Deamer/Language/Reference/LDO.h"
 #include "Deamer/Language/Reference/PropertyDefinition.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorCombination.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorGroup.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorTheme.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalColor.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalPatternColor.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Colorization.h"
 #include <regex>
 
@@ -59,7 +60,8 @@ namespace deamer::language::generator::definition::property::standard
 		 */
 		bool colorGroupsIndependently = false;
 
-		constexpr static std::size_t equalSymbolMatchesColorGroup = 1025; // reserved for symbol matches
+		constexpr static std::size_t equalSymbolMatchesColorGroup =
+			1025; // reserved for symbol matches
 
 		struct DeducedTerminalColor
 		{
@@ -190,7 +192,7 @@ namespace deamer::language::generator::definition::property::standard
 			}
 
 			EqualizeSymbolColors();
-			
+
 			for (auto [terminal, deducedColor] : deducedColors)
 			{
 				analyzer::main::Terminal terminalAnalyzer(&tmp_reference, terminal);
@@ -225,7 +227,7 @@ namespace deamer::language::generator::definition::property::standard
 				::deamer::language::type::definition::object::main::TerminalColor*
 					newTerminalColor =
 						new ::deamer::language::type::definition::object::main::TerminalColor(
-					terminal.GetRawPointer(), colorGroups[deducedColor->colorId - 1]);
+							terminal.GetRawPointer(), colorGroups[deducedColor->colorId - 1]);
 				terminalColors.push_back(newTerminalColor);
 				this->AddObject(newTerminalColor);
 			}
@@ -324,13 +326,13 @@ namespace deamer::language::generator::definition::property::standard
 		}
 
 		/*!	\fn GetAvailableColorGroup
-		* 
-		*	\brief This will return the first available colorgroup
-		* 
-		*	\detail The first available colorgroup can be calculated via "1 + colorgroups.size()".
-		* 
-		*	\warning Returns raw pointer. Will leak if not explicitly deleted.
-		*/
+		 *
+		 *	\brief This will return the first available colorgroup
+		 *
+		 *	\detail The first available colorgroup can be calculated via "1 + colorgroups.size()".
+		 *
+		 *	\warning Returns raw pointer. Will leak if not explicitly deleted.
+		 */
 		[[nodiscard]] type::definition::object::main::ColorGroup* GetAvailableColorGroup()
 		{
 			return new type::definition::object::main::ColorGroup(GetAvailableColorGroupID());

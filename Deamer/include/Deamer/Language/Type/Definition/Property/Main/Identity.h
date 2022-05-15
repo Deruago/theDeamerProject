@@ -22,26 +22,41 @@
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_IDENTITY_H
 
 #include "Deamer/Language/Type/Definition/Object/Main/Identity/Name.h"
+
 #include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
+#include <optional>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 namespace deamer::language::type::definition::property::main
 {
 	/*! \class Identity
 	 *
-	 *  \brief This language property definition, defines the identity of a language.
-	 *
-	 *  \details This LPD is part of a set of "special" LPD's, these LPD's are always available.
-	 *  Identity contains information about the language, such as its name.
+	 *	\brief 
+	 *	This language property definition, defines the identity of a language.
+	 *	Designed by Thimo Böhmer
+
+	 *	\details 
+
 	 */
 	class Identity final : public Definition
 	{
 	public:
-		object::main::Name* name;
+		std::vector<object::main::Name*> name;
+
+	
+	public:
+		Identity(std::vector<object::main::Name*> name_);
+		virtual ~Identity() = default;
 
 	public:
-		Identity(object::main::Name* name_);
+		deamer::language::type::definition::object::main::Name* GetName() const noexcept;
 
-		~Identity() = default;
+
+	public:
+		
+
 	};
 }
 

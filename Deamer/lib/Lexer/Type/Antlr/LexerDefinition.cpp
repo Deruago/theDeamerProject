@@ -31,7 +31,9 @@ deamer::lexer::type::antlr::LexerDefinition::LexerDefinition(ReferenceType refer
 std::string deamer::lexer::type::antlr::LexerDefinition::Generate() const
 {
 	const auto language_name =
-		reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
+		reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			.GetName()
+			->value;
 
 	auto lexiconDefinition = templates::antlr::lexer::LexiconDefinitionTemplate();
 	lexiconDefinition.language_name_->Set(language_name);

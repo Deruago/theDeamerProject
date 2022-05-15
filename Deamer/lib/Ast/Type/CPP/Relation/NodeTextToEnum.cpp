@@ -24,7 +24,8 @@
 deamer::ast::type::cpp::NodeTextToEnum::NodeTextToEnum(ReferenceType reference_)
 	: reference(reference_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .GetName()
+					   ->value)
 {
 	nodeTextToEnumTemplate = new ::deamer::templates::ast::type::cpp::NodeTextToEnumTemplate();
 }

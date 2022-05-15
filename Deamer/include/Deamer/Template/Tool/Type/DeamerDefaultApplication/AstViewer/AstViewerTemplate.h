@@ -752,6 +752,8 @@ namespace deamer::templates::tool::deamerdefaultapplication::astviewer
 					 GenerateVariable("\\"),
 					 GenerateVariable("n\";\n\n\t\tauto parser = "),
 					 GenerateVariable(astviewertemplate_->language_name_->This()),
+					 GenerateVariable("::"),
+					 GenerateVariable(astviewertemplate_->parser_->Lower()),
 					 GenerateVariable("::parser::Parser();\n\t\tauto* ast = parser"),
 					 GenerateVariable("."),
 					 GenerateVariable("Parse(text);\n\t\tif (ast == nullptr)\n\t\t"),

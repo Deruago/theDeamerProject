@@ -1,0 +1,34 @@
+name: NonTerminal
+type: LDO
+description: <
+	NonTerminal symbol, used in grammar definitions.
+	Designed by Thimo Böhmer
+>
+
+data: <
+	String Name
+	Vector<ProductionRule> ProductionRules
+	NonTerminalAbstraction abstraction = NonTerminalAbstraction::Standard
+	bool Inline = false
+>
+
+function: <
+	// \brief Returns whether the NonTerminal should be inlined.
+	// \details An Inlined nonterminal is not visible for the user, unless explicitly wanted.
+	bool IsInlined() const noexcept
+	{
+		return Inline;
+	}
+>
+
+function: <
+	// \brief Checks if the nonterminal is using a reserved name. E.g. "deamerreserved".
+	bool IsReserved() const noexcept
+	{
+		return Name.find("deamerreserved") == 0;
+	}
+>
+
+Unique: <
+	Name
+>

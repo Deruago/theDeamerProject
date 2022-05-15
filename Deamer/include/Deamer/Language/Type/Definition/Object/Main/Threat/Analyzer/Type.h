@@ -30,7 +30,7 @@ namespace deamer::language::type::definition::object::main::threat::analyzer
 	 *  \details This enum contains all threat analyzers available, so even custom ones.
 	 *
 	 *	\note The value of the value set in this enum is permanent, meaning you cannot move it
-	 *around, this is to avoid differences in documentation and code.
+	 *	around, this is to avoid differences in documentation and code.
 	 *
 	 *	This is why there are reserved spots for the Deamer core threat analyzers:
 	 *	1-1024:     Reserved for Deamer Core

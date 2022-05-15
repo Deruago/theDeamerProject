@@ -48,7 +48,7 @@ namespace deamer::parser::generator::antlr_parser
 		deamer::file::tool::Output Generate() override;
 
 	private:
-		deamer::file::tool::Action externalAction();
+		std::unique_ptr<deamer::file::tool::action::Action> externalAction();
 		std::string externalCMakeLists();
 	};
 }

@@ -1,0 +1,11 @@
+name: AssociativityType
+type: enum
+description: <
+	Type used to specify associativity direction.
+>
+
+members: <
+	left
+	right
+	any
+>

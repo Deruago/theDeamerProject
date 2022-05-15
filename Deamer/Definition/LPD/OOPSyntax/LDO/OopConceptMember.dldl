@@ -1,0 +1,15 @@
+name: OopConceptMember
+type: LDO
+description: <
+	Specifies a member of some concept.
+	Designed by Thimo Böhmer
+>
+
+description_details: <
+	There may not be multiple copies of the same concept.member combination.
+>
+
+data: <
+	OopSyntaxScope scope
+	OopConceptMemberType member
+>

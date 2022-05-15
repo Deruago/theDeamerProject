@@ -28,9 +28,9 @@ namespace deamer::language::generator::definition::property::user
 {
 	/*!	\class Lexicon
 	 *
-	 *	\brief Used to generate a lexicon definition.
+	 *	\brief Used to generate a Lexicon definition.
 	 *
-	 *	\tparam LanguageDefinitionType The language the lexicon is made for.
+	 *	\tparam LanguageDefinitionType The language the Lexicon is made for.
 	 */
 	template<typename LanguageDefinitionType>
 	class Lexicon : public Base<LanguageDefinitionType, type::definition::property::main::Lexicon>
@@ -42,16 +42,17 @@ namespace deamer::language::generator::definition::property::user
 		{
 		}
 
-		/*!	\fn Generate
+		/*! \fn Generate
 		 *
-		 *	\brief Generates a lexicon property definition.
-		 * 
+		 *	\brief Generates Lexicon property definition.
 		 */
 		void GenerateDefinition() override
 		{
-			this->generatedDefinition = new type::definition::property::main::Lexicon(Base<LanguageDefinitionType, type::definition::property::main::Lexicon>::template GetObjects<type::definition::object::Type::Terminal>());
+			const auto Terminals = Base<LanguageDefinitionType, type::definition::property::main::Lexicon>::template GetObjects<type::definition::object::Type::Terminal>();
+
+			this->generatedDefinition = new type::definition::property::main::Lexicon(Terminals);
 		}
 	};
 }
 
-#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_LEXICON_H
+#endif // DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_LEXICON_H

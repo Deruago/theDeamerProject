@@ -24,7 +24,8 @@
 deamer::ast::type::cpp::NodeEnumToText::NodeEnumToText(ReferenceType reference_)
 	: reference(reference_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .GetName()
+					   ->value)
 {
 	nodeEnumToTextTemplate = new ::deamer::templates::ast::type::cpp::NodeEnumToTextTemplate();
 }
@@ -39,8 +40,10 @@ deamer::file::tool::File deamer::ast::type::cpp::NodeEnumToText::Generate() cons
 	deamer::file::tool::File NodeEnumToText("NodeEnumToText", "h");
 
 	nodeEnumToTextTemplate->language_name_->Set(languageName);
-	
-	for (const auto* const nonterminal : reference.GetDefinition<language::type::definition::property::Type::Grammar>().NonTerminals)
+
+	for (const auto* const nonterminal :
+		 reference.GetDefinition<language::type::definition::property::Type::Grammar>()
+			 .NonTerminals)
 	{
 		nodeEnumToTextTemplate->node_name_->Set(nonterminal->Name);
 
@@ -49,8 +52,7 @@ deamer::file::tool::File deamer::ast::type::cpp::NodeEnumToText::Generate() cons
 	}
 
 	for (const auto* const terminal :
-		 reference.GetDefinition<language::type::definition::property::Type::Lexicon>()
-			 .Terminals)
+		 reference.GetDefinition<language::type::definition::property::Type::Lexicon>().Terminals)
 	{
 		nodeEnumToTextTemplate->node_name_->Set(terminal->Name);
 

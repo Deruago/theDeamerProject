@@ -25,18 +25,27 @@ namespace deamer::templates::cmake::single::main
 			// User defined types
 			CMAKE_VAR_INTRO_,
 			add_subdirectory_sub_compiler_,
+			cmake_package_name_,
 			const_qualifier_,
 			file_,
 			languageName_,
+			language_cmake_export_,
+			language_library_,
+			language_library_legacy_,
 			left_angle_bracket_,
 			left_bracket_,
 			left_curly_bracket_,
-			optional_root_external_library_,
+			optional_root_dependency_include_,
+			optional_root_export_,
+			optional_root_install_,
+			optional_root_library_,
+			package_cmake_namespace_,
 			right_angle_bracket_,
 			right_bracket_,
 			right_curly_bracket_,
-			root_external_library_,
+			root_dependency_include_,
 			root_language_name_,
+			root_library_,
 			subproject_name_,
 
 		};
@@ -79,6 +88,11 @@ namespace deamer::templates::cmake::single::main
 			}
 
 			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+				cmake_package_name_: {
+				return "cmake_package_name";
+			}
+
+			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
 				const_qualifier_: {
 				return "const_qualifier";
 			}
@@ -90,6 +104,21 @@ namespace deamer::templates::cmake::single::main
 			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
 				languageName_: {
 				return "languageName";
+			}
+
+			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+				language_cmake_export_: {
+				return "language_cmake_export";
+			}
+
+			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+				language_library_: {
+				return "language_library";
+			}
+
+			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+				language_library_legacy_: {
+				return "language_library_legacy";
 			}
 
 			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
@@ -108,8 +137,28 @@ namespace deamer::templates::cmake::single::main
 			}
 
 			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
-				optional_root_external_library_: {
-				return "optional_root_external_library";
+				optional_root_dependency_include_: {
+				return "optional_root_dependency_include";
+			}
+
+			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+				optional_root_export_: {
+				return "optional_root_export";
+			}
+
+			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+				optional_root_install_: {
+				return "optional_root_install";
+			}
+
+			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+				optional_root_library_: {
+				return "optional_root_library";
+			}
+
+			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+				package_cmake_namespace_: {
+				return "package_cmake_namespace";
 			}
 
 			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
@@ -128,13 +177,18 @@ namespace deamer::templates::cmake::single::main
 			}
 
 			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
-				root_external_library_: {
-				return "root_external_library";
+				root_dependency_include_: {
+				return "root_dependency_include";
 			}
 
 			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
 				root_language_name_: {
 				return "root_language_name";
+			}
+
+			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+				root_library_: {
+				return "root_library";
 			}
 
 			case ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
@@ -724,6 +778,40 @@ namespace deamer::templates::cmake::single::main
 			}
 		};
 
+		struct Variable_cmake_package_name_ : public VariableScopes
+		{
+			static constexpr auto name = "cmake_package_name_";
+
+			Variable_cmake_package_name_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					cmake_package_name_;
+			}
+
+			virtual ~Variable_cmake_package_name_() override = default;
+
+			Variable_cmake_package_name_(DefaultDeamerTemplate* defaultdeamertemplate_,
+										 const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					cmake_package_name_;
+			}
+
+			Variable_cmake_package_name_& operator=(const Variable_cmake_package_name_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_const_qualifier_ : public VariableScopes
 		{
 			static constexpr auto name = "const_qualifier_";
@@ -792,71 +880,31 @@ namespace deamer::templates::cmake::single::main
 					 GenerateVariable("\n# Please visit: https://github"),
 					 GenerateVariable("."),
 					 GenerateVariable(
-						 "com/Deruago/theDeamerProject \n\nfind_package(Deamer_External "
-						 "REQUIRED)\nfind_package(Deamer_Algorithm REQUIRED)\n\n"),
+						 "com/Deruago/theDeamerProject \n\ninclude(GNUInstallDirs)\n\n"),
 					 GenerateVariable(
-						 defaultdeamertemplate_->optional_root_external_library_->This()),
-					 GenerateVariable("\n\nfunction("),
+						 defaultdeamertemplate_->optional_root_dependency_include_->This()),
+					 GenerateVariable("\n\n"),
+					 GenerateVariable(defaultdeamertemplate_->optional_root_library_->This()),
+					 GenerateVariable("\n\nadd_library(deamer_reserved_"),
+					 GenerateVariable(defaultdeamertemplate_->languageName_->This()),
+					 GenerateVariable("_core_library ALIAS "),
+					 GenerateVariable(defaultdeamertemplate_->language_library_->This()),
+					 GenerateVariable(")\n\nfunction("),
 					 GenerateVariable(defaultdeamertemplate_->languageName_->This()),
 					 GenerateVariable("_add_external_library external_library_name "
-									  "source_files)\n\tset(external_library_full_name \""),
-					 GenerateVariable(defaultdeamertemplate_->languageName_->This()),
-					 GenerateVariable("_"),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("external_library_name"),
-					 GenerateVariable("}"),
-					 GenerateVariable("_static_library\")\n\tadd_library("),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("external_library_full_name"),
-					 GenerateVariable("}"),
-					 GenerateVariable(" STATIC "),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
+									  "source_files)\n\ttarget_sources("),
+					 GenerateVariable(defaultdeamertemplate_->language_library_->This()),
+					 GenerateVariable(" PRIVATE $"),
+					 GenerateVariable("{"),
 					 GenerateVariable("source_files"),
 					 GenerateVariable("}"),
-					 GenerateVariable(")\n\n\ttarget_link_libraries("),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("external_library_full_name"),
-					 GenerateVariable("}"),
-					 GenerateVariable(" PUBLIC Deamer_External)\n\ttarget_link_libraries("),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("external_library_full_name"),
-					 GenerateVariable("}"),
-					 GenerateVariable(" PUBLIC Deamer_Algorithm)\n\ttarget_include_directories("),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("external_library_full_name"),
-					 GenerateVariable("}"),
-					 GenerateVariable(" PRIVATE \""),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable(defaultdeamertemplate_->languageName_->This()),
-					 GenerateVariable("_SOURCE_DIR"),
-					 GenerateVariable("}"),
-					 GenerateVariable("/extern\" \""),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable(defaultdeamertemplate_->languageName_->This()),
-					 GenerateVariable("_SOURCE_DIR"),
-					 GenerateVariable("}"),
-					 GenerateVariable("/include\")\n\ttarget_compile_features("),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("external_library_full_name"),
-					 GenerateVariable("}"),
-					 GenerateVariable(" PUBLIC cxx_std_17)\n\tset_target_properties("),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("external_library_full_name"),
-					 GenerateVariable("}"),
-					 GenerateVariable(" PROPERTIES LINKED_LANGUAGE CXX)\n\tset_property(TARGET "),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("external_library_full_name"),
-					 GenerateVariable("}"),
-					 GenerateVariable(
-						 " PROPERTY POSITION_INDEPENDENT_CODE ON)\n\t\n\ttarget_link_libraries("),
-					 GenerateVariable(defaultdeamertemplate_->root_language_name_->This()),
-					 GenerateVariable("_external_libraries PUBLIC "),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("external_library_full_name"),
-					 GenerateVariable("}"),
 					 GenerateVariable(")\nendfunction()\n\n"),
-					 GenerateVariable(defaultdeamertemplate_->add_subdirectory_sub_compiler_
-										  ->Variable_Field())}));
+					 GenerateVariable(
+						 defaultdeamertemplate_->add_subdirectory_sub_compiler_->Variable_Field()),
+					 GenerateVariable("\n\n"),
+					 GenerateVariable(defaultdeamertemplate_->optional_root_export_->This()),
+					 GenerateVariable("\n"),
+					 GenerateVariable(defaultdeamertemplate_->optional_root_install_->This())}));
 				Content_->type =
 					::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::Scope;
 
@@ -958,6 +1006,110 @@ namespace deamer::templates::cmake::single::main
 			}
 
 			Variable_languageName_& operator=(const Variable_languageName_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_language_cmake_export_ : public VariableScopes
+		{
+			static constexpr auto name = "language_cmake_export_";
+
+			Variable_language_cmake_export_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					language_cmake_export_;
+			}
+
+			virtual ~Variable_language_cmake_export_() override = default;
+
+			Variable_language_cmake_export_(DefaultDeamerTemplate* defaultdeamertemplate_,
+											const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					language_cmake_export_;
+			}
+
+			Variable_language_cmake_export_&
+			operator=(const Variable_language_cmake_export_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_language_library_ : public VariableScopes
+		{
+			static constexpr auto name = "language_library_";
+
+			Variable_language_library_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					language_library_;
+			}
+
+			virtual ~Variable_language_library_() override = default;
+
+			Variable_language_library_(DefaultDeamerTemplate* defaultdeamertemplate_,
+									   const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					language_library_;
+			}
+
+			Variable_language_library_& operator=(const Variable_language_library_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_language_library_legacy_ : public VariableScopes
+		{
+			static constexpr auto name = "language_library_legacy_";
+
+			Variable_language_library_legacy_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					language_library_legacy_;
+			}
+
+			virtual ~Variable_language_library_legacy_() override = default;
+
+			Variable_language_library_legacy_(DefaultDeamerTemplate* defaultdeamertemplate_,
+											  const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					language_library_legacy_;
+			}
+
+			Variable_language_library_legacy_&
+			operator=(const Variable_language_library_legacy_& variable)
 			{
 				if (&variable == this)
 				{
@@ -1073,28 +1225,169 @@ namespace deamer::templates::cmake::single::main
 			}
 		};
 
-		struct Variable_optional_root_external_library_ : public VariableScopes
+		struct Variable_optional_root_dependency_include_ : public VariableScopes
 		{
-			static constexpr auto name = "optional_root_external_library_";
+			static constexpr auto name = "optional_root_dependency_include_";
 
-			Variable_optional_root_external_library_() : VariableScopes()
+			Variable_optional_root_dependency_include_() : VariableScopes()
 			{
 				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
-					optional_root_external_library_;
+					optional_root_dependency_include_;
 			}
 
-			virtual ~Variable_optional_root_external_library_() override = default;
+			virtual ~Variable_optional_root_dependency_include_() override = default;
 
-			Variable_optional_root_external_library_(DefaultDeamerTemplate* defaultdeamertemplate_,
-													 const std::vector<VariableBase*>& variables)
+			Variable_optional_root_dependency_include_(
+				DefaultDeamerTemplate* defaultdeamertemplate_,
+				const std::vector<VariableBase*>& variables)
 				: VariableScopes(variables)
 			{
 				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
-					optional_root_external_library_;
+					optional_root_dependency_include_;
 			}
 
-			Variable_optional_root_external_library_&
-			operator=(const Variable_optional_root_external_library_& variable)
+			Variable_optional_root_dependency_include_&
+			operator=(const Variable_optional_root_dependency_include_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_optional_root_export_ : public VariableScopes
+		{
+			static constexpr auto name = "optional_root_export_";
+
+			Variable_optional_root_export_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					optional_root_export_;
+			}
+
+			virtual ~Variable_optional_root_export_() override = default;
+
+			Variable_optional_root_export_(DefaultDeamerTemplate* defaultdeamertemplate_,
+										   const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					optional_root_export_;
+			}
+
+			Variable_optional_root_export_&
+			operator=(const Variable_optional_root_export_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_optional_root_install_ : public VariableScopes
+		{
+			static constexpr auto name = "optional_root_install_";
+
+			Variable_optional_root_install_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					optional_root_install_;
+			}
+
+			virtual ~Variable_optional_root_install_() override = default;
+
+			Variable_optional_root_install_(DefaultDeamerTemplate* defaultdeamertemplate_,
+											const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					optional_root_install_;
+			}
+
+			Variable_optional_root_install_&
+			operator=(const Variable_optional_root_install_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_optional_root_library_ : public VariableScopes
+		{
+			static constexpr auto name = "optional_root_library_";
+
+			Variable_optional_root_library_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					optional_root_library_;
+			}
+
+			virtual ~Variable_optional_root_library_() override = default;
+
+			Variable_optional_root_library_(DefaultDeamerTemplate* defaultdeamertemplate_,
+											const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					optional_root_library_;
+			}
+
+			Variable_optional_root_library_&
+			operator=(const Variable_optional_root_library_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_package_cmake_namespace_ : public VariableScopes
+		{
+			static constexpr auto name = "package_cmake_namespace_";
+
+			Variable_package_cmake_namespace_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					package_cmake_namespace_;
+			}
+
+			virtual ~Variable_package_cmake_namespace_() override = default;
+
+			Variable_package_cmake_namespace_(DefaultDeamerTemplate* defaultdeamertemplate_,
+											  const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					package_cmake_namespace_;
+			}
+
+			Variable_package_cmake_namespace_&
+			operator=(const Variable_package_cmake_namespace_& variable)
 			{
 				if (&variable == this)
 				{
@@ -1210,28 +1503,28 @@ namespace deamer::templates::cmake::single::main
 			}
 		};
 
-		struct Variable_root_external_library_ : public VariableScopes
+		struct Variable_root_dependency_include_ : public VariableScopes
 		{
-			static constexpr auto name = "root_external_library_";
+			static constexpr auto name = "root_dependency_include_";
 
-			Variable_root_external_library_() : VariableScopes()
+			Variable_root_dependency_include_() : VariableScopes()
 			{
 				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
-					root_external_library_;
+					root_dependency_include_;
 			}
 
-			virtual ~Variable_root_external_library_() override = default;
+			virtual ~Variable_root_dependency_include_() override = default;
 
-			Variable_root_external_library_(DefaultDeamerTemplate* defaultdeamertemplate_,
-											const std::vector<VariableBase*>& variables)
+			Variable_root_dependency_include_(DefaultDeamerTemplate* defaultdeamertemplate_,
+											  const std::vector<VariableBase*>& variables)
 				: VariableScopes(variables)
 			{
 				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
-					root_external_library_;
+					root_dependency_include_;
 			}
 
-			Variable_root_external_library_&
-			operator=(const Variable_root_external_library_& variable)
+			Variable_root_dependency_include_&
+			operator=(const Variable_root_dependency_include_& variable)
 			{
 				if (&variable == this)
 				{
@@ -1266,6 +1559,40 @@ namespace deamer::templates::cmake::single::main
 			}
 
 			Variable_root_language_name_& operator=(const Variable_root_language_name_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_root_library_ : public VariableScopes
+		{
+			static constexpr auto name = "root_library_";
+
+			Variable_root_library_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					root_library_;
+			}
+
+			virtual ~Variable_root_library_() override = default;
+
+			Variable_root_library_(DefaultDeamerTemplate* defaultdeamertemplate_,
+								   const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::main::DefaultDeamerTemplate::Type::
+					root_library_;
+			}
+
+			Variable_root_library_& operator=(const Variable_root_library_& variable)
 			{
 				if (&variable == this)
 				{
@@ -1325,20 +1652,35 @@ namespace deamer::templates::cmake::single::main
 		Variable_CMAKE_VAR_INTRO_* CMAKE_VAR_INTRO_ = new Variable_CMAKE_VAR_INTRO_();
 		Variable_add_subdirectory_sub_compiler_* add_subdirectory_sub_compiler_ =
 			new Variable_add_subdirectory_sub_compiler_();
+		Variable_cmake_package_name_* cmake_package_name_ = new Variable_cmake_package_name_();
 		Variable_const_qualifier_* const_qualifier_ = new Variable_const_qualifier_();
 		Variable_file_* file_ = new Variable_file_();
 		Variable_languageName_* languageName_ = new Variable_languageName_();
+		Variable_language_cmake_export_* language_cmake_export_ =
+			new Variable_language_cmake_export_();
+		Variable_language_library_* language_library_ = new Variable_language_library_();
+		Variable_language_library_legacy_* language_library_legacy_ =
+			new Variable_language_library_legacy_();
 		Variable_left_angle_bracket_* left_angle_bracket_ = new Variable_left_angle_bracket_();
 		Variable_left_bracket_* left_bracket_ = new Variable_left_bracket_();
 		Variable_left_curly_bracket_* left_curly_bracket_ = new Variable_left_curly_bracket_();
-		Variable_optional_root_external_library_* optional_root_external_library_ =
-			new Variable_optional_root_external_library_();
+		Variable_optional_root_dependency_include_* optional_root_dependency_include_ =
+			new Variable_optional_root_dependency_include_();
+		Variable_optional_root_export_* optional_root_export_ =
+			new Variable_optional_root_export_();
+		Variable_optional_root_install_* optional_root_install_ =
+			new Variable_optional_root_install_();
+		Variable_optional_root_library_* optional_root_library_ =
+			new Variable_optional_root_library_();
+		Variable_package_cmake_namespace_* package_cmake_namespace_ =
+			new Variable_package_cmake_namespace_();
 		Variable_right_angle_bracket_* right_angle_bracket_ = new Variable_right_angle_bracket_();
 		Variable_right_bracket_* right_bracket_ = new Variable_right_bracket_();
 		Variable_right_curly_bracket_* right_curly_bracket_ = new Variable_right_curly_bracket_();
-		Variable_root_external_library_* root_external_library_ =
-			new Variable_root_external_library_();
+		Variable_root_dependency_include_* root_dependency_include_ =
+			new Variable_root_dependency_include_();
 		Variable_root_language_name_* root_language_name_ = new Variable_root_language_name_();
+		Variable_root_library_* root_library_ = new Variable_root_library_();
 		Variable_subproject_name_* subproject_name_ = new Variable_subproject_name_();
 
 	public:
@@ -1350,134 +1692,157 @@ namespace deamer::templates::cmake::single::main
 				this, std::vector<VariableBase*>({GenerateVariable("add_subdirectory("),
 												  GenerateVariable(subproject_name_->This()),
 												  GenerateVariable(")")}));
+			*cmake_package_name_ = Variable_cmake_package_name_(
+				this, std::vector<VariableBase*>({GenerateVariable(root_language_name_->This())}));
 			*const_qualifier_ = Variable_const_qualifier_(
 				this, std::vector<VariableBase*>({GenerateVariable("const")}));
 			*file_ = Variable_file_(this, std::vector<VariableBase*>({}));
 			*languageName_ = Variable_languageName_(this, std::vector<VariableBase*>({}));
+			*language_cmake_export_ = Variable_language_cmake_export_(
+				this, std::vector<VariableBase*>({GenerateVariable(cmake_package_name_->This()),
+												  GenerateVariable("_Exports")}));
+			*language_library_ = Variable_language_library_(
+				this, std::vector<VariableBase*>({GenerateVariable(cmake_package_name_->This())}));
+			*language_library_legacy_ = Variable_language_library_legacy_(
+				this, std::vector<VariableBase*>({GenerateVariable(root_language_name_->This()),
+												  GenerateVariable("_static_library")}));
 			*left_angle_bracket_ = Variable_left_angle_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable("<")}));
 			*left_bracket_ =
 				Variable_left_bracket_(this, std::vector<VariableBase*>({GenerateVariable("{")}));
 			*left_curly_bracket_ = Variable_left_curly_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable("(")}));
-			*optional_root_external_library_ = Variable_optional_root_external_library_(
+			*optional_root_dependency_include_ =
+				Variable_optional_root_dependency_include_(this, std::vector<VariableBase*>({}));
+			*optional_root_export_ = Variable_optional_root_export_(
+				this, std::vector<VariableBase*>(
+						  {GenerateVariable("\nexport(TARGETS\n\t"),
+						   GenerateVariable(language_library_->This()),
+						   GenerateVariable("\n    NAMESPACE "),
+						   GenerateVariable(package_cmake_namespace_->This()),
+						   GenerateVariable("::\n\tFILE \"$"), GenerateVariable("{"),
+						   GenerateVariable("CMAKE_CURRENT_BINARY_DIR"), GenerateVariable("}"),
+						   GenerateVariable("/"), GenerateVariable(language_cmake_export_->This()),
+						   GenerateVariable("."), GenerateVariable("cmake\"\n)\n")}));
+			*optional_root_install_ = Variable_optional_root_install_(
 				this,
-				std::vector<VariableBase*>({GenerateVariable(root_external_library_->This())}));
+				std::vector<VariableBase*>(
+					{GenerateVariable("\ninstall(TARGETS "),
+					 GenerateVariable(language_library_->This()),
+					 GenerateVariable("\n    EXPORT "),
+					 GenerateVariable(language_cmake_export_->This()),
+					 GenerateVariable("\n    LIBRARY DESTINATION $"),
+					 GenerateVariable("{"),
+					 GenerateVariable("CMAKE_INSTALL_LIBDIR"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n    RUNTIME DESTINATION $"),
+					 GenerateVariable("{"),
+					 GenerateVariable("CMAKE_INSTALL_BINDIR"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n    ARCHIVE DESTINATION $"),
+					 GenerateVariable("{"),
+					 GenerateVariable("CMAKE_INSTALL_LIBDIR"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n    )\n\ninstall(DIRECTORY $"),
+					 GenerateVariable("{"),
+					 GenerateVariable("DLDL_SOURCE_DIR"),
+					 GenerateVariable("}"),
+					 GenerateVariable("/include/"),
+					 GenerateVariable(languageName_->This()),
+					 GenerateVariable(
+						 "\n    DESTINATION include\n    FILES_MATCHING\n    PATTERN \"*"),
+					 GenerateVariable("."),
+					 GenerateVariable("h\"\n    PATTERN \"LICENSE\"\n    )\n\ninstall(EXPORT\n\t"),
+					 GenerateVariable(language_cmake_export_->This()),
+					 GenerateVariable("\n    NAMESPACE "),
+					 GenerateVariable(package_cmake_namespace_->This()),
+					 GenerateVariable("}"),
+					 GenerateVariable("::\n\tDESTINATION \"$"),
+					 GenerateVariable("{"),
+					 GenerateVariable("CMAKE_INSTALL_LIBDIR"),
+					 GenerateVariable("}"),
+					 GenerateVariable("/cmake/"),
+					 GenerateVariable(languageName_->This()),
+					 GenerateVariable("\"\n)\n")}));
+			*optional_root_library_ = Variable_optional_root_library_(
+				this, std::vector<VariableBase*>({GenerateVariable(root_library_->This())}));
+			*package_cmake_namespace_ = Variable_package_cmake_namespace_(
+				this, std::vector<VariableBase*>({GenerateVariable(cmake_package_name_->This())}));
 			*right_angle_bracket_ = Variable_right_angle_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable(">")}));
 			*right_bracket_ =
 				Variable_right_bracket_(this, std::vector<VariableBase*>({GenerateVariable("}")}));
 			*right_curly_bracket_ = Variable_right_curly_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable(")")}));
-			*root_external_library_ = Variable_root_external_library_(
+			*root_dependency_include_ = Variable_root_dependency_include_(
+				this, std::vector<VariableBase*>({GenerateVariable(
+						  "\nfind_package(Deamer_External REQUIRED)\nfind_package(Deamer_Algorithm "
+						  "REQUIRED)\n")}));
+			*root_language_name_ =
+				Variable_root_language_name_(this, std::vector<VariableBase*>({}));
+			*root_library_ = Variable_root_library_(
 				this,
 				std::vector<VariableBase*>(
-					{GenerateVariable("\nadd_library("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_external_libraries STATIC \""),
-					 GenerateVariable(CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_SOURCE_DIR"),
-					 GenerateVariable("}"),
-					 GenerateVariable("/lib/"),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("."),
-					 GenerateVariable("cpp\")\ntarget_link_libraries("),
-					 GenerateVariable(languageName_->This()),
+					{GenerateVariable("\n\nadd_library("),
+					 GenerateVariable(language_library_->This()),
+					 GenerateVariable(" STATIC)\ntarget_compile_features("),
+					 GenerateVariable(language_library_->This()),
+					 GenerateVariable(" PUBLIC cxx_std_17)\nset_target_properties("),
+					 GenerateVariable(language_library_->This()),
 					 GenerateVariable(
-						 "_external_libraries PUBLIC Deamer_External)\ntarget_link_libraries("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_external_libraries PUBLIC "
-									  "Deamer_Algorithm)\ntarget_include_directories("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_external_libraries PUBLIC \""),
-					 GenerateVariable(CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_SOURCE_DIR"),
+						 " PROPERTIES LINKER_LANGUAGE CXX)\n\ntarget_include_directories("),
+					 GenerateVariable(language_library_->This()),
+					 GenerateVariable(" PUBLIC \n\t\t$<INSTALL_INTERFACE:$"),
+					 GenerateVariable("{"),
+					 GenerateVariable("CMAKE_INSTALL_INCLUDEDIR"),
 					 GenerateVariable("}"),
-					 GenerateVariable("/extern\" \""),
-					 GenerateVariable(CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_SOURCE_DIR"),
-					 GenerateVariable("}"),
-					 GenerateVariable("/include\")\n\nadd_library("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_static_library STATIC)\ntarget_compile_features("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_static_library PUBLIC cxx_std_17)\nset_target_properties("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_static_library PROPERTIES LINKER_LANGUAGE "
-									  "CXX)\n\ntarget_link_libraries("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_static_library PUBLIC "),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable(
-						 "_external_libraries Deamer_External Deamer_Algorithm)\n\nadd_library("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_shared_library SHARED)\ntarget_compile_features("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_shared_library PUBLIC cxx_std_17)\nset_target_properties("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_shared_library PROPERTIES LINKER_LANGUAGE "
-									  "CXX)\n\ntarget_link_libraries("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_shared_library PUBLIC "),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable(
-						 "_external_libraries Deamer_External Deamer_Algorithm)\n\nfunction("),
+					 GenerateVariable(">\n)\ntarget_link_libraries("),
+					 GenerateVariable(language_library_->This()),
+					 GenerateVariable(" PUBLIC Deamer::External Deamer::Algorithm)\n\n\nfunction("),
 					 GenerateVariable(languageName_->This()),
 					 GenerateVariable("_root_library_extend projectname extern_directory "
 									  "include_directory source_files)\n\ttarget_sources("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_static_library PRIVATE "),
-					 GenerateVariable(CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("source_files"),
-					 GenerateVariable("}"),
-					 GenerateVariable(")\n\ttarget_sources("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_shared_library PRIVATE "),
-					 GenerateVariable(CMAKE_VAR_INTRO_->This()),
+					 GenerateVariable(language_library_->This()),
+					 GenerateVariable(" PRIVATE $"),
+					 GenerateVariable("{"),
 					 GenerateVariable("source_files"),
 					 GenerateVariable("}"),
 					 GenerateVariable(")\n\n\ttarget_include_directories("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_static_library PUBLIC "),
-					 GenerateVariable(CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("extern_directory"),
-					 GenerateVariable("}"),
-					 GenerateVariable(" "),
-					 GenerateVariable(CMAKE_VAR_INTRO_->This()),
+					 GenerateVariable(language_library_->This()),
+					 GenerateVariable(" PUBLIC \n\t\t$<BUILD_INTERFACE:$"),
+					 GenerateVariable("{"),
 					 GenerateVariable("include_directory"),
 					 GenerateVariable("}"),
-					 GenerateVariable(")\n\ttarget_include_directories("),
-					 GenerateVariable(languageName_->This()),
-					 GenerateVariable("_shared_library PUBLIC "),
-					 GenerateVariable(CMAKE_VAR_INTRO_->This()),
+					 GenerateVariable(">\n\t\t$<BUILD_INTERFACE:$"),
+					 GenerateVariable("{"),
 					 GenerateVariable("extern_directory"),
 					 GenerateVariable("}"),
-					 GenerateVariable(" "),
-					 GenerateVariable(CMAKE_VAR_INTRO_->This()),
-					 GenerateVariable("include_directory"),
-					 GenerateVariable("}"),
-					 GenerateVariable(")\nendfunction()\n")}));
-			*root_language_name_ =
-				Variable_root_language_name_(this, std::vector<VariableBase*>({}));
+					 GenerateVariable(">\n\t)\nendfunction()\n")}));
 			*subproject_name_ = Variable_subproject_name_(this, std::vector<VariableBase*>({}));
 
 			variables_.emplace_back(CMAKE_VAR_INTRO_);
 			variables_.emplace_back(add_subdirectory_sub_compiler_);
+			variables_.emplace_back(cmake_package_name_);
 			variables_.emplace_back(const_qualifier_);
 			variables_.emplace_back(file_);
 			variables_.emplace_back(languageName_);
+			variables_.emplace_back(language_cmake_export_);
+			variables_.emplace_back(language_library_);
+			variables_.emplace_back(language_library_legacy_);
 			variables_.emplace_back(left_angle_bracket_);
 			variables_.emplace_back(left_bracket_);
 			variables_.emplace_back(left_curly_bracket_);
-			variables_.emplace_back(optional_root_external_library_);
+			variables_.emplace_back(optional_root_dependency_include_);
+			variables_.emplace_back(optional_root_export_);
+			variables_.emplace_back(optional_root_install_);
+			variables_.emplace_back(optional_root_library_);
+			variables_.emplace_back(package_cmake_namespace_);
 			variables_.emplace_back(right_angle_bracket_);
 			variables_.emplace_back(right_bracket_);
 			variables_.emplace_back(right_curly_bracket_);
-			variables_.emplace_back(root_external_library_);
+			variables_.emplace_back(root_dependency_include_);
 			variables_.emplace_back(root_language_name_);
+			variables_.emplace_back(root_library_);
 			variables_.emplace_back(subproject_name_);
 		}
 

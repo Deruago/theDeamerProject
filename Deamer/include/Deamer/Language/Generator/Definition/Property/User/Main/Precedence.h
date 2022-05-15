@@ -42,16 +42,17 @@ namespace deamer::language::generator::definition::property::user
 		{
 		}
 
-		/*!	\fn Generate
+		/*! \fn Generate
 		 *
-		 *	\brief Generates a precedence property definition.
-		 *
+		 *	\brief Generates Precedence property definition.
 		 */
 		void GenerateDefinition() override
 		{
-			this->generatedDefinition = new Precedence(Base<LanguageDefinitionType, type::definition::property::main::Precedence>::template GetObjects<type::definition::object::Type::ObjectPrecedence>());
+			const auto PrecedenceObjects = Base<LanguageDefinitionType, type::definition::property::main::Precedence>::template GetObjects<type::definition::object::Type::ObjectPrecedence>();
+
+			this->generatedDefinition = new type::definition::property::main::Precedence(PrecedenceObjects);
 		}
 	};
 }
 
-#endif //DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_PRECEDENCE_H
+#endif // DEAMER_LANGUAGE_GENERATOR_DEFINITION_PROPERTY_USER_MAIN_PRECEDENCE_H

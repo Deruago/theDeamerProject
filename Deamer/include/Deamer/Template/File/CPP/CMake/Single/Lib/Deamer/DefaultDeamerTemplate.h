@@ -24,12 +24,17 @@ namespace deamer::templates::cmake::single::lib
 
 			// User defined types
 			CMAKE_VAR_INTRO_,
+			cmake_package_name_,
 			const_qualifier_,
 			file_,
 			languageName_,
+			language_library_,
+			language_library_legacy_,
 			left_angle_bracket_,
 			left_bracket_,
 			left_curly_bracket_,
+			optional_if_not_root_alias_target_,
+			package_cmake_namespace_,
 			right_angle_bracket_,
 			right_bracket_,
 			right_curly_bracket_,
@@ -70,6 +75,11 @@ namespace deamer::templates::cmake::single::lib
 			}
 
 			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+				cmake_package_name_: {
+				return "cmake_package_name";
+			}
+
+			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
 				const_qualifier_: {
 				return "const_qualifier";
 			}
@@ -81,6 +91,16 @@ namespace deamer::templates::cmake::single::lib
 			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
 				languageName_: {
 				return "languageName";
+			}
+
+			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+				language_library_: {
+				return "language_library";
+			}
+
+			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+				language_library_legacy_: {
+				return "language_library_legacy";
 			}
 
 			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
@@ -96,6 +116,16 @@ namespace deamer::templates::cmake::single::lib
 			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
 				left_curly_bracket_: {
 				return "left_curly_bracket";
+			}
+
+			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+				optional_if_not_root_alias_target_: {
+				return "optional_if_not_root_alias_target";
+			}
+
+			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+				package_cmake_namespace_: {
+				return "package_cmake_namespace";
 			}
 
 			case ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
@@ -664,6 +694,40 @@ namespace deamer::templates::cmake::single::lib
 			}
 		};
 
+		struct Variable_cmake_package_name_ : public VariableScopes
+		{
+			static constexpr auto name = "cmake_package_name_";
+
+			Variable_cmake_package_name_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					cmake_package_name_;
+			}
+
+			virtual ~Variable_cmake_package_name_() override = default;
+
+			Variable_cmake_package_name_(DefaultDeamerTemplate* defaultdeamertemplate_,
+										 const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					cmake_package_name_;
+			}
+
+			Variable_cmake_package_name_& operator=(const Variable_cmake_package_name_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_const_qualifier_ : public VariableScopes
 		{
 			static constexpr auto name = "const_qualifier_";
@@ -731,10 +795,9 @@ namespace deamer::templates::cmake::single::lib
 					 GenerateVariable("."),
 					 GenerateVariable("\n# Please visit: https://github"),
 					 GenerateVariable("."),
-					 GenerateVariable("com/Deruago/theDeamerProject\n#\n# This file is part of the "
-									  "directory: lib\n\nfind_package(Deamer_External "
-									  "REQUIRED)\nfind_package(Deamer_Algorithm REQUIRED)\n\n# All "
-									  "source and header files of this project"),
+					 GenerateVariable(
+						 "com/Deruago/theDeamerProject\n#\n# This file is part of the directory: "
+						 "lib\n\n# All source and header files of this project"),
 					 GenerateVariable("."),
 					 GenerateVariable("\nfile(GLOB_RECURSE SOURCE_LIST \""),
 					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
@@ -764,11 +827,13 @@ namespace deamer::templates::cmake::single::lib
 					 GenerateVariable(defaultdeamertemplate_->languageName_->This()),
 					 GenerateVariable("_SOURCE_DIR"),
 					 GenerateVariable("}"),
-					 GenerateVariable("/include\" \""),
-					 GenerateVariable(defaultdeamertemplate_->CMAKE_VAR_INTRO_->This()),
+					 GenerateVariable("/include\" \"$"),
+					 GenerateVariable("{"),
 					 GenerateVariable("SOURCE_LIST"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\")\n")}));
+					 GenerateVariable("\")\n\n"),
+					 GenerateVariable(
+						 defaultdeamertemplate_->optional_if_not_root_alias_target_->This())}));
 				Content_->type =
 					::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::Scope;
 
@@ -883,6 +948,75 @@ namespace deamer::templates::cmake::single::lib
 			}
 		};
 
+		struct Variable_language_library_ : public VariableScopes
+		{
+			static constexpr auto name = "language_library_";
+
+			Variable_language_library_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					language_library_;
+			}
+
+			virtual ~Variable_language_library_() override = default;
+
+			Variable_language_library_(DefaultDeamerTemplate* defaultdeamertemplate_,
+									   const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					language_library_;
+			}
+
+			Variable_language_library_& operator=(const Variable_language_library_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_language_library_legacy_ : public VariableScopes
+		{
+			static constexpr auto name = "language_library_legacy_";
+
+			Variable_language_library_legacy_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					language_library_legacy_;
+			}
+
+			virtual ~Variable_language_library_legacy_() override = default;
+
+			Variable_language_library_legacy_(DefaultDeamerTemplate* defaultdeamertemplate_,
+											  const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					language_library_legacy_;
+			}
+
+			Variable_language_library_legacy_&
+			operator=(const Variable_language_library_legacy_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_left_angle_bracket_ : public VariableScopes
 		{
 			static constexpr auto name = "left_angle_bracket_";
@@ -972,6 +1106,77 @@ namespace deamer::templates::cmake::single::lib
 			}
 
 			Variable_left_curly_bracket_& operator=(const Variable_left_curly_bracket_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_optional_if_not_root_alias_target_ : public VariableScopes
+		{
+			static constexpr auto name = "optional_if_not_root_alias_target_";
+
+			Variable_optional_if_not_root_alias_target_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					optional_if_not_root_alias_target_;
+			}
+
+			virtual ~Variable_optional_if_not_root_alias_target_() override = default;
+
+			Variable_optional_if_not_root_alias_target_(
+				DefaultDeamerTemplate* defaultdeamertemplate_,
+				const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					optional_if_not_root_alias_target_;
+			}
+
+			Variable_optional_if_not_root_alias_target_&
+			operator=(const Variable_optional_if_not_root_alias_target_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_package_cmake_namespace_ : public VariableScopes
+		{
+			static constexpr auto name = "package_cmake_namespace_";
+
+			Variable_package_cmake_namespace_() : VariableScopes()
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					package_cmake_namespace_;
+			}
+
+			virtual ~Variable_package_cmake_namespace_() override = default;
+
+			Variable_package_cmake_namespace_(DefaultDeamerTemplate* defaultdeamertemplate_,
+											  const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::cmake::single::lib::DefaultDeamerTemplate::Type::
+					package_cmake_namespace_;
+			}
+
+			Variable_package_cmake_namespace_&
+			operator=(const Variable_package_cmake_namespace_& variable)
 			{
 				if (&variable == this)
 				{
@@ -1131,12 +1336,20 @@ namespace deamer::templates::cmake::single::lib
 		// Members that one can directly access.
 		// e.g. DefaultDeamerTemplate.member = "auto-generated";
 		Variable_CMAKE_VAR_INTRO_* CMAKE_VAR_INTRO_ = new Variable_CMAKE_VAR_INTRO_();
+		Variable_cmake_package_name_* cmake_package_name_ = new Variable_cmake_package_name_();
 		Variable_const_qualifier_* const_qualifier_ = new Variable_const_qualifier_();
 		Variable_file_* file_ = new Variable_file_();
 		Variable_languageName_* languageName_ = new Variable_languageName_();
+		Variable_language_library_* language_library_ = new Variable_language_library_();
+		Variable_language_library_legacy_* language_library_legacy_ =
+			new Variable_language_library_legacy_();
 		Variable_left_angle_bracket_* left_angle_bracket_ = new Variable_left_angle_bracket_();
 		Variable_left_bracket_* left_bracket_ = new Variable_left_bracket_();
 		Variable_left_curly_bracket_* left_curly_bracket_ = new Variable_left_curly_bracket_();
+		Variable_optional_if_not_root_alias_target_* optional_if_not_root_alias_target_ =
+			new Variable_optional_if_not_root_alias_target_();
+		Variable_package_cmake_namespace_* package_cmake_namespace_ =
+			new Variable_package_cmake_namespace_();
 		Variable_right_angle_bracket_* right_angle_bracket_ = new Variable_right_angle_bracket_();
 		Variable_right_bracket_* right_bracket_ = new Variable_right_bracket_();
 		Variable_right_curly_bracket_* right_curly_bracket_ = new Variable_right_curly_bracket_();
@@ -1147,16 +1360,31 @@ namespace deamer::templates::cmake::single::lib
 		{
 			*CMAKE_VAR_INTRO_ = Variable_CMAKE_VAR_INTRO_(
 				this, std::vector<VariableBase*>({GenerateVariable("$"), GenerateVariable("{")}));
+			*cmake_package_name_ = Variable_cmake_package_name_(
+				this, std::vector<VariableBase*>({GenerateVariable(root_language_name_->This())}));
 			*const_qualifier_ = Variable_const_qualifier_(
 				this, std::vector<VariableBase*>({GenerateVariable("const")}));
 			*file_ = Variable_file_(this, std::vector<VariableBase*>({}));
 			*languageName_ = Variable_languageName_(this, std::vector<VariableBase*>({}));
+			*language_library_ = Variable_language_library_(
+				this, std::vector<VariableBase*>({GenerateVariable(cmake_package_name_->This())}));
+			*language_library_legacy_ = Variable_language_library_legacy_(
+				this, std::vector<VariableBase*>({GenerateVariable(root_language_name_->This()),
+												  GenerateVariable("_static_library")}));
 			*left_angle_bracket_ = Variable_left_angle_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable("<")}));
 			*left_bracket_ =
 				Variable_left_bracket_(this, std::vector<VariableBase*>({GenerateVariable("{")}));
 			*left_curly_bracket_ = Variable_left_curly_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable("(")}));
+			*optional_if_not_root_alias_target_ = Variable_optional_if_not_root_alias_target_(
+				this,
+				std::vector<VariableBase*>(
+					{GenerateVariable("add_library("), GenerateVariable(languageName_->This()),
+					 GenerateVariable("_static_library ALIAS "),
+					 GenerateVariable(language_library_->This()), GenerateVariable(")")}));
+			*package_cmake_namespace_ = Variable_package_cmake_namespace_(
+				this, std::vector<VariableBase*>({GenerateVariable(cmake_package_name_->This())}));
 			*right_angle_bracket_ = Variable_right_angle_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable(">")}));
 			*right_bracket_ =
@@ -1167,12 +1395,17 @@ namespace deamer::templates::cmake::single::lib
 				Variable_root_language_name_(this, std::vector<VariableBase*>({}));
 
 			variables_.emplace_back(CMAKE_VAR_INTRO_);
+			variables_.emplace_back(cmake_package_name_);
 			variables_.emplace_back(const_qualifier_);
 			variables_.emplace_back(file_);
 			variables_.emplace_back(languageName_);
+			variables_.emplace_back(language_library_);
+			variables_.emplace_back(language_library_legacy_);
 			variables_.emplace_back(left_angle_bracket_);
 			variables_.emplace_back(left_bracket_);
 			variables_.emplace_back(left_curly_bracket_);
+			variables_.emplace_back(optional_if_not_root_alias_target_);
+			variables_.emplace_back(package_cmake_namespace_);
 			variables_.emplace_back(right_angle_bracket_);
 			variables_.emplace_back(right_bracket_);
 			variables_.emplace_back(right_curly_bracket_);

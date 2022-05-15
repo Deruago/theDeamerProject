@@ -33,22 +33,36 @@ void deamer::tool::type::deamerdefaultapplication::AstViewer::Generate(
 		templates::tool::deamerdefaultapplication::astviewer::AstViewerTemplate();
 
 	auto languageName =
-		Reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
+		Reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			.GetName()
+			->value;
 	astViewerTemplate.language_name_->Set(languageName);
-	astViewerTemplate.parser_->Set("Bison");
+	if (Reference.GetDefinition<language::type::definition::property::Type::Generation>().IsToolSet(
+			Tool::Bison))
+	{
+		astViewerTemplate.parser_->Set("Bison");
+	}
+	else if (Reference.GetDefinition<language::type::definition::property::Type::Generation>()
+				 .IsToolSet(Tool::Dparse))
+	{
+		astViewerTemplate.parser_->Set("Dparse");
+	}
+	else
+	{
+		const auto tmp = file::tool::File("main", "cpp", "");
+		output.AddFile(tmp);
+		return;
+	}
 
 	auto astViewerFile = file::tool::File("main", "cpp", astViewerTemplate.GetOutput());
 
-	output.SetCMakeLists(
-		"# Auto-generated, do not changed this code\n"
-		"# Part of: DeamerDefaultApplication tool\n"
-		"# More information: https://github.com/Deruago/theDeamerProject\n"
-		"\n"
-		"add_executable(" +
-		languageName +
-		"deamerAstViewer main.cpp)\n"
-		"target_link_libraries(" +
-		languageName + "deamerAstViewer " + languageName + "_static_library)\n");
+	output.SetCMakeLists("add_executable(" + languageName +
+						 "deamerAstViewer main.cpp)\n"
+						 "target_link_libraries(" +
+						 languageName +
+						 "deamerAstViewer PRIVATE Deamer::External Deamer::Algorithm "
+						 "deamer_reserved_" +
+						 languageName + "_core_library)\n");
 
 	output.AddFile(astViewerFile);
 }

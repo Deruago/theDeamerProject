@@ -1,0 +1,174 @@
+#ifndef {{header_guard}}
+#define {{header_guard}}
+
+#include "{{language_name}}/Ast/Listener/EnterExitListener.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/AccessModifier.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/BaseTypeObject.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/ClassObject.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/EnumObject.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/FunctionArgument.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/FunctionObject.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/InterfaceObject.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/OopModel.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/PropertyObject.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/StructObject.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/Type.h"
+#include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/TypeCategory.h"
+#include <string>
+#include <vector>
+
+namespace {{language_name}}::ast::listener::tool::oopsyntaxrecognizer
+{
+	/*!	\class Recognizer
+	 *
+	 *	\brief Used to recognize OOP Concepts.
+	 *
+	 *	\details The Recognizer utilizes a Flavoring + DUPR tactic
+	 *	for recognizing OOP concepts via syntax.
+	 *	This recognizer was	created using the OOP Syntax LPD.
+	 */
+	class Recognizer : public EnterExitListener
+	{
+	public:
+		Recognizer() : EnterExitListener()
+		{
+			unknown_type = new {{type_object}}({{tool_type_namespace}}TypeCategory::unknown, "__unknown");
+			createdTypes.push_back(unknown_type);
+		}
+
+	private:
+
+		enum class FlavorType
+		{
+			unknown,
+
+			Class,
+			BaseType,
+			Struct,
+			Interface,
+			Enum,
+			Function,
+			FunctionArgument,
+			Property,
+		};
+
+		{{type_object}}* unknown_type = nullptr;
+
+		std::vector<{{type_object}}*> createdTypes;
+		std::vector<{{function_object}}*> globalFunctions;
+		std::vector<{{property_object}}*> globalProperties;
+
+		std::vector<{{function_object}}*> createdFunctions; // All functions
+		std::vector<{{function_argument}}*> createdFunctionsArguments;
+		std::vector<{{basetype_object}}*> createdBaseTypes;
+
+		// Allow checking existence of Flavors
+		std::size_t ClassFlavor = 0;
+		std::size_t BaseTypeFlavor = 0;
+		std::size_t PropertyFlavor = 0;
+		std::size_t EnumFlavor = 0;
+		std::size_t StructFlavor = 0;
+		std::size_t InterfaceFlavor = 0;
+		std::size_t FunctionFlavor = 0;
+		std::size_t FunctionArgumentFlavor = 0;
+
+		std::vector<FlavorType> FlavorStack;
+
+		{{class_object}}* currentClassObject = nullptr;
+		{{basetype_object}}* currentBaseTypeObject = nullptr;
+		{{struct_object}}* currentStructObject = nullptr;
+		{{interface_object}}* currentInterfaceObject = nullptr;
+		{{property_object}}* currentPropertyObject = nullptr;
+		{{enum_object}}* currentEnumObject = nullptr;
+		{{function_object}}* currentFunctionObject = nullptr;
+		{{function_argument}}* currentFunctionArgumentObject = nullptr;
+
+		/*!	\fn GetTopOfFlavorStack
+		 *
+		 *	\brief Get top of the Flavor stack.
+		 *	If no flavor has been given returns unknown flavor.
+		 */
+		FlavorType GetTopOfFlavorStack() const
+		{
+			if (FlavorStack.empty())
+			{
+				return FlavorType::unknown;
+			}
+
+			return FlavorStack[FlavorStack.size() - 1];
+		}
+
+		/*!	\fn GetType
+		 *
+		 *	\brief Returns type if it exists, otherwise nullptr
+		 */
+		{{type_object}}* GetType(const std::string& typeName) const
+		{
+			const auto iter =
+				std::find_if(std::cbegin(createdTypes), std::cend(createdTypes),
+							 [typeName](const {{type_object}}* const type) {
+								 return type != nullptr && type->GetTypeName() == typeName;
+							 });
+
+			if (iter == std::end(createdTypes))
+			{
+				return unknown_type;
+			}
+
+			return *iter;
+		}
+
+		// NonTerminals introducing Concept Scope Flavors
+		// The Concept Flavors control the object construction
+{{listen_class_entry.Variable_Field}}
+
+{{listen_class_exit.Variable_Field}}
+
+{{listen_basetype_entry.Variable_Field}}
+
+{{listen_basetype_exit.Variable_Field}}
+
+{{listen_struct_entry.Variable_Field}}
+
+{{listen_struct_exit.Variable_Field}}
+
+{{listen_interface_entry.Variable_Field}}
+
+{{listen_interface_exit.Variable_Field}}
+
+{{listen_function_entry.Variable_Field}}
+
+{{listen_function_exit.Variable_Field}}
+
+{{listen_enumeration_entry.Variable_Field}}
+
+{{listen_enumeration_exit.Variable_Field}}
+
+{{listen_functionargument_entry.Variable_Field}}
+
+{{listen_functionargument_exit.Variable_Field}}
+
+{{listen_property_entry.Variable_Field}}
+
+{{listen_property_exit.Variable_Field}}
+
+		// NonTerminals and Terminals initializing Concept Properties
+		// These NTs and Ts control the property value mechanic
+{{listen_property_assignment.Variable_Field}}
+
+	public:
+		/*!	\fn GetOutput
+		 *
+		 *	\brief Converts the output into a OopModel
+		 *
+		 *	\note This resets the listener
+		 */
+		{{oopmodel_object}} GetOutput()
+		{
+			return {{oopmodel_object}}(createdTypes, globalFunctions, createdTypes, createdFunctions,
+							createdFunctionsArguments);
+		}
+	};
+}
+
+#endif // {{header_guard}}

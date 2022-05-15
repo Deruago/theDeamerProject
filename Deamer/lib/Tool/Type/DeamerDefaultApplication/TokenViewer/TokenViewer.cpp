@@ -33,21 +33,52 @@ void deamer::tool::type::deamerdefaultapplication::TokenViewer::Generate(
 		templates::tool::deamerdefaultapplication::tokenviewer::TokenViewerTemplate();
 
 	auto languageName =
-		Reference.GetDefinition<language::type::definition::property::Type::Identity>().name->value;
+		Reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			.GetName()
+			->value;
 	tokenViewerTemplate.language_name_->Set(languageName);
-	tokenViewerTemplate.lexer_->Set("Flex");
+	if (Reference.GetDefinition<language::type::definition::property::Type::Generation>().IsToolSet(
+			Tool::Bison))
+	{
+		tokenViewerTemplate.parser_->Set("Bison");
+	}
+	else if (Reference.GetDefinition<language::type::definition::property::Type::Generation>()
+				 .IsToolSet(Tool::Dparse))
+	{
+		tokenViewerTemplate.parser_->Set("Dparse");
+	}
+	else
+	{
+		const auto tmp = file::tool::File("main", "cpp", "");
+		output.AddFile(tmp);
+		return;
+	}
+
+	if (Reference.GetDefinition<language::type::definition::property::Type::Generation>().IsToolSet(
+			Tool::Flex))
+	{
+		tokenViewerTemplate.lexer_->Set("Flex");
+	}
+	else if (Reference.GetDefinition<language::type::definition::property::Type::Generation>()
+				 .IsToolSet(Tool::Dleg))
+	{
+		tokenViewerTemplate.lexer_->Set("Dleg");
+	}
+	else
+	{
+		const auto tmp = file::tool::File("main", "cpp", "");
+		output.AddFile(tmp);
+		return;
+	}
 
 	auto tokenViewerFile = file::tool::File("main", "cpp", tokenViewerTemplate.GetOutput());
 
-	output.SetCMakeLists(
-		"# Auto-generated, do not changed this code\n"
-		"# Part of: DeamerDefaultApplication tool\n"
-		"# More information: https://github.com/Deruago/theDeamerProject\n"
-		"\n"
-		"add_executable(" +
-		languageName +
-		"deamerTokenViewer main.cpp)\n"
-		"target_link_libraries(" +
-		languageName + "deamerTokenViewer " + languageName + "_static_library)\n");
+	output.SetCMakeLists("add_executable(" + languageName +
+						 "deamerTokenViewer main.cpp)\n"
+						 "target_link_libraries(" +
+						 languageName +
+						 "deamerTokenViewer  PRIVATE Deamer::External Deamer::Algorithm "
+						 "deamer_reserved_" +
+						 languageName + "_core_library)\n ");
 	output.AddFile(tokenViewerFile);
 }

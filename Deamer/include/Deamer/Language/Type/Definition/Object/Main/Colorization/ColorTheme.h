@@ -21,37 +21,49 @@
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_COLORIZATION_COLORTHEME_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_OBJECT_MAIN_COLORIZATION_COLORTHEME_H
 
-#include "ColorCombination.h"
 #include "Deamer/Language/Type/Definition/Object/Base.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorCombination.h"
+
+
 #include "Deamer/Type/Memory/SafeReserve.h"
 #include <string>
 #include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class ColorTheme
 	 *
-	 *	\brief Describes a color theme.
-	 *
-	 *	\details Colors groups are assigned to terminals and patterns. This class is used
-	 *	to give color to those groups. Color is standard rgb format.
-	 *
-	 *	\note The first specified color theme is the default theme.
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class ColorTheme : public Base
 	{
 	private:
 		friend deamer::type::SafeReserve<ColorTheme>;
-
+	
 	public:
 		std::string ThemeName;
-		std::vector<ColorCombination*> ColorCombinations;
+		std::vector<object::main::ColorCombination*> ColorCombinations;
 
-		ColorTheme(std::string themeName_, std::vector<ColorCombination*> colorCombinations_);
 
-		bool operator==(const ColorTheme& rhs) const;
+	public:
+		ColorTheme(std::string ThemeName_, 
+			std::vector<object::main::ColorCombination*> ColorCombinations_);
 
-	private:
+		// Compares if two ColorTheme have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const ColorTheme& rhs) const noexcept;
+
+	public:
+
+
+	protected:
 		ColorTheme();
 	};
 }

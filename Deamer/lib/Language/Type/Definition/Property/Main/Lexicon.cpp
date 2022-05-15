@@ -20,16 +20,15 @@
 
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
 
-deamer::language::type::definition::property::main::Lexicon::Lexicon(
-	std::vector<object::main::Terminal*> terminals_)
+deamer::language::type::definition::property::main::Lexicon::Lexicon(std::vector<object::main::Terminal*> Terminals_)
 	: Definition(Type::Lexicon),
-	  Terminals(std::move(terminals_))
+	Terminals(Terminals_)
 {
 	references.Add(Terminals);
+
 }
 
-const deamer::language::type::definition::object::main::Terminal* deamer::language::type::definition::property::main::
-Lexicon::GetTerminal(const std::string& terminalName) const
+const deamer::language::type::definition::object::main::Terminal* deamer::language::type::definition::property::main::Lexicon::GetTerminal(const std::string& terminalName) const
 {
 	for (const auto* const terminal : Terminals)
 	{
@@ -41,3 +40,5 @@ Lexicon::GetTerminal(const std::string& terminalName) const
 
 	return nullptr;
 }
+
+

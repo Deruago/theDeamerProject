@@ -19,26 +19,29 @@
  */
 
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalColor.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorGroup.h"
-#include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
 
-deamer::language::type::definition::object::main::TerminalColor::TerminalColor(
-	::deamer::language::type::definition::object::main::Terminal* terminal_, ColorGroup* colorGroup_)
+#include <utility>
+
+deamer::language::type::definition::object::main::TerminalColor::TerminalColor(object::main::Terminal* terminal_, 
+			object::main::ColorGroup* colorGroup_)
 	: Base(Type::TerminalColor),
-	  colorGroup(colorGroup_),
-	  terminal(terminal_)
+	terminal(terminal_),
+	colorGroup(colorGroup_)
 {
 	references.Add(terminal);
 	references.Add(colorGroup);
+
 }
 
-bool deamer::language::type::definition::object::main::TerminalColor::operator==(
-	const TerminalColor& rhs) const
+bool deamer::language::type::definition::object::main::TerminalColor::operator==(const TerminalColor& rhs) const noexcept
 {
-	return this == &rhs || (this->terminal == rhs.terminal && this->colorGroup == rhs.colorGroup);
+	return this == &rhs || (this->terminal == rhs.terminal && this->colorGroup == rhs.colorGroup && true);
 }
 
-deamer::language::type::definition::object::main::TerminalColor::TerminalColor()
-	: TerminalColor(nullptr, nullptr)
+
+deamer::language::type::definition::object::main::TerminalColor::TerminalColor() : TerminalColor(nullptr, 
+			nullptr)
 {
 }
+
+

@@ -5,33 +5,71 @@
 
 {{const_qualifier}} = <const>
 
-{{CMAKE_VAR_INTRO}} = <${>
-{{add_subdirectory_sub_compiler}} = <add_subdirectory({{subproject_name}})>
+{{CMAKE_VAR_INTRO}} = @<${>@
+{{add_subdirectory_sub_compiler}} = @<add_subdirectory({{subproject_name}})>@
 
-{{optional_root_external_library}} = <{{root_external_library}}>
-{{root_external_library}} = <
-add_library({{languageName}}_external_libraries STATIC "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/lib/{{languageName}}.cpp")
-target_link_libraries({{languageName}}_external_libraries PUBLIC Deamer_External)
-target_link_libraries({{languageName}}_external_libraries PUBLIC Deamer_Algorithm)
-target_include_directories({{languageName}}_external_libraries PUBLIC "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/extern" "{{CMAKE_VAR_INTRO}}{{languageName}}_SOURCE_DIR}/include")
+{{optional_root_dependency_include}} = @<>@
+{{root_dependency_include}} = @<
+find_package(Deamer_External REQUIRED)
+find_package(Deamer_Algorithm REQUIRED)
+>@
 
-add_library({{languageName}}_static_library STATIC)
-target_compile_features({{languageName}}_static_library PUBLIC cxx_std_17)
-set_target_properties({{languageName}}_static_library PROPERTIES LINKER_LANGUAGE CXX)
+{{cmake_package_name}} = @<{{root_language_name}}>@
+{{package_cmake_namespace}} = @<{{cmake_package_name}}>@
+{{language_library}} = @<{{cmake_package_name}}>@
+{{language_library_legacy}} = @<{{root_language_name}}_static_library>@
 
-target_link_libraries({{languageName}}_static_library PUBLIC {{languageName}}_external_libraries Deamer_External Deamer_Algorithm)
+{{language_cmake_export}} = @<{{cmake_package_name}}_Exports>@
 
-add_library({{languageName}}_shared_library SHARED)
-target_compile_features({{languageName}}_shared_library PUBLIC cxx_std_17)
-set_target_properties({{languageName}}_shared_library PROPERTIES LINKER_LANGUAGE CXX)
+{{optional_root_library}} = @<{{root_library}}>@
+{{root_library}} = @<
 
-target_link_libraries({{languageName}}_shared_library PUBLIC {{languageName}}_external_libraries Deamer_External Deamer_Algorithm)
+add_library({{language_library}} STATIC)
+target_compile_features({{language_library}} PUBLIC cxx_std_17)
+set_target_properties({{language_library}} PROPERTIES LINKER_LANGUAGE CXX)
+
+target_include_directories({{language_library}} PUBLIC 
+		$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+target_link_libraries({{language_library}} PUBLIC Deamer::External Deamer::Algorithm)
+
 
 function({{languageName}}_root_library_extend projectname extern_directory include_directory source_files)
-	target_sources({{languageName}}_static_library PRIVATE {{CMAKE_VAR_INTRO}}source_files})
-	target_sources({{languageName}}_shared_library PRIVATE {{CMAKE_VAR_INTRO}}source_files})
+	target_sources({{language_library}} PRIVATE ${source_files})
 
-	target_include_directories({{languageName}}_static_library PUBLIC {{CMAKE_VAR_INTRO}}extern_directory} {{CMAKE_VAR_INTRO}}include_directory})
-	target_include_directories({{languageName}}_shared_library PUBLIC {{CMAKE_VAR_INTRO}}extern_directory} {{CMAKE_VAR_INTRO}}include_directory})
+	target_include_directories({{language_library}} PUBLIC 
+		$<BUILD_INTERFACE:${include_directory}>
+		$<BUILD_INTERFACE:${extern_directory}>
+	)
 endfunction()
->
+>@
+
+{{optional_root_install}} = @<
+install(TARGETS {{language_library}}
+    EXPORT {{language_cmake_export}}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    )
+
+install(DIRECTORY ${DLDL_SOURCE_DIR}/include/{{languageName}}
+    DESTINATION include
+    FILES_MATCHING
+    PATTERN "*.h"
+    PATTERN "LICENSE"
+    )
+
+install(EXPORT
+	{{language_cmake_export}}
+    NAMESPACE {{package_cmake_namespace}}}::
+	DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/{{languageName}}"
+)
+>@
+
+{{optional_root_export}} = @<
+export(TARGETS
+	{{language_library}}
+    NAMESPACE {{package_cmake_namespace}}::
+	FILE "${CMAKE_CURRENT_BINARY_DIR}/{{language_cmake_export}}.cmake"
+)
+>@

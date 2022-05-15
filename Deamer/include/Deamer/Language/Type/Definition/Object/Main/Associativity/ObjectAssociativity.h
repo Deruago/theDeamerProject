@@ -23,26 +23,47 @@
 
 #include "Deamer/Language/Type/Definition/Object/Base.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Associativity/AssociativityType.h"
+
+
 #include "Deamer/Type/Memory/SafeReserve.h"
+#include <string>
+#include <vector>
+#include <optional>
 
 namespace deamer::language::type::definition::object::main
 {
 	/*! \class ObjectAssociativity
 	 *
-	 *  \brief This object adds Associativity to a LDO
+	 *	\brief 
+
+	 *	\details 
+
 	 */
 	class ObjectAssociativity : public Base
 	{
+	private:
 		friend deamer::type::SafeReserve<ObjectAssociativity>;
-
+	
 	public:
 		object::Base* Object;
-		AssociativityType Associativity;
+		object::main::AssociativityType Associativity;
 
-		ObjectAssociativity(object::Base* const object_,
-							const AssociativityType associativity = AssociativityType::any);
 
-	private:
+	public:
+		ObjectAssociativity(object::Base* Object_, 
+			object::main::AssociativityType Associativity_ = AssociativityType::any);
+
+		// Compares if two ObjectAssociativity have the same value.
+		//
+		// This means that two identical but different LDOs are equal.
+		// However, pointer equality will fail as they are not the same LDO.
+		// They only have the same value.
+		bool operator==(const ObjectAssociativity& rhs) const noexcept;
+
+	public:
+
+
+	protected:
 		ObjectAssociativity();
 	};
 }

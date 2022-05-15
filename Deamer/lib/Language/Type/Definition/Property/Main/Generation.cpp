@@ -19,41 +19,25 @@
  */
 
 #include "Deamer/Language/Type/Definition/Property/Main/Generation.h"
-#include <utility>
 
-deamer::language::type::definition::property::main::Generation::Generation(
-	std::vector<object::main::Generate*> generateStatements_,
-	std::vector<object::main::GenerateArgument*> generateArguments_,
-	std::vector<object::main::Integrate*> integrateStatements_)
+deamer::language::type::definition::property::main::Generation::Generation(std::vector<object::main::OSTarget*> osTarget_, 
+			std::vector<object::main::Generate*> generateStatements_, 
+			std::vector<object::main::GenerateArgument*> generateArguments_, 
+			std::vector<object::main::Integrate*> integrateStatements_)
 	: Definition(Type::Generation),
-	  generateStatements(std::move(generateStatements_)),
-	  generateArguments(std::move(generateArguments_)),
-	  integrateStatements(std::move(integrateStatements_))
+	osTarget(osTarget_),
+	generateStatements(generateStatements_),
+	generateArguments(generateArguments_),
+	integrateStatements(integrateStatements_)
 {
+	references.Add(osTarget);
 	references.Add(generateStatements);
 	references.Add(generateArguments);
 	references.Add(integrateStatements);
+
 }
 
-deamer::language::type::definition::property::main::Generation::Generation(
-	std::vector<object::main::Generate*> generateStatements_,
-	std::vector<object::main::GenerateArgument*> generateArguments_,
-	std::vector<object::main::Integrate*> integrateStatements_,
-	std::vector<object::main::OSTarget*> osTarget_)
-	: Definition(Type::Generation),
-	  osTarget(osTarget_[0]),
-	  generateStatements(std::move(generateStatements_)),
-	  generateArguments(std::move(generateArguments_)),
-	  integrateStatements(std::move(integrateStatements_))
-{
-	references.Add(generateStatements);
-	references.Add(generateArguments);
-	references.Add(integrateStatements);
-	references.Add(osTarget.value());
-}
-
-bool deamer::language::type::definition::property::main::Generation::IsIntegrationSet(
-	const object::main::Integrate& integrate) const
+bool deamer::language::type::definition::property::main::Generation::IsIntegrationSet(const object::main::Integrate& integrate) const
 {
 	for (const auto* integrateStatement : integrateStatements)
 	{
@@ -66,8 +50,7 @@ bool deamer::language::type::definition::property::main::Generation::IsIntegrati
 	return false;
 }
 
-bool deamer::language::type::definition::property::main::Generation::IsArgumentSet(
-	const object::main::GenerateArgument& generateArgument) const
+bool deamer::language::type::definition::property::main::Generation::IsArgumentSet(const object::main::GenerateArgument& generateArgument) const
 {
 	for (const auto* argument : generateArguments)
 	{
@@ -79,13 +62,26 @@ bool deamer::language::type::definition::property::main::Generation::IsArgumentS
 	return false;
 }
 
-deamer::file::tool::OSType
-deamer::language::type::definition::property::main::Generation::GetOSTarget() const
+bool deamer::language::type::definition::property::main::Generation::IsToolSet(const object::main::Generate& generate) const
 {
-	if (!osTarget.has_value())
+	for (const auto* generateTool : generateStatements)
+	{
+		if (*generateTool == generate)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+deamer::file::tool::OSType deamer::language::type::definition::property::main::Generation::GetOSTarget() const
+{
+	if (osTarget.empty())
 	{
 		return deamer::file::tool::os_used;
 	}
 
-	return osTarget.value()->os;
+	return osTarget[0]->os;
 }
+
+

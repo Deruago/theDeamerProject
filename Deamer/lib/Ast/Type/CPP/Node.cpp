@@ -26,7 +26,8 @@ deamer::ast::type::cpp::Node::Node(const ReferenceType reference_,
 	: reference(reference_),
 	  token(token_),
 	  languageName(reference_.GetDefinition<language::type::definition::property::Type::Identity>()
-					   .name->value)
+					   .GetName()
+					   ->value)
 {
 }
 
@@ -184,8 +185,7 @@ deamer::ast::type::cpp::Node::GetBaseGroupedNodes(
 	}
 
 	const auto& productionRules = result.GetObjects();
-	std::set<const deamer::language::type::definition::object::main::NonTerminal*>
-		baseNonTerminals;
+	std::set<const deamer::language::type::definition::object::main::NonTerminal*> baseNonTerminals;
 
 	for (const auto& productionRule : productionRules)
 	{
@@ -227,8 +227,7 @@ deamer::ast::type::cpp::Node::GetBaseGroupedNodes(
 	}
 
 	const auto& productionRules = result.GetObjects();
-	std::set<const deamer::language::type::definition::object::main::NonTerminal*>
-		baseNonTerminals;
+	std::set<const deamer::language::type::definition::object::main::NonTerminal*> baseNonTerminals;
 
 	for (const auto& productionRule : productionRules)
 	{

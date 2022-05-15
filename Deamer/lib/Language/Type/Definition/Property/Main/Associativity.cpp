@@ -19,18 +19,13 @@
  */
 
 #include "Deamer/Language/Type/Definition/Property/Main/Associativity.h"
-#include <utility>
-#include <vector>
 
-deamer::language::type::definition::property::main::Associativity::Associativity(
-	std::vector<object::main::ObjectAssociativity*> associativityObjects_)
+deamer::language::type::definition::property::main::Associativity::Associativity(std::vector<object::main::ObjectAssociativity*> AssociativityObjects_)
 	: Definition(Type::Associativity),
-	  AssociativityObjects(std::move(associativityObjects_))
+	AssociativityObjects(AssociativityObjects_)
 {
 	references.Add(AssociativityObjects);
+
 }
 
-deamer::language::type::definition::property::main::Associativity::Associativity()
-	: Associativity(std::vector<object::main::ObjectAssociativity*>{})
-{
-}
+
