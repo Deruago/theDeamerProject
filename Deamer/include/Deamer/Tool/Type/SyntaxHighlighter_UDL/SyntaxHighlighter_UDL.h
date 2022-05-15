@@ -18,27 +18,27 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_TOOL_TYPE_SYNTAXHIGHLIGHTER_NOTEPADPP_UDL_H
-#define DEAMER_TOOL_TYPE_SYNTAXHIGHLIGHTER_NOTEPADPP_UDL_H
+#ifndef DEAMER_TOOL_TYPE_SYNTAXHIGHLIGHTERUDL_SYNTAXHIGHLIGHTERUDL_H
+#define DEAMER_TOOL_TYPE_SYNTAXHIGHLIGHTERUDL_SYNTAXHIGHLIGHTERUDL_H
 
 #include "Deamer/Language/Reference/LDO.h"
 #include "Deamer/Language/Reference/PropertyDefinition.h"
 #include "Deamer/Language/Reference/ReverseLookup.h"
-#include "Deamer/Tool/Type/SyntaxHighlighter/Base.h"
+#include "Deamer/Tool/Type/Base.h"
 
-namespace deamer::tool::type::syntaxhighlighter::udl
+namespace deamer::tool::type::syntaxhighlighter_udl
 {
 	/*! \class UDL
 	 *
 	 *	\brief Creates a syntax highlighter in UDL.
-	 * 
+	 *
 	 *	\details UDL is used by editors such as notepad++
-	 * 
+	 *
 	 *	\note As UDL doesn't support regex, every terminal containing some regex is rejected.
 	 *	It also doesn't support patterns.
 	 *
 	 */
-	class UDL : ::deamer::tool::type::syntaxhighlighter::Base
+	class SyntaxHighlighter_UDL : ::deamer::tool::type::Base
 	{
 	private:
 		using reference = language::reference::PropertyDefinition<
@@ -50,10 +50,10 @@ namespace deamer::tool::type::syntaxhighlighter::udl
 		reference Reference;
 
 	public:
-		UDL(reference reference_);
+		SyntaxHighlighter_UDL(reference reference_);
 
 		deamer::file::tool::Output Generate() override;
 	};
 }
 
-#endif // DEAMER_TOOL_TYPE_SYNTAXHIGHLIGHTER_NOTEPADPP_UDL_H
+#endif // DEAMER_TOOL_TYPE_SYNTAXHIGHLIGHTERUDL_SYNTAXHIGHLIGHTERUDL_H

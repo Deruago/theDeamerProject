@@ -1,13 +1,22 @@
-{{file.target_language}} = <C++>
-{{file.file_name}} = <UDLSyntaxHighlighter>
-{{file.namespace}} = <deamer::templates::tool::type::syntaxhighligher>
-{{file.extension}} = <h>
+{{file.target_language}} = @<C++>@
+{{file.file_name}} = @<UDLSyntaxHighlighter>@
+{{file.namespace}} = @<deamer::templates::tool::type::syntaxhighligher>@
+{{file.extension}} = @<h>@
 
-{{keywords_1_fg}} = <000000>
-{{keywords_2_fg}} = <000000>
-{{keywords_3_fg}} = <000000>
-{{keywords_4_fg}} = <000000>
-{{keywords_5_fg}} = <000000>
-{{keywords_6_fg}} = <000000>
-{{keywords_7_fg}} = <000000>
-{{keywords_8_fg}} = <000000>
+{{keywords_1_fg}} = @<332288>@
+{{keywords_2_fg}} = @<117733>@
+{{keywords_3_fg}} = @<44AA99>@
+{{keywords_4_fg}} = @<88CCEE>@
+{{keywords_5_fg}} = @<DDCC77>@
+{{keywords_6_fg}} = @<CC6677>@
+{{keywords_7_fg}} = @<AA4499>@
+{{keywords_8_fg}} = @<882255>@
+
+{{keywords_1}} = @<{{keyword}} >@
+{{keywords_2}} = @<{{keyword}} >@
+{{keywords_3}} = @<{{keyword}} >@
+{{keywords_4}} = @<{{keyword}} >@
+{{keywords_5}} = @<{{keyword}} >@
+{{keywords_6}} = @<{{keyword}} >@
+{{keywords_7}} = @<{{keyword}} >@
+{{keywords_8}} = @<{{keyword}} >@
