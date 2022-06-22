@@ -92,10 +92,13 @@ def install_extra_deamer_package(name: str, install: bool, test_argument: str = 
     if install:
         print(f"Retrieving Deamer Package: {name}")
         
-        if location:
-            os.system(f"git clone https://github.com/deamer-lang/{name}/ {build_dir}/DeamerPackage/{name}")
+        if os.path.isdir(f"{build_dir}/DeamerPackage/{name}"):
+            os.system(f"cd {build_dir}/DeamerPackage/{name} && git pull")
         else:
-            os.system(f"git clone https://github.com/Deruago/{name}/ {build_dir}/DeamerPackage/{name}")
+            if location:
+                os.system(f"git clone https://github.com/deamer-lang/{name}/ {build_dir}/DeamerPackage/{name}")
+            else:
+                os.system(f"git clone https://github.com/Deruago/{name}/ {build_dir}/DeamerPackage/{name}")
         
         print(f"Done Retrieving Deamer Package: {name}")
     
