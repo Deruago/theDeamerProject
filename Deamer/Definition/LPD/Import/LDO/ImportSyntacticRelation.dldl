@@ -1,0 +1,9 @@
+name: ImportSyntacticRelation
+type: LDO
+description: <
+	Defines a syntactic relation.
+>
+
+data: <
+	Base relation
+>

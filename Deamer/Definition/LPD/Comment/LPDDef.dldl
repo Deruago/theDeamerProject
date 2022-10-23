@@ -1,0 +1,23 @@
+name: Comment
+type: main
+description: <
+	Language Property Definition for Comment logic.
+	Used to understand comments in languages.
+
+	Designed by Thimo Böhmer
+>
+description_detailed: <
+>
+
+dependency: <
+	Lexicon
+	Grammar
+>
+
+ldo: <
+	CommentValue
+>
+
+data: <
+	Vector[CommentValue] commentValues
+>

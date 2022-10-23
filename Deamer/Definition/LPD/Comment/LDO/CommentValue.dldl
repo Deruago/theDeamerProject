@@ -1,0 +1,17 @@
+name: CommentValue
+type: LDO
+description: <
+	Defines a Simple Comment Value.
+    It allows for:
+    - Start patterns
+    - End patterns
+    - Escape Sequences
+    - Setting what syntax relation represents a comment.
+>
+
+data: <
+    Terminal syntacticRelation
+    String startPattern
+    String escapeSequence
+    String endPattern
+>

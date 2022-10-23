@@ -1,0 +1,9 @@
+name: ObjectTarget
+type: LDO
+description: <
+	Defines a object target.
+>
+
+data: <
+    ValueObject objectValue
+>

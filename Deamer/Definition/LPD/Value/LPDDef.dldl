@@ -1,0 +1,25 @@
+name: Value
+type: main
+description: <
+	Language Property Definition for Value logic.
+	Languages often define values via syntactic structures.
+	This LPD offers a model to explain what syntactic structures given some context,
+	define what kind of values.
+	
+	Designed by Thimo Böhmer
+>
+description_detailed: <
+>
+
+dependency: <
+	Lexicon
+	Grammar
+>
+
+ldo: <
+	ValueObject
+>
+
+data: <
+	Vector[ValueObject] valueObjects
+>
