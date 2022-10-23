@@ -28,6 +28,8 @@ namespace deamer::templates::flex
 			ast_include_nonterminal_,
 			ast_include_terminal_,
 			bison_integration_header_,
+			column_name_,
+			column_start_,
 			debug_action_,
 			file_,
 			flex_header_include_,
@@ -88,6 +90,14 @@ namespace deamer::templates::flex
 		{
 			switch (enumerationValue)
 			{
+			case ::deamer::templates::flex::FlexDefinitionTemplate::Type::Unknown: {
+				return "Unknown";
+			}
+
+			case ::deamer::templates::flex::FlexDefinitionTemplate::Type::Scope: {
+				return "Scope";
+			}
+
 			case ::deamer::templates::flex::FlexDefinitionTemplate::Type::action__: {
 				return "action_";
 			}
@@ -108,6 +118,14 @@ namespace deamer::templates::flex
 			case ::deamer::templates::flex::FlexDefinitionTemplate::Type::
 				bison_integration_header_: {
 				return "bison_integration_header";
+			}
+
+			case ::deamer::templates::flex::FlexDefinitionTemplate::Type::column_name_: {
+				return "column_name";
+			}
+
+			case ::deamer::templates::flex::FlexDefinitionTemplate::Type::column_start_: {
+				return "column_start";
 			}
 
 			case ::deamer::templates::flex::FlexDefinitionTemplate::Type::debug_action_: {
@@ -908,6 +926,70 @@ namespace deamer::templates::flex
 			}
 		};
 
+		struct Variable_column_name_ : public VariableScopes
+		{
+			static constexpr auto name = "column_name_";
+
+			Variable_column_name_() : VariableScopes()
+			{
+				type = ::deamer::templates::flex::FlexDefinitionTemplate::Type::column_name_;
+			}
+
+			virtual ~Variable_column_name_() override = default;
+
+			Variable_column_name_(FlexDefinitionTemplate* flexdefinitiontemplate_,
+								  const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::flex::FlexDefinitionTemplate::Type::column_name_;
+			}
+
+			Variable_column_name_& operator=(const Variable_column_name_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_column_start_ : public VariableScopes
+		{
+			static constexpr auto name = "column_start_";
+
+			Variable_column_start_() : VariableScopes()
+			{
+				type = ::deamer::templates::flex::FlexDefinitionTemplate::Type::column_start_;
+			}
+
+			virtual ~Variable_column_start_() override = default;
+
+			Variable_column_start_(FlexDefinitionTemplate* flexdefinitiontemplate_,
+								   const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::flex::FlexDefinitionTemplate::Type::column_start_;
+			}
+
+			Variable_column_start_& operator=(const Variable_column_start_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_debug_action_ : public VariableScopes
 		{
 			static constexpr auto name = "debug_action_";
@@ -971,11 +1053,15 @@ namespace deamer::templates::flex
 					 GenerateVariable(flexdefinitiontemplate_->optional_option_unistd_->This()),
 					 GenerateVariable("\n\n%"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n#include <iostream>\n#include <string>\n#include <stdio"),
+					 GenerateVariable("\n#include <iostream>\n#include <sstream>\n#include "
+									  "<string>\n#include <stdio"),
+					 GenerateVariable("."),
+					 GenerateVariable("h>\n#include <stdlib"),
 					 GenerateVariable("."),
 					 GenerateVariable("h>\n#include <string"),
 					 GenerateVariable("."),
-					 GenerateVariable("h>\n#include <vector>\n#include "
+					 GenerateVariable("h>\n#include <vector>\n#include <cstdio>\n#include "
+									  "<cstdlib>\n#include <clocale>\n#include <cwchar>\n#include "
 									  "<Deamer/External/Cpp/Lexer/TerminalObject"),
 					 GenerateVariable("."),
 					 GenerateVariable("h>\n"),
@@ -987,10 +1073,16 @@ namespace deamer::templates::flex
 						 flexdefinitiontemplate_->optional_bison_integration_header_->This()),
 					 GenerateVariable("\nvoid showError();\nextern int "),
 					 GenerateVariable(flexdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("lex();\n\nstatic bool local_store     = false;\nstatic bool "
+									  "include_deleted = false;\n\nint "),
+					 GenerateVariable(flexdefinitiontemplate_->column_name_->This()),
+					 GenerateVariable("    = "),
+					 GenerateVariable(flexdefinitiontemplate_->column_start_->This()),
+					 GenerateVariable(";\nstatic int next_column = "),
+					 GenerateVariable(flexdefinitiontemplate_->column_start_->This()),
 					 GenerateVariable(
-						 "lex();\n\nstatic bool local_store = false;\nstatic bool include_deleted "
-						 "= false;\nstatic int column = 0;\nstatic void handleColumn(const "
-						 "std::string& text);\nstatic void store(const "
+						 ";\n\nstatic std::size_t min(std::size_t a, std::size_t b);\n\nstatic "
+						 "void handleColumn();\nstatic void store(const "
 						 "deamer::external::cpp::lexer::TerminalObject* const newObject);\nstatic "
 						 "std::vector<const deamer::external::cpp::lexer::TerminalObject*> "
 						 "\nlocal_objects;\n\n"),
@@ -1023,19 +1115,33 @@ namespace deamer::templates::flex
 					 GenerateVariable("."),
 					 GenerateVariable("clear();\n"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\nstatic void handleColumn(const std::string& text)\n"),
+					 GenerateVariable("\n\nstatic void handleColumn()\n"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\tint& currentColumn = column;\n\tcurrentColumn += text"),
-					 GenerateVariable("."),
-					 GenerateVariable("size();\n\tfor (auto character : text)\n\t"),
+					 GenerateVariable("\n\tconst std::string text = yytext;\n\t"),
+					 GenerateVariable(flexdefinitiontemplate_->column_name_->This()),
+					 GenerateVariable(" = next_column;\n\n\tfor (auto character : text)\n\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\tif (character == '"),
+					 GenerateVariable("\n\t\tnext_column++;\n\t\tif (character == '"),
 					 GenerateVariable("\\"),
 					 GenerateVariable("n')\n\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\tcurrentColumn = 0;\n\t\t\tbreak;\n\t\t"),
+					 GenerateVariable("\n\t\t\tnext_column = "),
+					 GenerateVariable(flexdefinitiontemplate_->column_start_->This()),
+					 GenerateVariable(";\n\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\nstatic std::size_t min(std::size_t a, std::size_t b) "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n    if (b < a)\n\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\treturn b;\n\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\telse\n\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\treturn a;\n\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n"),
 					 GenerateVariable("}"),
@@ -1056,8 +1162,10 @@ namespace deamer::templates::flex
 					 GenerateVariable("{"),
 					 GenerateVariable("\n\t\tinclude_deleted = false;\n\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\tlocal_store = true;\n\tcolumn = "
-									  "0;\n\n\tYY_BUFFER_STATE buf;\n\tbuf = yy_scan_string(text"),
+					 GenerateVariable("\n\n\tlocal_store = true;\n\t"),
+					 GenerateVariable(flexdefinitiontemplate_->column_name_->This()),
+					 GenerateVariable(
+						 " = 0;\n\n\tYY_BUFFER_STATE buf;\n\tbuf = yy_scan_string(text"),
 					 GenerateVariable("."),
 					 GenerateVariable(
 						 "c_str());\n\tyylex();\n\tyy_delete_buffer(buf);\n\tyylex_destroy();"
@@ -2093,6 +2201,8 @@ namespace deamer::templates::flex
 			new Variable_ast_include_terminal_();
 		Variable_bison_integration_header_* bison_integration_header_ =
 			new Variable_bison_integration_header_();
+		Variable_column_name_* column_name_ = new Variable_column_name_();
+		Variable_column_start_* column_start_ = new Variable_column_start_();
 		Variable_debug_action_* debug_action_ = new Variable_debug_action_();
 		Variable_file_* file_ = new Variable_file_();
 		Variable_flex_header_include_* flex_header_include_ = new Variable_flex_header_include_();
@@ -2141,15 +2251,19 @@ namespace deamer::templates::flex
 				this, std::vector<VariableBase*>(
 						  {GenerateVariable("if (local_store && !"),
 						   GenerateVariable(terminal_is_deleted_->This()),
-						   GenerateVariable(" || local_store && include_deleted) store(new "
-											"deamer::external::cpp::lexer::TerminalObject(yyval, "
-											"yylineno, column, std::size_t("),
+						   GenerateVariable(
+							   " || local_store && include_deleted) store(new "
+							   "deamer::external::cpp::lexer::TerminalObject(yyval, yylineno, "),
+						   GenerateVariable(column_name_->This()),
+						   GenerateVariable(", std::size_t("),
 						   GenerateVariable(terminal_id_->This()),
 						   GenerateVariable("))); else if (local_store && "),
 						   GenerateVariable(terminal_is_transferred_->This()),
 						   GenerateVariable(
 							   ") store(new deamer::external::cpp::lexer::TerminalObject(\"\", "
-							   "yylineno, column, std::size_t("),
+							   "yylineno, "),
+						   GenerateVariable(column_name_->This()),
+						   GenerateVariable(", std::size_t("),
 						   GenerateVariable(terminal_id_->This()),
 						   GenerateVariable("))); else if (local_store && "),
 						   GenerateVariable(terminal_is_deleted_->This()),
@@ -2161,7 +2275,9 @@ namespace deamer::templates::flex
 						   GenerateVariable("."),
 						   GenerateVariable(
 							   "Terminal = new deamer::external::cpp::lexer::TerminalObject(yyval, "
-							   "yylineno, column, std::size_t("),
+							   "yylineno, "),
+						   GenerateVariable(column_name_->This()),
+						   GenerateVariable(", std::size_t("),
 						   GenerateVariable(terminal_id_->This()),
 						   GenerateVariable(")); else if ("),
 						   GenerateVariable(terminal_is_transferred_->This()),
@@ -2171,7 +2287,9 @@ namespace deamer::templates::flex
 						   GenerateVariable("."),
 						   GenerateVariable(
 							   "Terminal = new deamer::external::cpp::lexer::TerminalObject(\"\", "
-							   "yylineno, column, std::size_t("),
+							   "yylineno, "),
+						   GenerateVariable(column_name_->This()),
+						   GenerateVariable(", std::size_t("),
 						   GenerateVariable(terminal_id_->This()),
 						   GenerateVariable("));")}));
 			*ast_include_ = Variable_ast_include_(
@@ -2202,6 +2320,11 @@ namespace deamer::templates::flex
 												  GenerateVariable("_parser"),
 												  GenerateVariable("."), GenerateVariable("tab"),
 												  GenerateVariable("."), GenerateVariable("h\"")}));
+			*column_name_ = Variable_column_name_(
+				this, std::vector<VariableBase*>(
+						  {GenerateVariable(language_name_->This()), GenerateVariable("_column")}));
+			*column_start_ =
+				Variable_column_start_(this, std::vector<VariableBase*>({GenerateVariable("1")}));
 			*debug_action_ = Variable_debug_action_(
 				this, std::vector<VariableBase*>(
 						  {GenerateVariable("std::cout << yytext << \" is a \" << "),
@@ -2227,7 +2350,7 @@ namespace deamer::templates::flex
 					 GenerateVariable("lval_t();\n\n#endif // "),
 					 GenerateVariable(language_name_->This()), GenerateVariable("lval;\n")}));
 			*handle_column_ = Variable_handle_column_(
-				this, std::vector<VariableBase*>({GenerateVariable("handleColumn(yyval);")}));
+				this, std::vector<VariableBase*>({GenerateVariable("handleColumn();")}));
 			*language_name_ = Variable_language_name_(this, std::vector<VariableBase*>({}));
 			*left_angle_bracket_ = Variable_left_angle_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable("<")}));
@@ -2268,9 +2391,9 @@ namespace deamer::templates::flex
 						   GenerateVariable(terminal_name_->This()),
 						   GenerateVariable(right_bracket_->This()), GenerateVariable("\t"),
 						   GenerateVariable("{"), GenerateVariable(" "),
+						   GenerateVariable(handle_column_->This()), GenerateVariable(" "),
 						   GenerateVariable(optional_debug_action_->This()), GenerateVariable(" "),
 						   GenerateVariable(action__->This()), GenerateVariable(" "),
-						   GenerateVariable(handle_column_->This()), GenerateVariable(" "),
 						   GenerateVariable(return_action_->This()), GenerateVariable(" "),
 						   GenerateVariable("}")}));
 			*terminal_declaration_ = Variable_terminal_declaration_(
@@ -2289,10 +2412,11 @@ namespace deamer::templates::flex
 						  {GenerateVariable("{"),
 						   GenerateVariable("DEAMER_RESERVED_UNRECOGNIZED_RULE_MATCH"),
 						   GenerateVariable("}"), GenerateVariable(" "), GenerateVariable("{"),
-						   GenerateVariable(" if (local_store && include_deleted) store(new "
-											"deamer::external::cpp::lexer::TerminalObject(yyval, "
-											"yylineno, column, std::size_t(0))); "),
-						   GenerateVariable("}")}));
+						   GenerateVariable(
+							   " if (local_store && include_deleted) store(new "
+							   "deamer::external::cpp::lexer::TerminalObject(yyval, yylineno, "),
+						   GenerateVariable(column_name_->This()),
+						   GenerateVariable(", std::size_t(0))); "), GenerateVariable("}")}));
 			*unrecognized_terminal_regex_ = Variable_unrecognized_terminal_regex_(
 				this, std::vector<VariableBase*>(
 						  {GenerateVariable("DEAMER_RESERVED_UNRECOGNIZED_RULE_MATCH\t("),
@@ -2303,6 +2427,8 @@ namespace deamer::templates::flex
 			variables_.emplace_back(ast_include_nonterminal_);
 			variables_.emplace_back(ast_include_terminal_);
 			variables_.emplace_back(bison_integration_header_);
+			variables_.emplace_back(column_name_);
+			variables_.emplace_back(column_start_);
 			variables_.emplace_back(debug_action_);
 			variables_.emplace_back(file_);
 			variables_.emplace_back(flex_header_include_);
