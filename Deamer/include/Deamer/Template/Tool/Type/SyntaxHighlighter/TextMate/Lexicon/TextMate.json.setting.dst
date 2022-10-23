@@ -1,0 +1,7 @@
+
+{{theme_init}} = @<
+			{
+				"label": "{{language_name}}{{theme_name}}",
+				"uiTheme": "vs-dark",
+				"path": "./themes/{{language_name}}_{{theme_name}}.json"
+			}>@
