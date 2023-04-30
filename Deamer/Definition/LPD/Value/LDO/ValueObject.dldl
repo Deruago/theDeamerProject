@@ -5,5 +5,8 @@ description: <
 >
 
 data: <
-    
+    ValueObjectType ruleType
+	String ruleName
+	Vector[Base] syntacticRelations
+	Vector[ValueAbstraction] valueAbstractions
 >

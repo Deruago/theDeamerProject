@@ -18,8 +18,15 @@ dependency: <
 
 ldo: <
 	ValueObject
+	ValueAbstraction
+>
+
+enum: <
+	ValueObjectType
+	ValueAbstractionType
 >
 
 data: <
 	Vector[ValueObject] valueObjects
+	Vector[ValueAbstraction] valueAbstractions
 >

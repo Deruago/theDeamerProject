@@ -1,0 +1,12 @@
+name: ValueObjectType
+type: Enumeration
+description: <
+	Defines whether the ValueObject is characteristic or standard rule.
+>
+members: <
+	// Normal rule
+	Standard
+
+	// Characteristic rule
+	Characteristic
+>
