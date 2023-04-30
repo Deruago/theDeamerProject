@@ -2,6 +2,7 @@
 #define {{header_guard}}
 
 #include "{{language_name}}/Ast/Listener/EnterExitListener.h"
+#include "{{language_name}}/Ast/Reference/Access.h"
 #include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/AccessModifier.h"
 #include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/BaseTypeObject.h"
 #include "Deamer/External/Cpp/Tool/OopSyntaxRecognizer/Type/ClassObject.h"

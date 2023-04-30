@@ -23,6 +23,7 @@
 
 #include "Deamer/Language/Reference/LDO.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
+#include <memory>
 
 namespace deamer::parser::generator::dparse
 {
@@ -42,6 +43,7 @@ namespace deamer::parser::generator::dparse
 
 		language::reference::LDO<language::type::definition::object::main::ProductionRule>
 			production;
+		std::set<std::shared_ptr<StateEntry>> originals;
 		std::size_t dotLocation;
 		std::vector<language::reference::LDO<language::type::definition::object::Base>> nextTokens;
 		const StateField* stateField;
@@ -51,8 +53,19 @@ namespace deamer::parser::generator::dparse
 			ReferenceType reference_,
 			language::reference::LDO<language::type::definition::object::main::ProductionRule>
 				productionRule_,
-			std::size_t dotLocation_, const StateField* stateField_);
+			std::size_t dotLocation_, const StateField* stateField_,
+			std::shared_ptr<StateEntry> original_ = nullptr);
+
+		StateEntry(
+			ReferenceType reference_,
+			language::reference::LDO<language::type::definition::object::main::ProductionRule>
+				productionRule_,
+			std::size_t dotLocation_, const StateField* stateField_,
+			std::set<std::shared_ptr<StateEntry>> original_);
+
 		~StateEntry() = default;
+
+		StateEntry(const StateEntry& rhs);
 
 	public:
 		/*!	\fn NextToken
@@ -110,14 +123,28 @@ namespace deamer::parser::generator::dparse
 
 		std::size_t GetDotLocation() const;
 
+		std::vector<language::reference::LDO<language::type::definition::object::Base>>
+		GetItemAfterDotItem();
+
 	public:
 		bool operator>(const StateEntry& rhs) const;
 		bool operator<(const StateEntry& rhs) const;
 		bool operator==(const StateEntry& rhs) const;
 
+		bool LookaheadEquality(const StateEntry& rhs) const;
+		bool CoreEquality(const StateEntry& rhs) const;
+
+	public:
+		void Merge(const StateEntry& rhs);
+		void MergeLookahead(const StateEntry& rhs);
+
+	public:
+		const std::vector<language::reference::LDO<language::type::definition::object::Base>>&
+		GetLookaheadTokens() const;
+
 	private:
 		std::vector<language::reference::LDO<language::type::definition::object::Base>>
-		NextToken_() const;
+		NextToken_();
 	};
 }
 

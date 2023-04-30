@@ -22,6 +22,7 @@
 #include "Deamer/Language/Reference/LDO.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
 #include "Deamer/Template/Lexer/Antlr/LexiconDefinitionTemplate.h"
+#include <iostream>
 
 deamer::lexer::type::antlr::LexerDefinition::LexerDefinition(ReferenceType reference_)
 	: reference(reference_)
@@ -30,6 +31,44 @@ deamer::lexer::type::antlr::LexerDefinition::LexerDefinition(ReferenceType refer
 
 std::string deamer::lexer::type::antlr::LexerDefinition::Generate() const
 {
+	auto AntlrRegex = [](std::string deamerRegex) {
+		std::string antlrRegex;
+		bool insideRegex = false;
+		bool encounterSlash = false;
+
+		for (std::size_t i = 0; i < deamerRegex.size(); i++)
+		{
+			auto currentCharacter = deamerRegex[i];
+			if (insideRegex)
+			{
+				antlrRegex += currentCharacter;
+				if (encounterSlash)
+				{
+					encounterSlash = false;
+				}
+				else if (currentCharacter == '\\')
+				{
+					// Ensures that the next character will not be checked
+					encounterSlash = true;
+				}
+				else if (currentCharacter == ']')
+				{
+					insideRegex = false;
+				}
+			}
+			else if (currentCharacter == '[')
+			{
+				antlrRegex += currentCharacter;
+				insideRegex = true;
+			}
+			else
+			{
+				antlrRegex += std::string("[") + currentCharacter + std::string("]");
+			}
+		}
+		return antlrRegex;
+	};
+
 	const auto language_name =
 		reference.GetDefinition<language::type::definition::property::Type::Identity>()
 			.GetName()
@@ -57,7 +96,7 @@ std::string deamer::lexer::type::antlr::LexerDefinition::Generate() const
 		}
 
 		lexiconDefinition.terminal_name_->Set(terminal->Name);
-		lexiconDefinition.terminal_regex_->Set(terminal->Regex);
+		lexiconDefinition.terminal_regex_->Set(AntlrRegex(terminal->Regex));
 
 		lexiconDefinition.terminal_declaration_->ExpandVariableField();
 	}

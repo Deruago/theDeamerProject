@@ -26,6 +26,11 @@
 
 namespace deamer::language::type::definition::property::main
 {
+	class Argument;
+}
+
+namespace deamer::language::type::definition::property::main
+{
 	class Associativity;
 }
 
@@ -42,6 +47,11 @@ namespace deamer::language::type::definition::property::main
 namespace deamer::language::type::definition::property::main
 {
 	class Colorization;
+}
+
+namespace deamer::language::type::definition::property::main
+{
+	class Comment;
 }
 
 namespace deamer::language::type::definition::property::main
@@ -71,6 +81,11 @@ namespace deamer::language::type::definition::property::main
 
 namespace deamer::language::type::definition::property::main
 {
+	class Import;
+}
+
+namespace deamer::language::type::definition::property::main
+{
 	class Lexicon;
 }
 
@@ -94,6 +109,11 @@ namespace deamer::language::type::definition::property::main
 	class Threat;
 }
 
+namespace deamer::language::type::definition::property::main
+{
+	class Value;
+}
+
 
 namespace deamer::language::convertor::definition
 {
@@ -113,6 +133,18 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Unknown;
 		using type = T;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyTypeToEnum
+	 */
+	template<>
+	class PropertyTypeToEnum<type::definition::property::main::Argument>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Argument;
+		using type = type::definition::property::main::Argument;
 	};
 
 
@@ -161,6 +193,18 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Colorization;
 		using type = type::definition::property::main::Colorization;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyTypeToEnum
+	 */
+	template<>
+	class PropertyTypeToEnum<type::definition::property::main::Comment>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Comment;
+		using type = type::definition::property::main::Comment;
 	};
 
 
@@ -228,6 +272,18 @@ namespace deamer::language::convertor::definition
 	 *	\see deamer::language::convertor::definition::PropertyTypeToEnum
 	 */
 	template<>
+	class PropertyTypeToEnum<type::definition::property::main::Import>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Import;
+		using type = type::definition::property::main::Import;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyTypeToEnum
+	 */
+	template<>
 	class PropertyTypeToEnum<type::definition::property::main::Lexicon>
 	{
 	public:
@@ -281,6 +337,18 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Threat;
 		using type = type::definition::property::main::Threat;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyTypeToEnum
+	 */
+	template<>
+	class PropertyTypeToEnum<type::definition::property::main::Value>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Value;
+		using type = type::definition::property::main::Value;
 	};
 
 

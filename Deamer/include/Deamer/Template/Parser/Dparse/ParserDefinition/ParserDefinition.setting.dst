@@ -5,6 +5,20 @@
 
 {{optional_better_syntax_errors}} = @<true>@
 
+{{optional_dleg_include}} = @<>@
+{{dleg_include}} = @<#include "{{language_name}}/Dleg/Lexer.h">@
+
+{{optional_dleg_usage}} = @<
+	// Pass through lexer to get Terminal Objects
+	// And use those objects;
+
+	return nullptr;>@
+{{dleg_usage}} = @<
+	{{language_name}}::dleg::lexer::Lexer lexer;
+	auto tokens = lexer.Tokenize(text);
+	return Parse(tokens);
+	>@
+
 {{production_size_entry}} = @<{{production_rule_size}},>@
 {{production_id_entry}} = @<{{production_rule_id}},>@
 {{production_output_entry}} = @<::{{language_name}}::ast::Type::{{production_output}},>@
@@ -18,3 +32,29 @@
 
 {{action_table_2d_entry}} = @<{ {{action_table_entry.Variable_Field}} },>@
 {{action_table_entry}} = @<{ {{action_table_type_field}}, {{action_table_specialization_field}} },>@
+
+
+{{optional_general_option_switch}} = @<>@
+{{general_option_switch}} = @<
+				switch(actionValue)
+				{
+{{general_option_switch_case.Variable_Field}}
+				default: {
+					// Nothing to do
+					break;
+				}
+				}
+			>@
+
+{{general_option_switch_case}} = @<
+				case {{general_option_id}}: {
+{{general_option_shift_reduce_action.Variable_Field}}
+					break;
+				}
+>@
+
+{{general_option_shift_reduce_action}} = @<>@
+{{general_option_shift_impl}}  = @<					GeneralIntroduceShift({{general_option_shift_state}});>@
+{{general_option_reduce_impl}} = @<					GeneralIntroduceReduce({{general_option_reduce_production_rule}});>@
+{{general_option_accept_impl}} = @<					GeneralIntroduceAccept();>@
+

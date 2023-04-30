@@ -23,6 +23,7 @@ namespace deamer::templates::bison::parser
 			Scope,
 
 			// User defined types
+			debug_macro_glr_,
 			extended_error_,
 			file_,
 			glr_setting_,
@@ -36,6 +37,7 @@ namespace deamer::templates::bison::parser
 			nonterminal_include_,
 			nonterminal_token_name_,
 			optional_comma_,
+			optional_debug_macro_glr_,
 			optional_extended_error_,
 			optional_glr_setting_,
 			optional_or_,
@@ -90,6 +92,19 @@ namespace deamer::templates::bison::parser
 		{
 			switch (enumerationValue)
 			{
+			case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::Unknown: {
+				return "Unknown";
+			}
+
+			case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::Scope: {
+				return "Scope";
+			}
+
+			case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::
+				debug_macro_glr_: {
+				return "debug_macro_glr";
+			}
+
 			case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::
 				extended_error_: {
 				return "extended_error";
@@ -151,6 +166,11 @@ namespace deamer::templates::bison::parser
 			case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::
 				optional_comma_: {
 				return "optional_comma";
+			}
+
+			case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::
+				optional_debug_macro_glr_: {
+				return "optional_debug_macro_glr";
 			}
 
 			case ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::
@@ -780,6 +800,40 @@ namespace deamer::templates::bison::parser
 		};
 
 	public:
+		struct Variable_debug_macro_glr_ : public VariableScopes
+		{
+			static constexpr auto name = "debug_macro_glr_";
+
+			Variable_debug_macro_glr_() : VariableScopes()
+			{
+				type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::
+					debug_macro_glr_;
+			}
+
+			virtual ~Variable_debug_macro_glr_() override = default;
+
+			Variable_debug_macro_glr_(ParserDefinitionTemplate* parserdefinitiontemplate_,
+									  const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::
+					debug_macro_glr_;
+			}
+
+			Variable_debug_macro_glr_& operator=(const Variable_debug_macro_glr_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_extended_error_ : public VariableScopes
 		{
 			static constexpr auto name = "extended_error_";
@@ -846,7 +900,7 @@ namespace deamer::templates::bison::parser
 					 GenerateVariable("\n\n%"),
 					 GenerateVariable("{"),
 					 GenerateVariable("\n#include <iostream>\n#include <vector>\n#include "
-									  "<cstring>\n#include <stdio"),
+									  "<string>\n#include <cstring>\n#include <stdio"),
 					 GenerateVariable("."),
 					 GenerateVariable("h>\n#include <Deamer/External/Cpp/Lexer/TerminalObject"),
 					 GenerateVariable("."),
@@ -876,12 +930,20 @@ namespace deamer::templates::bison::parser
 									  "YY_parse_LLOC\n#define YY_parse_LLOC "),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
 					 GenerateVariable(
-						 "lloc\n#endif //YY_parse_LLOC\n#define YYERROR_VERBOSE\n\nvoid "),
+						 "lloc\n#endif //YY_parse_LLOC\n#define YYERROR_VERBOSE 1\n\n"),
+					 GenerateVariable(parserdefinitiontemplate_->optional_debug_macro_glr_->This()),
+					 GenerateVariable("\n\nvoid "),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
 					 GenerateVariable("error(const char* s);\nint "),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
 					 GenerateVariable("lex();\nstatic ::deamer::external::cpp::ast::Tree* "
-									  "outputTree = nullptr;\n%"),
+									  "outputTree = nullptr;\n\nextern int "),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("lineno;\nextern int "),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_column;\n\nstatic const std::string* "),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text = nullptr;\n%"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\n"),
 					 GenerateVariable(
@@ -904,17 +966,134 @@ namespace deamer::templates::bison::parser
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
 					 GenerateVariable("error(const char* s)\n"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\tstd::cout << \"Syntax error on line: \" << s << '"),
+					 GenerateVariable("\n\tstd::cout << \"Error: \" << s << \""),
 					 GenerateVariable("\\"),
-					 GenerateVariable("n';\n"),
+					 GenerateVariable("n\";\n\tstd::cout << \"In line: \" << "),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("lineno << \", Column: \" << "),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_column << '"),
+					 GenerateVariable("\\"),
+					 GenerateVariable(
+						 "n';\n\n\tstd::size_t currentLineCount = 1;\n\tauto index = 0;\n\tstatic "
+						 "constexpr auto offsetShow = 2;\n\n\twhile (index < "),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text->size())\n\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\tif ((*"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text)[index] == '"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("n')\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tcurrentLineCount += 1;\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(
+						 "\n\t\tindex++;\n\n\t\tif (currentLineCount + offsetShow >= "),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("lineno)\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tbreak;\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\tbool donePreShow = false;\n\twhile (!donePreShow && "
+									  "offsetShow > 0)\n\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\tif ((*"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text)[index] == '"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("t')\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tstd::cout << ' ';\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\telse if ((*"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text)[index] == '"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("r')\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t// skip\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\telse\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tstd::cout << (*"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text)[index];\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\tif ((*"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text)[index] == '"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("n')\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tif (currentLineCount + 1 == "),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("lineno)\n\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\tdonePreShow = true;\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\tcurrentLineCount += 1;\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\tindex++;\n\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(
+						 "\n\t\n\tbool endLine = false;\n\twhile (!endLine && index < "),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text->size())\n\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\tif ((*"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text)[index] == '"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("t')\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tstd::cout << ' ';\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\telse if ((*"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text)[index] == '"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("r')\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t// skip\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\telse\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tstd::cout << (*"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text)[index];\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\n\t\tif ((*"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text)[index] == '"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("n')\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tendLine = true;\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\n\t\tindex++;\n\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n    for(int i = 0; i < "),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_column - 1; i++)\n\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\tstd::cout << \"_\";\n\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\tstd::cout << \"^"),
+					 GenerateVariable("\\"),
+					 GenerateVariable("n\";\n"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\ndeamer::external::cpp::ast::Tree* "),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
 					 GenerateVariable(
 						 "::bison::parser::Parser::Parse(const std::string& text) const\n"),
 					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\toutputTree = nullptr;\n\tYY_BUFFER_STATE buf;\n\tbuf = "),
+					 GenerateVariable("\n\t"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("_input_text = &text;\n\toutputTree = "
+									  "nullptr;\n\tYY_BUFFER_STATE buf;\n\tbuf = "),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
 					 GenerateVariable("_scan_string(text"),
 					 GenerateVariable("."),
@@ -1372,6 +1551,41 @@ namespace deamer::templates::bison::parser
 			}
 
 			Variable_optional_comma_& operator=(const Variable_optional_comma_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_optional_debug_macro_glr_ : public VariableScopes
+		{
+			static constexpr auto name = "optional_debug_macro_glr_";
+
+			Variable_optional_debug_macro_glr_() : VariableScopes()
+			{
+				type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::
+					optional_debug_macro_glr_;
+			}
+
+			virtual ~Variable_optional_debug_macro_glr_() override = default;
+
+			Variable_optional_debug_macro_glr_(ParserDefinitionTemplate* parserdefinitiontemplate_,
+											   const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::bison::parser::ParserDefinitionTemplate::Type::
+					optional_debug_macro_glr_;
+			}
+
+			Variable_optional_debug_macro_glr_&
+			operator=(const Variable_optional_debug_macro_glr_& variable)
 			{
 				if (&variable == this)
 				{
@@ -2223,6 +2437,7 @@ namespace deamer::templates::bison::parser
 	public:
 		// Members that one can directly access.
 		// e.g. ParserDefinitionTemplate.member = "auto-generated";
+		Variable_debug_macro_glr_* debug_macro_glr_ = new Variable_debug_macro_glr_();
 		Variable_extended_error_* extended_error_ = new Variable_extended_error_();
 		Variable_file_* file_ = new Variable_file_();
 		Variable_glr_setting_* glr_setting_ = new Variable_glr_setting_();
@@ -2239,6 +2454,8 @@ namespace deamer::templates::bison::parser
 		Variable_nonterminal_token_name_* nonterminal_token_name_ =
 			new Variable_nonterminal_token_name_();
 		Variable_optional_comma_* optional_comma_ = new Variable_optional_comma_();
+		Variable_optional_debug_macro_glr_* optional_debug_macro_glr_ =
+			new Variable_optional_debug_macro_glr_();
 		Variable_optional_extended_error_* optional_extended_error_ =
 			new Variable_optional_extended_error_();
 		Variable_optional_glr_setting_* optional_glr_setting_ =
@@ -2278,6 +2495,8 @@ namespace deamer::templates::bison::parser
 	public:
 		ParserDefinitionTemplate()
 		{
+			*debug_macro_glr_ = Variable_debug_macro_glr_(
+				this, std::vector<VariableBase*>({GenerateVariable("#define YYDEBUG 1")}));
 			*extended_error_ = Variable_extended_error_(
 				this, std::vector<VariableBase*>({GenerateVariable("%define parse"),
 												  GenerateVariable("."),
@@ -2316,6 +2535,8 @@ namespace deamer::templates::bison::parser
 			*nonterminal_token_name_ =
 				Variable_nonterminal_token_name_(this, std::vector<VariableBase*>({}));
 			*optional_comma_ = Variable_optional_comma_(this, std::vector<VariableBase*>({}));
+			*optional_debug_macro_glr_ =
+				Variable_optional_debug_macro_glr_(this, std::vector<VariableBase*>({}));
 			*optional_extended_error_ = Variable_optional_extended_error_(
 				this, std::vector<VariableBase*>({GenerateVariable(extended_error_->This())}));
 			*optional_glr_setting_ =
@@ -2423,6 +2644,7 @@ namespace deamer::templates::bison::parser
 						   GenerateVariable("_"), GenerateVariable(token_name_->This()),
 						   GenerateVariable(";")}));
 
+			variables_.emplace_back(debug_macro_glr_);
 			variables_.emplace_back(extended_error_);
 			variables_.emplace_back(file_);
 			variables_.emplace_back(glr_setting_);
@@ -2436,6 +2658,7 @@ namespace deamer::templates::bison::parser
 			variables_.emplace_back(nonterminal_include_);
 			variables_.emplace_back(nonterminal_token_name_);
 			variables_.emplace_back(optional_comma_);
+			variables_.emplace_back(optional_debug_macro_glr_);
 			variables_.emplace_back(optional_extended_error_);
 			variables_.emplace_back(optional_glr_setting_);
 			variables_.emplace_back(optional_or_);

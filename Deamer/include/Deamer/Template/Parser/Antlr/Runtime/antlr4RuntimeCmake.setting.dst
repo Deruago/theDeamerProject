@@ -1,0 +1,4 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <Antlr4RuntimeCmake>
+{{file.namespace}} = <deamer::templates::antlr::parser>
+{{file.extension}} = <h>

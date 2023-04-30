@@ -1,0 +1,23 @@
+#include "ListenerTranslate.h"
+#include "antlr4-runtime.h"
+#include "{{language_name}}Lexer.h"
+#include "{{language_name}}Parser.h"
+#include "{{language_name}}/Antlr_Parser/Parser.h"
+#include <Deamer/External/Cpp/Ast/Node.h>
+#include <Deamer/External/Cpp/Parser/Interface/Parser.h>
+#include <optional>
+#include <vector>
+
+// As the parser header requires the extern headers, this is implemented in a private extern class.
+deamer::external::cpp::ast::Tree* {{language_name}}::antlr::parser::Parser::Parse(const std::string& text) const
+{
+	antlr4::ANTLRInputStream input(text);
+	{{language_name}}Lexer lexer(&input);
+	antlr4::CommonTokenStream tokens(&lexer);
+	{{language_name}}Parser parser(&tokens);
+
+	antlr4::tree::ParseTree *tree = parser.{{start_nonterminal}}();
+	ListenerTranslate listener(&tokens);
+	antlr4::tree::ParseTreeWalker::DEFAULT.walk(&listener, tree);
+	return listener.GetTree();
+}

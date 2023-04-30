@@ -13,10 +13,10 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
- /*
-  * Part of the DeamerProject.
-  * For more information go to: https://github.com/Deruago/theDeamerProject
-  */
+/*
+ * Part of the DeamerProject.
+ * For more information go to: https://github.com/Deruago/theDeamerProject
+ */
 
 /*
  * This type is used to extend normal enums to support bit manipulation.
@@ -35,6 +35,14 @@ namespace deamer::type
 	class BitwiseEnum
 	{
 	public:
+		BitwiseEnum() = default;
+
+		BitwiseEnum(const T& t)
+		{
+			operator=(t);
+		}
+
+	public:
 		unsigned bitwise_value = 0;
 
 		unsigned value() const;
@@ -48,9 +56,9 @@ namespace deamer::type
 		void operator^=(T b);
 
 		void operator=(unsigned b);
-		void operator|=(unsigned  b);
-		void operator&=(unsigned  b);
-		void operator^=(unsigned  b);
+		void operator|=(unsigned b);
+		void operator&=(unsigned b);
+		void operator^=(unsigned b);
 
 		unsigned operator&(T b) const;
 		unsigned operator^(T b) const;
@@ -75,79 +83,79 @@ namespace deamer::type
 		bool are_flags_not_set(std::vector<T> a_vector) const;
 	};
 
-	template <class T>
+	template<class T>
 	unsigned BitwiseEnum<T>::operator()() const
 	{
 		return bitwise_value;
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::operator=(T b)
 	{
 		bitwise_value = static_cast<unsigned>(b);
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::operator|=(T b)
 	{
 		bitwise_value = operator|(b);
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::operator&=(T b)
 	{
 		bitwise_value = operator&(b);
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::operator^=(T b)
 	{
 		bitwise_value = operator^(b);
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::operator=(unsigned b)
 	{
 		bitwise_value = b;
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::operator|=(unsigned b)
 	{
 		bitwise_value |= b;
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::operator&=(unsigned b)
 	{
 		bitwise_value &= b;
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::operator^=(unsigned b)
 	{
 		bitwise_value ^= b;
 	}
 
-	template <class T>
+	template<class T>
 	unsigned BitwiseEnum<T>::operator&(T b) const
 	{
 		return bitwise_value & static_cast<unsigned>(b);
 	}
 
-	template <class T>
+	template<class T>
 	unsigned BitwiseEnum<T>::operator^(T b) const
 	{
 		return bitwise_value ^ static_cast<unsigned>(b);
 	}
 
-	template <class T>
+	template<class T>
 	unsigned BitwiseEnum<T>::operator|(T b) const
 	{
 		return bitwise_value | static_cast<unsigned>(b);
 	}
 
-	template <class T>
+	template<class T>
 	bool BitwiseEnum<T>::operator==(std::vector<T> b_vector) const
 	{
 		for (T b : b_vector)
@@ -158,7 +166,7 @@ namespace deamer::type
 		return true;
 	}
 
-	template <class T>
+	template<class T>
 	bool BitwiseEnum<T>::operator!=(std::vector<T> b_vector) const
 	{
 		for (T b : b_vector)
@@ -169,31 +177,31 @@ namespace deamer::type
 		return true;
 	}
 
-	template <class T>
+	template<class T>
 	bool BitwiseEnum<T>::operator==(T b) const
 	{
 		return bitwise_value & static_cast<unsigned>(b);
 	}
 
-	template <class T>
+	template<class T>
 	bool BitwiseEnum<T>::operator!=(T b) const
 	{
 		return ~bitwise_value & static_cast<unsigned>(b);
 	}
 
-	template <class T>
+	template<class T>
 	unsigned BitwiseEnum<T>::value() const
 	{
 		return bitwise_value;
 	}
 
-	template <class T>
+	template<class T>
 	T BitwiseEnum<T>::enum_value() const
 	{
 		return static_cast<T>(value());
 	}
 
-	template <class T>
+	template<class T>
 	unsigned BitwiseEnum<T>::active_flags() const
 	{
 		unsigned tmp_value = value();
@@ -206,13 +214,13 @@ namespace deamer::type
 		return active_flags_;
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::set_flag(T a)
 	{
 		bitwise_value = operator|(a);
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::set_flag(T a, bool cond)
 	{
 		if (cond)
@@ -221,61 +229,61 @@ namespace deamer::type
 			clear_flag(a);
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::clear_flag(T a)
 	{
 		bitwise_value &= ~static_cast<unsigned>(a);
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::set_flags(std::vector<T> a_vector)
 	{
 		for (T a : a_vector)
 			set_flag(a);
 	}
 
-	template <class T>
+	template<class T>
 	void BitwiseEnum<T>::clear_flags(std::vector<T> a_vector)
 	{
 		for (T a : a_vector)
 			clear_flag(a);
 	}
 
-	template <class T>
+	template<class T>
 	bool BitwiseEnum<T>::is_flag_set(T a) const
 	{
 		return operator==(a);
 	}
 
-	template <class T>
+	template<class T>
 	bool BitwiseEnum<T>::is_flag_not_set(T a) const
 	{
 		return operator!=(a);
 	}
 
-	template <class T>
+	template<class T>
 	bool BitwiseEnum<T>::has_flag(T a) const
 	{
 		return is_flag_set(a);
 	}
 
-	template <class T>
+	template<class T>
 	bool BitwiseEnum<T>::has_flags(T a) const
 	{
 		return are_flags_set(a);
 	}
 
-	template <class T>
+	template<class T>
 	bool BitwiseEnum<T>::are_flags_set(std::vector<T> a_vector) const
 	{
 		return operator==(a_vector);
 	}
 
-	template <class T>
+	template<class T>
 	bool BitwiseEnum<T>::are_flags_not_set(std::vector<T> a_vector) const
 	{
 		return operator!=(a_vector);
 	}
 }
 
-#endif //DEAMER_TYPE_BITWISEENUM_H
+#endif // DEAMER_TYPE_BITWISEENUM_H

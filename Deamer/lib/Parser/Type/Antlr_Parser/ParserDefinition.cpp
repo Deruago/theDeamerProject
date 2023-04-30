@@ -56,6 +56,8 @@ std::string deamer::parser::type::antlr::ParserDefinition::Generate() const
 			continue;
 		}
 
+		std::size_t id = 0;
+		parserDefinition.production_id_->Set(std::to_string(id));
 		parserDefinition.production_rule_->Set(GetProductionRuleName(productionRules[0]));
 		parserDefinition.production_rule_declaration_->Set(
 			parserDefinition.first_production_rule_declaration_);
@@ -63,6 +65,8 @@ std::string deamer::parser::type::antlr::ParserDefinition::Generate() const
 
 		for (auto i = 1; i < productionRules.size(); i++)
 		{
+			id++;
+			parserDefinition.production_id_->Set(std::to_string(id));
 			parserDefinition.production_rule_->Set(GetProductionRuleName(productionRules[i]));
 			parserDefinition.production_rule_declaration_->Set(
 				parserDefinition.second_production_rule_declaration_);

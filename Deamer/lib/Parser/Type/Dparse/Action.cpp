@@ -108,6 +108,76 @@ deamer::parser::type::dparse::Action::GetTable() const
 	return mapLookaheadWithAction;
 }
 
+std::size_t deamer::parser::type::dparse::Action::GetShiftReduceConflictTotal() const
+{
+	std::size_t shiftReduceConflicts = 0;
+
+	for (auto item : GetTable())
+	{
+		for (auto entry : item.second)
+		{
+			std::size_t shift = 0;
+			std::size_t reduce = 0;
+			for (auto action : entry.second)
+			{
+				if (action.GetType() == type::dparse::ActionType::Shift)
+				{
+					shift++;
+				}
+				else if (action.GetType() == type::dparse::ActionType::Reduce)
+				{
+					reduce++;
+				}
+			}
+			if (shift > 0 && reduce > 0)
+			{
+				shiftReduceConflicts++;
+			}
+		}
+	}
+
+	return shiftReduceConflicts;
+}
+
+std::size_t deamer::parser::type::dparse::Action::GetReduceReduceConflictTotal() const
+{
+	std::size_t reduceReduceConflicts = 0;
+
+	for (auto item : GetTable())
+	{
+		for (auto entry : item.second)
+		{
+			std::size_t shift = 0;
+			std::size_t reduce = 0;
+			for (auto action : entry.second)
+			{
+				if (action.GetType() == type::dparse::ActionType::Shift)
+				{
+					shift++;
+				}
+				else if (action.GetType() == type::dparse::ActionType::Reduce)
+				{
+					reduce++;
+				}
+			}
+			if (reduce > 1)
+			{
+				reduceReduceConflicts++;
+			}
+		}
+	}
+
+	return reduceReduceConflicts;
+}
+
+void deamer::parser::type::dparse::Action::ApplyLALR(bool adaptive)
+{
+}
+
+void deamer::parser::type::dparse::Action::ApplySLR()
+{
+}
+
 void deamer::parser::type::dparse::Action::AddAction(
 	generator::dparse::State* state,
 	language::reference::LDO<language::type::definition::object::main::Terminal> ldo,

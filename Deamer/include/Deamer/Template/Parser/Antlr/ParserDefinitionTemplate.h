@@ -31,8 +31,10 @@ namespace deamer::templates::antlr::parser
 			left_curly_bracket_,
 			nonterminal_declaration_,
 			nonterminal_name_,
+			production_id_,
 			production_rule_,
 			production_rule_declaration_,
+			production_rule_id_,
 			right_angle_bracket_,
 			right_bracket_,
 			right_curly_bracket_,
@@ -67,6 +69,14 @@ namespace deamer::templates::antlr::parser
 		{
 			switch (enumerationValue)
 			{
+			case ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::Unknown: {
+				return "Unknown";
+			}
+
+			case ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::Scope: {
+				return "Scope";
+			}
+
 			case ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::file_: {
 				return "file";
 			}
@@ -107,6 +117,11 @@ namespace deamer::templates::antlr::parser
 			}
 
 			case ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::
+				production_id_: {
+				return "production_id";
+			}
+
+			case ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::
 				production_rule_: {
 				return "production_rule";
 			}
@@ -114,6 +129,11 @@ namespace deamer::templates::antlr::parser
 			case ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::
 				production_rule_declaration_: {
 				return "production_rule_declaration";
+			}
+
+			case ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::
+				production_rule_id_: {
+				return "production_rule_id";
 			}
 
 			case ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::
@@ -1001,6 +1021,40 @@ namespace deamer::templates::antlr::parser
 			}
 		};
 
+		struct Variable_production_id_ : public VariableScopes
+		{
+			static constexpr auto name = "production_id_";
+
+			Variable_production_id_() : VariableScopes()
+			{
+				type = ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::
+					production_id_;
+			}
+
+			virtual ~Variable_production_id_() override = default;
+
+			Variable_production_id_(ParserDefinitionTemplate* parserdefinitiontemplate_,
+									const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::
+					production_id_;
+			}
+
+			Variable_production_id_& operator=(const Variable_production_id_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_production_rule_ : public VariableScopes
 		{
 			static constexpr auto name = "production_rule_";
@@ -1058,6 +1112,40 @@ namespace deamer::templates::antlr::parser
 
 			Variable_production_rule_declaration_&
 			operator=(const Variable_production_rule_declaration_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_production_rule_id_ : public VariableScopes
+		{
+			static constexpr auto name = "production_rule_id_";
+
+			Variable_production_rule_id_() : VariableScopes()
+			{
+				type = ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::
+					production_rule_id_;
+			}
+
+			virtual ~Variable_production_rule_id_() override = default;
+
+			Variable_production_rule_id_(ParserDefinitionTemplate* parserdefinitiontemplate_,
+										 const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::antlr::parser::ParserDefinitionTemplate::Type::
+					production_rule_id_;
+			}
+
+			Variable_production_rule_id_& operator=(const Variable_production_rule_id_& variable)
 			{
 				if (&variable == this)
 				{
@@ -1228,9 +1316,11 @@ namespace deamer::templates::antlr::parser
 		Variable_nonterminal_declaration_* nonterminal_declaration_ =
 			new Variable_nonterminal_declaration_();
 		Variable_nonterminal_name_* nonterminal_name_ = new Variable_nonterminal_name_();
+		Variable_production_id_* production_id_ = new Variable_production_id_();
 		Variable_production_rule_* production_rule_ = new Variable_production_rule_();
 		Variable_production_rule_declaration_* production_rule_declaration_ =
 			new Variable_production_rule_declaration_();
+		Variable_production_rule_id_* production_rule_id_ = new Variable_production_rule_id_();
 		Variable_right_angle_bracket_* right_angle_bracket_ = new Variable_right_angle_bracket_();
 		Variable_right_bracket_* right_bracket_ = new Variable_right_bracket_();
 		Variable_right_curly_bracket_* right_curly_bracket_ = new Variable_right_curly_bracket_();
@@ -1243,7 +1333,8 @@ namespace deamer::templates::antlr::parser
 			*file_ = Variable_file_(this, std::vector<VariableBase*>({}));
 			*first_production_rule_declaration_ = Variable_first_production_rule_declaration_(
 				this, std::vector<VariableBase*>(
-						  {GenerateVariable("\t"), GenerateVariable(production_rule_->This())}));
+						  {GenerateVariable("\t"), GenerateVariable(production_rule_->This()),
+						   GenerateVariable(" "), GenerateVariable(production_rule_id_->This())}));
 			*language_name_ = Variable_language_name_(this, std::vector<VariableBase*>({}));
 			*left_angle_bracket_ = Variable_left_angle_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable("<")}));
@@ -1258,9 +1349,15 @@ namespace deamer::templates::antlr::parser
 						   GenerateVariable(production_rule_declaration_->Variable_Field()),
 						   GenerateVariable("\n\t;")}));
 			*nonterminal_name_ = Variable_nonterminal_name_(this, std::vector<VariableBase*>({}));
+			*production_id_ = Variable_production_id_(this, std::vector<VariableBase*>({}));
 			*production_rule_ = Variable_production_rule_(this, std::vector<VariableBase*>({}));
 			*production_rule_declaration_ =
 				Variable_production_rule_declaration_(this, std::vector<VariableBase*>({}));
+			*production_rule_id_ = Variable_production_rule_id_(
+				this, std::vector<VariableBase*>({GenerateVariable("# productionrule_"),
+												  GenerateVariable(nonterminal_name_->This()),
+												  GenerateVariable("_"),
+												  GenerateVariable(production_id_->This())}));
 			*right_angle_bracket_ = Variable_right_angle_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable(">")}));
 			*right_bracket_ =
@@ -1269,7 +1366,8 @@ namespace deamer::templates::antlr::parser
 				this, std::vector<VariableBase*>({GenerateVariable(")")}));
 			*second_production_rule_declaration_ = Variable_second_production_rule_declaration_(
 				this, std::vector<VariableBase*>(
-						  {GenerateVariable("\t| "), GenerateVariable(production_rule_->This())}));
+						  {GenerateVariable("\t| "), GenerateVariable(production_rule_->This()),
+						   GenerateVariable(" "), GenerateVariable(production_rule_id_->This())}));
 
 			variables_.emplace_back(file_);
 			variables_.emplace_back(first_production_rule_declaration_);
@@ -1279,8 +1377,10 @@ namespace deamer::templates::antlr::parser
 			variables_.emplace_back(left_curly_bracket_);
 			variables_.emplace_back(nonterminal_declaration_);
 			variables_.emplace_back(nonterminal_name_);
+			variables_.emplace_back(production_id_);
 			variables_.emplace_back(production_rule_);
 			variables_.emplace_back(production_rule_declaration_);
+			variables_.emplace_back(production_rule_id_);
 			variables_.emplace_back(right_angle_bracket_);
 			variables_.emplace_back(right_bracket_);
 			variables_.emplace_back(right_curly_bracket_);

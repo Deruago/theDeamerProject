@@ -1,0 +1,34 @@
+name: Import
+type: main
+description: <
+	Language Property Definition for Import logic.
+	Used to understand importation logic in languages.
+	
+	The LPD contains various import types.
+
+	Designed by Thimo Böhmer
+>
+
+dependency: <
+	Lexicon
+	Grammar
+	Value
+>
+
+ldo: <
+	ImportSpecification
+	FileImport
+	FileObjectImport
+	ImportFileTarget
+	ImportSyntacticRelation
+	ObjectTarget
+>
+
+enum: <
+	ImportType
+	ImportStyleType
+>
+
+data: <
+	Vector[ImportSpecification] importSpecifications
+>

@@ -21,11 +21,10 @@
 #ifndef DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_OOPSYNTAX_H
 #define DEAMER_LANGUAGE_DATASTRUCTURE_DEFINITION_PROPERTY_MAIN_OOPSYNTAX_H
 
+#include "Deamer/Language/Type/Definition/Object/Main/OOPSyntax/OopConceptLink.h"
 #include "Deamer/Language/Type/Definition/Object/Main/OOPSyntax/OopConceptMember.h"
 #include "Deamer/Language/Type/Definition/Object/Main/OOPSyntax/OopEncapsulation.h"
 #include "Deamer/Language/Type/Definition/Object/Main/OOPSyntax/OopLink.h"
-#include "Deamer/Language/Type/Definition/Object/Main/OOPSyntax/OopConceptLink.h"
-
 #include "Deamer/Language/Type/Definition/Property/Main/Definition.h"
 #include <optional>
 #include <stdexcept>
@@ -36,12 +35,12 @@ namespace deamer::language::type::definition::property::main
 {
 	/*! \class OOPSyntax
 	 *
-	 *	\brief 
+	 *	\brief
 	 *	OOPSyntax can be used to specify what parts of your language correspond
 	 *	with OOP concepts.
 	 *	Designed by Thimo Böhmer.
 
-	 *	\details 
+	 *	\details
 
 	 */
 	class OOPSyntax final : public Definition
@@ -52,20 +51,15 @@ namespace deamer::language::type::definition::property::main
 		std::vector<object::main::OopLink*> OopLinks;
 		std::vector<object::main::OopConceptLink*> OopConceptLinks;
 
-	
 	public:
-		OOPSyntax(std::vector<object::main::OopConceptMember*> OopConceptMembers_, 
-			std::vector<object::main::OopEncapsulation*> OopEncapsulations_, 
-			std::vector<object::main::OopLink*> OopLinks_, 
-			std::vector<object::main::OopConceptLink*> OopConceptLinks_);
+		OOPSyntax(std::vector<object::main::OopConceptMember*> OopConceptMembers_,
+				  std::vector<object::main::OopEncapsulation*> OopEncapsulations_,
+				  std::vector<object::main::OopLink*> OopLinks_,
+				  std::vector<object::main::OopConceptLink*> OopConceptLinks_);
 		virtual ~OOPSyntax() = default;
 
 	public:
-
-
 	public:
-		
-
 	};
 }
 

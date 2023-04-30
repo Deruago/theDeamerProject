@@ -19,6 +19,7 @@
  */
 
 #include "Deamer/Lexer/Generator/Antlr_Lexer/Antlr_Lexer.h"
+#include "Deamer/File/Tool/Action/Builder.h"
 #include "Deamer/Lexer/Type/Antlr/LexerDefinition.h"
 #include <utility>
 
@@ -35,14 +36,22 @@ deamer::file::tool::Output deamer::lexer::generator::antlr_lexer::Antlr_Lexer::G
 {
 	const auto Identity = reference.GetDefinition<Type::Identity>();
 	const auto Lexicon = reference.GetDefinition<Type::Lexicon>();
+	// In later versions the lexer and parser variant
+	// Will utilize the same directory or become the same tool
 	file::tool::Output output("Antlr_Lexer");
 
-	const auto lexerDefinitionGenerator = ::deamer::lexer::type::antlr::LexerDefinition(reference);
-	const auto lexerDefinition =
-		file::tool::File(name + "Lexer", "g4", lexerDefinitionGenerator.Generate(),
-						 file::tool::GenerationLevel::Always_regenerate);
-
-	output.AddFileToExternal(lexerDefinition);
+	if (reference.GetDefinition<Type::Generation>().IsArgumentSet(
+			{tool::type::Tool::Antlr_Lexer, "imported-lexicon"}))
+	{
+		// Constructs lexer only,
+		// Note the Antlr_Parser is responsible for generating the parser
+		// This tool simply assumes that it is already generated.
+	}
+	else
+	{
+		// The antlr_parser tool is responsible for lexer generation
+		// This tool is deprecated
+	}
 
 	return output;
 }

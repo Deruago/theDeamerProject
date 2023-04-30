@@ -5,6 +5,11 @@
 
 {{language_name_underscore}} = <{{language_name.Underscore}}>
 
+{{node_type_include_section}} = @<>@
+
+{{single_type_node_include_section}} = @<>@
+{{multi_type_node_include_section}} = @<{{node_type_include.Variable_Field}}>@
+
 {{header_guard}} = <{{language_name_underscore.Upper}}_AST_UTILITY_{{class_name.Upper}}_H>
 
 {{class_name}} = <CreateNode>
@@ -13,9 +18,16 @@
 {{node_enum_include}} = @<#include "{{language_name}}/Ast/Enum/Type.h">@
 {{node_type_include}} = @<#include "{{language_name}}/Ast/Node/{{node_name}}.h">@
 
-{{get_node_create_node}} = 
+{{get_node_create_node}} = @<>@
+
+{{multi_get_node_create_node}} =
 @<			case ::{{language_name}}::ast::Type::{{node_name}}: {
 				return new ::{{language_name}}::ast::node::{{node_name}}({{arguments_dispatcher}});
+			}>@
+
+{{single_get_node_create_node}} =
+@<			case ::{{language_name}}::ast::Type::{{node_name}}: {
+				return new ::deamer::external::cpp::ast::Node({{arguments_dispatcher}});
 			}>@
 
 {{arguments_dispatcher}} = @<>@

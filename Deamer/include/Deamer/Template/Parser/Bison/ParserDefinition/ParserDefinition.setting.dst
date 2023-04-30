@@ -3,6 +3,9 @@
 {{file.namespace}} = <deamer::templates::bison::parser>
 {{file.extension}} = <h>
 
+{{optional_debug_macro_glr}} = @<>@
+{{debug_macro_glr}} = @<#define YYDEBUG 1>@
+
 {{optional_extended_error}} = @<{{extended_error}}>@
 {{optional_parse_lac}} = @<{{parse_lac}}>@
 {{optional_glr_setting}} = @<>@

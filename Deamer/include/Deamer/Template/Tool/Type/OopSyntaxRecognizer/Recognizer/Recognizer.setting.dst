@@ -229,7 +229,7 @@
 @<			if (ClassFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Class &&
 				currentClassObject != nullptr)
 			{
-				currentClassObject->SetTypeName(node->GetText());
+				currentClassObject->SetTypeName({{direct_access_extension_call}});
 			}
 			else
 			{
@@ -239,7 +239,7 @@
 @<			if (StructFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Struct &&
 				currentStructObject != nullptr)
 			{
-				currentStructObject->SetTypeName(node->GetText());
+				currentStructObject->SetTypeName({{direct_access_extension_call}});
 			}
 			else
 			{
@@ -249,7 +249,7 @@
 @<			if (InterfaceFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Interface &&
 				currentInterfaceObject != nullptr)
 			{
-				currentInterfaceObject->SetTypeName(node->GetText());
+				currentInterfaceObject->SetTypeName({{direct_access_extension_call}});
 			}
 			else
 			{
@@ -259,7 +259,7 @@
 @<			if (FunctionFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Function &&
 				currentFunctionObject != nullptr)
 			{
-				currentFunctionObject->SetName(node->GetText());
+				currentFunctionObject->SetName({{direct_access_extension_call}});
 			}
 			else
 			{
@@ -272,7 +272,7 @@
 				// Assumes the type is predefined
 				// Can be updated to insert temporary forward declaration
 				// This requires a final check which replaces forward declarations
-				currentFunctionObject->SetReturnType(GetType(node->GetText()));
+				currentFunctionObject->SetReturnType(GetType({{direct_access_extension_call}}));
 			}
 			else
 			{
@@ -282,7 +282,7 @@
 @<			if (FunctionArgumentFlavor > 0 && GetTopOfFlavorStack() == FlavorType::FunctionArgument &&
 				currentFunctionArgumentObject != nullptr)
 			{
-				currentFunctionArgumentObject->SetType(GetType(node->GetText()));
+				currentFunctionArgumentObject->SetType(GetType({{direct_access_extension_call}}));
 			}
 			else
 			{
@@ -292,7 +292,7 @@
 @<			if (BaseTypeFlavor > 0 && GetTopOfFlavorStack() == FlavorType::BaseType &&
 				currentBaseTypeObject != nullptr)
 			{
-				currentBaseTypeObject->SetType(GetType(node->GetText()));
+				currentBaseTypeObject->SetType(GetType({{direct_access_extension_call}}));
 			}
 			else
 			{
@@ -302,7 +302,7 @@
 @<			if (FunctionArgumentFlavor > 0 && GetTopOfFlavorStack() == FlavorType::FunctionArgument &&
 				currentFunctionArgumentObject != nullptr)
 			{
-				currentFunctionArgumentObject->SetName(node->GetText());
+				currentFunctionArgumentObject->SetName({{direct_access_extension_call}});
 			}
 			else
 			{
@@ -312,7 +312,7 @@
 @<			if (PropertyFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Property &&
 				currentPropertyObject != nullptr)
 			{
-				currentPropertyObject->SetType(GetType(node->GetText()));
+				currentPropertyObject->SetType(GetType({{direct_access_extension_call}}));
 			}
 			else
 			{
@@ -322,7 +322,7 @@
 @<			if (PropertyFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Property &&
 				currentPropertyObject != nullptr)
 			{
-				currentPropertyObject->SetName(node->GetText());
+				currentPropertyObject->SetName({{direct_access_extension_call}});
 			}
 			else
 			{
@@ -332,7 +332,7 @@
 @<			if (EnumFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Enum &&
 				currentEnumObject != nullptr)
 			{
-				currentEnumObject->SetTypeName(node->GetText());
+				currentEnumObject->SetTypeName({{direct_access_extension_call}});
 			}
 			else
 			{
@@ -342,7 +342,7 @@
 @<			if (EnumFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Enum &&
 				currentEnumObject != nullptr)
 			{
-				currentEnumObject->AddMember(node->GetText());
+				currentEnumObject->AddMember({{direct_access_extension_call}});
 			}
 			else
 			{
@@ -354,7 +354,7 @@
 			case FlavorType::FunctionArgument: {
 				if (FunctionArgumentFlavor > 0 && currentFunctionArgumentObject != nullptr)
 				{
-					currentFunctionArgumentObject->SetName(node->GetText());
+					currentFunctionArgumentObject->SetName({{direct_access_extension_call}});
 				}
 				else
 				{
@@ -365,7 +365,7 @@
 			case FlavorType::Function: {
 				if (FunctionFlavor > 0 && currentFunctionObject != nullptr)
 				{
-					currentFunctionObject->SetName(node->GetText());
+					currentFunctionObject->SetName({{direct_access_extension_call}});
 				}
 				else
 				{
@@ -376,7 +376,7 @@
 			case FlavorType::Class: {
 				if (ClassFlavor > 0 && currentClassObject != nullptr)
 				{
-					currentClassObject->SetTypeName(node->GetText());
+					currentClassObject->SetTypeName({{direct_access_extension_call}});
 				}
 				else
 				{
@@ -387,7 +387,7 @@
 			case FlavorType::Struct: {
 				if (StructFlavor > 0 && currentStructObject != nullptr)
 				{
-					currentStructObject->SetTypeName(node->GetText());
+					currentStructObject->SetTypeName({{direct_access_extension_call}});
 				}
 				else
 				{
@@ -398,7 +398,7 @@
 			case FlavorType::Enum: {
 				if (EnumFlavor > 0 && currentEnumObject != nullptr)
 				{
-					currentEnumObject->SetTypeName(node->GetText());
+					currentEnumObject->SetTypeName({{direct_access_extension_call}});
 				}
 				else
 				{
@@ -407,6 +407,11 @@
 				break;
 			}
 			}>@
+
+{{direct_access_extension_call}} = @<{{impl_simple_direct_access}}>@
+{{impl_simple_direct_access}} = @<node->GetText()>@
+{{impl_extended_direct_access}} = @<::{{language_name}}::ast::reference::Access(node){{impl_extended_direct_access_specialization.Variable_Field}}.GetContent()[0]->GetText()>@
+{{impl_extended_direct_access_specialization}} = @<.{{extended_direct_access_specialization_name}}()>@
 
 {{property_assignment_conditional}} = @<(parent != nullptr) && (parent->GetType() == {{language_name}}::ast::Type::{{required_ast_node}}) && (parent->GetMatchedProductionRule().id == {{required_production_rule_index}})>@
 

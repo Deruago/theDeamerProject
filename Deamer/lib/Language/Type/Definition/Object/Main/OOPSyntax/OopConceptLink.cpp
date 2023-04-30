@@ -23,24 +23,28 @@
 #include <utility>
 
 deamer::language::type::definition::object::main::OopConceptLink::OopConceptLink(object::Base* object_, 
-			object::main::OopConceptMember* oopConceptMember_)
+			object::main::OopConceptMember* oopConceptMember_, 
+			std::vector<object::Base*> extendedObjectAccess_)
 	: Base(Type::OopConceptLink),
 	object(object_),
-	oopConceptMember(oopConceptMember_)
+	oopConceptMember(oopConceptMember_),
+	extendedObjectAccess(extendedObjectAccess_)
 {
 	references.Add(object);
 	references.Add(oopConceptMember);
+	references.Add(extendedObjectAccess);
 
 }
 
 bool deamer::language::type::definition::object::main::OopConceptLink::operator==(const OopConceptLink& rhs) const noexcept
 {
-	return this == &rhs || (this->object == rhs.object && this->oopConceptMember == rhs.oopConceptMember && true);
+	return this == &rhs || (this->object == rhs.object && this->oopConceptMember == rhs.oopConceptMember && this->extendedObjectAccess == rhs.extendedObjectAccess && true);
 }
 
 
 deamer::language::type::definition::object::main::OopConceptLink::OopConceptLink() : OopConceptLink(nullptr, 
-			nullptr)
+			nullptr, 
+			std::vector<object::Base*>{})
 {
 }
 

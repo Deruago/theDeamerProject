@@ -47,6 +47,12 @@ std::string deamer::parser::type::bison::ParserDefinition::Generate() const
 		parserDefinitionTemplate->optional_glr_setting_->Set(
 			parserDefinitionTemplate->glr_setting_);
 	}
+	
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsArgumentSet({tool::type::Tool::Bison, "activate-glr-debug"}))
+	{
+		parserDefinitionTemplate->optional_debug_macro_glr_->Set(parserDefinitionTemplate->debug_macro_glr_);
+	}
 
 	const auto lexicon =
 		reference.GetDefinition<language::type::definition::property::Type::Lexicon>();

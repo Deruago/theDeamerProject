@@ -1,0 +1,52 @@
+#include "{{language_name}}/Dparse/Parser.h"
+#include "{{language_name}}/Ast/Utility/CreateNode.h"
+#include "{{language_name}}/Ast/Relation/NodeEnumToText.h"
+#include "{{language_name}}/Ast/Relation/NodeIsDeleted.h"
+#include "{{language_name}}/Ast/Relation/NodeIsIgnored.h"
+#include "{{language_name}}/Ast/Enum/Type.h"
+{{optional_dleg_include}}
+#include <Deamer/External/Cpp/Parser/Interface/ASTConstructionPolicy.h>
+#include <Deamer/External/Cpp/Ast/Node.h>
+#include <Deamer/External/Cpp/Ast/Tree.h>
+
+struct {{language_name}}::dparse::parser::Parser::Impl
+{
+public:
+	::deamer::external::cpp::parser::ASTConstructionPolicy constructionPolicy;
+	std::vector<{{terminal_type}}> types;
+	{{terminal_type}} lastConsumedToken;
+
+	Impl() = default;
+	~Impl() = default;
+
+{{last_consumed_symbol_function}}
+
+{{next_symbol_function}}
+
+{{expect_function}}
+
+{{accept_function}}
+
+{{peek_function}}
+
+{{parse_function}}
+
+{{non_terminal_impl.Variable_Field}}
+
+};
+
+::deamer::external::cpp::ast::Tree* {{language_name}}::dparse::parser::Parser::Parse(std::vector<const ::deamer::external::cpp::lexer::TerminalObject*> terminalObjects,
+			  ::deamer::external::cpp::parser::ASTConstructionPolicy constructionPolicy) const
+{
+	auto impl = ::{{language_name}}::dparse::parser::Parser::Impl();
+	impl.constructionPolicy = constructionPolicy;
+	impl.types = terminalObjects;
+
+	return impl.Parse();
+}
+
+deamer::external::cpp::ast::Tree* {{language_name}}::dparse::parser::Parser::Parse(const std::string& text,
+			  ::deamer::external::cpp::parser::ASTConstructionPolicy constructionPolicy) const
+{
+{{optional_dleg_usage}}
+}

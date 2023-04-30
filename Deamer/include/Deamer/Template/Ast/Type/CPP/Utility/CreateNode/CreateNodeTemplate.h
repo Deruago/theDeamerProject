@@ -33,14 +33,19 @@ namespace deamer::templates::ast::type::cpp
 			left_angle_bracket_,
 			left_bracket_,
 			left_curly_bracket_,
+			multi_get_node_create_node_,
+			multi_type_node_include_section_,
 			node_enum_include_,
 			node_name_,
 			node_type_include_,
+			node_type_include_section_,
 			node_type_to_enum_relation_include_,
 			nonterminal_arguments_,
 			right_angle_bracket_,
 			right_bracket_,
 			right_curly_bracket_,
+			single_get_node_create_node_,
+			single_type_node_include_section_,
 			terminal_arguments_,
 
 		};
@@ -72,6 +77,14 @@ namespace deamer::templates::ast::type::cpp
 		{
 			switch (enumerationValue)
 			{
+			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::Unknown: {
+				return "Unknown";
+			}
+
+			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::Scope: {
+				return "Scope";
+			}
+
 			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
 				arguments_dispatcher_: {
 				return "arguments_dispatcher";
@@ -118,6 +131,16 @@ namespace deamer::templates::ast::type::cpp
 			}
 
 			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+				multi_get_node_create_node_: {
+				return "multi_get_node_create_node";
+			}
+
+			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+				multi_type_node_include_section_: {
+				return "multi_type_node_include_section";
+			}
+
+			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
 				node_enum_include_: {
 				return "node_enum_include";
 			}
@@ -129,6 +152,11 @@ namespace deamer::templates::ast::type::cpp
 			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
 				node_type_include_: {
 				return "node_type_include";
+			}
+
+			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+				node_type_include_section_: {
+				return "node_type_include_section";
 			}
 
 			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
@@ -153,6 +181,16 @@ namespace deamer::templates::ast::type::cpp
 			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
 				right_curly_bracket_: {
 				return "right_curly_bracket";
+			}
+
+			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+				single_get_node_create_node_: {
+				return "single_get_node_create_node";
+			}
+
+			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+				single_type_node_include_section_: {
+				return "single_type_node_include_section";
 			}
 
 			case ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
@@ -768,7 +806,7 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable("\n\n"),
 					 GenerateVariable(createnodetemplate_->node_enum_include_->This()),
 					 GenerateVariable("\n"),
-					 GenerateVariable(createnodetemplate_->node_type_include_->Variable_Field()),
+					 GenerateVariable(createnodetemplate_->node_type_include_section_->This()),
 					 GenerateVariable("\n\n#include <Deamer/External/Cpp/Ast/Node"),
 					 GenerateVariable("."),
 					 GenerateVariable("h>\n#include <Deamer/External/Cpp/Lexer/TerminalObject"),
@@ -804,6 +842,13 @@ namespace deamer::templates::ast::type::cpp
 					 GenerateVariable("\n\n\t\tCreateNode& Node(std::size_t nodeType_)\n\t\t"),
 					 GenerateVariable("{"),
 					 GenerateVariable("\n\t\t\tnodeType = nodeType_;\n\n\t\t\treturn *this;\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(
+						 "\n\n\t\ttemplate<typename T, std::enable_if_t<std::is_enum_v<T>, bool> = "
+						 "true>\n\t\tCreateNode& Node(T nodeType_)\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable(
+						 "\n\t\t\treturn Node(static_cast<std::size_t>(nodeType_));\n\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable(
 						 "\n\n\t\tCreateNode& ProductionRule(std::size_t "
@@ -1188,6 +1233,76 @@ namespace deamer::templates::ast::type::cpp
 			}
 		};
 
+		struct Variable_multi_get_node_create_node_ : public VariableScopes
+		{
+			static constexpr auto name = "multi_get_node_create_node_";
+
+			Variable_multi_get_node_create_node_() : VariableScopes()
+			{
+				type = ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+					multi_get_node_create_node_;
+			}
+
+			virtual ~Variable_multi_get_node_create_node_() override = default;
+
+			Variable_multi_get_node_create_node_(CreateNodeTemplate* createnodetemplate_,
+												 const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+					multi_get_node_create_node_;
+			}
+
+			Variable_multi_get_node_create_node_&
+			operator=(const Variable_multi_get_node_create_node_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_multi_type_node_include_section_ : public VariableScopes
+		{
+			static constexpr auto name = "multi_type_node_include_section_";
+
+			Variable_multi_type_node_include_section_() : VariableScopes()
+			{
+				type = ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+					multi_type_node_include_section_;
+			}
+
+			virtual ~Variable_multi_type_node_include_section_() override = default;
+
+			Variable_multi_type_node_include_section_(CreateNodeTemplate* createnodetemplate_,
+													  const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+					multi_type_node_include_section_;
+			}
+
+			Variable_multi_type_node_include_section_&
+			operator=(const Variable_multi_type_node_include_section_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_node_enum_include_ : public VariableScopes
 		{
 			static constexpr auto name = "node_enum_include_";
@@ -1275,6 +1390,41 @@ namespace deamer::templates::ast::type::cpp
 			}
 
 			Variable_node_type_include_& operator=(const Variable_node_type_include_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_node_type_include_section_ : public VariableScopes
+		{
+			static constexpr auto name = "node_type_include_section_";
+
+			Variable_node_type_include_section_() : VariableScopes()
+			{
+				type = ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+					node_type_include_section_;
+			}
+
+			virtual ~Variable_node_type_include_section_() override = default;
+
+			Variable_node_type_include_section_(CreateNodeTemplate* createnodetemplate_,
+												const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+					node_type_include_section_;
+			}
+
+			Variable_node_type_include_section_&
+			operator=(const Variable_node_type_include_section_& variable)
 			{
 				if (&variable == this)
 				{
@@ -1461,6 +1611,76 @@ namespace deamer::templates::ast::type::cpp
 			}
 		};
 
+		struct Variable_single_get_node_create_node_ : public VariableScopes
+		{
+			static constexpr auto name = "single_get_node_create_node_";
+
+			Variable_single_get_node_create_node_() : VariableScopes()
+			{
+				type = ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+					single_get_node_create_node_;
+			}
+
+			virtual ~Variable_single_get_node_create_node_() override = default;
+
+			Variable_single_get_node_create_node_(CreateNodeTemplate* createnodetemplate_,
+												  const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+					single_get_node_create_node_;
+			}
+
+			Variable_single_get_node_create_node_&
+			operator=(const Variable_single_get_node_create_node_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_single_type_node_include_section_ : public VariableScopes
+		{
+			static constexpr auto name = "single_type_node_include_section_";
+
+			Variable_single_type_node_include_section_() : VariableScopes()
+			{
+				type = ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+					single_type_node_include_section_;
+			}
+
+			virtual ~Variable_single_type_node_include_section_() override = default;
+
+			Variable_single_type_node_include_section_(CreateNodeTemplate* createnodetemplate_,
+													   const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::ast::type::cpp::CreateNodeTemplate::Type::
+					single_type_node_include_section_;
+			}
+
+			Variable_single_type_node_include_section_&
+			operator=(const Variable_single_type_node_include_section_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_terminal_arguments_ : public VariableScopes
 		{
 			static constexpr auto name = "terminal_arguments_";
@@ -1517,9 +1737,15 @@ namespace deamer::templates::ast::type::cpp
 		Variable_left_angle_bracket_* left_angle_bracket_ = new Variable_left_angle_bracket_();
 		Variable_left_bracket_* left_bracket_ = new Variable_left_bracket_();
 		Variable_left_curly_bracket_* left_curly_bracket_ = new Variable_left_curly_bracket_();
+		Variable_multi_get_node_create_node_* multi_get_node_create_node_ =
+			new Variable_multi_get_node_create_node_();
+		Variable_multi_type_node_include_section_* multi_type_node_include_section_ =
+			new Variable_multi_type_node_include_section_();
 		Variable_node_enum_include_* node_enum_include_ = new Variable_node_enum_include_();
 		Variable_node_name_* node_name_ = new Variable_node_name_();
 		Variable_node_type_include_* node_type_include_ = new Variable_node_type_include_();
+		Variable_node_type_include_section_* node_type_include_section_ =
+			new Variable_node_type_include_section_();
 		Variable_node_type_to_enum_relation_include_* node_type_to_enum_relation_include_ =
 			new Variable_node_type_to_enum_relation_include_();
 		Variable_nonterminal_arguments_* nonterminal_arguments_ =
@@ -1527,6 +1753,10 @@ namespace deamer::templates::ast::type::cpp
 		Variable_right_angle_bracket_* right_angle_bracket_ = new Variable_right_angle_bracket_();
 		Variable_right_bracket_* right_bracket_ = new Variable_right_bracket_();
 		Variable_right_curly_bracket_* right_curly_bracket_ = new Variable_right_curly_bracket_();
+		Variable_single_get_node_create_node_* single_get_node_create_node_ =
+			new Variable_single_get_node_create_node_();
+		Variable_single_type_node_include_section_* single_type_node_include_section_ =
+			new Variable_single_type_node_include_section_();
 		Variable_terminal_arguments_* terminal_arguments_ = new Variable_terminal_arguments_();
 
 	public:
@@ -1537,17 +1767,8 @@ namespace deamer::templates::ast::type::cpp
 			*class_name_ = Variable_class_name_(
 				this, std::vector<VariableBase*>({GenerateVariable("CreateNode")}));
 			*file_ = Variable_file_(this, std::vector<VariableBase*>({}));
-			*get_node_create_node_ = Variable_get_node_create_node_(
-				this,
-				std::vector<VariableBase*>(
-					{GenerateVariable("\t\t\tcase ::"), GenerateVariable(language_name_->This()),
-					 GenerateVariable("::ast::Type::"), GenerateVariable(node_name_->This()),
-					 GenerateVariable(": "), GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\treturn new ::"),
-					 GenerateVariable(language_name_->This()), GenerateVariable("::ast::node::"),
-					 GenerateVariable(node_name_->This()), GenerateVariable("("),
-					 GenerateVariable(arguments_dispatcher_->This()),
-					 GenerateVariable(");\n\t\t\t"), GenerateVariable("}")}));
+			*get_node_create_node_ =
+				Variable_get_node_create_node_(this, std::vector<VariableBase*>({}));
 			*header_guard_ = Variable_header_guard_(
 				this, std::vector<VariableBase*>(
 						  {GenerateVariable(language_name_underscore_->Upper()),
@@ -1562,6 +1783,20 @@ namespace deamer::templates::ast::type::cpp
 				Variable_left_bracket_(this, std::vector<VariableBase*>({GenerateVariable("{")}));
 			*left_curly_bracket_ = Variable_left_curly_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable("(")}));
+			*multi_get_node_create_node_ = Variable_multi_get_node_create_node_(
+				this,
+				std::vector<VariableBase*>(
+					{GenerateVariable("\t\t\tcase ::"), GenerateVariable(language_name_->This()),
+					 GenerateVariable("::ast::Type::"), GenerateVariable(node_name_->This()),
+					 GenerateVariable(": "), GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\treturn new ::"),
+					 GenerateVariable(language_name_->This()), GenerateVariable("::ast::node::"),
+					 GenerateVariable(node_name_->This()), GenerateVariable("("),
+					 GenerateVariable(arguments_dispatcher_->This()),
+					 GenerateVariable(");\n\t\t\t"), GenerateVariable("}")}));
+			*multi_type_node_include_section_ = Variable_multi_type_node_include_section_(
+				this, std::vector<VariableBase*>(
+						  {GenerateVariable(node_type_include_->Variable_Field())}));
 			*node_enum_include_ = Variable_node_enum_include_(
 				this, std::vector<VariableBase*>({GenerateVariable("#include \""),
 												  GenerateVariable(language_name_->This()),
@@ -1574,6 +1809,8 @@ namespace deamer::templates::ast::type::cpp
 					{GenerateVariable("#include \""), GenerateVariable(language_name_->This()),
 					 GenerateVariable("/Ast/Node/"), GenerateVariable(node_name_->This()),
 					 GenerateVariable("."), GenerateVariable("h\"")}));
+			*node_type_include_section_ =
+				Variable_node_type_include_section_(this, std::vector<VariableBase*>({}));
 			*node_type_to_enum_relation_include_ = Variable_node_type_to_enum_relation_include_(
 				this,
 				std::vector<VariableBase*>({GenerateVariable("#include \""),
@@ -1594,6 +1831,17 @@ namespace deamer::templates::ast::type::cpp
 				Variable_right_bracket_(this, std::vector<VariableBase*>({GenerateVariable("}")}));
 			*right_curly_bracket_ = Variable_right_curly_bracket_(
 				this, std::vector<VariableBase*>({GenerateVariable(")")}));
+			*single_get_node_create_node_ = Variable_single_get_node_create_node_(
+				this,
+				std::vector<VariableBase*>(
+					{GenerateVariable("\t\t\tcase ::"), GenerateVariable(language_name_->This()),
+					 GenerateVariable("::ast::Type::"), GenerateVariable(node_name_->This()),
+					 GenerateVariable(": "), GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\treturn new ::deamer::external::cpp::ast::Node("),
+					 GenerateVariable(arguments_dispatcher_->This()),
+					 GenerateVariable(");\n\t\t\t"), GenerateVariable("}")}));
+			*single_type_node_include_section_ =
+				Variable_single_type_node_include_section_(this, std::vector<VariableBase*>({}));
 			*terminal_arguments_ = Variable_terminal_arguments_(
 				this, std::vector<VariableBase*>(
 						  {GenerateVariable("{"),
@@ -1612,14 +1860,19 @@ namespace deamer::templates::ast::type::cpp
 			variables_.emplace_back(left_angle_bracket_);
 			variables_.emplace_back(left_bracket_);
 			variables_.emplace_back(left_curly_bracket_);
+			variables_.emplace_back(multi_get_node_create_node_);
+			variables_.emplace_back(multi_type_node_include_section_);
 			variables_.emplace_back(node_enum_include_);
 			variables_.emplace_back(node_name_);
 			variables_.emplace_back(node_type_include_);
+			variables_.emplace_back(node_type_include_section_);
 			variables_.emplace_back(node_type_to_enum_relation_include_);
 			variables_.emplace_back(nonterminal_arguments_);
 			variables_.emplace_back(right_angle_bracket_);
 			variables_.emplace_back(right_bracket_);
 			variables_.emplace_back(right_curly_bracket_);
+			variables_.emplace_back(single_get_node_create_node_);
+			variables_.emplace_back(single_type_node_include_section_);
 			variables_.emplace_back(terminal_arguments_);
 		}
 

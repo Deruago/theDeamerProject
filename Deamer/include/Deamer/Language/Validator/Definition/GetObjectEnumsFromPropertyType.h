@@ -22,20 +22,24 @@
 #define DEAMER_LANGUAGE_VALIDATOR_DEFINITION_GETOBJECTENUMSFROMPROPERTYTYPE_H
 
 #include "Deamer/Language/Type/Definition/Object/Type.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Argument.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Associativity.h"
 #include "Deamer/Language/Type/Definition/Property/Main/AstOptimization.h"
 #include "Deamer/Language/Type/Definition/Property/Main/AstTranslation.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Colorization.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Comment.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Documentation.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Formatting.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Generation.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Identity.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Import.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
 #include "Deamer/Language/Type/Definition/Property/Main/OOPSyntax.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Semantic.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Threat.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Value.h"
 
 
 namespace deamer::language::validator::definition
@@ -49,6 +53,15 @@ namespace deamer::language::validator::definition
 	};
 
 	
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Argument>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::Unknown };
+		using type = type::definition::property::main::Argument;
+	};
+
+
 template<>
 	class GetObjectEnumsFromPropertyType<type::definition::property::main::Associativity>
 	{
@@ -88,6 +101,15 @@ template<>
 		type::definition::object::Type::TerminalColor,
 		type::definition::object::Type::TerminalPatternColor };
 		using type = type::definition::property::main::Colorization;
+	};
+
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Comment>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::CommentValue };
+		using type = type::definition::property::main::Comment;
 	};
 
 
@@ -142,6 +164,22 @@ template<>
 
 
 template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Import>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::FileImport,
+		type::definition::object::Type::FileObjectImport,
+		type::definition::object::Type::ImportFileTarget,
+		type::definition::object::Type::ImportSpecification,
+		type::definition::object::Type::ImportStyleType,
+		type::definition::object::Type::ImportSyntacticRelation,
+		type::definition::object::Type::ImportType,
+		type::definition::object::Type::ObjectTarget };
+		using type = type::definition::property::main::Import;
+	};
+
+
+template<>
 	class GetObjectEnumsFromPropertyType<type::definition::property::main::Lexicon>
 	{
 	public:
@@ -189,6 +227,18 @@ template<>
 	public:
 		constexpr static auto value = { type::definition::object::Type::Threat };
 		using type = type::definition::property::main::Threat;
+	};
+
+
+template<>
+	class GetObjectEnumsFromPropertyType<type::definition::property::main::Value>
+	{
+	public:
+		constexpr static auto value = { type::definition::object::Type::ValueAbstraction,
+		type::definition::object::Type::ValueAbstractionType,
+		type::definition::object::Type::ValueObject,
+		type::definition::object::Type::ValueObjectType };
+		using type = type::definition::property::main::Value;
 	};
 
 

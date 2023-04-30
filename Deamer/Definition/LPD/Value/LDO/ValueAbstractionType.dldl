@@ -1,0 +1,30 @@
+name: ValueAbstractionType
+type: Enumeration
+description: <
+	Defines what kind of abstraction the ValueAbstraction represents.
+>
+members: <
+	// The ValueObject represents a string
+	IsString
+	
+	// The ValueObject represents an integer
+	IsInteger
+	
+	// The ValueObject represents a decimal
+	IsDecimal
+
+	// The ValueObject represents a vector of values
+	IsVector
+
+	// The start pattern in case it is a string
+	StringStartPattern
+
+	// The end pattern in case it is a string
+	StringEndPattern
+
+	// The escape pattern in case it is a string
+	StringEscapePattern
+
+	// Wildcard pattern
+	WildcardPattern
+>

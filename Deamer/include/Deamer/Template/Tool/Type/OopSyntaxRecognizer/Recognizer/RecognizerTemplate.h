@@ -26,11 +26,16 @@ namespace deamer::templates::oopsyntaxrecognizer
 			ast_node_,
 			basetype_object_,
 			class_object_,
+			direct_access_extension_call_,
 			enum_object_,
+			extended_direct_access_specialization_name_,
 			file_,
 			function_argument_,
 			function_object_,
 			header_guard_,
+			impl_extended_direct_access_,
+			impl_extended_direct_access_specialization_,
+			impl_simple_direct_access_,
 			interface_object_,
 			language_name_,
 			left_angle_bracket_,
@@ -114,6 +119,14 @@ namespace deamer::templates::oopsyntaxrecognizer
 		{
 			switch (enumerationValue)
 			{
+			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::Unknown: {
+				return "Unknown";
+			}
+
+			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::Scope: {
+				return "Scope";
+			}
+
 			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::ast_node_: {
 				return "ast_node";
 			}
@@ -128,8 +141,18 @@ namespace deamer::templates::oopsyntaxrecognizer
 				return "class_object";
 			}
 
+			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+				direct_access_extension_call_: {
+				return "direct_access_extension_call";
+			}
+
 			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::enum_object_: {
 				return "enum_object";
+			}
+
+			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+				extended_direct_access_specialization_name_: {
+				return "extended_direct_access_specialization_name";
 			}
 
 			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::file_: {
@@ -149,6 +172,21 @@ namespace deamer::templates::oopsyntaxrecognizer
 			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
 				header_guard_: {
 				return "header_guard";
+			}
+
+			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+				impl_extended_direct_access_: {
+				return "impl_extended_direct_access";
+			}
+
+			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+				impl_extended_direct_access_specialization_: {
+				return "impl_extended_direct_access_specialization";
+			}
+
+			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+				impl_simple_direct_access_: {
+				return "impl_simple_direct_access";
 			}
 
 			case ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
@@ -1029,6 +1067,41 @@ namespace deamer::templates::oopsyntaxrecognizer
 			}
 		};
 
+		struct Variable_direct_access_extension_call_ : public VariableScopes
+		{
+			static constexpr auto name = "direct_access_extension_call_";
+
+			Variable_direct_access_extension_call_() : VariableScopes()
+			{
+				type = ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+					direct_access_extension_call_;
+			}
+
+			virtual ~Variable_direct_access_extension_call_() override = default;
+
+			Variable_direct_access_extension_call_(RecognizerTemplate* recognizertemplate_,
+												   const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+					direct_access_extension_call_;
+			}
+
+			Variable_direct_access_extension_call_&
+			operator=(const Variable_direct_access_extension_call_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_enum_object_ : public VariableScopes
 		{
 			static constexpr auto name = "enum_object_";
@@ -1050,6 +1123,42 @@ namespace deamer::templates::oopsyntaxrecognizer
 			}
 
 			Variable_enum_object_& operator=(const Variable_enum_object_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_extended_direct_access_specialization_name_ : public VariableScopes
+		{
+			static constexpr auto name = "extended_direct_access_specialization_name_";
+
+			Variable_extended_direct_access_specialization_name_() : VariableScopes()
+			{
+				type = ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+					extended_direct_access_specialization_name_;
+			}
+
+			virtual ~Variable_extended_direct_access_specialization_name_() override = default;
+
+			Variable_extended_direct_access_specialization_name_(
+				RecognizerTemplate* recognizertemplate_,
+				const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+					extended_direct_access_specialization_name_;
+			}
+
+			Variable_extended_direct_access_specialization_name_&
+			operator=(const Variable_extended_direct_access_specialization_name_& variable)
 			{
 				if (&variable == this)
 				{
@@ -1094,6 +1203,10 @@ namespace deamer::templates::oopsyntaxrecognizer
 					 GenerateVariable("\n\n#include \""),
 					 GenerateVariable(recognizertemplate_->language_name_->This()),
 					 GenerateVariable("/Ast/Listener/EnterExitListener"),
+					 GenerateVariable("."),
+					 GenerateVariable("h\"\n#include \""),
+					 GenerateVariable(recognizertemplate_->language_name_->This()),
+					 GenerateVariable("/Ast/Reference/Access"),
 					 GenerateVariable("."),
 					 GenerateVariable(
 						 "h\"\n#include "
@@ -1503,6 +1616,112 @@ namespace deamer::templates::oopsyntaxrecognizer
 			}
 
 			Variable_header_guard_& operator=(const Variable_header_guard_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_impl_extended_direct_access_ : public VariableScopes
+		{
+			static constexpr auto name = "impl_extended_direct_access_";
+
+			Variable_impl_extended_direct_access_() : VariableScopes()
+			{
+				type = ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+					impl_extended_direct_access_;
+			}
+
+			virtual ~Variable_impl_extended_direct_access_() override = default;
+
+			Variable_impl_extended_direct_access_(RecognizerTemplate* recognizertemplate_,
+												  const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+					impl_extended_direct_access_;
+			}
+
+			Variable_impl_extended_direct_access_&
+			operator=(const Variable_impl_extended_direct_access_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_impl_extended_direct_access_specialization_ : public VariableScopes
+		{
+			static constexpr auto name = "impl_extended_direct_access_specialization_";
+
+			Variable_impl_extended_direct_access_specialization_() : VariableScopes()
+			{
+				type = ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+					impl_extended_direct_access_specialization_;
+			}
+
+			virtual ~Variable_impl_extended_direct_access_specialization_() override = default;
+
+			Variable_impl_extended_direct_access_specialization_(
+				RecognizerTemplate* recognizertemplate_,
+				const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+					impl_extended_direct_access_specialization_;
+			}
+
+			Variable_impl_extended_direct_access_specialization_&
+			operator=(const Variable_impl_extended_direct_access_specialization_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_impl_simple_direct_access_ : public VariableScopes
+		{
+			static constexpr auto name = "impl_simple_direct_access_";
+
+			Variable_impl_simple_direct_access_() : VariableScopes()
+			{
+				type = ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+					impl_simple_direct_access_;
+			}
+
+			virtual ~Variable_impl_simple_direct_access_() override = default;
+
+			Variable_impl_simple_direct_access_(RecognizerTemplate* recognizertemplate_,
+												const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::oopsyntaxrecognizer::RecognizerTemplate::Type::
+					impl_simple_direct_access_;
+			}
+
+			Variable_impl_simple_direct_access_&
+			operator=(const Variable_impl_simple_direct_access_& variable)
 			{
 				if (&variable == this)
 				{
@@ -3382,11 +3601,23 @@ namespace deamer::templates::oopsyntaxrecognizer
 		Variable_ast_node_* ast_node_ = new Variable_ast_node_();
 		Variable_basetype_object_* basetype_object_ = new Variable_basetype_object_();
 		Variable_class_object_* class_object_ = new Variable_class_object_();
+		Variable_direct_access_extension_call_* direct_access_extension_call_ =
+			new Variable_direct_access_extension_call_();
 		Variable_enum_object_* enum_object_ = new Variable_enum_object_();
+		Variable_extended_direct_access_specialization_name_*
+			extended_direct_access_specialization_name_ =
+				new Variable_extended_direct_access_specialization_name_();
 		Variable_file_* file_ = new Variable_file_();
 		Variable_function_argument_* function_argument_ = new Variable_function_argument_();
 		Variable_function_object_* function_object_ = new Variable_function_object_();
 		Variable_header_guard_* header_guard_ = new Variable_header_guard_();
+		Variable_impl_extended_direct_access_* impl_extended_direct_access_ =
+			new Variable_impl_extended_direct_access_();
+		Variable_impl_extended_direct_access_specialization_*
+			impl_extended_direct_access_specialization_ =
+				new Variable_impl_extended_direct_access_specialization_();
+		Variable_impl_simple_direct_access_* impl_simple_direct_access_ =
+			new Variable_impl_simple_direct_access_();
 		Variable_interface_object_* interface_object_ = new Variable_interface_object_();
 		Variable_language_name_* language_name_ = new Variable_language_name_();
 		Variable_left_angle_bracket_* left_angle_bracket_ = new Variable_left_angle_bracket_();
@@ -3489,9 +3720,15 @@ namespace deamer::templates::oopsyntaxrecognizer
 			*class_object_ = Variable_class_object_(
 				this, std::vector<VariableBase*>({GenerateVariable(tool_type_namespace_->This()),
 												  GenerateVariable("ClassObject")}));
+			*direct_access_extension_call_ = Variable_direct_access_extension_call_(
+				this,
+				std::vector<VariableBase*>({GenerateVariable(impl_simple_direct_access_->This())}));
 			*enum_object_ = Variable_enum_object_(
 				this, std::vector<VariableBase*>({GenerateVariable(tool_type_namespace_->This()),
 												  GenerateVariable("EnumObject")}));
+			*extended_direct_access_specialization_name_ =
+				Variable_extended_direct_access_specialization_name_(
+					this, std::vector<VariableBase*>({}));
 			*file_ = Variable_file_(this, std::vector<VariableBase*>({}));
 			*function_argument_ = Variable_function_argument_(
 				this, std::vector<VariableBase*>({GenerateVariable(tool_type_namespace_->This()),
@@ -3504,6 +3741,22 @@ namespace deamer::templates::oopsyntaxrecognizer
 				std::vector<VariableBase*>(
 					{GenerateVariable(language_name_->This()),
 					 GenerateVariable("_AST_LISTENER_TOOL_OOPSYNTAXRECOGNIZER_RECOGNIZER_H")}));
+			*impl_extended_direct_access_ = Variable_impl_extended_direct_access_(
+				this, std::vector<VariableBase*>(
+						  {GenerateVariable("::"), GenerateVariable(language_name_->This()),
+						   GenerateVariable("::ast::reference::Access(node)"),
+						   GenerateVariable(
+							   impl_extended_direct_access_specialization_->Variable_Field()),
+						   GenerateVariable("."), GenerateVariable("GetContent()[0]->GetText()")}));
+			*impl_extended_direct_access_specialization_ =
+				Variable_impl_extended_direct_access_specialization_(
+					this,
+					std::vector<VariableBase*>(
+						{GenerateVariable("."),
+						 GenerateVariable(extended_direct_access_specialization_name_->This()),
+						 GenerateVariable("()")}));
+			*impl_simple_direct_access_ = Variable_impl_simple_direct_access_(
+				this, std::vector<VariableBase*>({GenerateVariable("node->GetText()")}));
 			*interface_object_ = Variable_interface_object_(
 				this, std::vector<VariableBase*>({GenerateVariable(tool_type_namespace_->This()),
 												  GenerateVariable("InterfaceObject")}));
@@ -3736,8 +3989,9 @@ namespace deamer::templates::oopsyntaxrecognizer
 					 GenerateVariable("\n\t\t\t\tif (FunctionArgumentFlavor > 0 && "
 									  "currentFunctionArgumentObject != nullptr)\n\t\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\t\tcurrentFunctionArgumentObject->SetName(node->"
-									  "GetText());\n\t\t\t\t"),
+					 GenerateVariable("\n\t\t\t\t\tcurrentFunctionArgumentObject->SetName("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable(");\n\t\t\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\t\t\t\telse\n\t\t\t\t"),
 					 GenerateVariable("{"),
@@ -3750,8 +4004,9 @@ namespace deamer::templates::oopsyntaxrecognizer
 					 GenerateVariable("\n\t\t\t\tif (FunctionFlavor > 0 && currentFunctionObject "
 									  "!= nullptr)\n\t\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\t\t\tcurrentFunctionObject->SetName(node->GetText());\n\t\t\t\t"),
+					 GenerateVariable("\n\t\t\t\t\tcurrentFunctionObject->SetName("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable(");\n\t\t\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\t\t\t\telse\n\t\t\t\t"),
 					 GenerateVariable("{"),
@@ -3764,8 +4019,9 @@ namespace deamer::templates::oopsyntaxrecognizer
 					 GenerateVariable("\n\t\t\t\tif (ClassFlavor > 0 && currentClassObject != "
 									  "nullptr)\n\t\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\t\t\tcurrentClassObject->SetTypeName(node->GetText());\n\t\t\t\t"),
+					 GenerateVariable("\n\t\t\t\t\tcurrentClassObject->SetTypeName("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable(");\n\t\t\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\t\t\t\telse\n\t\t\t\t"),
 					 GenerateVariable("{"),
@@ -3778,8 +4034,9 @@ namespace deamer::templates::oopsyntaxrecognizer
 					 GenerateVariable("\n\t\t\t\tif (StructFlavor > 0 && currentStructObject != "
 									  "nullptr)\n\t\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\t\tcurrentStructObject->SetTypeName(node->GetText()"
-									  ");\n\t\t\t\t"),
+					 GenerateVariable("\n\t\t\t\t\tcurrentStructObject->SetTypeName("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable(");\n\t\t\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\t\t\t\telse\n\t\t\t\t"),
 					 GenerateVariable("{"),
@@ -3792,8 +4049,9 @@ namespace deamer::templates::oopsyntaxrecognizer
 					 GenerateVariable(
 						 "\n\t\t\t\tif (EnumFlavor > 0 && currentEnumObject != nullptr)\n\t\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\t\t\tcurrentEnumObject->SetTypeName(node->GetText());\n\t\t\t\t"),
+					 GenerateVariable("\n\t\t\t\t\tcurrentEnumObject->SetTypeName("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable(");\n\t\t\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\t\t\t\telse\n\t\t\t\t"),
 					 GenerateVariable("{"),
@@ -3810,11 +4068,11 @@ namespace deamer::templates::oopsyntaxrecognizer
 									  "FlavorType::BaseType &&\n\t\t\t\tcurrentBaseTypeObject != "
 									  "nullptr)\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\tcurrentBaseTypeObject->SetType(GetType(node->"
-									  "GetText()));\n\t\t\t"),
-					 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-					 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-					 GenerateVariable("}")}));
+					 GenerateVariable("\n\t\t\t\tcurrentBaseTypeObject->SetType(GetType("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable("));\n\t\t\t"), GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assign_class_name_ = Variable_listen_property_assign_class_name_(
 				this,
 				std::vector<VariableBase*>(
@@ -3822,11 +4080,11 @@ namespace deamer::templates::oopsyntaxrecognizer
 						 "\t\t\tif (ClassFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Class "
 						 "&&\n\t\t\t\tcurrentClassObject != nullptr)\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\t\tcurrentClassObject->SetTypeName(node->GetText());\n\t\t\t"),
-					 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-					 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-					 GenerateVariable("}")}));
+					 GenerateVariable("\n\t\t\t\tcurrentClassObject->SetTypeName("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable(");\n\t\t\t"), GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assign_enum_member_ = Variable_listen_property_assign_enum_member_(
 				this,
 				std::vector<VariableBase*>(
@@ -3834,11 +4092,11 @@ namespace deamer::templates::oopsyntaxrecognizer
 						 "\t\t\tif (EnumFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Enum "
 						 "&&\n\t\t\t\tcurrentEnumObject != nullptr)\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\t\tcurrentEnumObject->AddMember(node->GetText());\n\t\t\t"),
-					 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-					 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-					 GenerateVariable("}")}));
+					 GenerateVariable("\n\t\t\t\tcurrentEnumObject->AddMember("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable(");\n\t\t\t"), GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assign_enum_name_ = Variable_listen_property_assign_enum_name_(
 				this,
 				std::vector<VariableBase*>(
@@ -3846,11 +4104,11 @@ namespace deamer::templates::oopsyntaxrecognizer
 						 "\t\t\tif (EnumFlavor > 0 && GetTopOfFlavorStack() == FlavorType::Enum "
 						 "&&\n\t\t\t\tcurrentEnumObject != nullptr)\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\t\tcurrentEnumObject->SetTypeName(node->GetText());\n\t\t\t"),
-					 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-					 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-					 GenerateVariable("}")}));
+					 GenerateVariable("\n\t\t\t\tcurrentEnumObject->SetTypeName("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable(");\n\t\t\t"), GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assign_function_argument_name_ =
 				Variable_listen_property_assign_function_argument_name_(
 					this,
@@ -3860,11 +4118,11 @@ namespace deamer::templates::oopsyntaxrecognizer
 							 "FlavorType::FunctionArgument "
 							 "&&\n\t\t\t\tcurrentFunctionArgumentObject != nullptr)\n\t\t\t"),
 						 GenerateVariable("{"),
-						 GenerateVariable("\n\t\t\t\tcurrentFunctionArgumentObject->SetName(node->"
-										  "GetText());\n\t\t\t"),
-						 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-						 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-						 GenerateVariable("}")}));
+						 GenerateVariable("\n\t\t\t\tcurrentFunctionArgumentObject->SetName("),
+						 GenerateVariable(direct_access_extension_call_->This()),
+						 GenerateVariable(");\n\t\t\t"), GenerateVariable("}"),
+						 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+						 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assign_function_argument_type_ =
 				Variable_listen_property_assign_function_argument_type_(
 					this,
@@ -3874,11 +4132,12 @@ namespace deamer::templates::oopsyntaxrecognizer
 							 "FlavorType::FunctionArgument "
 							 "&&\n\t\t\t\tcurrentFunctionArgumentObject != nullptr)\n\t\t\t"),
 						 GenerateVariable("{"),
-						 GenerateVariable("\n\t\t\t\tcurrentFunctionArgumentObject->SetType("
-										  "GetType(node->GetText()));\n\t\t\t"),
-						 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-						 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-						 GenerateVariable("}")}));
+						 GenerateVariable(
+							 "\n\t\t\t\tcurrentFunctionArgumentObject->SetType(GetType("),
+						 GenerateVariable(direct_access_extension_call_->This()),
+						 GenerateVariable("));\n\t\t\t"), GenerateVariable("}"),
+						 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+						 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assign_function_name_ = Variable_listen_property_assign_function_name_(
 				this,
 				std::vector<VariableBase*>(
@@ -3886,11 +4145,11 @@ namespace deamer::templates::oopsyntaxrecognizer
 									  "FlavorType::Function &&\n\t\t\t\tcurrentFunctionObject != "
 									  "nullptr)\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\t\tcurrentFunctionObject->SetName(node->GetText());\n\t\t\t"),
-					 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-					 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-					 GenerateVariable("}")}));
+					 GenerateVariable("\n\t\t\t\tcurrentFunctionObject->SetName("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable(");\n\t\t\t"), GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assign_function_returntype_ =
 				Variable_listen_property_assign_function_returntype_(
 					this,
@@ -3903,11 +4162,11 @@ namespace deamer::templates::oopsyntaxrecognizer
 							 "\n\t\t\t\t// Assumes the type is predefined\n\t\t\t\t// Can be "
 							 "updated to insert temporary forward declaration\n\t\t\t\t// This "
 							 "requires a final check which replaces forward "
-							 "declarations\n\t\t\t\tcurrentFunctionObject->SetReturnType(GetType("
-							 "node->GetText()));\n\t\t\t"),
-						 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-						 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-						 GenerateVariable("}")}));
+							 "declarations\n\t\t\t\tcurrentFunctionObject->SetReturnType(GetType("),
+						 GenerateVariable(direct_access_extension_call_->This()),
+						 GenerateVariable("));\n\t\t\t"), GenerateVariable("}"),
+						 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+						 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assign_interface_name_ =
 				Variable_listen_property_assign_interface_name_(
 					this,
@@ -3916,11 +4175,11 @@ namespace deamer::templates::oopsyntaxrecognizer
 										  "== FlavorType::Interface "
 										  "&&\n\t\t\t\tcurrentInterfaceObject != nullptr)\n\t\t\t"),
 						 GenerateVariable("{"),
-						 GenerateVariable("\n\t\t\t\tcurrentInterfaceObject->SetTypeName(node->"
-										  "GetText());\n\t\t\t"),
-						 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-						 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-						 GenerateVariable("}")}));
+						 GenerateVariable("\n\t\t\t\tcurrentInterfaceObject->SetTypeName("),
+						 GenerateVariable(direct_access_extension_call_->This()),
+						 GenerateVariable(");\n\t\t\t"), GenerateVariable("}"),
+						 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+						 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assign_property_name_ = Variable_listen_property_assign_property_name_(
 				this,
 				std::vector<VariableBase*>(
@@ -3928,11 +4187,11 @@ namespace deamer::templates::oopsyntaxrecognizer
 									  "FlavorType::Property &&\n\t\t\t\tcurrentPropertyObject != "
 									  "nullptr)\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\t\tcurrentPropertyObject->SetName(node->GetText());\n\t\t\t"),
-					 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-					 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-					 GenerateVariable("}")}));
+					 GenerateVariable("\n\t\t\t\tcurrentPropertyObject->SetName("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable(");\n\t\t\t"), GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assign_property_type_ = Variable_listen_property_assign_property_type_(
 				this,
 				std::vector<VariableBase*>(
@@ -3940,11 +4199,11 @@ namespace deamer::templates::oopsyntaxrecognizer
 									  "FlavorType::Property &&\n\t\t\t\tcurrentPropertyObject != "
 									  "nullptr)\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\tcurrentPropertyObject->SetType(GetType(node->"
-									  "GetText()));\n\t\t\t"),
-					 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-					 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-					 GenerateVariable("}")}));
+					 GenerateVariable("\n\t\t\t\tcurrentPropertyObject->SetType(GetType("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable("));\n\t\t\t"), GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assign_specific_production_rule_action_ =
 				Variable_listen_property_assign_specific_production_rule_action_(
 					this, std::vector<VariableBase*>(
@@ -3972,11 +4231,11 @@ namespace deamer::templates::oopsyntaxrecognizer
 						 "\t\t\tif (StructFlavor > 0 && GetTopOfFlavorStack() == "
 						 "FlavorType::Struct &&\n\t\t\t\tcurrentStructObject != nullptr)\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\t\tcurrentStructObject->SetTypeName(node->GetText());\n\t\t\t"),
-					 GenerateVariable("}"), GenerateVariable("\n\t\t\telse\n\t\t\t"),
-					 GenerateVariable("{"), GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"),
-					 GenerateVariable("}")}));
+					 GenerateVariable("\n\t\t\t\tcurrentStructObject->SetTypeName("),
+					 GenerateVariable(direct_access_extension_call_->This()),
+					 GenerateVariable(");\n\t\t\t"), GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\telse\n\t\t\t"), GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t// Error\n\t\t\t"), GenerateVariable("}")}));
 			*listen_property_assignment_ = Variable_listen_property_assignment_(
 				this,
 				std::vector<VariableBase*>(
@@ -4119,11 +4378,16 @@ namespace deamer::templates::oopsyntaxrecognizer
 			variables_.emplace_back(ast_node_);
 			variables_.emplace_back(basetype_object_);
 			variables_.emplace_back(class_object_);
+			variables_.emplace_back(direct_access_extension_call_);
 			variables_.emplace_back(enum_object_);
+			variables_.emplace_back(extended_direct_access_specialization_name_);
 			variables_.emplace_back(file_);
 			variables_.emplace_back(function_argument_);
 			variables_.emplace_back(function_object_);
 			variables_.emplace_back(header_guard_);
+			variables_.emplace_back(impl_extended_direct_access_);
+			variables_.emplace_back(impl_extended_direct_access_specialization_);
+			variables_.emplace_back(impl_simple_direct_access_);
 			variables_.emplace_back(interface_object_);
 			variables_.emplace_back(language_name_);
 			variables_.emplace_back(left_angle_bracket_);

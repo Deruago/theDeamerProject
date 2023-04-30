@@ -2,7 +2,7 @@
 #define {{header_guard}}
 
 {{node_enum_include}}
-{{node_type_include.Variable_Field}}
+{{node_type_include_section}}
 
 #include <Deamer/External/Cpp/Ast/Node.h>
 #include <Deamer/External/Cpp/Lexer/TerminalObject.h>
@@ -48,6 +48,12 @@ namespace {{language_name}} { namespace ast { namespace utility {
 			nodeType = nodeType_;
 
 			return *this;
+		}
+
+		template<typename T, std::enable_if_t<std::is_enum_v<T>, bool> = true>
+		CreateNode& Node(T nodeType_)
+		{
+			return Node(static_cast<std::size_t>(nodeType_));
 		}
 
 		CreateNode& ProductionRule(std::size_t productionRuleId_,

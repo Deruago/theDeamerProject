@@ -1,0 +1,27 @@
+{
+    "name": "{{language_name}}",
+    "displayName": "{{language_name}} Highlighter",
+    "description": "{{language_name}} Syntax Highlighter",
+    "version": "{{version}}",
+    "engines": {
+        "vscode": "^1.67.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "{{language_name}}",
+            "aliases": ["{{language_name}}"],
+            "extensions": [".{{language_extension}}", ".{{language_name}}"]
+        }],
+        "grammars": [{
+            "language": "{{language_name}}",
+            "scopeName": "source.{{language_name.Lower}}",
+            "path": "./syntaxes/{{language_name}}.tmLanguage.json"
+        }],
+        "themes": [
+{{theme_init.Variable_Field}}
+		]
+    }
+}

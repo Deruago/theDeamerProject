@@ -62,6 +62,14 @@ namespace deamer::templates::dparse::parser
 		{
 			switch (enumerationValue)
 			{
+			case ::deamer::templates::dparse::parser::ParserHeaderTemplate::Type::Unknown: {
+				return "Unknown";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserHeaderTemplate::Type::Scope: {
+				return "Scope";
+			}
+
 			case ::deamer::templates::dparse::parser::ParserHeaderTemplate::Type::file_: {
 				return "file";
 			}
@@ -656,9 +664,10 @@ namespace deamer::templates::dparse::parser
 									  "::deamer::external::cpp::parser::Parser\n    "),
 					 GenerateVariable("{"),
 					 GenerateVariable(
-						 "\n    public:\n        Parser() = default;\n        ~Parser() override = "
-						 "default;\n\n    public:\n        ::deamer::external::cpp::ast::Tree* "
-						 "Parse(const std::string& text) const override\n        "),
+						 "\n    private:\n        struct Impl;\n\n    public:\n        Parser() = "
+						 "default;\n        ~Parser() override = default;\n\n    public:\n        "
+						 "::deamer::external::cpp::ast::Tree* Parse(const std::string& text) const "
+						 "override\n        "),
 					 GenerateVariable("{"),
 					 GenerateVariable(
 						 "\n            return "

@@ -88,7 +88,12 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 		 reference.GetDefinition<language::type::definition::property::Type::Lexicon>().Terminals)
 	{
 		const type::cpp::Node node(reference, terminal);
-		ast_node_directory.AddFileToInclude(node.Generate());
+
+		if (!reference.GetDefinition<language::type::definition::property::Type::Generation>()
+				 .IsArgumentSet({tool::type::Tool::DeamerAST, "single-ast"}))
+		{
+			ast_node_directory.AddFileToInclude(node.Generate());
+		}
 
 		enumeration.AddTerminal(terminal);
 		listener.AddTerminal(terminal);
@@ -101,18 +106,27 @@ deamer::file::tool::Output deamer::ast::generation::cpp::CPP::Generate()
 			 .NonTerminals)
 	{
 		const type::cpp::Node node(reference, nonTerminal);
-		ast_node_directory.AddFileToInclude(node.Generate());
+
+		if (!reference.GetDefinition<language::type::definition::property::Type::Generation>()
+				 .IsArgumentSet({tool::type::Tool::DeamerAST, "single-ast"}))
+		{
+			ast_node_directory.AddFileToInclude(node.Generate());
+		}
 
 		enumeration.AddNonTerminal(nonTerminal);
 		listener.AddNonTerminal(nonTerminal);
 		enterExitListener.AddNonTerminal(nonTerminal);
 		visitor.AddNonTerminal(nonTerminal);
 
-		if (nonTerminal->abstraction ==
-			language::type::definition::object::main::NonTerminalAbstraction::Group)
+		if (!reference.GetDefinition<language::type::definition::property::Type::Generation>()
+				 .IsArgumentSet({tool::type::Tool::DeamerAST, "single-ast"}))
 		{
-			const type::cpp::CommonNode commonNode(reference, nonTerminal);
-			ast_common_node_directory.AddFileToInclude(commonNode.Generate());
+			if (nonTerminal->abstraction ==
+				language::type::definition::object::main::NonTerminalAbstraction::Group)
+			{
+				const type::cpp::CommonNode commonNode(reference, nonTerminal);
+				ast_common_node_directory.AddFileToInclude(commonNode.Generate());
+			}
 		}
 	}
 

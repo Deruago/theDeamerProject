@@ -1,0 +1,11 @@
+name: ValueAbstraction
+type: LDO
+description: <
+	Defines a value abstraction.
+>
+
+data: <
+	ValueAbstractionType abstractionType
+	String abstractValue
+	Vector[ValueAbstraction] underlyingValueAbstractions
+>

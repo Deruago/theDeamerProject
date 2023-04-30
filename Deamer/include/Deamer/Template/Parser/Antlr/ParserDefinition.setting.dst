@@ -10,6 +10,8 @@
 
 {{production_rule_declaration}} = <>
 
-{{first_production_rule_declaration}} = <	{{production_rule}}>
+{{first_production_rule_declaration}} = <	{{production_rule}} {{production_rule_id}}>
 
-{{second_production_rule_declaration}} = <	| {{production_rule}}>
+{{second_production_rule_declaration}} = <	| {{production_rule}} {{production_rule_id}}>
+
+{{production_rule_id}} = @<# productionrule_{{nonterminal_name}}_{{production_id}}>@

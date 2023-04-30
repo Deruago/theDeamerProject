@@ -57,6 +57,9 @@ namespace deamer::tool::type
 		// Default application generators
 		DeamerDefaultApplication,
 
+		// Fuzzing Tools
+		DeamerFuzzer,
+
 		// DLDL Converter, generates DLDL definitions
 		DLDLConverter,
 

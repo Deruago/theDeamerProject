@@ -1,0 +1,168 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <RecursiveDescent>
+{{file.namespace}} = <deamer::templates::dparse::parser>
+{{file.extension}} = <h>
+
+{{terminal_type}} = @<const ::deamer::external::cpp::lexer::TerminalObject*>@
+
+{{token_namespace}} = @<::deamer::external::cpp::ast>@
+{{token_type_core}} = @<{{token_namespace}}::Node>@
+{{token_type}} = @<{{token_type_core}}*>@
+{{token_enum}} = @<::{{language_name}}::ast::Type>@
+
+{{optional_dleg_include}} = @<>@
+{{dleg_include}} = @<#include "{{language_name}}/Dleg/Lexer.h">@
+
+{{optional_dleg_usage}} = @<
+	// Pass through lexer to get Terminal Objects
+	// And use those objects;
+
+	return nullptr;>@
+{{dleg_usage}} = @<
+	{{language_name}}::dleg::lexer::Lexer lexer;
+	auto tokens = lexer.Tokenize(text);
+	auto result = Parse(tokens);
+	
+	for (auto token : tokens)
+	{
+		delete token;
+	}
+	
+	return result;
+	>@
+
+{{expect_function}} = 
+@<	{{token_type}} Expect({{token_enum}} type, bool constructAstNode = true)
+	{
+		if (Accept(type))
+		{
+			if (!constructAstNode)
+			{
+				return nullptr;
+			}
+			
+			return ::{{language_name}}::ast::utility::CreateNode()
+				   .Node(LastConsumedSymbol())
+				   .GetNode();
+		}
+
+		return nullptr;
+	}
+>@
+
+{{accept_function}} = 
+@<	bool Accept({{token_enum}} type)
+	{
+		if (Peek({type}))
+		{
+			NextSymbol();
+			return true;
+		}
+
+		return false;
+	}
+>@
+
+{{peek_function}} = 
+@<	bool Peek(std::vector<{{token_enum}}> peekedTypes, std::size_t nextSymbol = 0)
+	{
+		if (types.size() < peekedTypes.size())
+		{
+			return false;
+		}
+
+		for (std::size_t i = 0; i < peekedTypes.size(); i++)
+		{
+			auto& currentType = peekedTypes[i];
+			if (types[nextSymbol]->GetType() != static_cast<std::size_t>(currentType))
+			{
+				return false;
+			}
+
+			nextSymbol++;
+		}
+
+		return true;
+	}
+>@
+
+{{last_consumed_symbol_function}} =
+@<	{{terminal_type}} LastConsumedSymbol()
+	{
+		return lastConsumedToken;
+	}
+>@
+
+{{next_symbol_function}} =
+@<	void NextSymbol()
+	{
+		lastConsumedToken = types[0];
+		types.erase(types.cbegin());
+	}
+>@
+
+{{parse_function}} = 
+@<	::deamer::external::cpp::ast::Tree* Parse()
+	{
+		auto result = parse_{{start_node}}();
+		auto newTree = new ::deamer::external::cpp::ast::Tree(result);
+		return newTree;
+	}
+>@
+
+{{non_terminal_impl}} = 
+@<	{{token_type}} parse_{{nonterminal_name}}()
+	{
+		auto createNodeRoutine = 
+			::{{language_name}}::ast::utility::CreateNode()
+			.Node({{token_enum}}::{{nonterminal_name}})
+			.ProductionRule({{production_rule_id}});
+
+{{production_rule_impl.Variable_Field}}
+
+		return nullptr;
+	}
+>@
+
+{{production_rule_impl}} = @<>@
+
+{{general_production_rule_impl}} =
+@<
+		if (Peek({
+{{peeked_nonterminal.Variable_Field}}
+		}))
+		{
+{{expect_node.Variable_Field}}
+
+			return createNodeRoutine.GetNode();
+		}
+>@
+
+{{epsilon_production_rule_impl}} =
+@<
+{{expect_node.Variable_Field}}
+
+		return createNodeRoutine.GetNode();
+>@
+
+{{peeked_nonterminal}} = @<				{{token_enum}}::{{peeked_nonterminal_name}}, >@
+
+{{expect_token_enum}} = @<{{token_enum}}::{{expect_token_name}}>@
+
+{{expect_token_declaration}} = @<parse_{{expect_token_name}}>@
+{{expect_node}} = @<>@
+
+{{expect_node_ignored_or_deleted_terminal}} = @<
+			if (constructionPolicy == ASTConstructionPolicy::cst)
+			{
+				createNodeRoutine.SubNode(Expect({{expect_token_enum}}));
+			}
+			else
+			{
+				Expect({{expect_token_enum}}, false);
+			}
+>@
+
+{{expect_node_included_terminal}} = @<			createNodeRoutine.SubNode(Expect({{expect_token_enum}}));>@
+
+{{expect_node_nonterminal}} = @<			createNodeRoutine.SubNode({{expect_token_declaration}}());>@

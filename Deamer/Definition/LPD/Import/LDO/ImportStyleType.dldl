@@ -1,0 +1,19 @@
+name: ImportStyleType
+type: Enumeration
+description: <
+	Defines the style of importing.
+	By default uses C++ Style of importing.
+>
+members: <
+	// C++ Style
+	Cpp
+
+	// Python Style
+	Python
+
+	// Celeste Style
+	Celeste
+
+	// Custom Style
+	Custom
+>

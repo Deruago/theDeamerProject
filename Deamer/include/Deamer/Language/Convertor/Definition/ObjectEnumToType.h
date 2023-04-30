@@ -29,6 +29,7 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/ColorTheme.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalColor.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Colorization/TerminalPatternColor.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Comment/CommentValue.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/Generate.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/GenerateArgument.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Generation/Integrate.h"
@@ -37,6 +38,14 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminalAbstraction.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/ProductionRule.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Identity/Name.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Import/FileImport.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Import/FileObjectImport.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Import/ImportFileTarget.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Import/ImportSpecification.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Import/ImportStyleType.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Import/ImportSyntacticRelation.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Import/ImportType.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Import/ObjectTarget.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/SpecialType.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/OOPSyntax/OopConceptLink.h"
@@ -47,6 +56,10 @@
 #include "Deamer/Language/Type/Definition/Object/Main/OOPSyntax/OopSyntaxScope.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Precedence/ObjectPrecedence.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Threat/Threat.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Value/ValueAbstraction.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Value/ValueAbstractionType.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Value/ValueObject.h"
+#include "Deamer/Language/Type/Definition/Object/Main/Value/ValueObjectType.h"
 
 #include "Deamer/Language/Type/Definition/Object/Type.h"
 
@@ -169,6 +182,18 @@ namespace deamer::language::convertor::definition
 	 *	\see deamer::language::convertor::definition::ObjectEnumToType
 	 */
 	template<>
+	class ObjectEnumToType<type::definition::object::Type::CommentValue>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::CommentValue;
+		using type = type::definition::object::main::CommentValue;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
 	class ObjectEnumToType<type::definition::object::Type::Generate>
 	{
 	public:
@@ -258,6 +283,102 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::object::Type::Name;
 		using type = type::definition::object::main::Name;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::FileImport>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::FileImport;
+		using type = type::definition::object::main::FileImport;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::FileObjectImport>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::FileObjectImport;
+		using type = type::definition::object::main::FileObjectImport;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ImportFileTarget>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ImportFileTarget;
+		using type = type::definition::object::main::ImportFileTarget;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ImportSpecification>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ImportSpecification;
+		using type = type::definition::object::main::ImportSpecification;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ImportStyleType>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ImportStyleType;
+		using type = type::definition::object::main::ImportStyleType;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ImportSyntacticRelation>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ImportSyntacticRelation;
+		using type = type::definition::object::main::ImportSyntacticRelation;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ImportType>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ImportType;
+		using type = type::definition::object::main::ImportType;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ObjectTarget>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ObjectTarget;
+		using type = type::definition::object::main::ObjectTarget;
 	};
 
 
@@ -378,6 +499,54 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::object::Type::Threat;
 		using type = type::definition::object::main::threat::Threat;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ValueAbstraction>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ValueAbstraction;
+		using type = type::definition::object::main::ValueAbstraction;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ValueAbstractionType>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ValueAbstractionType;
+		using type = type::definition::object::main::ValueAbstractionType;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ValueObject>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ValueObject;
+		using type = type::definition::object::main::ValueObject;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectEnumToType
+	 */
+	template<>
+	class ObjectEnumToType<type::definition::object::Type::ValueObjectType>
+	{
+	public:
+		constexpr static auto value = type::definition::object::Type::ValueObjectType;
+		using type = type::definition::object::main::ValueObjectType;
 	};
 
 

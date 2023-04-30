@@ -1,0 +1,10 @@
+name: FileImport
+type: LDO
+description: <
+	Defines a file import.
+>
+
+data: <
+	ImportSyntacticRelation syntaxRelation
+	ImportFileTarget target
+>

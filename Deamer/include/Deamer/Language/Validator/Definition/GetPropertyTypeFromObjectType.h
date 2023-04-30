@@ -66,6 +66,11 @@ namespace deamer::language::type::definition::object::main
 
 namespace deamer::language::type::definition::object::main
 {
+	class CommentValue;
+}
+
+namespace deamer::language::type::definition::object::main
+{
 	class Generate;
 }
 
@@ -102,6 +107,46 @@ namespace deamer::language::type::definition::object::main
 namespace deamer::language::type::definition::object::main
 {
 	class Name;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class FileImport;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class FileObjectImport;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ImportFileTarget;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ImportSpecification;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class ImportStyleType;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ImportSyntacticRelation;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class ImportType;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ObjectTarget;
 }
 
 namespace deamer::language::type::definition::object::main
@@ -154,7 +199,32 @@ namespace deamer::language::type::definition::object::main::threat
 	class Threat;
 }
 
+namespace deamer::language::type::definition::object::main
+{
+	class ValueAbstraction;
+}
 
+namespace deamer::language::type::definition::object::main
+{
+	enum class ValueAbstractionType;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ValueObject;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class ValueObjectType;
+}
+
+
+
+namespace deamer::language::type::definition::property::main
+{
+	class Argument;
+}
 
 namespace deamer::language::type::definition::property::main
 {
@@ -174,6 +244,11 @@ namespace deamer::language::type::definition::property::main
 namespace deamer::language::type::definition::property::main
 {
 	class Colorization;
+}
+
+namespace deamer::language::type::definition::property::main
+{
+	class Comment;
 }
 
 namespace deamer::language::type::definition::property::main
@@ -203,6 +278,11 @@ namespace deamer::language::type::definition::property::main
 
 namespace deamer::language::type::definition::property::main
 {
+	class Import;
+}
+
+namespace deamer::language::type::definition::property::main
+{
 	class Lexicon;
 }
 
@@ -224,6 +304,11 @@ namespace deamer::language::type::definition::property::main
 namespace deamer::language::type::definition::property::main::threat
 {
 	class Threat;
+}
+
+namespace deamer::language::type::definition::property::main
+{
+	class Value;
 }
 
 
@@ -346,6 +431,18 @@ namespace deamer::language::validator::definition
 	 *	\see GetPropertyTypeFromObjectType
 	 */
 	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::CommentValue>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Comment;
+		using type = type::definition::property::main::Comment;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
 	class GetPropertyTypeFromObjectType<type::definition::object::main::Generate>
 	{
 	public:
@@ -435,6 +532,102 @@ namespace deamer::language::validator::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Identity;
 		using type = type::definition::property::main::Identity;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::FileImport>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Import;
+		using type = type::definition::property::main::Import;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::FileObjectImport>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Import;
+		using type = type::definition::property::main::Import;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ImportFileTarget>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Import;
+		using type = type::definition::property::main::Import;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ImportSpecification>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Import;
+		using type = type::definition::property::main::Import;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ImportStyleType>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Import;
+		using type = type::definition::property::main::Import;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ImportSyntacticRelation>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Import;
+		using type = type::definition::property::main::Import;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ImportType>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Import;
+		using type = type::definition::property::main::Import;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ObjectTarget>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Import;
+		using type = type::definition::property::main::Import;
 	};
 
 
@@ -555,6 +748,54 @@ namespace deamer::language::validator::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Threat;
 		using type = type::definition::property::main::Threat;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ValueAbstraction>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Value;
+		using type = type::definition::property::main::Value;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ValueAbstractionType>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Value;
+		using type = type::definition::property::main::Value;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ValueObject>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Value;
+		using type = type::definition::property::main::Value;
+	};
+
+
+	/*!
+	 *	\see GetPropertyTypeFromObjectType
+	 */
+	template<>
+	class GetPropertyTypeFromObjectType<type::definition::object::main::ValueObjectType>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Value;
+		using type = type::definition::property::main::Value;
 	};
 
 

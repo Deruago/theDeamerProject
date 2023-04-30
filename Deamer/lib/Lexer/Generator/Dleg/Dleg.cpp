@@ -25,6 +25,7 @@
 #include "Deamer/Template/Lexer/Dleg/LexerSourceTemplate.h"
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <utility>
 #include <vector>
 
@@ -39,6 +40,13 @@ deamer::lexer::generator::dleg::Dleg::Dleg(ReferenceType reference_)
 
 deamer::file::tool::Output deamer::lexer::generator::dleg::Dleg::Generate()
 {
+	std::chrono::system_clock::time_point start;
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsArgumentSet({tool::type::Tool::Dleg, "benchmark-time"}))
+	{
+		start = std::chrono::system_clock::now();
+	}
+
 	const auto Identity = reference.GetDefinition<Type::Identity>();
 	const auto Lexicon = reference.GetDefinition<Type::Lexicon>();
 	file::tool::Output output("Dleg");
@@ -54,6 +62,14 @@ deamer::file::tool::Output deamer::lexer::generator::dleg::Dleg::Generate()
 
 	output.AddFileToExternal(lexerSource);
 	output.AddFileToInclude(lexerHeader);
+
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsArgumentSet({tool::type::Tool::Dleg, "benchmark-time"}))
+	{
+		auto end = std::chrono::system_clock::now();
+		std::chrono::duration<double> diff = end - start;
+		std::cout << diff.count() << "s\n";
+	}
 
 	return output;
 }

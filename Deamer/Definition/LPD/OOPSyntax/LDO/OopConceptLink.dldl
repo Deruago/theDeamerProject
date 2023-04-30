@@ -11,4 +11,8 @@ data: <
 
 	// It is required to only allow one instance for each concept.member
 	OopConceptMember oopConceptMember
+
+	// This allows for a more rich form of directed translation
+	// Though, this logic can be simulated with the Flavoring effect provided with OopSyntax
+	Vector[Base] extendedObjectAccess = {}
 >

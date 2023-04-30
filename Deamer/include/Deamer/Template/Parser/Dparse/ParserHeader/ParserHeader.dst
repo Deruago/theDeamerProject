@@ -7,6 +7,9 @@ namespace {{language_name}} { namespace dparse { namespace parser {
 
     class Parser : public ::deamer::external::cpp::parser::Parser
     {
+    private:
+        struct Impl;
+
     public:
         Parser() = default;
         ~Parser() override = default;

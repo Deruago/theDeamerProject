@@ -27,62 +27,90 @@ deamer::parser::generator::dparse::StateEntry::StateEntry(
 	ReferenceType reference_,
 	language::reference::LDO<language::type::definition::object::main::ProductionRule>
 		productionRule_,
-	std::size_t dotLocation_, const StateField* stateField_)
+	std::size_t dotLocation_, const StateField* stateField_, std::shared_ptr<StateEntry> original_)
 	: reference(reference_),
 	  production(productionRule_),
+	  dotLocation(dotLocation_),
+	  stateField(stateField_)
+{
+	if (original_ != nullptr)
+	{
+		originals.insert(original_);
+	}
+
+	nextTokens = NextToken_();
+}
+
+deamer::parser::generator::dparse::StateEntry::StateEntry(
+	ReferenceType reference_,
+	language::reference::LDO<language::type::definition::object::main::ProductionRule>
+		productionRule_,
+	std::size_t dotLocation_, const StateField* stateField_,
+	std::set<std::shared_ptr<StateEntry>> original_)
+	: reference(reference_),
+	  production(productionRule_),
+	  originals(original_),
 	  dotLocation(dotLocation_),
 	  stateField(stateField_)
 {
 	nextTokens = NextToken_();
 }
 
+deamer::parser::generator::dparse::StateEntry::StateEntry(const StateEntry& rhs)
+	: reference(rhs.reference),
+	  production(rhs.production),
+	  originals(rhs.originals),
+	  dotLocation(rhs.dotLocation),
+	  nextTokens(rhs.nextTokens),
+	  stateField(rhs.stateField)
+{
+}
+
 std::vector<deamer::language::reference::LDO<deamer::language::type::definition::object::Base>>
-deamer::parser::generator::dparse::StateEntry::NextToken_() const
+deamer::parser::generator::dparse::StateEntry::NextToken_()
 {
 	if (production == stateField->GetAugmentedPR())
 	{
 		return {stateField->GetEpsilon()};
 	}
 
-	const auto productionRuleAnalyzer =
-		language::analyzer::main::ProductionRule(&reference, production);
-	const auto rootNonTerminal = productionRuleAnalyzer.GetNonTerminal();
-	const auto nonTerminalAnalyzer =
-		language::analyzer::main::NonTerminal(&reference, rootNonTerminal);
-
-	std::set<::deamer::language::type::definition::object::Base*> neighboringTokens;
-	nonTerminalAnalyzer.GetRightNeighboringTokens(neighboringTokens);
-
 	std::set<deamer::language::reference::LDO<deamer::language::type::definition::object::Base>>
 		nextTokens_;
-	if (neighboringTokens.empty())
+
+	for (auto original : originals)
+	{
+		auto results = original->GetItemAfterDotItem();
+		for (auto result : results)
+		{
+			if (result->Type_ == language::type::definition::object::Type::Terminal)
+			{
+				nextTokens_.insert(result);
+			}
+			else if (result->Type_ == language::type::definition::object::Type::NonTerminal)
+			{
+				const auto nonTerminalAnalyzer = language::analyzer::main::NonTerminal(
+					&reference,
+					result.Promote<language::type::definition::object::main::NonTerminal>());
+				std::set<
+					language::reference::LDO<language::type::definition::object::main::Terminal>>
+					ters;
+				nonTerminalAnalyzer.GetStartingTerminals(ters);
+				if (nonTerminalAnalyzer.CanNonTerminalMatchEmpty())
+				{
+					nextTokens_.insert(stateField->GetEpsilon());
+				}
+
+				for (auto terminal : ters)
+				{
+					nextTokens_.insert(terminal);
+				}
+			}
+		}
+	}
+
+	if (nextTokens_.empty())
 	{
 		nextTokens_.insert(stateField->GetEpsilon());
-	}
-	for (auto* neighborToken : neighboringTokens)
-	{
-		if (neighborToken->Type_ == language::type::definition::object::Type::Terminal)
-		{
-			nextTokens_.insert(neighborToken);
-			continue;
-		}
-
-		const auto neighborTokenAnalyzer =
-			language::analyzer::main::NonTerminal(&reference, neighborToken);
-
-		if (neighborTokenAnalyzer.CanNonTerminalMatchEmpty())
-		{
-			nextTokens_.insert(stateField->GetEpsilon());
-		}
-
-		std::set<
-			language::reference::LDO<::deamer::language::type::definition::object::main::Terminal>>
-			startingTerminals;
-		neighborTokenAnalyzer.GetStartingTerminals(startingTerminals);
-		for (auto startTerminal : startingTerminals)
-		{
-			nextTokens_.insert(startTerminal);
-		}
 	}
 
 	std::vector<deamer::language::reference::LDO<deamer::language::type::definition::object::Base>>
@@ -111,7 +139,7 @@ deamer::parser::generator::dparse::StateEntry::CreateNextState() const
 	}
 
 	// The next state is the pushing the dot
-	return StateEntry(reference, production, GetDotLocation() + 1, stateField);
+	return StateEntry(reference, production, GetDotLocation() + 1, stateField, originals);
 }
 
 bool deamer::parser::generator::dparse::StateEntry::ReachedEnd() const
@@ -174,6 +202,33 @@ std::size_t deamer::parser::generator::dparse::StateEntry::GetDotLocation() cons
 	return dotLocation;
 }
 
+std::vector<deamer::language::reference::LDO<deamer::language::type::definition::object::Base>>
+deamer::parser::generator::dparse::StateEntry::GetItemAfterDotItem()
+{
+	auto desiredToken = GetDotLocation() + 1;
+	if (desiredToken >= production->Tokens.size())
+	{
+		if (originals.empty())
+		{
+			return {}; // There is nothing after dot.
+		}
+
+		std::vector<
+			deamer::language::reference::LDO<deamer::language::type::definition::object::Base>>
+			result;
+		for (auto i : originals)
+		{
+			for (auto j : i->GetItemAfterDotItem())
+			{
+				result.push_back(j);
+			}
+		}
+		return result;
+	}
+
+	return {production->Tokens[desiredToken]};
+}
+
 bool deamer::parser::generator::dparse::StateEntry::operator>(const StateEntry& rhs) const
 {
 	if (this == &rhs)
@@ -221,6 +276,49 @@ bool deamer::parser::generator::dparse::StateEntry::operator==(const StateEntry&
 		return true;
 	}
 
-	return GetDotLocation() == rhs.GetDotLocation() && production == rhs.production &&
-		   nextTokens == rhs.nextTokens;
+	return CoreEquality(rhs) && LookaheadEquality(rhs);
+}
+
+bool deamer::parser::generator::dparse::StateEntry::LookaheadEquality(const StateEntry& rhs) const
+{
+	return nextTokens == rhs.nextTokens;
+}
+
+bool deamer::parser::generator::dparse::StateEntry::CoreEquality(const StateEntry& rhs) const
+{
+	return GetDotLocation() == rhs.GetDotLocation() && production == rhs.production;
+}
+
+void deamer::parser::generator::dparse::StateEntry::Merge(const StateEntry& rhs)
+{
+	for (auto i : rhs.originals)
+	{
+		originals.insert(i);
+	}
+
+	MergeLookahead(rhs);
+}
+
+void deamer::parser::generator::dparse::StateEntry::MergeLookahead(const StateEntry& rhs)
+{
+	std::set<language::reference::LDO<language::type::definition::object::Base>> newTokens;
+	for (auto i : nextTokens)
+	{
+		newTokens.insert(i);
+	}
+
+	for (auto i : rhs.nextTokens)
+	{
+		newTokens.insert(i);
+	}
+
+	nextTokens = std::vector<language::reference::LDO<language::type::definition::object::Base>>(
+		newTokens.begin(), newTokens.end());
+}
+
+const std::vector<
+	deamer::language::reference::LDO<deamer::language::type::definition::object::Base>>&
+deamer::parser::generator::dparse::StateEntry::GetLookaheadTokens() const
+{
+	return nextTokens;
 }

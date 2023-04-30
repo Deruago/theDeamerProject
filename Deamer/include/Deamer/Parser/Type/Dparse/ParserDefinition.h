@@ -30,14 +30,18 @@ namespace deamer::parser::type::dparse
 {
 	class ParserDefinition : public file::tool::Data
 	{
+	public:
 	private:
 		const generator::dparse::Dparse::ReferenceType reference;
 		const std::string name;
-		const generator::dparse::StateField& stateField;
+		generator::dparse::StateField& stateField;
+		deamer::type::BitwiseEnum<generator::dparse::Algorithm> algorithm;
 
 	public:
 		ParserDefinition(const generator::dparse::Dparse::ReferenceType reference_,
-						 const generator::dparse::StateField& stateField_);
+						 generator::dparse::StateField& stateField_,
+						 deamer::type::BitwiseEnum<generator::dparse::Algorithm> algorithm_ =
+							 generator::dparse::Algorithm::LR);
 		virtual ~ParserDefinition() override = default;
 
 	public:

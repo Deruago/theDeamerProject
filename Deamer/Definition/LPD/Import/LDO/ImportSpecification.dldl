@@ -1,0 +1,11 @@
+name: ImportSpecification
+type: LDO
+description: <
+	Defines an import specification.
+>
+
+data: <
+    Base undelyingSpecialization
+    ImportType importType
+    ImportStyleType importStyleType
+>

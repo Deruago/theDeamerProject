@@ -29,7 +29,21 @@ macro(option_enable OPTION_NAME OPTION_TEXT OPTION_DEFAULT)
 	endif()
 endmacro()
 
-option_enable(DEAMER_ENABLE_DOXYGEN "Build the examples" OFF)
+option_enable(DEAMER_DEBUG "Debug Build" OFF)
+
+if (DEAMER_DEBUG)
+
+else()
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+		set_target_properties(Deamer PROPERTIES COMPILE_FLAGS "-O3")
+	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+		set_target_properties(Deamer PROPERTIES COMPILE_FLAGS "-O3")
+	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+		set_target_properties(Deamer PROPERTIES COMPILE_FLAGS "/O3")
+	endif()
+endif()
+
+option_enable(DEAMER_ENABLE_DOXYGEN "Build the examples" ON)
 option_enable(DEAMER_BUILD_EXAMPLES "Build the examples" OFF)
 option_enable(DEAMER_BUILD_TESTS "Build the tests" ON)
 

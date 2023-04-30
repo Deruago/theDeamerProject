@@ -1,0 +1,12 @@
+name: ValueObject
+type: LDO
+description: <
+	Defines a value object.
+>
+
+data: <
+    ValueObjectType ruleType
+	String ruleName
+	Vector[Base] syntacticRelations
+	Vector[ValueAbstraction] valueAbstractions
+>

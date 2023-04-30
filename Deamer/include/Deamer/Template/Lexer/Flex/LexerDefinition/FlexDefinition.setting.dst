@@ -3,6 +3,9 @@
 {{file.namespace}} = <deamer::templates::flex>
 {{file.extension}} = <h>
 
+{{column_start}} = @<1>@
+{{column_name}} = @<{{language_name}}_column>@
+
 {{optional_option_interactive}} = @<>@
 {{option_interactive}} = @<%option never-interactive>@
 {{optional_option_unistd}} = @<>@
@@ -37,11 +40,11 @@ auto {{language_name}}lval = {{language_name}}lval_t();
 {{terminal_declaration}} = @<{{terminal_name}}	({{terminal_regex}})>@
 
 {{unrecognized_terminal_regex}} = @<DEAMER_RESERVED_UNRECOGNIZED_RULE_MATCH	(.)>@
-{{unrecognized_terminal_action}} = @<{DEAMER_RESERVED_UNRECOGNIZED_RULE_MATCH} { if (local_store && include_deleted) store(new deamer::external::cpp::lexer::TerminalObject(yyval, yylineno, column, std::size_t(0))); }>@
+{{unrecognized_terminal_action}} = @<{DEAMER_RESERVED_UNRECOGNIZED_RULE_MATCH} { if (local_store && include_deleted) store(new deamer::external::cpp::lexer::TerminalObject(yyval, yylineno, {{column_name}}, std::size_t(0))); }>@
 
-{{terminal_action}} = @<{{left_bracket}}{{terminal_name}}{{right_bracket}}	{ {{optional_debug_action}} {{action_}} {{handle_column}} {{return_action}} }>@
+{{terminal_action}} = @<{{left_bracket}}{{terminal_name}}{{right_bracket}}	{ {{handle_column}} {{optional_debug_action}} {{action_}} {{return_action}} }>@
 
 {{debug_action}} = @<std::cout << yytext << " is a " << {{terminal_name}} << "\n";>@
-{{action_}} = @<if (local_store && !{{terminal_is_deleted}} || local_store && include_deleted) store(new deamer::external::cpp::lexer::TerminalObject(yyval, yylineno, column, std::size_t({{terminal_id}}))); else if (local_store && {{terminal_is_transferred}}) store(new deamer::external::cpp::lexer::TerminalObject("", yylineno, column, std::size_t({{terminal_id}}))); else if (local_store && {{terminal_is_deleted}}); else if (!{{terminal_is_deleted}} || include_deleted) {{language_name}}lval.Terminal = new deamer::external::cpp::lexer::TerminalObject(yyval, yylineno, column, std::size_t({{terminal_id}})); else if ({{terminal_is_transferred}}) {{language_name}}lval.Terminal = new deamer::external::cpp::lexer::TerminalObject("", yylineno, column, std::size_t({{terminal_id}}));>@
+{{action_}} = @<if (local_store && !{{terminal_is_deleted}} || local_store && include_deleted) store(new deamer::external::cpp::lexer::TerminalObject(yyval, yylineno, {{column_name}}, std::size_t({{terminal_id}}))); else if (local_store && {{terminal_is_transferred}}) store(new deamer::external::cpp::lexer::TerminalObject("", yylineno, {{column_name}}, std::size_t({{terminal_id}}))); else if (local_store && {{terminal_is_deleted}}); else if (!{{terminal_is_deleted}} || include_deleted) {{language_name}}lval.Terminal = new deamer::external::cpp::lexer::TerminalObject(yyval, yylineno, {{column_name}}, std::size_t({{terminal_id}})); else if ({{terminal_is_transferred}}) {{language_name}}lval.Terminal = new deamer::external::cpp::lexer::TerminalObject("", yylineno, {{column_name}}, std::size_t({{terminal_id}}));>@
 {{return_action}} = @<if ((!local_store && {{terminal_is_transferred}}) || (!local_store && include_deleted)) return ({{terminal_name}});>@
-{{handle_column}} = @<handleColumn(yyval);>@
+{{handle_column}} = @<handleColumn();>@

@@ -67,6 +67,14 @@ namespace deamer::templates::antlr::lexer
 		{
 			switch (enumerationValue)
 			{
+			case ::deamer::templates::antlr::lexer::LexiconDefinitionTemplate::Type::Unknown: {
+				return "Unknown";
+			}
+
+			case ::deamer::templates::antlr::lexer::LexiconDefinitionTemplate::Type::Scope: {
+				return "Scope";
+			}
+
 			case ::deamer::templates::antlr::lexer::LexiconDefinitionTemplate::Type::
 				crash_terminal_: {
 				return "crash_terminal";
@@ -1230,14 +1238,13 @@ namespace deamer::templates::antlr::lexer
 		{
 			*crash_terminal_ = Variable_crash_terminal_(
 				this, std::vector<VariableBase*>(
-						  {GenerateVariable(terminal_name_->This()), GenerateVariable(": '"),
-						   GenerateVariable(terminal_regex_->This()), GenerateVariable("';")}));
+						  {GenerateVariable(terminal_name_->This()), GenerateVariable(": "),
+						   GenerateVariable(terminal_regex_->This()), GenerateVariable(";")}));
 			*deleted_terminal_ = Variable_deleted_terminal_(
 				this,
 				std::vector<VariableBase*>(
-					{GenerateVariable(terminal_name_->This()), GenerateVariable(": '"),
-					 GenerateVariable(terminal_regex_->This()), GenerateVariable("' -"),
-					 GenerateVariable(right_angle_bracket_->This()), GenerateVariable(" skip;")}));
+					{GenerateVariable(terminal_name_->This()), GenerateVariable(": "),
+					 GenerateVariable(terminal_regex_->This()), GenerateVariable(" -> skip;")}));
 			*file_ = Variable_file_(this, std::vector<VariableBase*>({}));
 			*language_name_ = Variable_language_name_(this, std::vector<VariableBase*>({}));
 			*left_angle_bracket_ = Variable_left_angle_bracket_(
@@ -1254,8 +1261,8 @@ namespace deamer::templates::antlr::lexer
 				this, std::vector<VariableBase*>({GenerateVariable(")")}));
 			*standard_terminal_ = Variable_standard_terminal_(
 				this, std::vector<VariableBase*>(
-						  {GenerateVariable(terminal_name_->This()), GenerateVariable(": '"),
-						   GenerateVariable(terminal_regex_->This()), GenerateVariable("';")}));
+						  {GenerateVariable(terminal_name_->This()), GenerateVariable(": "),
+						   GenerateVariable(terminal_regex_->This()), GenerateVariable(";")}));
 			*terminal_declaration_ =
 				Variable_terminal_declaration_(this, std::vector<VariableBase*>({}));
 			*terminal_name_ = Variable_terminal_name_(this, std::vector<VariableBase*>({}));

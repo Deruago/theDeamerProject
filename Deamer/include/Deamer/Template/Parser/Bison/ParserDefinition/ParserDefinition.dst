@@ -5,6 +5,7 @@
 %{
 #include <iostream>
 #include <vector>
+#include <string>
 #include <cstring>
 #include <stdio.h>
 #include <Deamer/External/Cpp/Lexer/TerminalObject.h>
@@ -24,11 +25,18 @@
 #ifndef YY_parse_LLOC
 #define YY_parse_LLOC {{language_name}}lloc
 #endif //YY_parse_LLOC
-#define YYERROR_VERBOSE
+#define YYERROR_VERBOSE 1
+
+{{optional_debug_macro_glr}}
 
 void {{language_name}}error(const char* s);
 int {{language_name}}lex();
 static ::deamer::external::cpp::ast::Tree* outputTree = nullptr;
+
+extern int {{language_name}}lineno;
+extern int {{language_name}}_column;
+
+static const std::string* {{language_name}}_input_text = nullptr;
 %}
 
 {{terminal_declaration.Variable_Field}}
@@ -48,11 +56,90 @@ static ::deamer::external::cpp::ast::Tree* outputTree = nullptr;
 
 void {{language_name}}error(const char* s)
 {
-	std::cout << "Syntax error on line: " << s << '\n';
+	std::cout << "Error: " << s << "\n";
+	std::cout << "In line: " << {{language_name}}lineno << ", Column: " << {{language_name}}_column << '\n';
+
+	std::size_t currentLineCount = 1;
+	auto index = 0;
+	static constexpr auto offsetShow = 2;
+
+	while (index < {{language_name}}_input_text->size())
+	{
+		if ((*{{language_name}}_input_text)[index] == '\n')
+		{
+			currentLineCount += 1;
+		}
+		index++;
+
+		if (currentLineCount + offsetShow >= {{language_name}}lineno)
+		{
+			break;
+		}
+
+	}
+
+	bool donePreShow = false;
+	while (!donePreShow && offsetShow > 0)
+	{
+		if ((*{{language_name}}_input_text)[index] == '\t')
+		{
+			std::cout << ' ';
+		}
+		else if ((*{{language_name}}_input_text)[index] == '\r')
+		{
+			// skip
+		}
+		else
+		{
+			std::cout << (*{{language_name}}_input_text)[index];
+		}
+
+		if ((*{{language_name}}_input_text)[index] == '\n')
+		{
+			if (currentLineCount + 1 == {{language_name}}lineno)
+			{
+				donePreShow = true;
+			}
+			currentLineCount += 1;
+		}
+
+		index++;
+	}
+	
+	bool endLine = false;
+	while (!endLine && index < {{language_name}}_input_text->size())
+	{
+		if ((*{{language_name}}_input_text)[index] == '\t')
+		{
+			std::cout << ' ';
+		}
+		else if ((*{{language_name}}_input_text)[index] == '\r')
+		{
+			// skip
+		}
+		else
+		{
+			std::cout << (*{{language_name}}_input_text)[index];
+		}
+		
+		if ((*{{language_name}}_input_text)[index] == '\n')
+		{
+			endLine = true;
+		}
+		
+		index++;
+	}
+
+    for(int i = 0; i < {{language_name}}_column - 1; i++)
+	{
+		std::cout << "_";
+	}
+	std::cout << "^\n";
 }
 
 deamer::external::cpp::ast::Tree* {{language_name}}::bison::parser::Parser::Parse(const std::string& text) const
 {
+	{{language_name}}_input_text = &text;
 	outputTree = nullptr;
 	YY_BUFFER_STATE buf;
 	buf = {{language_name}}_scan_string(text.c_str());

@@ -1,0 +1,19 @@
+name: ImportType
+type: Enumeration
+description: <
+	Defines the type of importation logic.
+	This model defines a specific set of possible import types.
+>
+members: <
+	// The import specifies a direct file relation
+	FileImport
+	
+	// Import a type from some file.
+	TypeInFileImport
+	
+	// The import imports some exported module
+	ModuleImport
+	
+	// Import a type from some module.
+	TypeInModuleImport
+>

@@ -1,0 +1,19 @@
+name: Argument
+type: main
+description: <
+	Language Property Definition for Language Arguments.
+	This is used to generate Arguments for your language or tooling around your language.
+
+	Designed by Thimo Böhmer
+>
+description_detailed: <
+>
+
+dependency: <
+>
+
+ldo: <
+>
+
+data: <
+>
