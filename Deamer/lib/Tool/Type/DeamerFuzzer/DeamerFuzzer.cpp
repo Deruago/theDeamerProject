@@ -18,54 +18,29 @@
  * For more information go to: https://github.com/Deruago/theDeamerProject
  */
 
-#ifndef DEAMER_TOOL_TYPE_TOOL_H
-#define DEAMER_TOOL_TYPE_TOOL_H
+#include "Deamer/Tool/Type/DeamerFuzzer/DeamerFuzzer.h"
+#include "Deamer/Language/Reference/ReverseLookup.h"
 
-namespace deamer::tool::type
+deamer::tool::type::deamerfuzzer::DeamerFuzzer::DeamerFuzzer(
+	reference reference_)
+	: Base(::deamer::tool::type::Tool::DeamerFuzzer),
+	  Reference(reference_)
 {
-	/*!	\enum Tool
-	 *
-	 *	\brief Used to enumerate all available tools.
-	 */
-	enum class Tool
-	{
-		// Unknown
-		Unknown,
-
-		// Lexer
-		Flex,
-		Antlr_Lexer,
-		Dleg,
-
-		// Parser
-		Bison,
-		Antlr_Parser,
-		Dparse,
-
-		// AST generators
-		DeamerAST,
-
-		// External
-
-		// Syntax Highlighter
-		SyntaxHighlighter_UDL,		// used by notepad++
-		SyntaxHighlighter_TextMate, // used by visual code, textmate
-
-		// Documentation generators
-		DeamerDocumentation,
-
-		// Default application generators
-		DeamerDefaultApplication,
-
-		// Fuzzing Tools
-		DeamerFuzzer,
-
-		// DLDL Converter, generates DLDL definitions
-		DLDLConverter,
-
-		// OopSyntaxRecognizer, Used to recognize Oop Concepts via syntax
-		OopSyntaxRecognizer,
-	};
 }
 
-#endif // DEAMER_TOOL_TYPE_TOOL_H
+deamer::file::tool::Output
+deamer::tool::type::deamerfuzzer::DeamerFuzzer::Generate()
+{
+	const auto language_name =
+		Reference.GetDefinition<language::type::definition::property::Type::Identity>()
+			.GetName()
+			->value;
+
+	file::tool::Output output("DeamerFuzzer");
+
+	auto deamerFuzzerDirectory = file::tool::Directory("Deamer");
+
+	output.AddDirectoryToSources(deamerFuzzerDirectory);
+
+	return output;
+}
