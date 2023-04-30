@@ -71,6 +71,11 @@ namespace deamer::language::type::definition::object::main
 
 namespace deamer::language::type::definition::object::main
 {
+	class CommentValue;
+}
+
+namespace deamer::language::type::definition::object::main
+{
 	class Generate;
 }
 
@@ -107,6 +112,46 @@ namespace deamer::language::type::definition::object::main
 namespace deamer::language::type::definition::object::main
 {
 	class Name;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class FileImport;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class FileObjectImport;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ImportFileTarget;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ImportSpecification;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class ImportStyleType;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ImportSyntacticRelation;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class ImportType;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ObjectTarget;
 }
 
 namespace deamer::language::type::definition::object::main
@@ -157,6 +202,26 @@ namespace deamer::language::type::definition::object::main
 namespace deamer::language::type::definition::object::main::threat
 {
 	class Threat;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ValueAbstraction;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class ValueAbstractionType;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	class ValueObject;
+}
+
+namespace deamer::language::type::definition::object::main
+{
+	enum class ValueObjectType;
 }
 
 
@@ -303,6 +368,19 @@ namespace deamer::language::convertor::definition
 	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
 	 */
 	template<>
+	class ObjectTypeToEnum<type::definition::object::main::CommentValue>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::CommentValue;
+		using type = type::definition::object::main::CommentValue;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
 	class ObjectTypeToEnum<type::definition::object::main::Generate>
 	{
 	public:
@@ -400,6 +478,110 @@ namespace deamer::language::convertor::definition
 		constexpr static type::definition::object::Type value =
 			type::definition::object::Type::Name;
 		using type = type::definition::object::main::Name;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::FileImport>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::FileImport;
+		using type = type::definition::object::main::FileImport;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::FileObjectImport>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::FileObjectImport;
+		using type = type::definition::object::main::FileObjectImport;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ImportFileTarget>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ImportFileTarget;
+		using type = type::definition::object::main::ImportFileTarget;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ImportSpecification>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ImportSpecification;
+		using type = type::definition::object::main::ImportSpecification;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ImportStyleType>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ImportStyleType;
+		using type = type::definition::object::main::ImportStyleType;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ImportSyntacticRelation>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ImportSyntacticRelation;
+		using type = type::definition::object::main::ImportSyntacticRelation;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ImportType>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ImportType;
+		using type = type::definition::object::main::ImportType;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ObjectTarget>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ObjectTarget;
+		using type = type::definition::object::main::ObjectTarget;
 	};
 
 
@@ -530,6 +712,58 @@ namespace deamer::language::convertor::definition
 		constexpr static type::definition::object::Type value =
 			type::definition::object::Type::Threat;
 		using type = type::definition::object::main::threat::Threat;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ValueAbstraction>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ValueAbstraction;
+		using type = type::definition::object::main::ValueAbstraction;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ValueAbstractionType>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ValueAbstractionType;
+		using type = type::definition::object::main::ValueAbstractionType;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ValueObject>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ValueObject;
+		using type = type::definition::object::main::ValueObject;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::ObjectTypeToEnum
+	 */
+	template<>
+	class ObjectTypeToEnum<type::definition::object::main::ValueObjectType>
+	{
+	public:
+		constexpr static type::definition::object::Type value =
+			type::definition::object::Type::ValueObjectType;
+		using type = type::definition::object::main::ValueObjectType;
 	};
 
 

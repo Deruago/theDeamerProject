@@ -34,20 +34,24 @@ namespace deamer::language::type::definition::property
 	{
 		Unknown = 0,
 
+		Argument,
 		Associativity,
 		AstOptimization,
 		AstTranslation,
 		Colorization,
+		Comment,
 		Documentation,
 		Formatting,
 		Generation,
 		Grammar,
 		Identity,
+		Import,
 		Lexicon,
 		OOPSyntax,
 		Precedence,
 		Semantic,
 		Threat,
+		Value,
 
 	};
 }

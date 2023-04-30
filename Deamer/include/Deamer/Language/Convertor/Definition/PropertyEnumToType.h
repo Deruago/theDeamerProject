@@ -21,20 +21,24 @@
 #ifndef DEAMER_LANGUAGE_CONVERTOR_DEFINITION_PROPERTYENUMTOTYPE_H
 #define DEAMER_LANGUAGE_CONVERTOR_DEFINITION_PROPERTYENUMTOTYPE_H
 
+#include "Deamer/Language/Type/Definition/Property/Main/Argument.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Associativity.h"
 #include "Deamer/Language/Type/Definition/Property/Main/AstOptimization.h"
 #include "Deamer/Language/Type/Definition/Property/Main/AstTranslation.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Colorization.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Comment.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Documentation.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Formatting.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Generation.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Grammar.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Identity.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Import.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Lexicon.h"
 #include "Deamer/Language/Type/Definition/Property/Main/OOPSyntax.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Precedence.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Semantic.h"
 #include "Deamer/Language/Type/Definition/Property/Main/Threat.h"
+#include "Deamer/Language/Type/Definition/Property/Main/Value.h"
 
 #include "Deamer/Language/Type/Definition/Property/Type.h"
 
@@ -54,6 +58,18 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Unknown;
 		using type = void;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyEnumToType
+	 */
+	template<>
+	class PropertyEnumToType<type::definition::property::Type::Argument>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Argument;
+		using type = type::definition::property::main::Argument;
 	};
 
 
@@ -102,6 +118,18 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Colorization;
 		using type = type::definition::property::main::Colorization;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyEnumToType
+	 */
+	template<>
+	class PropertyEnumToType<type::definition::property::Type::Comment>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Comment;
+		using type = type::definition::property::main::Comment;
 	};
 
 
@@ -169,6 +197,18 @@ namespace deamer::language::convertor::definition
 	 *	\see deamer::language::convertor::definition::PropertyEnumToType
 	 */
 	template<>
+	class PropertyEnumToType<type::definition::property::Type::Import>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Import;
+		using type = type::definition::property::main::Import;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyEnumToType
+	 */
+	template<>
 	class PropertyEnumToType<type::definition::property::Type::Lexicon>
 	{
 	public:
@@ -222,6 +262,18 @@ namespace deamer::language::convertor::definition
 	public:
 		constexpr static auto value = type::definition::property::Type::Threat;
 		using type = type::definition::property::main::Threat;
+	};
+
+
+	/*!
+	 *	\see deamer::language::convertor::definition::PropertyEnumToType
+	 */
+	template<>
+	class PropertyEnumToType<type::definition::property::Type::Value>
+	{
+	public:
+		constexpr static auto value = type::definition::property::Type::Value;
+		using type = type::definition::property::main::Value;
 	};
 
 

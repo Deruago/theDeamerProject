@@ -35,6 +35,10 @@ namespace deamer::language::type::definition::object
 		Unknown = 0,
 		Base,
 
+		// Argument
+
+
+
 		// Associativity
 		AssociativityType,
 		ObjectAssociativity,
@@ -56,6 +60,11 @@ namespace deamer::language::type::definition::object
 		ColorTheme,
 		TerminalColor,
 		TerminalPatternColor,
+
+
+
+		// Comment
+		CommentValue,
 
 
 
@@ -87,6 +96,18 @@ namespace deamer::language::type::definition::object
 
 
 
+		// Import
+		FileImport,
+		FileObjectImport,
+		ImportFileTarget,
+		ImportSpecification,
+		ImportStyleType,
+		ImportSyntacticRelation,
+		ImportType,
+		ObjectTarget,
+
+
+
 		// Lexicon
 		SpecialType,
 		Terminal,
@@ -114,6 +135,14 @@ namespace deamer::language::type::definition::object
 
 		// Threat
 		Threat,
+
+
+
+		// Value
+		ValueAbstraction,
+		ValueAbstractionType,
+		ValueObject,
+		ValueObjectType,
 
 
 
