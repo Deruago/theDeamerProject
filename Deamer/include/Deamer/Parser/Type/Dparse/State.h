@@ -38,12 +38,13 @@ namespace deamer::parser::generator::dparse
 			language::type::definition::property::Type::Precedence>;
 
 	private:
-		const ReferenceType reference;
+		ReferenceType reference;
 
 		std::vector<StateEntry> entries;
 		StateField* stateField;
 		std::map<language::reference::LDO<language::type::definition::object::Base>, State*>
 			transitionToState;
+		std::set<State*> statesReferencingThisState;
 
 	public:
 		State(const State& rhs);
@@ -66,12 +67,25 @@ namespace deamer::parser::generator::dparse
 		GetTransitions() const;
 
 		void AddEntry(const StateEntry& rhs);
-		bool DoesEntryExists(const StateEntry& rhs) const;
+		bool DoesEntryExists(const StateEntry& rhs);
 
 	public:
 		bool operator<(const State& rhs) const;
 		bool operator>(const State& rhs) const;
 		bool operator==(const State& rhs) const;
+		bool CoreEquivalent(State* value);
+		bool LookaheadEquivalent(State* value);
+		bool FullyEquivalent(State* value);
+
+	public:
+		bool TryMerge(State* state);
+		void Merge(State* state);
+		void Update(State* oldState, State* newState);
+
+	public:
+		std::size_t GetShiftReduceConflicts(const std::vector<StateEntry>& vector);
+		std::size_t GetReduceReduceConflicts(const std::vector<StateEntry>& vector);
+		bool ReduceConflictBetween(const StateEntry& lhs, const StateEntry& rhs);
 
 	private:
 	};

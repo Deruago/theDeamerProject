@@ -27,7 +27,18 @@ namespace deamer::templates::dparse::parser
 			action_table_entry_,
 			action_table_specialization_field_,
 			action_table_type_field_,
+			dleg_include_,
+			dleg_usage_,
 			file_,
+			general_option_accept_impl_,
+			general_option_id_,
+			general_option_reduce_impl_,
+			general_option_reduce_production_rule_,
+			general_option_shift_impl_,
+			general_option_shift_reduce_action_,
+			general_option_shift_state_,
+			general_option_switch_,
+			general_option_switch_case_,
 			goto_table_2d_entry_,
 			goto_table_entry_,
 			goto_table_field_,
@@ -37,6 +48,9 @@ namespace deamer::templates::dparse::parser
 			left_curly_bracket_,
 			nonterminal_count_,
 			optional_better_syntax_errors_,
+			optional_dleg_include_,
+			optional_dleg_usage_,
+			optional_general_option_switch_,
 			production_id_entry_,
 			production_output_,
 			production_output_entry_,
@@ -84,6 +98,14 @@ namespace deamer::templates::dparse::parser
 		{
 			switch (enumerationValue)
 			{
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::Unknown: {
+				return "Unknown";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::Scope: {
+				return "Scope";
+			}
+
 			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
 				action_table_2d_entry_: {
 				return "action_table_2d_entry";
@@ -104,8 +126,62 @@ namespace deamer::templates::dparse::parser
 				return "action_table_type_field";
 			}
 
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				dleg_include_: {
+				return "dleg_include";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::dleg_usage_: {
+				return "dleg_usage";
+			}
+
 			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::file_: {
 				return "file";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				general_option_accept_impl_: {
+				return "general_option_accept_impl";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				general_option_id_: {
+				return "general_option_id";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				general_option_reduce_impl_: {
+				return "general_option_reduce_impl";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				general_option_reduce_production_rule_: {
+				return "general_option_reduce_production_rule";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				general_option_shift_impl_: {
+				return "general_option_shift_impl";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				general_option_shift_reduce_action_: {
+				return "general_option_shift_reduce_action";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				general_option_shift_state_: {
+				return "general_option_shift_state";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				general_option_switch_: {
+				return "general_option_switch";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				general_option_switch_case_: {
+				return "general_option_switch_case";
 			}
 
 			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
@@ -151,6 +227,21 @@ namespace deamer::templates::dparse::parser
 			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
 				optional_better_syntax_errors_: {
 				return "optional_better_syntax_errors";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				optional_dleg_include_: {
+				return "optional_dleg_include";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				optional_dleg_usage_: {
+				return "optional_dleg_usage";
+			}
+
+			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+				optional_general_option_switch_: {
+				return "optional_general_option_switch";
 			}
 
 			case ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
@@ -890,6 +981,74 @@ namespace deamer::templates::dparse::parser
 			}
 		};
 
+		struct Variable_dleg_include_ : public VariableScopes
+		{
+			static constexpr auto name = "dleg_include_";
+
+			Variable_dleg_include_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					dleg_include_;
+			}
+
+			virtual ~Variable_dleg_include_() override = default;
+
+			Variable_dleg_include_(ParserDefinitionTemplate* parserdefinitiontemplate_,
+								   const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					dleg_include_;
+			}
+
+			Variable_dleg_include_& operator=(const Variable_dleg_include_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_dleg_usage_ : public VariableScopes
+		{
+			static constexpr auto name = "dleg_usage_";
+
+			Variable_dleg_usage_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					dleg_usage_;
+			}
+
+			virtual ~Variable_dleg_usage_() override = default;
+
+			Variable_dleg_usage_(ParserDefinitionTemplate* parserdefinitiontemplate_,
+								 const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					dleg_usage_;
+			}
+
+			Variable_dleg_usage_& operator=(const Variable_dleg_usage_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
 		struct Variable_file_ : public VariableScopes
 		{
 			static constexpr auto name = "file_";
@@ -918,7 +1077,9 @@ namespace deamer::templates::dparse::parser
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
 					 GenerateVariable("/Dparse/Parser"),
 					 GenerateVariable("."),
-					 GenerateVariable("h\"\n#include \""),
+					 GenerateVariable("h\"\n"),
+					 GenerateVariable(parserdefinitiontemplate_->optional_dleg_include_->This()),
+					 GenerateVariable("\n#include \""),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
 					 GenerateVariable("/Ast/Utility/CreateNode"),
 					 GenerateVariable("."),
@@ -939,7 +1100,13 @@ namespace deamer::templates::dparse::parser
 					 GenerateVariable("h>\n#include <Deamer/External/Cpp/Ast/Tree"),
 					 GenerateVariable("."),
 					 GenerateVariable("h>\n#include <memory>\n#include <vector>\n#include "
-									  "<tuple>\n\nstatic constexpr ::"),
+									  "<optional>\n#include <tuple>\n\nstruct "),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("::dparse::parser::Parser::Impl\n"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\npublic:\n\tImpl() = default;\n\t~Impl() = default;\n"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\nstatic constexpr ::"),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
 					 GenerateVariable("::ast::Type productionRuleOutput["),
 					 GenerateVariable(parserdefinitiontemplate_->production_rule_count_->This()),
@@ -992,14 +1159,17 @@ namespace deamer::templates::dparse::parser
 					 GenerateVariable("}"),
 					 GenerateVariable(
 						 ";\n\n/*\tThe field has a type containing two parts:\n *\t- Type of "
-						 "action\n *\t- Action specialization\n *\n *\tThere are 4 types:\n *\t- "
+						 "action\n *\t- Action specialization\n *\n *\tThere are 6 types:\n *\t- "
 						 "0: Unknown (Reject due to not being accessible)\n *\t- 1: Shift\n *\t- "
 						 "2: Reduce\n *\t- 3: Accept\n *\t- 4: Reject (Formally specified to "
-						 "reject)\n *\n *\tThe specialization value defines the operation given "
-						 "the type:\n *\t- Shift: The value defines the next state\n *\t- Reduce: "
-						 "The value defines the production rule index\n *\t- Other: The value is "
-						 "unused\n */\nstatic constexpr std::tuple<std::size_t, std::size_t> "
-						 "actionTable["),
+						 "reject)\n *\t- 7: General Options (Used for General parsing)\n *\n "
+						 "*\tThe specialization value defines the operation given the type:\n *\t- "
+						 "Shift: The value defines the next state\n *\t- Reduce: The value defines "
+						 "the production rule index\n *\t- General: The value defines the general "
+						 "options, this is statically computed"),
+					 GenerateVariable("."),
+					 GenerateVariable("\n *\t- Other: The value is unused\n */\nstatic constexpr "
+									  "std::tuple<std::size_t, std::size_t> actionTable["),
 					 GenerateVariable(parserdefinitiontemplate_->state_count_->This()),
 					 GenerateVariable("]["),
 					 GenerateVariable(parserdefinitiontemplate_->terminal_count_->This()),
@@ -1026,185 +1196,197 @@ namespace deamer::templates::dparse::parser
 					 GenerateVariable("."),
 					 GenerateVariable("push_back(epsilon"),
 					 GenerateVariable("."),
-					 GenerateVariable("get());\n\n\tstd::size_t lookahead = "
-									  "0;\n\tstd::vector<std::size_t> stateStack = "),
+					 GenerateVariable("get());\n\n\tstruct GeneralNode\n\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("0"),
+					 GenerateVariable("\n\t\tconst std::vector<const "
+									  "::deamer::external::cpp::lexer::TerminalObject*>& "
+									  "terminalObjects;\n\t\t::deamer::external::cpp::parser::"
+									  "ASTConstructionPolicy "
+									  "constructionPolicy;\n\t\tstd::unique_ptr<deamer::external::"
+									  "cpp::lexer::TerminalObject>& epsilon;\n\n\t\tstd::size_t "
+									  "lookahead = 0;\n\t\tstd::vector<std::size_t> stateStack = "),
+					 GenerateVariable("{"),
+					 GenerateVariable(" 0 "),
 					 GenerateVariable("}"),
 					 GenerateVariable(
-						 ";\n\tstd::vector<::deamer::external::cpp::ast::Node*> stateItems = "),
+						 ";\n\t\tstd::vector<::deamer::external::cpp::ast::Node*> stateItems = "),
 					 GenerateVariable("{"),
 					 GenerateVariable(" nullptr "),
 					 GenerateVariable("}"),
-					 GenerateVariable(";\n\t\n\tauto UninitializeStack = [&]() "),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\tfor (auto node : stateItems)\n\t\t"),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\tdelete node;\n\t\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable("\n\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable(";\n\n\tauto GetCurrentLookaheadTokenObject = [&]() "),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\treturn terminalObjects[lookahead];\n\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable(";\n\n\tauto GetCurrentLookaheadToken = [&]() "),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\tif (lookahead < terminalObjects"),
-					 GenerateVariable("."),
-					 GenerateVariable("size())\n\t\t"),
-					 GenerateVariable("{"),
 					 GenerateVariable(
-						 "\n\t\t\treturn "
-						 "static_cast<std::size_t>(terminalObjects[lookahead]->GetType());\n\t\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\t\n\t\treturn std::size_t"),
+						 ";\n\t\tstd::size_t deletedItemCount = "
+						 "0;\n\t\t\n\t\t::deamer::external::cpp::ast::Tree* outputTree = "
+						 "nullptr;\n\t\tstd::optional<bool> rejecting = "
+						 "std::nullopt;\n\n\t\t\n\t\tGeneralNode(const std::vector<const "
+						 "::deamer::external::cpp::lexer::TerminalObject*>& terminalObjects_, "
+						 "::deamer::external::cpp::parser::ASTConstructionPolicy "
+						 "constructionPolicy_, "
+						 "std::unique_ptr<deamer::external::cpp::lexer::TerminalObject>& "
+						 "epsilon_)\n\t\t\t:\tterminalObjects(terminalObjects_),"
+						 "\n\t\t\t\tconstructionPolicy(constructionPolicy_),\n\t\t\t\tepsilon("
+						 "epsilon_)\n\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("0"),
-					 GenerateVariable("}"),
-					 GenerateVariable(";\n\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable(";\n\n\tauto GetLineNumberOfLookaheadToken = [&]() "),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\tif (lookahead < terminalObjects"),
-					 GenerateVariable("."),
-					 GenerateVariable("size())\n\t\t"),
-					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\treturn terminalObjects[lookahead]->GetLineNumber();\n\t\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\t\n\t\treturn -1;\n\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable(";\n\t\n\tauto GetColumnNumberOfLookaheadToken = [&]() "),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\tif (lookahead < terminalObjects"),
-					 GenerateVariable("."),
-					 GenerateVariable("size())\n\t\t"),
-					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\treturn terminalObjects[lookahead]->GetColumnNumber();\n\t\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\t\n\t\treturn -1;\n\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable(";\n\n\tauto GetValueOfLookaheadToken = [&]() "),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\tif (lookahead < terminalObjects"),
-					 GenerateVariable("."),
-					 GenerateVariable("size())\n\t\t"),
-					 GenerateVariable("{"),
-					 GenerateVariable(
-						 "\n\t\t\treturn terminalObjects[lookahead]->GetValue();\n\t\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\t\n\t\treturn std::string"),
-					 GenerateVariable("{"),
-					 GenerateVariable("}"),
-					 GenerateVariable(";\n\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable(";\n\n\tauto GetCurrentState = [&]() "),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\treturn stateStack[stateStack"),
-					 GenerateVariable("."),
-					 GenerateVariable("size() - 1];\n\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable(";\n\n\tauto LookaheadIsUnrecognizedToken = [&]() "),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\treturn lookahead < terminalObjects"),
-					 GenerateVariable("."),
-					 GenerateVariable("size() && terminalObjects[lookahead]->GetType() == 0 "
-									  "&&\n\t\t\t   terminalObjects[lookahead] != epsilon"),
-					 GenerateVariable("."),
-					 GenerateVariable("get();\n\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable(
-						 ";\n\n\tstd::size_t deletedItemCount = 0;\n\twhile(true)\n\t"),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\tif (constructionPolicy == "
-									  "::deamer::external::cpp::parser::ASTConstructionPolicy::cst "
-									  "&& LookaheadIsUnrecognizedToken())\n\t\t"),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\tstateItems"),
-					 GenerateVariable("."),
-					 GenerateVariable("push_back(\n\t\t\t\t::"),
-					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
-					 GenerateVariable("::ast::utility::CreateNode()\n\t\t\t\t"),
-					 GenerateVariable("."),
-					 GenerateVariable("Node(GetCurrentLookaheadTokenObject())\n\t\t\t\t"),
-					 GenerateVariable("."),
-					 GenerateVariable("GetNode()\n\t\t\t);\n\t\t\tstateStack"),
-					 GenerateVariable("."),
-					 GenerateVariable("push_back(GetCurrentState());\n\t\t\tlookahead++;"
-									  "\n\t\t\tdeletedItemCount++;\n\t\t\tcontinue;\n\t\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\t\tconst auto currentLookahead = "
-									  "GetCurrentLookaheadToken();\n\t\tconst auto currentState = "
-									  "GetCurrentState();\n\n\t\tconst auto currentAction = "
-									  "actionTable[currentState][currentLookahead];\n\t\tauto "
-									  "actionType = std::get<0>(currentAction);\n\t\tauto "
-									  "actionValue = std::get<1>(currentAction);\n\t\t\n\t\tif "
-									  "(LookaheadIsUnrecognizedToken())\n\t\t"),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\tactionType = 0; // Reject as the terminal is not "
-									  "used in the table"),
-					 GenerateVariable("."),
 					 GenerateVariable("\n\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\t\tauto PopItemCount = [&]() "),
+					 GenerateVariable(
+						 "\n\n\t\tGeneralNode(const std::vector<const "
+						 "::deamer::external::cpp::lexer::TerminalObject*>& "
+						 "terminalObjects_,\n\t\t\t\t\t::deamer::external::cpp::parser::"
+						 "ASTConstructionPolicy "
+						 "constructionPolicy_,\n\t\t\t\t\tstd::unique_ptr<deamer::external::cpp::"
+						 "lexer::TerminalObject>& epsilon_,\n\t\t\t\t\tstd::size_t "
+						 "lookahead_,\n\t\t\t\t\tstd::vector<std::size_t> "
+						 "stateStack_,\n\t\t\t\t\tstd::vector<::deamer::external::cpp::ast::Node*> "
+						 "stateItems_,\n\t\t\t\t\tstd::size_t "
+						 "deletedItemCount_)\n\t\t\t:\tterminalObjects(terminalObjects_),"
+						 "\n\t\t\t\tconstructionPolicy(constructionPolicy_),\n\t\t\t\tepsilon("
+						 "epsilon_),\n\t\t\t\tlookahead(lookahead_),\n\t\t\t\tstateStack("
+						 "stateStack_),\n\t\t\t\tstateItems(stateItems_),"
+						 "\n\t\t\t\tdeletedItemCount(deletedItemCount_)\n\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\treturn productionSizeTable[actionValue] + "
-									  "deletedItemCount;\n\t\t"),
+					 GenerateVariable("\n\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable(";\n\n\t\tauto Reduce = [&]() "),
+					 GenerateVariable("\n\n\t\t~GeneralNode()\n\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t::"),
-					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
-					 GenerateVariable("::ast::utility::CreateNode createNode"),
+					 GenerateVariable("\n\t\t\tif (outputTree != nullptr)\n\t\t\t"),
 					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\tdelete outputTree;\n\t\t\t\treturn;\n\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable(";\n\t\t\tcreateNode"),
-					 GenerateVariable("."),
-					 GenerateVariable("Node(static_cast<std::size_t>(productionRuleOutput["
-									  "actionValue]));\n\t\t\tcreateNode"),
-					 GenerateVariable("."),
-					 GenerateVariable("ProductionRule(productionRuleId[actionValue], "
-									  "productionTypeTable[actionValue]);\n\n\t\t\tif "
-									  "(PopItemCount() > stateStack"),
-					 GenerateVariable("."),
-					 GenerateVariable("size())\n\t\t\t"),
+					 GenerateVariable("\n\n\t\t\tfor(auto i : stateItems)\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\tthrow std::logic_error(\"Dparse"),
+					 GenerateVariable("\n\t\t\t\tdelete i;\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\tstd::vector<::deamer::external::cpp::ast::Node*> "
+									  "CopyStateItems()\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tstd::vector<::deamer::external::cpp::ast::Node*> "
+									  "newItems;\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\tbool InProgress()\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\treturn !rejecting"),
 					 GenerateVariable("."),
-					 GenerateVariable("Parse(): Syntax error, reduced production rule size is "
-									  "larger than stack size"),
+					 GenerateVariable("has_value();\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\n\t\tbool IsRejected()\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tif (!InProgress())\n\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\treturn rejecting"),
 					 GenerateVariable("."),
-					 GenerateVariable("\");\n\t\t\t"),
+					 GenerateVariable("value();\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\treturn false;\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\n\t\tbool IsAccepted()\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tif (!InProgress())\n\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\treturn !rejecting"),
+					 GenerateVariable("."),
+					 GenerateVariable("value();\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\treturn false;\n\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable(
-						 "\n\n\t\t\tfor (auto iter = std::end(stateItems) - PopItemCount(); iter "
-						 "!= std::end(stateItems); iter++)\n\t\t\t"),
+						 "\n\t\t\n\t\t::deamer::external::cpp::ast::Tree* GetResult()\n\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\tif (*iter == nullptr)\n\t\t\t\t"),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\t\tcontinue;\n\t\t\t\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\t\t\t\tcreateNode"),
+					 GenerateVariable("\n\t\t\tauto tmp = outputTree;\n\t\t\toutputTree = "
+									  "nullptr;\n\t\t\tstateItems"),
 					 GenerateVariable("."),
-					 GenerateVariable("SubNode(*iter);\n\t\t\t"),
+					 GenerateVariable("clear();\n\t\t\treturn tmp;\n\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\t\t\treturn createNode"),
-					 GenerateVariable("."),
-					 GenerateVariable("GetNode();\n\t\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable(";\n\n\t\tswitch(actionType)\n\t\t"),
+					 GenerateVariable(
+						 "\n\t\t\n\t\tbool ParseOneStep(std::vector<std::unique_ptr<GeneralNode>>& "
+						 "currentEvaluations)\n\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\tcase 0: "),
+					 GenerateVariable("\n\t\t\tauto UninitializeStack = [&]() "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\tfor (auto node : stateItems)\n\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\tdelete node;\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\n\t\t\tauto GetCurrentLookaheadTokenObject = [&]() "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\treturn terminalObjects[lookahead];\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\n\t\t\tauto GetCurrentLookaheadToken = [&]() "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\tif (lookahead < terminalObjects"),
+					 GenerateVariable("."),
+					 GenerateVariable("size())\n\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\treturn "
+									  "static_cast<std::size_t>(terminalObjects[lookahead]->"
+									  "GetType());\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\t\treturn std::size_t"),
+					 GenerateVariable("{"),
+					 GenerateVariable(" 0 "),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\n\t\t\tauto GetLineNumberOfLookaheadToken = [&]() "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\tif (lookahead < terminalObjects"),
+					 GenerateVariable("."),
+					 GenerateVariable("size())\n\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\treturn "
+									  "terminalObjects[lookahead]->GetLineNumber();\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\t\treturn -1;\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\n\t\t\tauto GetColumnNumberOfLookaheadToken = [&]() "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\tif (lookahead < terminalObjects"),
+					 GenerateVariable("."),
+					 GenerateVariable("size())\n\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\treturn "
+									  "terminalObjects[lookahead]->GetColumnNumber();\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\t\treturn -1;\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\n\t\t\tauto GetValueOfLookaheadToken = [&]() "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\tif (lookahead < terminalObjects"),
+					 GenerateVariable("."),
+					 GenerateVariable("size())\n\t\t\t\t"),
 					 GenerateVariable("{"),
 					 GenerateVariable(
-						 "\n\t\t\t// Reject\n\t\t\tif (constructionPolicy == "
-						 "::deamer::external::cpp::parser::ASTConstructionPolicy::cst && ::"),
-					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
-					 GenerateVariable("::ast::relation::NodeIsDeleted(static_cast<::"),
-					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
-					 GenerateVariable("::ast::Type>(GetCurrentLookaheadToken())))\n\t\t\t"),
+						 "\n\t\t\t\t\treturn terminalObjects[lookahead]->GetValue();\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\t\treturn std::string"),
+					 GenerateVariable("{"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(
+						 ";\n\n\t\t\tauto GetCurrentState = [](auto& stateStackReference) "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\treturn stateStackReference[stateStackReference"),
+					 GenerateVariable("."),
+					 GenerateVariable("size() - 1];\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\n\t\t\tauto LookaheadIsUnrecognizedToken = [](auto "
+									  "lookahead_, auto& terminalObjects_, auto& epsilon_) "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\treturn lookahead_ < terminalObjects_"),
+					 GenerateVariable("."),
+					 GenerateVariable("size() && terminalObjects_[lookahead_]->GetType() == 0 "
+									  "&&\n\t\t\t\t\tterminalObjects_[lookahead_] != epsilon_"),
+					 GenerateVariable("."),
+					 GenerateVariable("get();\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\n\t\t\tif (constructionPolicy == "
+									  "::deamer::external::cpp::parser::ASTConstructionPolicy::cst "
+									  "&& LookaheadIsUnrecognizedToken(lookahead, terminalObjects, "
+									  "epsilon))\n\t\t\t"),
 					 GenerateVariable("{"),
 					 GenerateVariable("\n\t\t\t\tstateItems"),
 					 GenerateVariable("."),
@@ -1216,46 +1398,111 @@ namespace deamer::templates::dparse::parser
 					 GenerateVariable("."),
 					 GenerateVariable("GetNode()\n\t\t\t\t);\n\t\t\t\tstateStack"),
 					 GenerateVariable("."),
-					 GenerateVariable("push_back(GetCurrentState());\n\t\t\t\tlookahead++;"
-									  "\n\t\t\t\tdeletedItemCount++;\n\t\t\t\tbreak;\n\t\t\t"),
+					 GenerateVariable(
+						 "push_back(GetCurrentState(stateStack));\n\t\t\t\tlookahead++;"
+						 "\n\t\t\t\tdeletedItemCount++;\n\t\t\t\treturn false;\n\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\t\t\tif constexpr ("),
 					 GenerateVariable(
-						 parserdefinitiontemplate_->optional_better_syntax_errors_->This()),
-					 GenerateVariable(")\n\t\t\t"),
+						 "\n\n\t\t\tconst auto currentLookahead = "
+						 "GetCurrentLookaheadToken();\n\t\t\tconst auto currentState = "
+						 "GetCurrentState(stateStack);\n\n\t\t\tconst auto currentAction = "
+						 "actionTable[currentState][currentLookahead];\n\t\t\tauto actionType = "
+						 "std::get<0>(currentAction);\n\t\t\tauto actionValue = "
+						 "std::get<1>(currentAction);\n\n\t\t\tif "
+						 "(LookaheadIsUnrecognizedToken(lookahead, terminalObjects, "
+						 "epsilon))\n\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\tstd::cout << \"Syntax error, unexpected token: "
-									  "\";\n\t\t\t\t\n\t\t\t\tconst std::string text_ = ::"),
-					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
-					 GenerateVariable("::ast::relation::ConvertEnumToText(static_cast<::"),
-					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
-					 GenerateVariable(
-						 "::ast::Type>(GetCurrentLookaheadToken()));\n\t\t\t\tif (text_"),
+					 GenerateVariable("\n\t\t\t\tactionType = 0; // Reject as the terminal is not "
+									  "used in the table"),
 					 GenerateVariable("."),
-					 GenerateVariable("empty())\n\t\t\t\t"),
-					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\t\tstd::cout << \"$\";\n\t\t\t\t"),
+					 GenerateVariable("\n\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\t\t\telse\n\t\t\t\t"),
+					 GenerateVariable("\n\n\t\t\tauto PopItemCount = [&](auto reduceProduction) "),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\t\tstd::cout << text_;\n\t\t\t\t"),
+					 GenerateVariable("\n\t\t\t\treturn productionSizeTable[reduceProduction] + "
+									  "deletedItemCount;\n\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\t\t\t\tstd::cout << \" expected the following tokens: "
-									  "\";\n\t\t\t\tfor (auto i = 0; i < "),
-					 GenerateVariable(parserdefinitiontemplate_->terminal_count_->This()),
-					 GenerateVariable("; i++)\n\t\t\t\t"),
-					 GenerateVariable("{"),
 					 GenerateVariable(
-						 "\n\t\t\t\t\tauto action_ = actionTable[currentState][i];\n\t\t\t\t\tif "
-						 "(std::get<0>(action_) == 0)\n\t\t\t\t\t"),
+						 ";\n\n\t\t\tauto Reduce = [PopItemCount](auto reduceProduction, auto& "
+						 "stateItemsReference, auto& stateStackReference) "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t::"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("::ast::utility::CreateNode createNode"),
+					 GenerateVariable("{"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\t\t\t\tcreateNode"),
+					 GenerateVariable("."),
+					 GenerateVariable("Node(static_cast<std::size_t>(productionRuleOutput["
+									  "reduceProduction]));\n\t\t\t\tcreateNode"),
+					 GenerateVariable("."),
+					 GenerateVariable("ProductionRule(productionRuleId[reduceProduction], "
+									  "productionTypeTable[reduceProduction]);\n\n\t\t\t\tif "
+									  "(PopItemCount(reduceProduction) > stateStackReference"),
+					 GenerateVariable("."),
+					 GenerateVariable("size())\n\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\tthrow std::logic_error(\"Dparse"),
+					 GenerateVariable("."),
+					 GenerateVariable("Parse(): Syntax error, reduced production rule size is "
+									  "larger than stack size"),
+					 GenerateVariable("."),
+					 GenerateVariable("\");\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\t\tfor (auto iter = std::end(stateItemsReference) "
+									  "- PopItemCount(reduceProduction); iter != "
+									  "std::end(stateItemsReference); iter++)\n\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\tif (*iter == nullptr)\n\t\t\t\t\t"),
 					 GenerateVariable("{"),
 					 GenerateVariable("\n\t\t\t\t\t\tcontinue;\n\t\t\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\t\t\t\tconst std::string text = ::"),
+					 GenerateVariable("\n\n\t\t\t\t\tcreateNode"),
+					 GenerateVariable("."),
+					 GenerateVariable("SubNode(*iter);\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\t\treturn createNode"),
+					 GenerateVariable("."),
+					 GenerateVariable("GetNode();\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(";\n\n\t\t\tswitch (actionType)\n\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tcase 0: "),
+					 GenerateVariable("{"),
+					 GenerateVariable(
+						 "\n\t\t\t\t// Reject\n\t\t\t\tif (constructionPolicy == "
+						 "::deamer::external::cpp::parser::ASTConstructionPolicy::cst && ::"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("::ast::relation::NodeIsDeleted(static_cast<::"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("::ast::Type>(GetCurrentLookaheadToken())))\n\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\tstateItems"),
+					 GenerateVariable("."),
+					 GenerateVariable("push_back(\n\t\t\t\t\t\t::"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("::ast::utility::CreateNode()\n\t\t\t\t\t\t"),
+					 GenerateVariable("."),
+					 GenerateVariable("Node(GetCurrentLookaheadTokenObject())\n\t\t\t\t\t\t"),
+					 GenerateVariable("."),
+					 GenerateVariable("GetNode()\n\t\t\t\t\t);\n\t\t\t\t\tstateStack"),
+					 GenerateVariable("."),
+					 GenerateVariable(
+						 "push_back(GetCurrentState(stateStack));\n\t\t\t\t\tlookahead++;"
+						 "\n\t\t\t\t\tdeletedItemCount++;\n\t\t\t\t\tbreak;\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\t\tif constexpr ("),
+					 GenerateVariable(
+						 parserdefinitiontemplate_->optional_better_syntax_errors_->This()),
+					 GenerateVariable(")\n\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\tstd::cout << \"Syntax error, unexpected token: "
+									  "\";\n\n\t\t\t\t\tconst std::string text_ = ::"),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
 					 GenerateVariable("::ast::relation::ConvertEnumToText(static_cast<::"),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
-					 GenerateVariable("::ast::Type>(i));\n\t\t\t\t\tif (text"),
+					 GenerateVariable(
+						 "::ast::Type>(GetCurrentLookaheadToken()));\n\t\t\t\t\tif (text_"),
 					 GenerateVariable("."),
 					 GenerateVariable("empty())\n\t\t\t\t\t"),
 					 GenerateVariable("{"),
@@ -1263,103 +1510,291 @@ namespace deamer::templates::dparse::parser
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\t\t\t\t\telse\n\t\t\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\t\t\tstd::cout << text;\n\t\t\t\t\t"),
+					 GenerateVariable("\n\t\t\t\t\t\tstd::cout << text_;\n\t\t\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\t\t\t\t\tstd::cout << \", \";\n\t\t\t\t"),
+					 GenerateVariable("\n\n\t\t\t\t\tstd::cout << \" expected the following "
+									  "tokens: \";\n\t\t\t\t\tfor (auto i = 0; i < "),
+					 GenerateVariable(parserdefinitiontemplate_->terminal_count_->This()),
+					 GenerateVariable("; i++)\n\t\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\t\tauto action_ = "
+									  "actionTable[currentState][i];\n\t\t\t\t\t\tif "
+									  "(std::get<0>(action_) == 0)\n\t\t\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\t\t\tcontinue;\n\t\t\t\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\t\t\t\tstd::cout << \""),
+					 GenerateVariable("\n\t\t\t\t\t\tconst std::string text = ::"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("::ast::relation::ConvertEnumToText(static_cast<::"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("::ast::Type>(i));\n\t\t\t\t\t\tif (text"),
+					 GenerateVariable("."),
+					 GenerateVariable("empty())\n\t\t\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\t\t\tstd::cout << \"$\";\n\t\t\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\t\t\t\telse\n\t\t\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\t\t\tstd::cout << text;\n\t\t\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\t\t\t\tstd::cout << \", \";\n\t\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\t\t\tstd::cout << \""),
 					 GenerateVariable("\\"),
-					 GenerateVariable("n\";\n\n\t\t\t"),
+					 GenerateVariable("n\";\n\n\t\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable(
-						 "\n\n\t\t\tUninitializeStack();\n\t\t\treturn nullptr;\n\t\t"),
+					 GenerateVariable("\n\n\t\t\t\tUninitializeStack();\n\t\t\t\trejecting = "
+									  "true;\n\t\t\t\treturn true;\n\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\tcase 1: "),
+					 GenerateVariable("\n\t\t\tcase 1: "),
 					 GenerateVariable("{"),
 					 GenerateVariable(
-						 "\n\t\t\t// Shift\n\t\t\tauto currentLookaheadToken_ = "
-						 "GetCurrentLookaheadTokenObject();\n\t\t\tif (constructionPolicy == "
+						 "\n\t\t\t\t// Shift\n\t\t\t\tauto currentLookaheadToken_ = "
+						 "GetCurrentLookaheadTokenObject();\n\t\t\t\tif (constructionPolicy == "
 						 "::deamer::external::cpp::parser::ASTConstructionPolicy::ast && ::"),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
 					 GenerateVariable("::ast::relation::NodeIsIgnored(static_cast<::"),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
-					 GenerateVariable("::ast::Type>(currentLookaheadToken_->GetType())))\n\t\t\t"),
+					 GenerateVariable(
+						 "::ast::Type>(currentLookaheadToken_->GetType())))\n\t\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\tstateItems"),
+					 GenerateVariable("\n\t\t\t\t\tstateItems"),
 					 GenerateVariable("."),
-					 GenerateVariable("push_back(nullptr);\n\t\t\t\tstateStack"),
+					 GenerateVariable("push_back(nullptr);\n\t\t\t\t\tstateStack"),
 					 GenerateVariable("."),
-					 GenerateVariable("push_back(actionValue);\n\t\t\t\tlookahead++;\n\t\t\t"),
+					 GenerateVariable("push_back(actionValue);\n\t\t\t\t\tlookahead++;\n\t\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\t\telse\n\t\t\t"),
+					 GenerateVariable("\n\t\t\t\telse\n\t\t\t\t"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t\tstateItems"),
+					 GenerateVariable("\n\t\t\t\t\tstateItems"),
 					 GenerateVariable("."),
-					 GenerateVariable("push_back(\n\t\t\t\t\t::"),
+					 GenerateVariable("push_back(\n\t\t\t\t\t\t::"),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
-					 GenerateVariable("::ast::utility::CreateNode()\n\t\t\t\t\t"),
+					 GenerateVariable("::ast::utility::CreateNode()\n\t\t\t\t\t\t"),
 					 GenerateVariable("."),
-					 GenerateVariable("Node(GetCurrentLookaheadTokenObject())\n\t\t\t\t\t"),
+					 GenerateVariable("Node(GetCurrentLookaheadTokenObject())\n\t\t\t\t\t\t"),
 					 GenerateVariable("."),
-					 GenerateVariable("GetNode()\n\t\t\t\t);\n\t\t\t\tstateStack"),
+					 GenerateVariable("GetNode()\n\t\t\t\t\t);\n\t\t\t\t\tstateStack"),
 					 GenerateVariable("."),
-					 GenerateVariable("push_back(actionValue);\n\t\t\t\tlookahead++;\n\t\t\t"),
+					 GenerateVariable("push_back(actionValue);\n\t\t\t\t\tlookahead++;\n\t\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\t\tbreak;\n\t\t"),
+					 GenerateVariable("\n\t\t\t\tbreak;\n\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\tcase 2: "),
+					 GenerateVariable("\n\t\t\tcase 2: "),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t// Reduce\n\t\t\tauto newNonTerminal = "
-									  "Reduce();\n\t\t\tif (PopItemCount() > 0)\n\t\t\t"),
+					 GenerateVariable("\n\t\t\t\t// Reduce\n\t\t\t\tauto newNonTerminal = "
+									  "Reduce(actionValue, stateItems, stateStack);\n\t\t\t\tif "
+									  "(PopItemCount(actionValue) > 0)\n\t\t\t\t"),
 					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\tstateItems"),
+					 GenerateVariable("."),
+					 GenerateVariable("erase(std::end(stateItems) - PopItemCount(actionValue), "
+									  "std::end(stateItems));\n\t\t\t\t\tstateStack"),
+					 GenerateVariable("."),
+					 GenerateVariable("erase(std::end(stateStack) - PopItemCount(actionValue), "
+									  "std::end(stateStack));\n\t\t\t\t"),
+					 GenerateVariable("}"),
 					 GenerateVariable("\n\t\t\t\tstateItems"),
 					 GenerateVariable("."),
-					 GenerateVariable("erase(std::end(stateItems) - PopItemCount(), "
-									  "std::end(stateItems));\n\t\t\t\tstateStack"),
-					 GenerateVariable("."),
-					 GenerateVariable("erase(std::end(stateStack) - PopItemCount(), "
-									  "std::end(stateStack));\n\t\t\t"),
-					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\t\tstateItems"),
-					 GenerateVariable("."),
-					 GenerateVariable("push_back(newNonTerminal);\n\n\t\t\tauto newCurrentState = "
-									  "GetCurrentState();\n\t\t\tstateStack"),
+					 GenerateVariable("push_back(newNonTerminal);\n\n\t\t\t\tauto newCurrentState "
+									  "= GetCurrentState(stateStack);\n\t\t\t\tstateStack"),
 					 GenerateVariable("."),
 					 GenerateVariable(
 						 "push_back(gotoTable[newCurrentState][newNonTerminal->GetType() - "),
 					 GenerateVariable(parserdefinitiontemplate_->terminal_count_->This()),
-					 GenerateVariable("]);\n\t\t\tdeletedItemCount = 0;\n\t\t\tbreak;\n\t\t"),
+					 GenerateVariable("]);\n\t\t\t\tdeletedItemCount = 0;\n\t\t\t\tbreak;\n\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\tcase 3: "),
+					 GenerateVariable("\n\t\t\tcase 3: "),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t// Accept\n\t\t\tif (1 >= stateItems"),
+					 GenerateVariable("\n\t\t\t\t// Accept\n\t\t\t\tif (1 >= stateItems"),
 					 GenerateVariable("."),
-					 GenerateVariable("size())\n\t\t\t"),
+					 GenerateVariable("size())\n\t\t\t\t"),
 					 GenerateVariable("{"),
 					 GenerateVariable(
-						 "\n\t\t\t\tthrow std::logic_error(\"Stack is in an impossible state"),
-					 GenerateVariable("."),
-					 GenerateVariable("\");\n\t\t\t"),
+						 "\n\t\t\t\t\trejecting = true;\n\t\t\t\t\treturn true;\n\t\t\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable(
-						 "\n\t\t\t\n\t\t\tauto topNode = stateItems[1];\n\t\t\tauto tree = new "
-						 "::deamer::external::cpp::ast::Tree(topNode);\n\t\t\t\n\t\t\treturn "
-						 "tree;\n\t\t"),
+						 "\n\n\t\t\t\tauto topNode = stateItems[1];\n\t\t\t\tauto tree = new "
+						 "::deamer::external::cpp::ast::Tree(topNode);\n\n\t\t\t\toutputTree = "
+						 "tree;\n\t\t\t\treturn true;\n\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\tcase 4: "),
+					 GenerateVariable("\n\t\t\tcase 4: "),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t\t\t// Reject\n\t\t\tUninitializeStack();\n\t\t\tthrow "
-									  "std::logic_error(\"Rejected input\");\n\t\t"),
+					 GenerateVariable(
+						 "\n\t\t\t\t// Reject\n\t\t\t\tUninitializeStack();\n\t\t\t\trejecting = "
+						 "true;\n\t\t\t\treturn true;\n\t\t\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\t\t"),
+					 GenerateVariable("\n\t\t\tcase 7: "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t// General\n\t\t\t\tstd::cout << \"General "
+									  "action: \" << actionValue << \""),
+					 GenerateVariable("\\"),
+					 GenerateVariable(
+						 "n\";\n\t\t\t\t\n\t\t\t\tauto GeneralIntroduceAccept = [&]() "),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\t// Accept\n\t\t\t\t\tif (1 >= stateItems"),
+					 GenerateVariable("."),
+					 GenerateVariable("size())\n\t\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\t\trejecting = true;\n\t\t\t\t\t\treturn true; "
+									  "// Reject\n\t\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(
+						 "\n\n\t\t\t\t\tauto topNode = stateItems[1];\n\t\t\t\t\tauto tree = new "
+						 "::deamer::external::cpp::ast::Tree(topNode);\n\n\t\t\t\t\toutputTree = "
+						 "tree;\n\t\t\t\t\trejecting = false; // Accept\n\t\t\t\t\treturn "
+						 "true;\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(
+						 ";\n\n\t\t\t\tauto GeneralIntroduceShift = [&](auto shiftState) "),
+					 GenerateVariable("{"),
+					 GenerateVariable(
+						 "\n\t\t\t\t\t// Shift\n\t\t\t\t\tauto lookaheadCopy = "
+						 "lookahead;\n\t\t\t\t\tauto stateStackCopy = stateStack;\n\t\t\t\t\tauto "
+						 "stateItemsCopy = stateItems;\n\t\t\t\t\tauto deletedItemCountCopy = "
+						 "deletedItemCount;\n\t\t\t\t\n\t\t\t\t\tauto currentLookaheadToken_ = "
+						 "GetCurrentLookaheadTokenObject();\n\t\t\t\t\tif (constructionPolicy == "
+						 "::deamer::external::cpp::parser::ASTConstructionPolicy::ast && ::"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("::ast::relation::NodeIsIgnored(static_cast<::"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable(
+						 "::ast::Type>(currentLookaheadToken_->GetType())))\n\t\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\t\tstateItemsCopy"),
+					 GenerateVariable("."),
+					 GenerateVariable("push_back(nullptr);\n\t\t\t\t\t\tstateStackCopy"),
+					 GenerateVariable("."),
+					 GenerateVariable(
+						 "push_back(shiftState);\n\t\t\t\t\t\tlookahead++;\n\t\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\t\t\telse\n\t\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\t\tstateItemsCopy"),
+					 GenerateVariable("."),
+					 GenerateVariable("push_back(\n\t\t\t\t\t\t\t::"),
+					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
+					 GenerateVariable("::ast::utility::CreateNode()\n\t\t\t\t\t\t\t"),
+					 GenerateVariable("."),
+					 GenerateVariable("Node(GetCurrentLookaheadTokenObject())\n\t\t\t\t\t\t\t"),
+					 GenerateVariable("."),
+					 GenerateVariable("GetNode()\n\t\t\t\t\t\t);\n\t\t\t\t\t\tstateStackCopy"),
+					 GenerateVariable("."),
+					 GenerateVariable(
+						 "push_back(shiftState);\n\t\t\t\t\t\tlookaheadCopy++;\n\t\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\t\t\tcurrentEvaluations"),
+					 GenerateVariable("."),
+					 GenerateVariable(
+						 "emplace_back(std::make_unique<GeneralNode>(\n\t\t\t\t\t\tterminalObjects,"
+						 "\n\t\t\t\t\t\tconstructionPolicy,\n\t\t\t\t\t\tepsilon,"
+						 "\n\t\t\t\t\t\tlookahead,\n\t\t\t\t\t\tstd::move(stateStackCopy),"
+						 "\n\t\t\t\t\t\tstd::move(stateItemsCopy),"
+						 "\n\t\t\t\t\t\tdeletedItemCountCopy\n\t\t\t\t\t));\n\n\t\t\t\t\treturn "
+						 "true;\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(
+						 ";\n\n\t\t\t\tauto GeneralIntroduceReduce = [&](auto reduceProduction) "),
+					 GenerateVariable("{"),
+					 GenerateVariable(
+						 "\n\t\t\t\t\t// Reduce\n\t\t\t\t\tauto lookaheadCopy = "
+						 "lookahead;\n\t\t\t\t\tauto stateStackCopy = stateStack;\n\t\t\t\t\tauto "
+						 "stateItemsCopy = stateItems;\n\t\t\t\t\tauto deletedItemCountCopy = "
+						 "deletedItemCount;\n\t\t\t\t\t\n\t\t\t\t\tauto newNonTerminal = "
+						 "Reduce(reduceProduction, stateItemsCopy, "
+						 "stateStackCopy);\n\n\t\t\t\t\tif (PopItemCount(reduceProduction) > "
+						 "0)\n\t\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\t\tstateItemsCopy"),
+					 GenerateVariable("."),
+					 GenerateVariable(
+						 "erase(std::end(stateItemsCopy) - PopItemCount(reduceProduction), "
+						 "std::end(stateItemsCopy));\n\t\t\t\t\t\tstateStackCopy"),
+					 GenerateVariable("."),
+					 GenerateVariable(
+						 "erase(std::end(stateStackCopy) - PopItemCount(reduceProduction), "
+						 "std::end(stateStackCopy));\n\t\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\t\t\tstateItemsCopy"),
+					 GenerateVariable("."),
+					 GenerateVariable(
+						 "push_back(newNonTerminal);\n\n\t\t\t\t\tauto newCurrentState = "
+						 "GetCurrentState(stateStackCopy);\n\t\t\t\t\tstateStackCopy"),
+					 GenerateVariable("."),
+					 GenerateVariable(
+						 "push_back(gotoTable[newCurrentState][newNonTerminal->GetType() - "),
+					 GenerateVariable(parserdefinitiontemplate_->terminal_count_->This()),
+					 GenerateVariable("]);\n\t\t\t\t\tdeletedItemCountCopy = "
+									  "0;\n\n\t\t\t\t\tcurrentEvaluations"),
+					 GenerateVariable("."),
+					 GenerateVariable(
+						 "emplace_back(std::make_unique<GeneralNode>(\n\t\t\t\t\t\tterminalObjects,"
+						 "\n\t\t\t\t\t\tconstructionPolicy,\n\t\t\t\t\t\tepsilon,"
+						 "\n\t\t\t\t\t\tlookaheadCopy,\n\t\t\t\t\t\tstd::move(stateStackCopy),"
+						 "\n\t\t\t\t\t\tstd::move(stateItemsCopy),"
+						 "\n\t\t\t\t\t\tdeletedItemCountCopy\n\t\t\t\t\t));\n\n\t\t\t\t\treturn "
+						 "true;\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable(
+						 ";\n\t\t\t\trejecting = true; // It has forked into specializations thus "
+						 "reject this, only accept can make it false\n"),
+					 GenerateVariable(
+						 parserdefinitiontemplate_->optional_general_option_switch_->This()),
+					 GenerateVariable("\n\t\t\t\treturn true;\n\t\t\t\tbreak;\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\treturn false;\n\t\t"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\t"),
 					 GenerateVariable("}"),
-					 GenerateVariable("\n\n\tthrow std::logic_error(\"Dparse"),
+					 GenerateVariable(";\n\n\tstd::vector<std::unique_ptr<GeneralNode>> "
+									  "currentEvaluations;\n\tcurrentEvaluations"),
 					 GenerateVariable("."),
-					 GenerateVariable("Parse(): Unexpected error not captured internally"),
+					 GenerateVariable(
+						 "emplace_back(std::make_unique<GeneralNode>(terminalObjects, "
+						 "constructionPolicy, epsilon));\n\n\tdeamer::external::cpp::ast::Tree* "
+						 "outputTree = nullptr;\n\tbool noPathHasAccepted = true;\n\twhile "
+						 "(!currentEvaluations"),
 					 GenerateVariable("."),
-					 GenerateVariable("\");\n"),
+					 GenerateVariable("empty() && noPathHasAccepted)\n\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\tstd::size_t currentSize = currentEvaluations"),
+					 GenerateVariable("."),
+					 GenerateVariable("size(); // Everything extra is new forked "
+									  "states\n\t\tstd::vector<std::size_t> toBeErased;\n\t\tfor "
+									  "(auto i = 0; i < currentSize; i++)\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tauto currentEvaluation = currentEvaluations[i]"),
+					 GenerateVariable("."),
+					 GenerateVariable(
+						 "get();\n\t\t\tauto result = "
+						 "currentEvaluation->ParseOneStep(currentEvaluations);\n\t\t\tif (result) "
+						 "// True: It has finished parsing\n\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\tif (currentEvaluation->IsRejected())\n\t\t\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\t// As is has rejected, this path is useless to "
+									  "continue\n\t\t\t\t\ttoBeErased"),
+					 GenerateVariable("."),
+					 GenerateVariable("push_back(i);\n\t\t\t\t\tcontinue;\n\t\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\t\t\t// It has accepted\n\t\t\t\tnoPathHasAccepted = "
+									  "false;\n\t\t\t\toutputTree = "
+									  "currentEvaluation->GetResult();\n\t\t\t\tcontinue;\n\t\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\t\tfor (auto i = std::rbegin(toBeErased); i != "
+									  "std::rend(toBeErased); ++i)\n\t\t"),
+					 GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\tauto eraseIndex = *i;\n\t\t\tcurrentEvaluations"),
+					 GenerateVariable("."),
+					 GenerateVariable("erase(std::begin(currentEvaluations) + eraseIndex);\n\t\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\t"),
+					 GenerateVariable("}"),
+					 GenerateVariable("\n\n\treturn outputTree;\n"),
 					 GenerateVariable("}"),
 					 GenerateVariable("\n\ndeamer::external::cpp::ast::Tree* "),
 					 GenerateVariable(parserdefinitiontemplate_->language_name_->This()),
@@ -1368,8 +1803,9 @@ namespace deamer::templates::dparse::parser
 						 "::deamer::external::cpp::parser::ASTConstructionPolicy "
 						 "constructionPolicy) const\n"),
 					 GenerateVariable("{"),
-					 GenerateVariable("\n\t// Pass through lexer to get Terminal Objects\n\t// And "
-									  "use those objects;\n\n\treturn nullptr;\n"),
+					 GenerateVariable("\n"),
+					 GenerateVariable(parserdefinitiontemplate_->optional_dleg_usage_->This()),
+					 GenerateVariable("\n"),
 					 GenerateVariable("}")}));
 				Content_->type =
 					::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::Scope;
@@ -1446,6 +1882,326 @@ namespace deamer::templates::dparse::parser
 				*File_name_ = *variable.File_name_;
 				*Namespace_ = *variable.Namespace_;
 				*Target_language_ = *variable.Target_language_;
+
+				return *this;
+			}
+		};
+
+		struct Variable_general_option_accept_impl_ : public VariableScopes
+		{
+			static constexpr auto name = "general_option_accept_impl_";
+
+			Variable_general_option_accept_impl_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_accept_impl_;
+			}
+
+			virtual ~Variable_general_option_accept_impl_() override = default;
+
+			Variable_general_option_accept_impl_(
+				ParserDefinitionTemplate* parserdefinitiontemplate_,
+				const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_accept_impl_;
+			}
+
+			Variable_general_option_accept_impl_&
+			operator=(const Variable_general_option_accept_impl_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_general_option_id_ : public VariableScopes
+		{
+			static constexpr auto name = "general_option_id_";
+
+			Variable_general_option_id_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_id_;
+			}
+
+			virtual ~Variable_general_option_id_() override = default;
+
+			Variable_general_option_id_(ParserDefinitionTemplate* parserdefinitiontemplate_,
+										const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_id_;
+			}
+
+			Variable_general_option_id_& operator=(const Variable_general_option_id_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_general_option_reduce_impl_ : public VariableScopes
+		{
+			static constexpr auto name = "general_option_reduce_impl_";
+
+			Variable_general_option_reduce_impl_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_reduce_impl_;
+			}
+
+			virtual ~Variable_general_option_reduce_impl_() override = default;
+
+			Variable_general_option_reduce_impl_(
+				ParserDefinitionTemplate* parserdefinitiontemplate_,
+				const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_reduce_impl_;
+			}
+
+			Variable_general_option_reduce_impl_&
+			operator=(const Variable_general_option_reduce_impl_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_general_option_reduce_production_rule_ : public VariableScopes
+		{
+			static constexpr auto name = "general_option_reduce_production_rule_";
+
+			Variable_general_option_reduce_production_rule_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_reduce_production_rule_;
+			}
+
+			virtual ~Variable_general_option_reduce_production_rule_() override = default;
+
+			Variable_general_option_reduce_production_rule_(
+				ParserDefinitionTemplate* parserdefinitiontemplate_,
+				const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_reduce_production_rule_;
+			}
+
+			Variable_general_option_reduce_production_rule_&
+			operator=(const Variable_general_option_reduce_production_rule_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_general_option_shift_impl_ : public VariableScopes
+		{
+			static constexpr auto name = "general_option_shift_impl_";
+
+			Variable_general_option_shift_impl_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_shift_impl_;
+			}
+
+			virtual ~Variable_general_option_shift_impl_() override = default;
+
+			Variable_general_option_shift_impl_(ParserDefinitionTemplate* parserdefinitiontemplate_,
+												const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_shift_impl_;
+			}
+
+			Variable_general_option_shift_impl_&
+			operator=(const Variable_general_option_shift_impl_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_general_option_shift_reduce_action_ : public VariableScopes
+		{
+			static constexpr auto name = "general_option_shift_reduce_action_";
+
+			Variable_general_option_shift_reduce_action_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_shift_reduce_action_;
+			}
+
+			virtual ~Variable_general_option_shift_reduce_action_() override = default;
+
+			Variable_general_option_shift_reduce_action_(
+				ParserDefinitionTemplate* parserdefinitiontemplate_,
+				const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_shift_reduce_action_;
+			}
+
+			Variable_general_option_shift_reduce_action_&
+			operator=(const Variable_general_option_shift_reduce_action_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_general_option_shift_state_ : public VariableScopes
+		{
+			static constexpr auto name = "general_option_shift_state_";
+
+			Variable_general_option_shift_state_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_shift_state_;
+			}
+
+			virtual ~Variable_general_option_shift_state_() override = default;
+
+			Variable_general_option_shift_state_(
+				ParserDefinitionTemplate* parserdefinitiontemplate_,
+				const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_shift_state_;
+			}
+
+			Variable_general_option_shift_state_&
+			operator=(const Variable_general_option_shift_state_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_general_option_switch_ : public VariableScopes
+		{
+			static constexpr auto name = "general_option_switch_";
+
+			Variable_general_option_switch_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_switch_;
+			}
+
+			virtual ~Variable_general_option_switch_() override = default;
+
+			Variable_general_option_switch_(ParserDefinitionTemplate* parserdefinitiontemplate_,
+											const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_switch_;
+			}
+
+			Variable_general_option_switch_&
+			operator=(const Variable_general_option_switch_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_general_option_switch_case_ : public VariableScopes
+		{
+			static constexpr auto name = "general_option_switch_case_";
+
+			Variable_general_option_switch_case_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_switch_case_;
+			}
+
+			virtual ~Variable_general_option_switch_case_() override = default;
+
+			Variable_general_option_switch_case_(
+				ParserDefinitionTemplate* parserdefinitiontemplate_,
+				const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					general_option_switch_case_;
+			}
+
+			Variable_general_option_switch_case_&
+			operator=(const Variable_general_option_switch_case_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
 
 				return *this;
 			}
@@ -1746,6 +2502,111 @@ namespace deamer::templates::dparse::parser
 
 			Variable_optional_better_syntax_errors_&
 			operator=(const Variable_optional_better_syntax_errors_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_optional_dleg_include_ : public VariableScopes
+		{
+			static constexpr auto name = "optional_dleg_include_";
+
+			Variable_optional_dleg_include_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					optional_dleg_include_;
+			}
+
+			virtual ~Variable_optional_dleg_include_() override = default;
+
+			Variable_optional_dleg_include_(ParserDefinitionTemplate* parserdefinitiontemplate_,
+											const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					optional_dleg_include_;
+			}
+
+			Variable_optional_dleg_include_&
+			operator=(const Variable_optional_dleg_include_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_optional_dleg_usage_ : public VariableScopes
+		{
+			static constexpr auto name = "optional_dleg_usage_";
+
+			Variable_optional_dleg_usage_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					optional_dleg_usage_;
+			}
+
+			virtual ~Variable_optional_dleg_usage_() override = default;
+
+			Variable_optional_dleg_usage_(ParserDefinitionTemplate* parserdefinitiontemplate_,
+										  const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					optional_dleg_usage_;
+			}
+
+			Variable_optional_dleg_usage_& operator=(const Variable_optional_dleg_usage_& variable)
+			{
+				if (&variable == this)
+				{
+					return *this;
+				}
+
+				value = variable.value;
+				isString = variable.isString;
+
+				return *this;
+			}
+		};
+
+		struct Variable_optional_general_option_switch_ : public VariableScopes
+		{
+			static constexpr auto name = "optional_general_option_switch_";
+
+			Variable_optional_general_option_switch_() : VariableScopes()
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					optional_general_option_switch_;
+			}
+
+			virtual ~Variable_optional_general_option_switch_() override = default;
+
+			Variable_optional_general_option_switch_(
+				ParserDefinitionTemplate* parserdefinitiontemplate_,
+				const std::vector<VariableBase*>& variables)
+				: VariableScopes(variables)
+			{
+				type = ::deamer::templates::dparse::parser::ParserDefinitionTemplate::Type::
+					optional_general_option_switch_;
+			}
+
+			Variable_optional_general_option_switch_&
+			operator=(const Variable_optional_general_option_switch_& variable)
 			{
 				if (&variable == this)
 				{
@@ -2364,7 +3225,26 @@ namespace deamer::templates::dparse::parser
 			new Variable_action_table_specialization_field_();
 		Variable_action_table_type_field_* action_table_type_field_ =
 			new Variable_action_table_type_field_();
+		Variable_dleg_include_* dleg_include_ = new Variable_dleg_include_();
+		Variable_dleg_usage_* dleg_usage_ = new Variable_dleg_usage_();
 		Variable_file_* file_ = new Variable_file_();
+		Variable_general_option_accept_impl_* general_option_accept_impl_ =
+			new Variable_general_option_accept_impl_();
+		Variable_general_option_id_* general_option_id_ = new Variable_general_option_id_();
+		Variable_general_option_reduce_impl_* general_option_reduce_impl_ =
+			new Variable_general_option_reduce_impl_();
+		Variable_general_option_reduce_production_rule_* general_option_reduce_production_rule_ =
+			new Variable_general_option_reduce_production_rule_();
+		Variable_general_option_shift_impl_* general_option_shift_impl_ =
+			new Variable_general_option_shift_impl_();
+		Variable_general_option_shift_reduce_action_* general_option_shift_reduce_action_ =
+			new Variable_general_option_shift_reduce_action_();
+		Variable_general_option_shift_state_* general_option_shift_state_ =
+			new Variable_general_option_shift_state_();
+		Variable_general_option_switch_* general_option_switch_ =
+			new Variable_general_option_switch_();
+		Variable_general_option_switch_case_* general_option_switch_case_ =
+			new Variable_general_option_switch_case_();
 		Variable_goto_table_2d_entry_* goto_table_2d_entry_ = new Variable_goto_table_2d_entry_();
 		Variable_goto_table_entry_* goto_table_entry_ = new Variable_goto_table_entry_();
 		Variable_goto_table_field_* goto_table_field_ = new Variable_goto_table_field_();
@@ -2375,6 +3255,11 @@ namespace deamer::templates::dparse::parser
 		Variable_nonterminal_count_* nonterminal_count_ = new Variable_nonterminal_count_();
 		Variable_optional_better_syntax_errors_* optional_better_syntax_errors_ =
 			new Variable_optional_better_syntax_errors_();
+		Variable_optional_dleg_include_* optional_dleg_include_ =
+			new Variable_optional_dleg_include_();
+		Variable_optional_dleg_usage_* optional_dleg_usage_ = new Variable_optional_dleg_usage_();
+		Variable_optional_general_option_switch_* optional_general_option_switch_ =
+			new Variable_optional_general_option_switch_();
 		Variable_production_id_entry_* production_id_entry_ = new Variable_production_id_entry_();
 		Variable_production_output_* production_output_ = new Variable_production_output_();
 		Variable_production_output_entry_* production_output_entry_ =
@@ -2421,7 +3306,57 @@ namespace deamer::templates::dparse::parser
 				Variable_action_table_specialization_field_(this, std::vector<VariableBase*>({}));
 			*action_table_type_field_ =
 				Variable_action_table_type_field_(this, std::vector<VariableBase*>({}));
+			*dleg_include_ = Variable_dleg_include_(
+				this, std::vector<VariableBase*>({GenerateVariable("#include \""),
+												  GenerateVariable(language_name_->This()),
+												  GenerateVariable("/Dleg/Lexer"),
+												  GenerateVariable("."), GenerateVariable("h\"")}));
+			*dleg_usage_ = Variable_dleg_usage_(
+				this, std::vector<VariableBase*>(
+						  {GenerateVariable("\n\t"), GenerateVariable(language_name_->This()),
+						   GenerateVariable("::dleg::lexer::Lexer lexer;\n\tauto tokens = lexer"),
+						   GenerateVariable("."),
+						   GenerateVariable("Tokenize(text);\n\treturn Parse(tokens);\n\t")}));
 			*file_ = Variable_file_(this, std::vector<VariableBase*>({}));
+			*general_option_accept_impl_ = Variable_general_option_accept_impl_(
+				this, std::vector<VariableBase*>(
+						  {GenerateVariable("\t\t\t\t\tGeneralIntroduceAccept();")}));
+			*general_option_id_ = Variable_general_option_id_(this, std::vector<VariableBase*>({}));
+			*general_option_reduce_impl_ = Variable_general_option_reduce_impl_(
+				this, std::vector<VariableBase*>(
+						  {GenerateVariable("\t\t\t\t\tGeneralIntroduceReduce("),
+						   GenerateVariable(general_option_reduce_production_rule_->This()),
+						   GenerateVariable(");")}));
+			*general_option_reduce_production_rule_ =
+				Variable_general_option_reduce_production_rule_(this,
+																std::vector<VariableBase*>({}));
+			*general_option_shift_impl_ = Variable_general_option_shift_impl_(
+				this,
+				std::vector<VariableBase*>({GenerateVariable("\t\t\t\t\tGeneralIntroduceShift("),
+											GenerateVariable(general_option_shift_state_->This()),
+											GenerateVariable(");")}));
+			*general_option_shift_reduce_action_ =
+				Variable_general_option_shift_reduce_action_(this, std::vector<VariableBase*>({}));
+			*general_option_shift_state_ =
+				Variable_general_option_shift_state_(this, std::vector<VariableBase*>({}));
+			*general_option_switch_ = Variable_general_option_switch_(
+				this,
+				std::vector<VariableBase*>(
+					{GenerateVariable("\n\t\t\t\tswitch(actionValue)\n\t\t\t\t"),
+					 GenerateVariable("{"), GenerateVariable("\n"),
+					 GenerateVariable(general_option_switch_case_->Variable_Field()),
+					 GenerateVariable("\n\t\t\t\tdefault: "), GenerateVariable("{"),
+					 GenerateVariable("\n\t\t\t\t\t// Nothing to do\n\t\t\t\t\tbreak;\n\t\t\t\t"),
+					 GenerateVariable("}"), GenerateVariable("\n\t\t\t\t"), GenerateVariable("}"),
+					 GenerateVariable("\n\t\t\t")}));
+			*general_option_switch_case_ = Variable_general_option_switch_case_(
+				this, std::vector<VariableBase*>(
+						  {GenerateVariable("\n\t\t\t\tcase "),
+						   GenerateVariable(general_option_id_->This()), GenerateVariable(": "),
+						   GenerateVariable("{"), GenerateVariable("\n"),
+						   GenerateVariable(general_option_shift_reduce_action_->Variable_Field()),
+						   GenerateVariable("\n\t\t\t\t\tbreak;\n\t\t\t\t"), GenerateVariable("}"),
+						   GenerateVariable("\n")}));
 			*goto_table_2d_entry_ = Variable_goto_table_2d_entry_(
 				this, std::vector<VariableBase*>(
 						  {GenerateVariable("{"), GenerateVariable(" "),
@@ -2443,6 +3378,14 @@ namespace deamer::templates::dparse::parser
 			*nonterminal_count_ = Variable_nonterminal_count_(this, std::vector<VariableBase*>({}));
 			*optional_better_syntax_errors_ = Variable_optional_better_syntax_errors_(
 				this, std::vector<VariableBase*>({GenerateVariable("true")}));
+			*optional_dleg_include_ =
+				Variable_optional_dleg_include_(this, std::vector<VariableBase*>({}));
+			*optional_dleg_usage_ = Variable_optional_dleg_usage_(
+				this, std::vector<VariableBase*>({GenerateVariable(
+						  "\n\t// Pass through lexer to get Terminal Objects\n\t// And use those "
+						  "objects;\n\n\treturn nullptr;")}));
+			*optional_general_option_switch_ =
+				Variable_optional_general_option_switch_(this, std::vector<VariableBase*>({}));
 			*production_id_entry_ = Variable_production_id_entry_(
 				this, std::vector<VariableBase*>(
 						  {GenerateVariable(production_rule_id_->This()), GenerateVariable(",")}));
@@ -2487,7 +3430,18 @@ namespace deamer::templates::dparse::parser
 			variables_.emplace_back(action_table_entry_);
 			variables_.emplace_back(action_table_specialization_field_);
 			variables_.emplace_back(action_table_type_field_);
+			variables_.emplace_back(dleg_include_);
+			variables_.emplace_back(dleg_usage_);
 			variables_.emplace_back(file_);
+			variables_.emplace_back(general_option_accept_impl_);
+			variables_.emplace_back(general_option_id_);
+			variables_.emplace_back(general_option_reduce_impl_);
+			variables_.emplace_back(general_option_reduce_production_rule_);
+			variables_.emplace_back(general_option_shift_impl_);
+			variables_.emplace_back(general_option_shift_reduce_action_);
+			variables_.emplace_back(general_option_shift_state_);
+			variables_.emplace_back(general_option_switch_);
+			variables_.emplace_back(general_option_switch_case_);
 			variables_.emplace_back(goto_table_2d_entry_);
 			variables_.emplace_back(goto_table_entry_);
 			variables_.emplace_back(goto_table_field_);
@@ -2497,6 +3451,9 @@ namespace deamer::templates::dparse::parser
 			variables_.emplace_back(left_curly_bracket_);
 			variables_.emplace_back(nonterminal_count_);
 			variables_.emplace_back(optional_better_syntax_errors_);
+			variables_.emplace_back(optional_dleg_include_);
+			variables_.emplace_back(optional_dleg_usage_);
+			variables_.emplace_back(optional_general_option_switch_);
 			variables_.emplace_back(production_id_entry_);
 			variables_.emplace_back(production_output_);
 			variables_.emplace_back(production_output_entry_);

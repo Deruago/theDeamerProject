@@ -24,9 +24,20 @@
 #include "Deamer/Language/Reference/PropertyDefinition.h"
 #include "Deamer/Language/Type/Definition/Property/Type.h"
 #include "Deamer/Parser/Generator/Base.h"
+#include "Deamer/Type/Enum/BitwiseEnum.h"
 
 namespace deamer::parser::generator::dparse
 {
+	enum class Algorithm
+	{
+		Uknown = 0,
+		LR = 1,
+		LALR = 2,
+		SLR = 4,
+		Adaptive = 8,
+		General = 16,
+	};
+
 	class Dparse : public Base
 	{
 	public:
@@ -39,6 +50,7 @@ namespace deamer::parser::generator::dparse
 	private:
 		const ReferenceType reference;
 		const std::string name;
+		::deamer::type::BitwiseEnum<Algorithm> algorithm = Algorithm::LR;
 
 	public:
 		Dparse(ReferenceType reference_);
@@ -46,6 +58,27 @@ namespace deamer::parser::generator::dparse
 
 	public:
 		deamer::file::tool::Output Generate() override;
+
+	private:
+		deamer::file::tool::Output ConstructLR1();
+		file::tool::Output ConstructSLR();
+		file::tool::Output ConstructLALR();
+		file::tool::Output ConstructAdaptiveLALR();
+		file::tool::Output ConstructIELR();
+
+		file::tool::Output ConstructGLR();
+		file::tool::Output ConstructGSLR();
+		file::tool::Output ConstructGLALR();
+		file::tool::Output ConstructGAdaptiveLALR();
+
+		file::tool::Output ConstructLRK();
+		file::tool::Output ConstructLAKLRM();
+
+		file::tool::Output ConstructLL1();
+		file::tool::Output ConstructLLK();
+		file::tool::Output ConstructGLL1();
+		file::tool::Output ConstructGLLK();
+		file::tool::Output ConstructRecursiveDescent();
 	};
 }
 

@@ -27,6 +27,10 @@ deamer::parser::generator::dparse::State::State(const State& rhs)
 	  stateField(rhs.stateField),
 	  transitionToState(rhs.transitionToState)
 {
+	for (auto [_, outState] : transitionToState)
+	{
+		outState->statesReferencingThisState.insert(this);
+	}
 }
 
 deamer::parser::generator::dparse::State::State(
@@ -58,7 +62,7 @@ void deamer::parser::generator::dparse::State::Reduce()
 	{
 		std::vector<StateEntry> newStateEntries;
 
-		for (const auto& entry : evaluateEntries)
+		for (auto& entry : evaluateEntries)
 		{
 			auto nonTerminal = entry.GetDotNonTerminal();
 
@@ -74,7 +78,8 @@ void deamer::parser::generator::dparse::State::Reduce()
 					 ->ProductionRules)
 			{
 				// If the production rule is empty, the state is reducable.
-				newStateEntries.emplace_back(reference, productionRule, 0, stateField);
+				newStateEntries.emplace_back(reference, productionRule, 0, stateField,
+											 std::make_shared<StateEntry>(entry));
 			}
 		}
 
@@ -131,6 +136,7 @@ void deamer::parser::generator::dparse::State::Next()
 	{
 		state.Reduce(); // The state must be fully reduced. This way we guarantee uniqueness
 		auto nextState = stateField->GetState(state);
+		nextState->statesReferencingThisState.insert(this);
 		transitionToState.insert({transition, nextState});
 	}
 }
@@ -158,11 +164,20 @@ void deamer::parser::generator::dparse::State::AddEntry(const StateEntry& rhs)
 	entries.push_back(rhs);
 }
 
-bool deamer::parser::generator::dparse::State::DoesEntryExists(const StateEntry& rhs) const
+bool deamer::parser::generator::dparse::State::DoesEntryExists(const StateEntry& rhs)
 {
-	for (auto entry : entries)
+	for (auto& entry : entries)
 	{
-		if (entry == rhs)
+		if (!entry.LookaheadEquality(rhs))
+		{
+			if (entry.CoreEquality(rhs))
+			{
+				entry.Merge(rhs);
+				return true;
+			}
+		}
+
+		if (entry.CoreEquality(rhs))
 		{
 			return true;
 		}
@@ -199,4 +214,216 @@ bool deamer::parser::generator::dparse::State::operator==(const State& rhs) cons
 	}
 
 	return this->entries == rhs.entries;
+}
+
+bool deamer::parser::generator::dparse::State::CoreEquivalent(State* value)
+{
+	if (entries.size() != value->entries.size())
+	{
+		return false;
+	}
+
+	for (auto entry : entries)
+	{
+		bool coreEquivalent = false;
+		for (auto targetEntry : value->entries)
+		{
+			if (targetEntry.CoreEquality(entry))
+			{
+				coreEquivalent = true;
+				break;
+			}
+		}
+
+		if (!coreEquivalent)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool deamer::parser::generator::dparse::State::LookaheadEquivalent(State* value)
+{
+	if (entries.size() != value->entries.size())
+	{
+		return false;
+	}
+
+	for (auto entry : entries)
+	{
+		bool coreEquivalent = false;
+		for (auto targetEntry : value->entries)
+		{
+			if (targetEntry.LookaheadEquality(entry))
+			{
+				coreEquivalent = true;
+				break;
+			}
+		}
+
+		if (!coreEquivalent)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool deamer::parser::generator::dparse::State::FullyEquivalent(State* value)
+{
+	return CoreEquivalent(value) && LookaheadEquivalent(value);
+}
+
+bool deamer::parser::generator::dparse::State::TryMerge(State* state)
+{
+	const auto currentTotalRrIssues = GetReduceReduceConflicts(entries);
+
+	auto copyEntries = entries;
+	for (auto& entry : copyEntries)
+	{
+		for (auto& targetEntry : state->entries)
+		{
+			if (!entry.CoreEquality(targetEntry))
+			{
+				continue;
+			}
+
+			entry.Merge(targetEntry);
+		}
+	}
+
+	const auto newTotalRrIssues = GetReduceReduceConflicts(copyEntries);
+
+	// LALR Merging can only introduce Reduce/Reduce conflicts.
+	// Thus Shift/Reduce conflicts are irrelevant.
+	if (newTotalRrIssues <= currentTotalRrIssues)
+	{
+		entries = std::move(copyEntries);
+
+		for (auto* _ : state->statesReferencingThisState)
+		{
+			_->Update(state, this);
+		}
+		return true;
+	}
+
+	return false;
+}
+
+void deamer::parser::generator::dparse::State::Merge(State* state)
+{
+	for (auto& entry : entries)
+	{
+		for (auto& targetEntry : state->entries)
+		{
+			if (!entry.CoreEquality(targetEntry))
+			{
+				continue;
+			}
+
+			entry.Merge(targetEntry);
+		}
+	}
+
+	for (auto* _ : state->statesReferencingThisState)
+	{
+		_->Update(state, this);
+	}
+}
+
+void deamer::parser::generator::dparse::State::Update(State* oldState, State* newState)
+{
+	for (auto& _ : transitionToState)
+	{
+		if (_.second != oldState)
+		{
+			continue;
+		}
+
+		_.second = newState;
+	}
+}
+
+std::size_t deamer::parser::generator::dparse::State::GetShiftReduceConflicts(
+	const std::vector<StateEntry>& vector)
+{
+	throw std::logic_error("Unimplemented");
+}
+
+std::size_t deamer::parser::generator::dparse::State::GetReduceReduceConflicts(
+	const std::vector<StateEntry>& vector)
+{
+	std::size_t conflicts = 0;
+	for (const auto& entry : vector)
+	{
+		for (const auto& targetEntry : vector)
+		{
+			if (&targetEntry == &entry)
+			{
+				continue;
+			}
+
+			if (ReduceConflictBetween(entry, targetEntry))
+			{
+				conflicts++;
+			}
+		}
+	}
+
+	return conflicts;
+}
+
+bool deamer::parser::generator::dparse::State::ReduceConflictBetween(const StateEntry& lhs,
+																	 const StateEntry& rhs)
+{
+	if (&lhs == &rhs)
+	{
+		// Entry cannot conflict with itself
+		return false;
+	}
+
+	if (!(lhs.ReachedEnd() && rhs.ReachedEnd()))
+	{
+		return false;
+	}
+
+	if (lhs.GetProduction() == rhs.GetProduction())
+	{
+		// If they have the same productions, the lookahead must be merged. (No reduce conflict)
+		return false;
+	}
+
+	std::set<language::reference::LDO<language::type::definition::object::Base>> lhsTokens = {
+		lhs.GetLookaheadTokens().begin(), lhs.GetLookaheadTokens().end()};
+
+	std::set<language::reference::LDO<language::type::definition::object::Base>> rhsTokens = {
+		rhs.GetLookaheadTokens().begin(), rhs.GetLookaheadTokens().end()};
+
+	auto check = [&](std::set<language::reference::LDO<language::type::definition::object::Base>>&
+						 largeTokens,
+					 std::set<language::reference::LDO<language::type::definition::object::Base>>&
+						 smallTokens) {
+		for (auto& i : largeTokens)
+		{
+			if (smallTokens.find(i) == smallTokens.end())
+			{
+				continue;
+			}
+
+			// The same lookahead can reduce two different productions.
+			return true;
+		}
+
+		return false;
+	};
+
+	if (lhsTokens.size() >= rhsTokens.size())
+	{
+		return check(lhsTokens, rhsTokens);
+	}
+
+	return check(rhsTokens, lhsTokens);
 }

@@ -21,6 +21,8 @@
 #include "Deamer/Parser/Type/Dparse/StateField.h"
 #include "Deamer/Parser/Type/Dparse/Action.h"
 #include "Deamer/Parser/Type/Dparse/Goto.h"
+#include "Deamer/Parser/Type/Dparse/Print.h"
+#include <algorithm>
 
 deamer::parser::generator::dparse::StateField::StateField(ReferenceType reference_)
 	: reference(reference_),
@@ -39,12 +41,19 @@ deamer::parser::generator::dparse::StateField::StateField(ReferenceType referenc
 		throw std::logic_error("DParse expects an grammar with a NonTerminal");
 	}
 
-	states.push_back(new State(reference, augmentedStartNT, this));
+	startState = new State(reference, augmentedStartNT, this);
+	states.push_back(startState);
 }
 
 deamer::parser::generator::dparse::StateField::~StateField()
 {
+	std::set<State*> allStates;
 	for (auto* state : states)
+	{
+		delete state;
+	}
+
+	for (auto* state : oldStates)
 	{
 		delete state;
 	}
@@ -52,6 +61,16 @@ deamer::parser::generator::dparse::StateField::~StateField()
 	delete epsilon.Get();
 	delete augmentedStartProductionRule.Get();
 	delete augmentedStartNT.Get();
+}
+
+void deamer::parser::generator::dparse::StateField::ReloadAction()
+{
+	actionTable = type::dparse::Action(*this);
+}
+
+void deamer::parser::generator::dparse::StateField::ReloadGoto()
+{
+	gotoTable = type::dparse::Goto(*this);
 }
 
 void deamer::parser::generator::dparse::StateField::Compile()
@@ -75,8 +94,8 @@ void deamer::parser::generator::dparse::StateField::Compile()
 		unCompiledStates = states;
 	}
 
-	actionTable = type::dparse::Action(*this);
-	gotoTable = type::dparse::Goto(*this);
+	ReloadAction();
+	ReloadGoto();
 }
 
 deamer::parser::generator::dparse::State*
@@ -151,4 +170,87 @@ deamer::language::reference::LDO<deamer::language::type::definition::object::mai
 deamer::parser::generator::dparse::StateField::GetAugmentedStart() const
 {
 	return augmentedStartNT;
+}
+
+void deamer::parser::generator::dparse::StateField::ApplyLALR(bool adaptive)
+{
+	std::vector<State*> currentStates = states;
+	std::set<State*> unmergedStates = {states.begin(), states.end()};
+	std::vector<State*> mergedStates;
+
+	while (!currentStates.empty())
+	{
+		auto currentState = currentStates[currentStates.size() - 1];
+		currentStates.pop_back();
+
+		for (auto state : unmergedStates)
+		{
+			if (state == currentState)
+			{
+				continue;
+			}
+
+			if (!state->CoreEquivalent(currentState))
+			{
+				// Not mergeable
+				continue;
+			}
+
+			auto fixTransitions = [&](State* oldState, State* newState) {
+				for (auto* _ : GetStates())
+				{
+					_->Update(oldState, newState);
+				}
+			};
+
+			if (!adaptive)
+			{
+				state->Merge(currentState);
+				fixTransitions(currentState, state);
+				unmergedStates.erase(currentState);
+				mergedStates.push_back(currentState);
+			}
+			else
+			{
+				auto result = state->TryMerge(currentState);
+
+				if (result)
+				{
+					fixTransitions(currentState, state);
+					unmergedStates.erase(currentState);
+					mergedStates.push_back(currentState);
+				}
+			}
+		}
+	}
+
+	std::vector<State*> leftoverStates = {unmergedStates.begin(), unmergedStates.end()};
+	states.clear();
+	oldStates.clear();
+	states.push_back(startState);
+	for (auto state : unmergedStates)
+	{
+		if (state == startState)
+		{
+			continue;
+		}
+
+		if (std::find(std::begin(mergedStates), std::end(mergedStates), state) ==
+			std::end(mergedStates))
+		{
+			states.push_back(state);
+		}
+		else
+		{
+			oldStates.push_back(state);
+		}
+	}
+
+	ReloadAction();
+	ReloadGoto();
+}
+
+void deamer::parser::generator::dparse::StateField::ApplySLR()
+{
+	actionTable.ApplySLR();
 }

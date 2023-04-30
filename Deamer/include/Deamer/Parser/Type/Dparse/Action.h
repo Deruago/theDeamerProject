@@ -83,6 +83,24 @@ namespace deamer::parser::type::dparse
 					 std::vector<ActionElement>>>
 		GetTable() const;
 
+	public:
+		std::size_t GetShiftReduceConflictTotal() const;
+		std::size_t GetReduceReduceConflictTotal() const;
+
+	public:
+		/*!	\fn ApplyLALR
+		 *	\details LALR Adaptor:
+		 * - This will apply the bruteforce merge method to adapt the LR table.
+		 * - Adaptive: Will not merge states if it would introduce more conflicts.
+		 */
+		void ApplyLALR(bool adaptive = true);
+
+		/*!	\fn ApplySLR
+		 *	\details SLR Adaptor:
+		 * - This will apply the SLR logic to deduce some conflicts
+		 */
+		void ApplySLR();
+
 	private:
 		void
 		AddAction(generator::dparse::State* state,

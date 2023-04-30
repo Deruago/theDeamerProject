@@ -23,26 +23,57 @@
 #include "Deamer/Language/Type/Definition/Object/Main/Grammar/NonTerminal.h"
 #include "Deamer/Language/Type/Definition/Object/Main/Lexicon/Terminal.h"
 #include "Deamer/Template/Parser/Dparse/ParserDefinition/ParserDefinitionTemplate.h"
+#include "Deamer/Type/Enum/BitwiseEnum.h"
 #include <memory>
 
 deamer::parser::type::dparse::ParserDefinition::ParserDefinition(
 	const generator::dparse::Dparse::ReferenceType reference_,
-	const generator::dparse::StateField& stateField_)
+	generator::dparse::StateField& stateField_,
+	deamer::type::BitwiseEnum<generator::dparse::Algorithm> algorithm_)
 	: reference(reference_),
 	  name(reference.GetDefinition<language::type::definition::property::Type::Identity>()
 			   .GetName()
 			   ->value),
-	  stateField(stateField_)
+	  stateField(stateField_),
+	  algorithm(algorithm_)
 {
 }
 
 std::string deamer::parser::type::dparse::ParserDefinition::Generate() const
 {
-	auto parserDefinitionTemplate = templates::dparse::parser::ParserDefinitionTemplate();
-	parserDefinitionTemplate.language_name_->Set(name);
+	if (algorithm.has_flag(generator::dparse::Algorithm::LALR))
+	{
+		stateField.ApplyLALR(algorithm.has_flag(generator::dparse::Algorithm::Adaptive));
+	}
+	else if (algorithm.has_flag(generator::dparse::Algorithm::SLR))
+	{
+		stateField.ApplySLR();
+	}
 
 	auto actionTable = stateField.GetActionTable().GetTable();
 	auto gotoTable = stateField.GetGotoTable().GetTable();
+
+	auto parserDefinitionTemplate = templates::dparse::parser::ParserDefinitionTemplate();
+	parserDefinitionTemplate.goto_table_entry_->Variable_Field_Separator()->Set(" ");
+	parserDefinitionTemplate.action_table_entry_->Variable_Field_Separator()->Set(" ");
+	parserDefinitionTemplate.language_name_->Set(name);
+
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsIntegrationSet({tool::type::Tool::Dleg, tool::type::Tool::Dparse}) ||
+		reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsIntegrationSet({tool::type::Tool::Dparse, tool::type::Tool::Dleg}))
+	{
+		parserDefinitionTemplate.optional_dleg_include_->Set(
+			parserDefinitionTemplate.dleg_include_);
+		parserDefinitionTemplate.optional_dleg_usage_->Set(parserDefinitionTemplate.dleg_usage_);
+	}
+
+	if (algorithm.has_flag(generator::dparse::Algorithm::General))
+	{
+		parserDefinitionTemplate.optional_general_option_switch_->Set(
+			parserDefinitionTemplate.general_option_switch_);
+	}
+
 	auto productionRules =
 		reference.GetDefinition<language::type::definition::property::Type::Grammar>()
 			.ProductionRules;
@@ -53,6 +84,7 @@ std::string deamer::parser::type::dparse::ParserDefinition::Generate() const
 
 	parserDefinitionTemplate.state_count_->Set(std::to_string(stateField.GetStates().size()));
 	parserDefinitionTemplate.terminal_count_->Set(std::to_string(terminals.size() + 1));
+	std::size_t generalOptions = 0;
 	for (auto* state : stateField.GetStates())
 	{
 		parserDefinitionTemplate.action_table_entry_->variable_field_->Clear();
@@ -84,12 +116,76 @@ std::string deamer::parser::type::dparse::ParserDefinition::Generate() const
 			else
 			{
 				auto actionElement = iter2->second;
-				parserDefinitionTemplate.action_table_type_field_->Set(
-					std::to_string(static_cast<std::size_t>(actionElement[0].GetType())));
-				parserDefinitionTemplate.action_table_specialization_field_->Set(
-					std::to_string(actionElement[0].GetTarget()));
+				if (algorithm.has_flag(generator::dparse::Algorithm::General) &&
+					actionElement.size() >
+						1) // If it is general parsing and there are multiple items
+				{
+					// General type, directs parser to use general parsing
+					parserDefinitionTemplate.action_table_type_field_->Set("7");
+					parserDefinitionTemplate.action_table_specialization_field_->Set(
+						std::to_string(generalOptions));
+					parserDefinitionTemplate.action_table_entry_->ExpandVariableField();
 
-				parserDefinitionTemplate.action_table_entry_->ExpandVariableField();
+					parserDefinitionTemplate.general_option_id_->Set(
+						std::to_string(generalOptions));
+
+					parserDefinitionTemplate.general_option_shift_reduce_action_->variable_field_
+						->Clear();
+
+					for (auto action : actionElement)
+					{
+						if (action.GetType() == ActionType::Shift)
+						{
+							if (action.GetTarget() >= stateField.GetStates().size())
+							{
+								// Invalid
+								continue;
+							}
+
+							parserDefinitionTemplate.general_option_shift_reduce_action_->Set(
+								parserDefinitionTemplate.general_option_shift_impl_);
+							parserDefinitionTemplate.general_option_shift_state_->Set(
+								std::to_string(action.GetTarget()));
+						}
+						else if (action.GetType() == ActionType::Accept)
+						{
+							parserDefinitionTemplate.general_option_shift_reduce_action_->Set(
+								parserDefinitionTemplate.general_option_accept_impl_);
+						}
+						else if (action.GetType() == ActionType::Reduce)
+						{
+							if (action.GetTarget() >= productionRules.size())
+							{
+								// Invalid
+								continue;
+							}
+
+							parserDefinitionTemplate.general_option_shift_reduce_action_->Set(
+								parserDefinitionTemplate.general_option_reduce_impl_);
+							parserDefinitionTemplate.general_option_reduce_production_rule_->Set(
+								std::to_string(action.GetTarget()));
+						}
+						else
+						{
+							continue;
+						}
+						parserDefinitionTemplate.general_option_shift_reduce_action_
+							->ExpandVariableField();
+					}
+
+					parserDefinitionTemplate.general_option_switch_case_->ExpandVariableField();
+
+					generalOptions++;
+				}
+				else
+				{
+					parserDefinitionTemplate.action_table_type_field_->Set(
+						std::to_string(static_cast<std::size_t>(actionElement[0].GetType())));
+					parserDefinitionTemplate.action_table_specialization_field_->Set(
+						std::to_string(actionElement[0].GetTarget()));
+
+					parserDefinitionTemplate.action_table_entry_->ExpandVariableField();
+				}
 			}
 
 			for (auto* terminal : terminals)
@@ -106,12 +202,55 @@ std::string deamer::parser::type::dparse::ParserDefinition::Generate() const
 				else
 				{
 					auto actionElement = iter3->second;
-					parserDefinitionTemplate.action_table_type_field_->Set(
-						std::to_string(static_cast<std::size_t>(actionElement[0].GetType())));
-					parserDefinitionTemplate.action_table_specialization_field_->Set(
-						std::to_string(actionElement[0].GetTarget()));
+					if (algorithm.has_flag(generator::dparse::Algorithm::General) &&
+						actionElement.size() >
+							1) // If it is general parsing and there are multiple items
+					{
+						// General type, directs parser to use general parsing
+						parserDefinitionTemplate.action_table_type_field_->Set("7");
+						parserDefinitionTemplate.action_table_specialization_field_->Set(
+							std::to_string(generalOptions));
+						parserDefinitionTemplate.action_table_entry_->ExpandVariableField();
 
-					parserDefinitionTemplate.action_table_entry_->ExpandVariableField();
+						parserDefinitionTemplate.general_option_id_->Set(
+							std::to_string(generalOptions));
+
+						parserDefinitionTemplate.general_option_shift_reduce_action_
+							->variable_field_->Clear();
+
+						for (auto action : actionElement)
+						{
+							if (action.GetType() == ActionType::Shift)
+							{
+								parserDefinitionTemplate.general_option_shift_reduce_action_->Set(
+									parserDefinitionTemplate.general_option_shift_impl_);
+								parserDefinitionTemplate.general_option_shift_state_->Set(
+									std::to_string(action.GetTarget()));
+							}
+							else
+							{
+								parserDefinitionTemplate.general_option_shift_reduce_action_->Set(
+									parserDefinitionTemplate.general_option_reduce_impl_);
+								parserDefinitionTemplate.general_option_reduce_production_rule_
+									->Set(std::to_string(action.GetTarget()));
+							}
+							parserDefinitionTemplate.general_option_shift_reduce_action_
+								->ExpandVariableField();
+						}
+
+						parserDefinitionTemplate.general_option_switch_case_->ExpandVariableField();
+
+						generalOptions++;
+					}
+					else
+					{
+						parserDefinitionTemplate.action_table_type_field_->Set(
+							std::to_string(static_cast<std::size_t>(actionElement[0].GetType())));
+						parserDefinitionTemplate.action_table_specialization_field_->Set(
+							std::to_string(actionElement[0].GetTarget()));
+
+						parserDefinitionTemplate.action_table_entry_->ExpandVariableField();
+					}
 				}
 			}
 		}

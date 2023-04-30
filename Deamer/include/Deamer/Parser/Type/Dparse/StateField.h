@@ -48,10 +48,14 @@ namespace deamer::parser::generator::dparse
 			augmentedStartProductionRule;
 		language::reference::LDO<language::type::definition::object::main::NonTerminal>
 			augmentedStartNT;
+		std::vector<State*> oldStates;
+		State* startState;
 
 	public:
 		StateField(ReferenceType reference_);
 		~StateField();
+		void ReloadAction();
+		void ReloadGoto();
 
 	public:
 		void Compile();
@@ -71,6 +75,11 @@ namespace deamer::parser::generator::dparse
 		GetAugmentedPR() const;
 		language::reference::LDO<language::type::definition::object::main::NonTerminal>
 		GetAugmentedStart() const;
+
+	public:
+		void ApplyLALR(bool adaptive = true);
+
+		void ApplySLR();
 
 	private:
 	};
