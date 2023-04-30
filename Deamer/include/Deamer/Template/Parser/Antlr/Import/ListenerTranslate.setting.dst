@@ -1,0 +1,43 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <ListenerTranslate>
+{{file.namespace}} = <deamer::templates::antlr::parser>
+{{file.extension}} = <h>
+
+{{header_guard}} = @<{{language_name.Upper}}_ANTLR_PARSER_LISTENERTRANSLATE_H>@
+
+{{parser_namespace}} = @<{{language_name}}Parser>@
+{{context_name}} = @<Productionrule_{{nonterminal}}_{{productionrule_id}}>@
+{{full_ctx_type}} = @<{{parser_namespace}}::{{context_name}}Context*>@
+
+{{production_rule_enter_impl}} = @<
+	void enter{{context_name}}({{full_ctx_type}} ctx) override
+	{
+		InitializeNewNodeLevel();
+	}
+>@
+
+{{production_rule_exit_impl}} = @<
+	void exit{{context_name}}({{full_ctx_type}} ctx) override
+	{
+		int lineNumber = 0;
+		int columnNumber = 0;
+
+		auto nodeInformation = ::deamer::external::cpp::ast::NodeInformation(
+			::{{language_name}}::ast::Type::{{nonterminal}},
+			::deamer::external::cpp::ast::NodeValue::nonterminal,
+			::deamer::external::cpp::ast::MatchedProductionRule(
+				{{productionrule_id}},
+				::deamer::external::cpp::ast::ProductionRuleType::user
+			),
+			{},
+			lineNumber,
+			columnNumber
+		);
+		auto newNode = new ::deamer::external::cpp::ast::Node(
+			nodeInformation,
+			GetCurrentNodeLevel()
+		);
+
+		PopAndAdd(newNode);
+	}
+>@

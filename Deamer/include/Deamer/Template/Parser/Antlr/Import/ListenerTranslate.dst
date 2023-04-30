@@ -1,0 +1,147 @@
+#ifndef {{header_guard}}
+#define {{header_guard}}
+
+#include "{{language_name}}ParserBaseListener.h"
+#include "{{language_name}}/Ast/Enum/Type.h"
+#include <Deamer/External/Cpp/Ast/Node.h>
+#include <Deamer/External/Cpp/Ast/Tree.h>
+#include <optional>
+#include <vector>
+
+namespace {{language_name}} { namespace antlr { namespace parser {
+
+	class ListenerTranslate : public {{language_name}}ParserBaseListener
+	{
+	private:
+		::deamer::external::cpp::ast::Tree* tree;
+		std::vector<std::vector<::deamer::external::cpp::ast::Node*>> nonTerminalsStack;
+		antlr4::CommonTokenStream* tokenStream;
+		bool constructCst = true;
+		
+		
+	public:
+		ListenerTranslate(antlr4::CommonTokenStream* tokenStream_, bool constructCst_ = true) : tokenStream(tokenStream_), constructCst(constructCst_)
+		{ 
+			tree = new ::deamer::external::cpp::ast::Tree();
+		}
+
+		virtual ~ListenerTranslate() override
+		{
+			delete tree;
+		}
+
+	public:
+		::deamer::external::cpp::ast::Tree* GetTree()
+		{
+			auto treeCopy = tree;
+			tree = nullptr;
+
+			return treeCopy;
+		}
+
+	private:
+		void PopAndAdd(::deamer::external::cpp::ast::Node* newNode)
+		{
+			nonTerminalsStack.pop_back();
+		
+			if (nonTerminalsStack.empty())
+			{
+				// This is the end, add as start node
+				tree->SetStartNode(newNode);
+				return;
+			}
+
+			Add(newNode);
+		}
+
+		void Add(::deamer::external::cpp::ast::Node* newNode)
+		{
+			GetCurrentNodeLevel().push_back(newNode);
+		}
+
+		void InitializeNewNodeLevel()
+		{
+			nonTerminalsStack.emplace_back();
+		}
+
+		std::vector<::deamer::external::cpp::ast::Node*>& GetCurrentNodeLevel()
+		{
+			return nonTerminalsStack[nonTerminalsStack.size() - 1];
+		}
+
+		/* Enter production rule
+		 *	- Add new node level to nodeLevel Stack
+		 */
+	public:
+	{{production_rule_enter_impl.Variable_Field}}
+
+		/* Exit production rule
+		 *	- Put all nodes in current node level into a new nonterminal belonging to this production rule
+		 *	- Remove current node level
+		 *	- Add new nonterminal to the (current) parent node
+		 */
+	public:
+	{{production_rule_exit_impl.Variable_Field}}
+
+		/*	Enter Terminal
+		 *	- Add Terminal to current node level
+		 *	- CST Support: Verify yield does not skip characters.
+		 *		- If so, go to parent and add a hidden terminal for the missing yield.
+		 */
+	public:
+		void visitTerminal(antlr4::tree::TerminalNode* node) override
+		{
+			auto symbol = node->getSymbol();
+
+			auto addToken = [&](antlr4::Token* symbol)
+			{
+				int lineNumber = symbol->getLine();
+				int columnNumber = symbol->getCharPositionInLine();
+				std::string terminalValue = symbol->getText();
+				int nodeTypeAntlrId = symbol->getType();
+				auto {{language_name}}NodeType = static_cast<::{{language_name}}::ast::Type>(nodeTypeAntlrId);
+				
+
+				auto newNode = new ::deamer::external::cpp::ast::Node(
+					::deamer::external::cpp::ast::NodeInformation(
+						{{language_name}}NodeType,
+						::deamer::external::cpp::ast::NodeValue::terminal,
+						terminalValue,
+						lineNumber,
+						columnNumber
+					)
+				);
+
+				Add(newNode);
+			};
+			
+
+			if (antlr4::Token::HIDDEN_CHANNEL == symbol->getChannel())
+			{
+				// It is a hidden terminal
+				// Required for CST construction
+				if (constructCst)
+				{
+					addToken(symbol);
+				}
+			}
+			else
+			{
+				addToken(symbol);
+			}
+			
+			if (constructCst)
+			{
+				for (auto token :
+					tokenStream->getHiddenTokensToRight(symbol->getTokenIndex()))
+				{
+					addToken(token);
+				}
+			}
+		}
+	};
+
+}}}
+
+
+#endif // {{header_guard}}

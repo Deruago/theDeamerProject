@@ -5,6 +5,6 @@
 
 {{terminal_declaration}} = <>
 
-{{standard_terminal}} = <{{terminal_name}}: '{{terminal_regex}}';>
-{{deleted_terminal}}  = <{{terminal_name}}: '{{terminal_regex}}' -{{right_angle_bracket}} skip;>
-{{crash_terminal}}    = <{{terminal_name}}: '{{terminal_regex}}';>
+{{standard_terminal}} = @<{{terminal_name}}: {{terminal_regex}};>@
+{{deleted_terminal}}  = @<{{terminal_name}}: {{terminal_regex}} -> skip;>@
+{{crash_terminal}}    = @<{{terminal_name}}: {{terminal_regex}};>@

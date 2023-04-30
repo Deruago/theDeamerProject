@@ -1,0 +1,6 @@
+{{file.target_language}} = <C++>
+{{file.file_name}} = <ImportParserHeader>
+{{file.namespace}} = <deamer::templates::antlr::parser>
+{{file.extension}} = <h>
+
+{{header_guard}} = @<{{language_name.Upper}}_ANTLR_PARSER_PARSER_H>@

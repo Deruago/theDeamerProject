@@ -39,6 +39,7 @@ namespace deamer::parser::generator::antlr_parser
 	private:
 		const ReferenceType reference;
 		const std::string name;
+		file::tool::Output output{"Antlr_Parser"};
 
 	public:
 		Antlr_Parser(ReferenceType reference_);
@@ -48,8 +49,16 @@ namespace deamer::parser::generator::antlr_parser
 		deamer::file::tool::Output Generate() override;
 
 	private:
-		std::unique_ptr<deamer::file::tool::action::Action> externalAction();
+		std::unique_ptr<deamer::file::tool::action::Action>
+		externalAction(std::optional<deamer::file::tool::File> lexiconFile = std::nullopt,
+					   std::optional<deamer::file::tool::File> grammarFile = std::nullopt,
+					   bool imported = true);
 		std::string externalCMakeLists();
+		file::tool::File ListenerTranslate();
+		file::tool::File ImportParserHeader();
+		file::tool::File ImportParserSource();
+		file::tool::File ListenerTranslateSource();
+		file::tool::Directory CmakeDirectory();
 	};
 }
 
