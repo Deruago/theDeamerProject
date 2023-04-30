@@ -18,6 +18,14 @@ Deamer Ecosystem Generation gives a lot of possibilities for your Language Ecosy
 - Generation of UML Class Diagram Reverse Engineering Tooling
 - And more
 
+## Examples and Tutorials
+
+For Examples and Tutorials go to the Example Repo: "https://github.com/Deruago/DeamerExamples"
+
+## Documentation
+
+For documentation about the project see the Documentation Repo: "https://github.com/Deruago/DeamerDocumentation";
+
 ## Quick Start Guide
 
 Clone the Repo and Run the Installer, for linux:
@@ -40,12 +48,6 @@ More information about installation can be found at: "[How To Install Deamer?](h
 
 To start up generating compilers and ecosystems, it is highly recommended to visit the example repo: https://github.com/Deruago/DeamerExamples.
 
-## Examples and Tutorials
-
-For Examples and Tutorials go to the Example Repo: "https://github.com/Deruago/DeamerExamples"
-
-
-
 ## Discord Community
 
 Official Discord Server: https://discord.gg/YUwW2UdgM4
@@ -53,6 +55,29 @@ Official Discord Server: https://discord.gg/YUwW2UdgM4
 If you have questions about Deamer, feel free to join the server and ask them!
 
 
+## Compiler Generation capabilities
+
+- Compilers can be generated that may utilize different parsers:
+    - Dparse
+        - LALR
+        - LR
+        - GLR
+        - GLALR
+        - Recursive Descent
+    - Antlr4
+        - ALL(*)
+    - Bison
+        - LALR
+        - LR
+        - GLR
+- AST and CST construction
+- Semantic modeling
+    - File/Module Import
+    - Trivial value representation
+- Concept modeling
+    - Comments
+    - OOP Syntactic concepts
+- Ecosystem tooling
 
 ## Getting the Deamer Source Code
 
