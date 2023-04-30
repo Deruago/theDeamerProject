@@ -47,11 +47,13 @@ namespace deamer::language::type::definition::object::main
 	public:
 		object::Base* object;
 		object::main::OopConceptMember* oopConceptMember;
+		std::vector<object::Base*> extendedObjectAccess;
 
 
 	public:
 		OopConceptLink(object::Base* object_, 
-			object::main::OopConceptMember* oopConceptMember_);
+			object::main::OopConceptMember* oopConceptMember_, 
+			std::vector<object::Base*> extendedObjectAccess_ = {});
 
 		// Compares if two OopConceptLink have the same value.
 		//

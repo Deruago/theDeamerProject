@@ -98,8 +98,7 @@ void deamer::tool::type::oopsyntaxrecognizer::OopSyntaxRecognizer::ImplementOopC
 			recognizerTemplate->listen_enumeration_exit_->ExpandVariableField();
 			break;
 		}
-		case language::type::definition::object::main::OopSyntaxScope::Any:
-		{
+		case language::type::definition::object::main::OopSyntaxScope::Any: {
 			// Nothing to do just inherit top flavor
 			break;
 		}
@@ -195,6 +194,49 @@ void deamer::tool::type::oopsyntaxrecognizer::OopSyntaxRecognizer::ImplementOopC
 			{
 				// Error OopSyntax LPD is ill-formed.
 				continue;
+			}
+
+			recognizerTemplate->impl_extended_direct_access_specialization_->variable_field_
+				->Clear();
+
+			if (oopConceptLink->extendedObjectAccess.empty())
+			{
+				recognizerTemplate->direct_access_extension_call_->Set(
+					recognizerTemplate->impl_simple_direct_access_);
+			}
+			else
+			{
+				recognizerTemplate->direct_access_extension_call_->Set(
+					recognizerTemplate->impl_extended_direct_access_);
+
+				for (auto* extendedObject : oopConceptLink->extendedObjectAccess)
+				{
+					if (extendedObject->Type_ == language::type::definition::object::Type::Terminal)
+					{
+						recognizerTemplate->extended_direct_access_specialization_name_->Set(
+							language::reference::LDO<
+								language::type::definition::object::main::Terminal, false>(
+								extendedObject)
+								->Name);
+					}
+					else if (extendedObject->Type_ ==
+							 language::type::definition::object::Type::NonTerminal)
+					{
+						recognizerTemplate->extended_direct_access_specialization_name_->Set(
+							language::reference::LDO<
+								language::type::definition::object::main::NonTerminal, false>(
+								extendedObject)
+								->Name);
+					}
+					else
+					{
+						// Error OopSyntax LPD is ill-formed.
+						continue;
+					}
+
+					recognizerTemplate->impl_extended_direct_access_specialization_
+						->ExpandVariableField();
+				}
 			}
 
 			recognizerTemplate->required_ast_node_->Set(NonTerminal->Name);
