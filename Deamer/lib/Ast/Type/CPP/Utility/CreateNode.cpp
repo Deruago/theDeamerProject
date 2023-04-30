@@ -40,6 +40,22 @@ deamer::file::tool::File deamer::ast::type::cpp::CreateNode::Generate() const
 
 	createNodeTemplate->language_name_->Set(languageName);
 
+	if (reference.GetDefinition<language::type::definition::property::Type::Generation>()
+			.IsArgumentSet({tool::type::Tool::DeamerAST, "single-ast"}))
+	{
+		createNodeTemplate->get_node_create_node_->Set(
+			createNodeTemplate->single_get_node_create_node_);
+		createNodeTemplate->node_type_include_section_->Set(
+			createNodeTemplate->single_type_node_include_section_);
+	}
+	else
+	{
+		createNodeTemplate->get_node_create_node_->Set(
+			createNodeTemplate->multi_get_node_create_node_);
+		createNodeTemplate->node_type_include_section_->Set(
+			createNodeTemplate->multi_type_node_include_section_);
+	}
+
 	for (language::reference::LDO<language::type::definition::object::main::Terminal> terminal :
 		 reference.GetDefinition<language::type::definition::property::Type::Lexicon>().Terminals)
 	{
