@@ -6,4 +6,5 @@ description: <
 
 data: <
 	Base relation
+	ImportSyntacticRelation nextSyntacticRelation
 >

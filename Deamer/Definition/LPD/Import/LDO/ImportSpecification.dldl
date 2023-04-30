@@ -7,4 +7,5 @@ description: <
 data: <
     Base undelyingSpecialization
     ImportType importType
+    ImportStyleType importStyleType
 >

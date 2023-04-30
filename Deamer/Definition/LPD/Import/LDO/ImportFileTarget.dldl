@@ -1,4 +1,4 @@
-name: FileImport
+name: ImportFileTarget
 type: LDO
 description: <
 	Defines what Value represents the File target.

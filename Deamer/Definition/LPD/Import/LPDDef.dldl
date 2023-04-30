@@ -26,6 +26,7 @@ ldo: <
 
 enum: <
 	ImportType
+	ImportStyleType
 >
 
 data: <
