@@ -24,6 +24,7 @@
 #include "Deamer/File/Tool/Directory.h"
 #include "Deamer/File/Tool/File.h"
 #include <filesystem>
+#include <optional>
 #include <string>
 
 namespace deamer::file::tool
@@ -82,6 +83,12 @@ namespace deamer::file::tool
 		 *	\brief If true an error has occured
 		 */
 		bool Error() const;
+
+	public:
+		/*!	\fn GetDeamerDir
+		 *	\brief Returns relative path from executable to .deamer project.
+		 */
+		static std::optional<std::string> GetDeamerDir();
 
 	private:
 		void LoadPath(bool loadContent = false);

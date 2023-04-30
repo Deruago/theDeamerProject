@@ -192,6 +192,33 @@ bool deamer::file::tool::LoadFilesystem::Error() const
 	return error_state;
 }
 
+std::optional<std::string> deamer::file::tool::LoadFilesystem::GetDeamerDir()
+{
+	static bool alreadyTried = false;
+	static std::optional<std::string> result = std::nullopt;
+
+	if (alreadyTried)
+	{
+		return result;
+	}
+	alreadyTried = true;
+
+	deamer::file::tool::Directory dir;
+	auto loader = LoadFilesystem(dir);
+	while (!loader.DirectContainsDirectory(".deamer") && !loader.ReachedRoot())
+	{
+		loader.Upper();
+	}
+
+	if (loader.ReachedRoot())
+	{
+		return result;
+	}
+
+	result = loader.GetPath();
+	return result;
+}
+
 void deamer::file::tool::LoadFilesystem::LoadPath(bool loadContent)
 {
 	directories.clear();
@@ -231,9 +258,11 @@ deamer::file::tool::LoadFilesystem::LoadFile(const std::filesystem::directory_en
 
 	std::string fileNameWithoutExtension;
 	files.push_back(fileNameWithoutExtension);
+	std::size_t i = 0;
 	for (auto character : fileName)
 	{
-		if (character == '.')
+		i++;
+		if (character == '.' && fileName.substr(i).find('.') == std::string::npos)
 		{
 			break;
 		}
@@ -247,9 +276,11 @@ deamer::file::tool::LoadFilesystem::LoadFile(const std::filesystem::directory_en
 
 	std::string extension;
 	bool add = false;
+	std::size_t j = 0;
 	for (auto character : fileName)
 	{
-		if (character == '.')
+		j++;
+		if (character == '.' && fileName.substr(j).find('.') == std::string::npos)
 		{
 			add = true;
 			continue;
