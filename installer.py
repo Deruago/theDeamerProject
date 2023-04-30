@@ -178,7 +178,7 @@ def install_subprojects():
     # Optional
     install_project("DST", install_deamer_extra)
     
-    install_extra_deamer_package("FGL", install_deamer_optional, "TESTS", location=False)
+    # install_extra_deamer_package("FGL", install_deamer_optional, "TESTS", location=False)
 
 def handle_arguments():
     global install_deamer_core
